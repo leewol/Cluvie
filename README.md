@@ -27,7 +27,7 @@
 - NER(개체명 인식): 검색 결과의 정확도 향상, 키워드 추출 및 인덱스 태깅
 - Korean Hate Speech Detection: 혐오글 탐지
 - 프론트엔드: React, Typescript, React-Query, CSS-in-JS(EmotionJS/Linaria)
-- 백엔드: NodeJS,MongoDB, Redis
+- 백엔드: NodeJS,MySQL, Redis
 
 ##### 3. 웹 서비스의 최종적인 메인 기능과 서브 기능 설명
 - 메인 기능
