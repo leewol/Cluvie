@@ -1,38 +1,34 @@
-import { UserModel } from "../schemas/user";
+import { Schema, model } from "mongoose";
 
-class User {
-  static async create({ newUser }) {
-    const createdNewUser = await UserModel.create(newUser);
-    return createdNewUser;
+const UserSchema = new Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: false,
+      default: "설명이 아직 없습니다. 추가해 주세요.",
+    },
+  },
+  {
+    timestamps: true,
   }
+);
 
-  static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ email });
-    return user;
-  }
+const UserModel = model("User", UserSchema);
 
-  static async findById({ user_id }) {
-    const user = await UserModel.findOne({ id: user_id });
-    return user;
-  }
-
-  static async findAll() {
-    const users = await UserModel.find({});
-    return users;
-  }
-
-  static async update({ user_id, fieldToUpdate, newValue }) {
-    const filter = { id: user_id };
-    const update = { [fieldToUpdate]: newValue };
-    const option = { returnOriginal: false };
-
-    const updatedUser = await UserModel.findOneAndUpdate(
-      filter,
-      update,
-      option
-    );
-    return updatedUser;
-  }
-}
-
-export { User };
+export { UserModel };
