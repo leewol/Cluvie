@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from '@emotion/styled';
+import React from "react";
+import styled from "@emotion/styled";
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   Box,
   Tabs,
   Tab,
-} from '@mui/material';
+} from "@mui/material";
 
 function ClubDetail() {
   const WholeBox = styled(Box)`
@@ -77,8 +77,8 @@ function ClubDetail() {
         <Box
           sx={{
             borderBottom: 1,
-            borderColor: 'divider',
-            paddingTop: '50px',
+            borderColor: "divider",
+            paddingTop: "50px",
           }}
         >
           <Tabs variant='fullWidth' aria-label='basic tabs example'>
