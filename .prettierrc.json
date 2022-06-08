@@ -16,6 +16,5 @@
   "trailingComma": "es5",
   "useTabs": false,
   "vueIndentScriptAndStyle": false,
-  "filepath": "E:/엘리스 AI트랙/인공지능 프로젝트/Cluvie",
   "parser": "babel"
 }
