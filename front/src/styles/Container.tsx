@@ -22,9 +22,9 @@ const UserForm = styled.form`
   align-items: center;
   flex-direction: column;
   width: 100%;
-  // input {
-  //   width: 99%;
-  // }
+  input {
+    width: 99%;
+  }
 `;
 
 export { ContainerBox, InnerBox, UserForm };

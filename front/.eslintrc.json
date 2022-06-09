@@ -33,7 +33,8 @@
               "tsx":"never"
             }
         ],
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     },
     "settings": {
         "import/resolver":{
