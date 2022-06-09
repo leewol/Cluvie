@@ -6,7 +6,8 @@
 .pnp.js
 
 # 추가
-package-lock.json 
+package-lock.json
+.env
 
 # testing
 /coverage
