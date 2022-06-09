@@ -9,7 +9,6 @@ clubRouter.post("/clubs", async (req, res) => {
     intro: req.body.intro,
     day: req.body.day,
     description: req.body.description,
-    views: req.body.views,
     num: req.body.num,
     process: req.body.process,
     start_date: req.body.start_date,
