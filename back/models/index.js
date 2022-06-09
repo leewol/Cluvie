@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 // 모델
-import User from "./user";
+// import User from "./user";
 
 const db = {};
 const sequelize = new Sequelize(
