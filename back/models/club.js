@@ -67,6 +67,7 @@ module.exports = class Club extends Sequelize.Model {
       },
       updated_at: {
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("Now"),
         allowNull: false,
       },
     });
