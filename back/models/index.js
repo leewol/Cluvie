@@ -19,5 +19,5 @@ db.Club = Club;
 
 //모델 - 테이블 연결
 User.init(sequelize);
-
+Club.init(sequelize);
 module.exports = db;
