@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { Card, CardContent, Button, Box } from "@mui/material";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
@@ -79,6 +79,37 @@ function ClubDetail() {
     color: black;
   `;
 
+  useEffect(() => {
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO);
+      console.log(window.Kakao.isInitialized());
+    }
+  }, []);
+
+  const sendKakaoMessage = () => {
+    window.Kakao.Link.sendDefault({
+      objectType: "feed",
+      content: {
+        title: "카카오톡 공유하기",
+        description: "카카오톡 공유하기 기능입니다.",
+        imageUrl: "https://cdn.imweb.me/thumbnail/20220501/559d862b36b34.jpg",
+        link: {
+          webUrl: "http://localhost:3000",
+          mobileWebUrl: "https://agreablebook.com",
+        },
+      },
+      buttons: [
+        {
+          title: "사이트로 이동",
+          link: {
+            webUrl: "https://agreablebook.com",
+            mobileWebUrl: "https://agreablebook.com",
+          },
+        },
+      ],
+    });
+  };
+
   return (
     <WholeBox>
       <WholeCard>
@@ -96,7 +127,7 @@ function ClubDetail() {
           <ButtonBox>
             <MyButton1>신청하기</MyButton1>
             <MyButton2>찜하기</MyButton2>
-            <MyButton2>공유하기</MyButton2>
+            <MyButton2 onClick={sendKakaoMessage}>공유하기</MyButton2>
           </ButtonBox>
         </ContentBox>
       </WholeCard>
