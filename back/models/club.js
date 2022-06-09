@@ -6,10 +6,6 @@ module.exports = class Club extends Sequelize.Model {
       {
         id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        club_id: {
-          type: Sequelize.INTEGER,
           autoIncrement: true,
           allowNull: false,
           primaryKey: true,
