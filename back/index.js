@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import * as dotenv from "dotenv";
+// const dotenv = require("dotenv").config();
 import passport from "passport";
 import passportConfig from "./passport/index";
 import session from "express-session";

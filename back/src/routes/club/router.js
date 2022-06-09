@@ -1,5 +1,7 @@
 import express from "express";
 import Club from "../../../models/club";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const clubRouter = express.Router();
 
