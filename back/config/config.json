@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "cluvie18",
+    "database": "cluvie",
+    "host": "cluvie.cpanppkgijfn.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "admin",
+    "password": "cluvie18",
+    "database": "cluvie",
+    "host": "cluvie.cpanppkgijfn.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin",
+    "password": "cluvie18",
+    "database": "database",
+    "host": "cluvie.cpanppkgijfn.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
+}
