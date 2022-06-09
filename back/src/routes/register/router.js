@@ -7,13 +7,12 @@ const userAuthRouter = express.Router();
 
 // 회원가입
 userAuthRouter.post("/users", async (req, res) => {
-  // const duplicate = await User.findOne({
-  //   where: { email: req.body.email },
-  // });
-  // if (duplicate) {
-  //   return res.status(403).send("중복된 이메일 입니다.");
-  // }
-  console.log(req.body);
+  const duplicate = await User.findOne({
+    where: { email: req.body.email },
+  });
+  if (duplicate) {
+    return res.status(403).send("중복된 이메일 입니다.");
+  }
   const hashedPassword = await bcrypt.hash(req.body.password, 8);
 
   const user = {
