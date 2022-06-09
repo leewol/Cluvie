@@ -1,14 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import {
-  Card,
-  CardContent,
-  Button,
-  Typography,
-  Box,
-  Tabs,
-  Tab,
-} from "@mui/material";
+import { Card, CardContent, Button, Box } from "@mui/material";
+import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 
 function ClubDetail() {
   const WholeBox = styled(Box)`
@@ -33,62 +26,82 @@ function ClubDetail() {
     padding-left: 5%;
   `;
 
+  const Title = styled.div`
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 30px 0 30px;
+    padding-bottom: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  `;
+
+  const Text1 = styled.div`
+    margin-bottom: 20px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 24px;
+    font-weight: 550;
+  `;
+
+  const Text2 = styled.div`
+    margin-bottom: 20px;
+    color: rgba(0, 0, 0);
+    font-size: 16px;
+  `;
+
+  const Text3 = styled.div`
+    margin-bottom: 30px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  `;
+
   const ButtonBox = styled(Box)`
     display: flex;
     align-items: center;
     pl: 1;
     pb: 1;
-    justify-content: space-between;
+    justify-content: center;
+  `;
+
+  const MyButton1 = styled(Button)`
+    width: 33.33%;
+    margin: 0 2% 0 2%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: black;
+    background-color: #ffc300;
+    &:hover {
+      background-color: #716847;
+    }
+  `;
+
+  const MyButton2 = styled(Button)`
+    width: 33.33%;
+    margin: 0 2% 0 2%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: black;
   `;
 
   return (
-    <>
-      <WholeBox>
-        <WholeCard>
-          <img src='/images/testimage.PNG' alt='green iguana' />
-          <ContentBox>
-            <CardContent>
-              <Typography sx={{ borderBottom: 1 }} variant='h5' component='div'>
-                MCU 톺아보기
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-                마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!
-              </Typography>
-              <Typography variant='body2'>
-                본 클럽은 온라인으로 진행됩니다.
-                <br />
-                모집 마감까지 6자리 남았어요! (현재 14명 / 최대 20명)
-              </Typography>
-              <Typography
-                sx={{ mb: 1.5 }}
-                variant='body2'
-                color='text.secondary'
-              >
-                *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.
-              </Typography>
-            </CardContent>
-            <ButtonBox>
-              <Button>신청하기</Button>
-              <Button>찜하기</Button>
-              <Button>공유하기</Button>
-            </ButtonBox>
-          </ContentBox>
-        </WholeCard>
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: "divider",
-            paddingTop: "50px",
-          }}
-        >
-          <Tabs variant='fullWidth' aria-label='basic tabs example'>
-            <Tab label='기본 정보' />
-            <Tab label='상세 정보' />
-            <Tab label='참여 후기' />
-          </Tabs>
-        </Box>
-      </WholeBox>
-    </>
+    <WholeBox>
+      <WholeCard>
+        <img src='/images/testimage.PNG' alt='green iguana' />
+        <ContentBox>
+          <CardContent>
+            <Title>MCU 톺아보기</Title>
+            <Text1>
+              마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!
+            </Text1>
+            <Text2>본 클럽은 온라인으로 진행됩니다.</Text2>
+            <Text2>모집 마감까지 6자리 남았어요! (현재 14명 / 최대 20명)</Text2>
+            <Text3>*클럽 사정에 따라 모집이 조기 마감될 수 있습니다.</Text3>
+          </CardContent>
+          <ButtonBox>
+            <MyButton1>신청하기</MyButton1>
+            <MyButton2>찜하기</MyButton2>
+            <MyButton2>공유하기</MyButton2>
+          </ButtonBox>
+        </ContentBox>
+      </WholeCard>
+      <ClubDetailTab />
+    </WholeBox>
   );
 }
 
