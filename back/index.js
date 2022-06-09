@@ -7,7 +7,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import db from "./models/index";
 // import userAuthRouter from "./src/routers/userRouter";
-
+import clubRouter from "./src/routes/club/router";
 dotenv.config();
 passportConfig();
 const app = express();
@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 });
 
 // app.use(userAuthRouter);
-
+app.use(clubRouter);
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
 });
