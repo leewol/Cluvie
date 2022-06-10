@@ -27,33 +27,33 @@ club_router.post("/clubs", async (req, res) => {
     });
 });
 
-club_router.get("/clubs", async (req, res, next) => {
-  try {
-    const clubs = await Club.findAll({
-      include: [{ model: Club }],
-    });
-    // const clubs = await Club.findAll();
-    res.status(200).json(clubs);
-  } catch (error) {
-    next(error);
-  }
-});
+// club_router.get("/clubs", async (req, res, next) => {
+//   try {
+//     const clubs = await Club.findAll({
+//       include: [{ model: Club }],
+//     });
+//     // const clubs = await Club.findAll();
+//     res.status(200).json(clubs);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
-club_router.get("/clubs/:id", async (req, res, next) => {
-  try {
-    const club = await Club.findAll({
-      where: { id: req.params.id },
-      include: [
-        {
-          model: Club,
-        },
-      ],
-    });
-    res.status(200).json(club);
-  } catch (error) {
-    next(error);
-  }
-});
+// club_router.get("/clubs/:id", async (req, res, next) => {
+//   try {
+//     const club = await Club.findAll({
+//       where: { id: req.params.id },
+//       include: [
+//         {
+//           model: Club,
+//         },
+//       ],
+//     });
+//     res.status(200).json(club);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 club_router.put("/clubs/:id", async (req, res, next) => {
   try {
     const club = await Club.findOne({ where: { id: req.params.id } });
