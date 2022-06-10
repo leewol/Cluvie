@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { Card, CardContent, Button, Box } from "@mui/material";
+import { Card, CardContent, Button, Box, IconButton } from "@mui/material";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 
 function ClubDetail() {
@@ -77,12 +79,14 @@ function ClubDetail() {
     margin: 0 2% 0 2%;
     border: 1px solid rgba(0, 0, 0, 0.2);
     color: black;
+    img {
+      width: 24px;
+    }
   `;
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.REACT_APP_KAKAO);
-      console.log(window.Kakao.isInitialized());
     }
   }, []);
 
@@ -90,8 +94,8 @@ function ClubDetail() {
     window.Kakao.Link.sendDefault({
       objectType: "feed",
       content: {
-        title: "카카오톡 공유하기",
-        description: "카카오톡 공유하기 기능입니다.",
+        title: "MCU 톺아보기",
+        description: "마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!",
         imageUrl: "https://cdn.imweb.me/thumbnail/20220501/559d862b36b34.jpg",
         link: {
           webUrl: window.location.href,
@@ -113,10 +117,19 @@ function ClubDetail() {
   return (
     <WholeBox>
       <WholeCard>
-        <img src='/images/testimage.PNG' alt='green iguana' />
+        <img
+          // eslint-disable-next-line global-require
+          src={require("../asset/images/testimage.PNG")}
+          alt='클럽썸네일이미지'
+        />
         <ContentBox>
           <CardContent>
-            <Title>MCU 톺아보기</Title>
+            <Title>
+              MCU 톺아보기
+              <IconButton>
+                <SettingsIcon />
+              </IconButton>
+            </Title>
             <Text1>
               마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!
             </Text1>
@@ -126,8 +139,18 @@ function ClubDetail() {
           </CardContent>
           <ButtonBox>
             <MyButton1>신청하기</MyButton1>
-            <MyButton2>찜하기</MyButton2>
-            <MyButton2 onClick={sendKakaoMessage}>공유하기</MyButton2>
+            <MyButton2>
+              <FavoriteBorderOutlinedIcon sx={{ fontSize: "24px" }} />
+              &nbsp;찜하기
+            </MyButton2>
+            <MyButton2 onClick={sendKakaoMessage}>
+              <img
+                // eslint-disable-next-line global-require
+                src={require("../asset/images/kakao-talk.png")}
+                alt='kakao-talk'
+              />
+              &nbsp;공유하기
+            </MyButton2>
           </ButtonBox>
         </ContentBox>
       </WholeCard>
