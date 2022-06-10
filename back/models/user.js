@@ -33,6 +33,7 @@ module.exports = class User extends Sequelize.Model {
         },
         description: {
           type: Sequelize.TEXT,
+          allowNull: true,
         },
         created_at: {
           type: Sequelize.DATE,

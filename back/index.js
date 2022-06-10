@@ -1,7 +1,8 @@
 import cors from "cors";
 import express from "express";
 import db from "./models/index";
-import userAuthRouter from "./src/routes/register/router";
+// import userAuthRouter from "./src/routes/register/router";
+import clubRouter from "./src/routes/club/router";
 
 const app = express();
 
@@ -17,15 +18,25 @@ db.sequelize
   });
 
 app.use(cors({ origin: true, credentials: true }));
-// app.use(express.urlencoded({ extended: false })); // ? 알아내자
-app.use(express.json()); //->req.body 가 잘 보내짐
+app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(
+//   session({
+//     saveUninitialized: false,
+//     resave: false,
+//     secret: process.env.DB_PASSWORD,
+//   })
+// );
+// app.use(cookieParser());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.send("Hello Express");
 });
 
-app.use(userAuthRouter);
-app.user(clubRouter);
+// app.use(userAuthRouter);
+app.use(clubRouter);
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
 });
