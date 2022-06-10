@@ -16,9 +16,16 @@ function ClubDetail() {
     display: flex;
     box-shadow: none;
     border-radius: 0;
-    img {
+    & > img {
       width: 550px;
     }
+    // & > CardContent {
+    //   background-color: red;
+    //   width: 50%;
+    // }
+    // & > Button {
+    //   background-color: green;
+    // }
   `;
 
   const ContentBox = styled(Box)`
@@ -122,6 +129,8 @@ function ClubDetail() {
           src={require("../asset/images/testimage.PNG")}
           alt='클럽썸네일이미지'
         />
+        {/* <CardContent>안녕하세요</CardContent>
+        <Button>버튼입니다</Button> */}
         <ContentBox>
           <CardContent>
             <Title>
