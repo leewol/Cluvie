@@ -18,7 +18,7 @@ clubRouter.post("/clubs", async (req, res) => {
     end_date: req.body.end_date,
     views: 0,
   };
-  const new_club = await Club.create(club)
+  await Club.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
     })
