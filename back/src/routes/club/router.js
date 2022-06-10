@@ -82,15 +82,15 @@ club_router.put("/clubs/:id", async (req, res, next) => {
   }
 });
 
-// club_router.delete("/clubs/:id", async (req, res, next) => {
-//   try {
-//     Club.destroy({
-//       where: { id: req.params.id },
-//     });
-//     res.status(200).json({ id: req.params.id });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+club_router.delete("/clubs/:id", async (req, res, next) => {
+  try {
+    Club.destroy({
+      where: { id: req.params.id },
+    });
+    res.status(200).json({ id: req.params.id });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = club_router;
