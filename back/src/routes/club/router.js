@@ -2,6 +2,7 @@ import express from "express";
 import Club from "../../../models/club";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+// import club_service from "./service";
 
 const clubRouter = express.Router();
 
@@ -15,8 +16,9 @@ clubRouter.post("/clubs", async (req, res) => {
     process: req.body.process,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
+    views: 0,
   };
-  await Club.create(club)
+  const new_club = await Club.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
     })
@@ -24,4 +26,8 @@ clubRouter.post("/clubs", async (req, res) => {
       res.json({ success: false, err });
     });
 });
-export default clubRouter;
+
+// clubRouter.get("/clubs", async (req, res) => {
+//   const clubs = await Club.findAll();
+// });
+module.exports = clubRouter;
