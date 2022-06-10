@@ -1,11 +1,30 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { Card, CardContent, Button, Box, IconButton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Button,
+  Box,
+  IconButton,
+  Popper,
+} from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
+import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
 
 function ClubDetail() {
+  // prettier-ignore
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+    console.log(event);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popper" : undefined;
+
   const WholeBox = styled(Box)`
     position: relative;
     margin: 0 auto;
@@ -135,9 +154,15 @@ function ClubDetail() {
           <CardContent>
             <Title>
               MCU 톺아보기
-              <IconButton>
+              <IconButton onClick={handleClick}>
                 <SettingsIcon />
               </IconButton>
+              <Popper id={id} open={open} anchorEl={anchorEl}>
+                <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+                  The content of the Popper.
+                </Box>
+              </Popper>
+              <ClubSettingPopper />
             </Title>
             <Text1>
               마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!
