@@ -94,16 +94,16 @@ function ClubDetail() {
         description: "카카오톡 공유하기 기능입니다.",
         imageUrl: "https://cdn.imweb.me/thumbnail/20220501/559d862b36b34.jpg",
         link: {
-          webUrl: "http://localhost:3000",
-          mobileWebUrl: "https://agreablebook.com",
+          webUrl: window.location.href,
+          mobileWebUrl: window.location.href,
         },
       },
       buttons: [
         {
           title: "사이트로 이동",
           link: {
-            webUrl: "https://agreablebook.com",
-            mobileWebUrl: "https://agreablebook.com",
+            webUrl: window.location.href,
+            mobileWebUrl: window.location.href,
           },
         },
       ],
