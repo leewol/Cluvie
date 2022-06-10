@@ -1,8 +1,7 @@
 import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Tabs, Tab, Box, Rating, Button } from "@mui/material";
+import styled from "@emotion/styled";
+import ClubReview from "./ClubReview";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -25,7 +24,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
@@ -45,6 +44,12 @@ export default function BasicTabs() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const ReviewButton = styled(Button)`
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: black;
+    background-color: rgba(0, 0, 0, 0.03);
+  `;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -110,7 +115,26 @@ export default function BasicTabs() {
         상세 정보
       </TabPanel>
       <TabPanel value={value} index={2}>
-        참여 후기
+        <div
+          style={{
+            margin: "30px 0 50px 0",
+            padding: "46px",
+            background: "rgba(0, 0, 0, 0.03)",
+            textAlign: "center",
+          }}
+        >
+          <Rating defaultValue={2.5} precision={0.5} readOnly />
+          <div style={{ fontSize: "36px" }}>2.5</div>
+          <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
+            (총 5개의 후기)
+          </div>
+        </div>
+        <ReviewButton>참여 후기 작성</ReviewButton>
+        <ClubReview />
+        <ClubReview />
+        <ClubReview />
+        <ClubReview />
+        <ClubReview />
       </TabPanel>
     </Box>
   );
