@@ -32,7 +32,7 @@ module.exports = class Club extends Sequelize.Model {
         },
         views: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
         num: {
           type: Sequelize.INTEGER,
