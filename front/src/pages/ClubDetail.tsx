@@ -1,115 +1,91 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import {
-  Card,
-  CardContent,
-  Button,
-  Box,
-  IconButton,
-  Popper,
-} from "@mui/material";
+import { Card, CardContent, Button, Box } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
 
+const WholeBox = styled(Box)`
+  position: relative;
+  margin: 0 auto;
+  max-width: 1160px;
+`;
+
+const WholeCard = styled(Card)`
+  display: flex;
+  box-shadow: none;
+  border-radius: 0;
+  & > img {
+    width: 550px;
+  }
+`;
+
+const ContentBox = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  padding-left: 5%;
+`;
+
+const Title = styled.div`
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 30px 0 30px;
+  padding-bottom: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Text1 = styled.div`
+  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 24px;
+  font-weight: 550;
+`;
+
+const Text2 = styled.div`
+  margin-bottom: 20px;
+  color: rgba(0, 0, 0);
+  font-size: 16px;
+`;
+
+const Text3 = styled.div`
+  margin-bottom: 30px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+`;
+
+const ButtonBox = styled(Box)`
+  display: flex;
+  align-items: center;
+  pl: 1;
+  pb: 1;
+  justify-content: center;
+`;
+
+const MyButton1 = styled(Button)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: black;
+  background-color: #ffc300;
+  &:hover {
+    background-color: #716847;
+  }
+`;
+
+const MyButton2 = styled(Button)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: black;
+  img {
+    width: 24px;
+  }
+`;
+
 function ClubDetail() {
-  // prettier-ignore
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-    console.log(event);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
-
-  const WholeBox = styled(Box)`
-    position: relative;
-    margin: 0 auto;
-    max-width: 1160px;
-  `;
-
-  const WholeCard = styled(Card)`
-    display: flex;
-    box-shadow: none;
-    border-radius: 0;
-    & > img {
-      width: 550px;
-    }
-    // & > CardContent {
-    //   background-color: red;
-    //   width: 50%;
-    // }
-    // & > Button {
-    //   background-color: green;
-    // }
-  `;
-
-  const ContentBox = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-    padding-left: 5%;
-  `;
-
-  const Title = styled.div`
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    margin: 30px 0 30px;
-    padding-bottom: 20px;
-    font-size: 30px;
-    font-weight: bold;
-  `;
-
-  const Text1 = styled.div`
-    margin-bottom: 20px;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 24px;
-    font-weight: 550;
-  `;
-
-  const Text2 = styled.div`
-    margin-bottom: 20px;
-    color: rgba(0, 0, 0);
-    font-size: 16px;
-  `;
-
-  const Text3 = styled.div`
-    margin-bottom: 30px;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 14px;
-  `;
-
-  const ButtonBox = styled(Box)`
-    display: flex;
-    align-items: center;
-    pl: 1;
-    pb: 1;
-    justify-content: center;
-  `;
-
-  const MyButton1 = styled(Button)`
-    width: 33.33%;
-    margin: 0 2% 0 2%;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    color: black;
-    background-color: #ffc300;
-    &:hover {
-      background-color: #716847;
-    }
-  `;
-
-  const MyButton2 = styled(Button)`
-    width: 33.33%;
-    margin: 0 2% 0 2%;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    color: black;
-    img {
-      width: 24px;
-    }
-  `;
-
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.REACT_APP_KAKAO);
@@ -148,20 +124,10 @@ function ClubDetail() {
           src={require("../asset/images/testimage.PNG")}
           alt='클럽썸네일이미지'
         />
-        {/* <CardContent>안녕하세요</CardContent>
-        <Button>버튼입니다</Button> */}
         <ContentBox>
           <CardContent>
             <Title>
               MCU 톺아보기
-              <IconButton onClick={handleClick}>
-                <SettingsIcon />
-              </IconButton>
-              <Popper id={id} open={open} anchorEl={anchorEl}>
-                <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
-                  The content of the Popper.
-                </Box>
-              </Popper>
               <ClubSettingPopper />
             </Title>
             <Text1>

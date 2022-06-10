@@ -1,6 +1,11 @@
 import * as React from "react";
-import { Box, Popper, IconButton } from "@mui/material";
+import { Box, Popper, IconButton, Button } from "@mui/material";
+import styled from "@emotion/styled";
 import SettingsIcon from "@mui/icons-material/Settings";
+
+const SettingButton = styled(Button)`
+  color: black;
+`;
 
 export default function SimplePopper() {
   // prettier-ignore
@@ -8,7 +13,6 @@ export default function SimplePopper() {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
-    console.log(event);
   };
 
   const open = Boolean(anchorEl);
@@ -19,9 +23,10 @@ export default function SimplePopper() {
       <IconButton onClick={handleClick}>
         <SettingsIcon />
       </IconButton>
-      <Popper id={id} open={open} anchorEl={anchorEl}>
+      <Popper id={id} open={open} anchorEl={anchorEl} placement='bottom-end'>
         <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
-          The content of the Popper.
+          <SettingButton>수정</SettingButton>
+          <SettingButton>삭제</SettingButton>
         </Box>
       </Popper>
     </div>
