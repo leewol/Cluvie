@@ -1,5 +1,5 @@
 import express from "express";
-import Club from "../../../models/club";
+import Clubs from "../../../models/club";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 // import club_service from "./service";
@@ -18,7 +18,7 @@ club_router.post("/clubs", async (req, res) => {
     end_date: req.body.end_date,
     views: 0,
   };
-  await Club.create(club)
+  await Clubs.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
     })
@@ -27,17 +27,15 @@ club_router.post("/clubs", async (req, res) => {
     });
 });
 
-// club_router.get("/clubs", async (req, res, next) => {
-//   try {
-//     const clubs = await Club.findAll({
-//       include: [{ model: Club }],
-//     });
-//     // const clubs = await Club.findAll();
-//     res.status(200).json(clubs);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+club_router.get("/clubs", async (req, res) => {
+  await Clubs.findAll({})
+    .then((result) => {
+      res.status(200).json({ success: true, result });
+    })
+    .catch((err) => {
+      res.status(404).json({ success: false, err });
+    });
+});
 
 // club_router.get("/clubs/:id", async (req, res, next) => {
 //   try {
