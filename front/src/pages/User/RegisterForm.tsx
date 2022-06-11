@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import axios from "axios";
 
+// import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+// import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+
 import { ContainerBox } from "../../styles/Container";
 
 // TODO : 스타일 - 데이터 create(API), 비밀번호 일치 확인, input박스 커스텀, radio 커스텀
-// TODO: 검증 - 이메일 형식, 비밀번호 6자리 이상, 비밀번호 확인 일치, 닉네임 2글자 이상
-// 이야기할 것 : age , enum (성별 자료형)
+// TODO: 검증 - 이메일, 비밀번호, 비밀번호 일치, 닉네임
 
 const RegisterFormInnerBox = styled.form`
   display: flex;
@@ -21,8 +23,17 @@ const RegisterInputs = styled.div`
   display: flex;
   flex-direction: column;
 
-  div:not(.birth) > input {
+  div {
     width: 100%;
+    position: relative;
+  }
+  div > input {
+    width: 100%;
+  }
+  div > span {
+    position: absolute;
+    top: 0;
+    right: 1%;
   }
 
   input {
@@ -31,10 +42,6 @@ const RegisterInputs = styled.div`
   input[type="radio"] {
     // display: none;
   }
-`;
-
-const BirthBox = styled.input`
-  width: 100px;
 `;
 
 function RegisterForm() {
@@ -46,13 +53,15 @@ function RegisterForm() {
     nickname: "",
     password: "",
     confirmPassword: "",
-    age: "",
+    birthDate: "",
     sex: "",
   });
-  const [birthYear, setBirthYear] = useState("");
 
-  const isEmailValid = (email: String) => {
-    return true;
+  const isEmailValid = (email: string) => {
+    const emailRegex =
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+    return emailRegex.test(email);
   };
   const isPasswordValid = form.password.length >= 6;
   const isPasswordConfirmed = form.password === form.confirmPassword;
@@ -63,70 +72,43 @@ function RegisterForm() {
     isPasswordConfirmed &&
     isNicknameValid;
 
+  const showValidIcon = (validation: boolean) => {
+    return validation ? <span>o</span> : <span>x</span>;
+  };
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    let age = 0;
-
-    if (name === "age") {
-      setBirthYear(() => value);
-
-      const date = new Date();
-      age = date.getFullYear() - Number(value) + 1;
-    }
 
     setForm((prev) => ({
       ...prev,
-      [name]: name === "age" ? age : value,
+      [name]: value,
     }));
   };
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(form);
+
     // * 데이터 create 후 메인 페이지로 이동하기
-    const { email, password, nickname, age } = form;
-    const bodyData = JSON.stringify({
-      email,
-      password,
-      nickname,
-      age,
-      sex: Number(form.sex),
-    });
+    // const { email, password, nickname, birthDate, sex } = form;
+    // const bodyData = JSON.stringify({
+    //   email,
+    //   password,
+    //   nickname,
+    //   birthDate,
+    //   sex,
+    // });
 
-    console.log(bodyData);
+    // console.log(bodyData);
 
-    axios
-      .post(`${serverUrl}/users/registration`, bodyData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
-
-  const monthslist = () => {
-    const months = [];
-    for (let i = 1; i < 13; i++) {
-      months.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
-    }
-    return months;
-  };
-
-  const dayslist = () => {
-    const days = [];
-    for (let i = 1; i < 32; i++) {
-      days.push(
-        <option key={i} value={i}>
-          {i}
-        </option>
-      );
-    }
-    return days;
+    // axios
+    //   .post(`${serverUrl}/users`, bodyData, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
   };
 
   return (
@@ -143,6 +125,7 @@ function RegisterForm() {
                 value={form.email}
                 onChange={onChange}
               />
+              {showValidIcon(isEmailValid(form.email))}
             </div>
           </label>
           <label htmlFor='password'>
@@ -181,30 +164,30 @@ function RegisterForm() {
           성별
           <div id='sex' onChange={onChange}>
             <label htmlFor='women'>
-              <input type='radio' name='sex' value='1' />
+              <input type='radio' name='sex' value='여성' />
               여성
             </label>
             <label htmlFor='men'>
-              <input type='radio' name='sex' value='2' />
+              <input type='radio' name='sex' value='남성' />
               남성
             </label>
             <label htmlFor='none'>
-              <input type='radio' name='sex' value='3' />
+              <input type='radio' name='sex' value='여성도 남성도 아니에요' />
               여성도 남성도 아니에요
             </label>
           </div>
           생년월일
           <div className='birth'>
-            <BirthBox
-              type='text'
-              name='age'
-              value={birthYear}
+            <input
+              type='date'
+              name='birthDate'
+              value={form.birthDate}
               onChange={onChange}
             />
-            년<select name='birthMonth'>{monthslist()}</select>월
-            <select name='birthDay'>{dayslist()}</select>일
           </div>
-          <button type='submit'>회원가입</button>
+          <button type='submit' disabled={!isFormValid}>
+            회원가입
+          </button>
         </RegisterInputs>
       </RegisterFormInnerBox>
     </ContainerBox>

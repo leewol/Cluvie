@@ -17,7 +17,7 @@ function Login() {
           <input type='password' placeholder='비밀번호' />
           <button type='submit'>로그인</button>
         </UserForm>
-        <Link to='/join'>가입하기</Link>
+        <Link to='/register'>가입하기</Link>
       </InnerBox>
     </ContainerBox>
   );
