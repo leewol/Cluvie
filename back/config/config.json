@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "admin",
-    "password": "cluvie18",
+    "username": "root",
+    "password": "admin1234",
     "database": "cluvie",
-    "host": "cluvie.cpanppkgijfn.ap-northeast-2.rds.amazonaws.com",
+    "host": "kdt-ai4-team18-gpu.elicecoding.com",
     "dialect": "mysql"
   },
   "test": {
-    "username": "admin",
-    "password": "cluvie18",
+    "username": "root",
+    "password": "admin1234",
     "database": "cluvie",
-    "host": "cluvie.cpanppkgijfn.ap-northeast-2.rds.amazonaws.com",
+    "host": "kdt-ai4-team18-gpu.elicecoding.com",
     "dialect": "mysql"
   },
   "production": {
-    "username": "admin",
-    "password": "cluvie18",
-    "database": "database",
-    "host": "cluvie.cpanppkgijfn.ap-northeast-2.rds.amazonaws.com",
+    "username": "root",
+    "password": "admin1234",
+    "database": "cluvie",
+    "host": "kdt-ai4-team18-gpu.elicecoding.com",
     "dialect": "mysql"
   }
 }
