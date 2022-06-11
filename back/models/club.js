@@ -26,10 +26,6 @@ module.exports = class Club extends Sequelize.Model {
           type: Sequelize.TINYINT,
           allowNull: false,
         },
-        birth_date: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
         description: {
           type: Sequelize.TEXT,
           allowNull: false,
