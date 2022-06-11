@@ -37,28 +37,22 @@ club_router.get("/clubs", async (req, res) => {
     });
 });
 
-// club_router.get("/clubs/:id", async (req, res, next) => {
-//   try {
-//     const club = await Club.findAll({
-//       where: { id: req.params.id },
-//       include: [
-//         {
-//           model: Club,
-//         },
-//       ],
-//     });
-//     res.status(200).json(club);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+club_router.get("/clubs/:id", async (req, res) => {
+  await Clubs.findOne(req.params.id)
+    .then((result) => {
+      res.status(200).json({ success: true, result });
+    })
+    .catch((err) => {
+      res.status(404).json({ success: false, err });
+    });
+});
 club_router.put("/clubs/:id", async (req, res, next) => {
   try {
     const club = await Club.findOne({ where: { id: req.params.id } });
     if (!club) {
       return res.status(404).send("존재하지 않는 클럽입니다.");
     }
-    await Club.update(
+    await Clubs.update(
       {
         name: req.body.name,
         intro: req.body.intro,
@@ -82,7 +76,7 @@ club_router.put("/clubs/:id", async (req, res, next) => {
 
 club_router.delete("/clubs/:id", async (req, res, next) => {
   try {
-    Club.destroy({
+    Clubs.destroy({
       where: { id: req.params.id },
     });
     res.status(200).json({ id: req.params.id });
