@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Tabs, Tab, Box, Rating, Button } from "@mui/material";
-import styled from "@emotion/styled";
+import { Tabs, Tab, Box, Rating } from "@mui/material";
+// import styled from "@emotion/styled";
 import ClubReview from "./ClubReview";
+import ClubReviewButton from "./ClubReviewButton";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -44,12 +45,6 @@ export default function BasicTabs() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const ReviewButton = styled(Button)`
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    color: black;
-    background-color: rgba(0, 0, 0, 0.03);
-  `;
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -129,7 +124,7 @@ export default function BasicTabs() {
             (총 5개의 후기)
           </div>
         </div>
-        <ReviewButton>참여 후기 작성</ReviewButton>
+        <ClubReviewButton />
         <ClubReview />
         <ClubReview />
         <ClubReview />
