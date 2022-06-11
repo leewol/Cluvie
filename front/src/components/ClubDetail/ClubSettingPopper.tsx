@@ -25,8 +25,12 @@ export default function SimplePopper() {
       </IconButton>
       <Popper id={id} open={open} anchorEl={anchorEl} placement='bottom-end'>
         <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
-          <SettingButton>수정</SettingButton>
-          <SettingButton>삭제</SettingButton>
+          <div>
+            <SettingButton>수정</SettingButton>
+          </div>
+          <div>
+            <SettingButton>삭제</SettingButton>
+          </div>
         </Box>
       </Popper>
     </div>
