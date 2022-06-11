@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { Card, CardContent, Button, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Button,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+} from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
@@ -87,6 +95,10 @@ const MyButton2 = styled(Button)`
 `;
 
 function ClubDetail() {
+  const [openJoin, setOpenJoin] = React.useState(false);
+  const handleOpenJoin = () => setOpenJoin(true);
+  const handleCloseJoin = () => setOpenJoin(false);
+
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.REACT_APP_KAKAO);
@@ -139,7 +151,24 @@ function ClubDetail() {
             <Text3>*클럽 사정에 따라 모집이 조기 마감될 수 있습니다.</Text3>
           </CardContent>
           <ButtonBox>
-            <MyButton1>신청하기</MyButton1>
+            <MyButton1 onClick={handleOpenJoin}>신청하기</MyButton1>
+            <Dialog
+              open={openJoin}
+              aria-labelledby='alert-dialog-title'
+              aria-describedby='alert-dialog-description'
+            >
+              <DialogTitle id='alert-dialog-title'>
+                신청하시겠습니까?
+              </DialogTitle>
+              <DialogActions>
+                <Button color='inherit' onClick={handleCloseJoin}>
+                  취소하기
+                </Button>
+                <Button onClick={handleCloseJoin} autoFocus>
+                  신청하기
+                </Button>
+              </DialogActions>
+            </Dialog>
             <MyButton2>
               <FavoriteBorderOutlinedIcon />
               &nbsp;찜하기
