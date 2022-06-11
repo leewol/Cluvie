@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Modal, Box, Typography, Rating } from "@mui/material";
+import { Button, Modal, Box, Rating } from "@mui/material";
 import styled from "@emotion/styled";
 
 const ReviewButton = styled(Button)`
@@ -15,6 +15,14 @@ const ReviewBox = styled(Box)`
   transform: translate(-50%, -50%);
   width: 400px;
   background-color: white;
+  text-align: center;
+  .rating {
+    margin: 20px 0;
+  }
+  .review-textarea {
+    width: 90%;
+    height: 100px;
+  }
 `;
 
 function ClubReviewButton() {
@@ -31,22 +39,32 @@ function ClubReviewButton() {
         aria-describedby='modal-modal-description'
       >
         <ReviewBox>
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
-            참여 후기 작성하기
-          </Typography>
-          <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-            클럽에 대한 별점을 매겨주세요
-          </Typography>
-          <Rating
-            name='half-rating'
-            defaultValue={0}
-            precision={0.5}
-            onChange={(event, newValue) => console.log(newValue)}
-          />
-          <Button color='inherit'>제출</Button>
-          <Button color='inherit' onClick={handleClose}>
-            취소
-          </Button>
+          <div className='rating'>
+            <div>클럽에 대한 별점을 매겨주세요</div>
+            <div>
+              <Rating
+                name='half-rating'
+                defaultValue={0}
+                precision={0.5}
+                onChange={(event, newValue) => console.log(newValue)}
+              />
+            </div>
+          </div>
+          <div>
+            <textarea
+              className='review-textarea'
+              defaultValue='참여 후기를 작성해주세요'
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
+                console.log(e.target.value)
+              }
+            />
+          </div>
+          <div>
+            <Button color='inherit'>제출</Button>
+            <Button color='inherit' onClick={handleClose}>
+              취소
+            </Button>
+          </div>
         </ReviewBox>
       </Modal>
     </div>
