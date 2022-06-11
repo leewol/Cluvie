@@ -50,6 +50,7 @@ export default function BasicTabs() {
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
+          textColor='inherit'
           value={value}
           onChange={handleChange}
           sx={{ width: "100%", paddingTop: "50px" }}
