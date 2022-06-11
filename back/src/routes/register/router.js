@@ -3,35 +3,43 @@ import User from "../../../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const userAuthRouter = express.Router();
+const registerRouter = express.Router();
 
 // 회원가입
-userAuthRouter.post("/users", async (req, res) => {
-  // const duplicate = await User.findOne({
-  //   where: { email: req.body.email },
-  // });
-  // if (duplicate) {
-  //   return res.status(403).send("중복된 이메일 입니다.");
-  // }
-  console.log(req.body);
-  const hashedPassword = await bcrypt.hash(req.body.password, 8);
+registerRouter.post("/users", async (req, res) => {
+  try {
+    const { email, password, nickname, age, sex } = req.body;
 
-  const user = {
-    email: req.body.email,
-    password: hashedPassword,
-    nickname: req.body.nickname,
-    age: req.body.age,
-    sex: req.body.sex,
-  };
-
-  await User.create(user)
-    .then((result) => {
-      res.status(200).json({ success: true, result });
-    })
-    .catch((err) => {
-      res.json({ success: false });
-      console.log(err);
+    const duplicate = await User.findOne({
+      where: { email },
     });
+    if (duplicate) {
+      return res.status(403).send("중복된 이메일 입니다.");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      email,
+      password: hashedPassword,
+      nickname,
+      age,
+      sex,
+    });
+
+    const token = jwt.sign(
+      { user_id: user.id, email },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+    user.token = token;
+
+    res.status(201).json({ success: true, user });
+  } catch (err) {
+    res.json({ success: false });
+    console.log(err);
+  }
 });
 
-export default userAuthRouter;
+export default registerRouter;

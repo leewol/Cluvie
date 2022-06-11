@@ -1,15 +1,10 @@
 import cors from "cors";
 import express from "express";
-import * as dotenv from "dotenv";
-import passport from "passport";
-import passportConfig from "./passport/index";
-import session from "express-session";
-import cookieParser from "cookie-parser";
 import db from "./models/index";
-import userAuthRouter from "./src/routes/register/router";
-
+import registerRouter from "./src/routes/register/router";
+import dotenv from "dotenv";
 dotenv.config();
-passportConfig();
+
 const app = express();
 
 const PORT = 5001;
@@ -24,24 +19,14 @@ db.sequelize
   });
 
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(
-//   session({
-//     saveUninitialized: false,
-//     resave: false,
-//     secret: process.env.DB_PASSWORD,
-//   })
-// );
-// app.use(cookieParser());
-// app.use(passport.initialize());
-// app.use(passport.session());
+// app.use(express.urlencoded({ extended: false })); // ? 알아내자
+app.use(express.json()); //->req.body 가 잘 보내짐
 
 app.get("/", (req, res) => {
   res.send("Hello Express");
 });
 
-app.use(userAuthRouter);
+app.use(registerRouter);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
