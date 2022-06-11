@@ -141,7 +141,7 @@ function ClubDetail() {
           <ButtonBox>
             <MyButton1>신청하기</MyButton1>
             <MyButton2>
-              <FavoriteBorderOutlinedIcon sx={{ fontSize: "24px" }} />
+              <FavoriteBorderOutlinedIcon />
               &nbsp;찜하기
             </MyButton2>
             <MyButton2 onClick={sendKakaoMessage}>
