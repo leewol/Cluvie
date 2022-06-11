@@ -4,6 +4,7 @@ import { Card, CardContent, Button, Box } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
+import ClubChatButton from "../components/ClubDetail/ClubChatButton";
 
 const WholeBox = styled(Box)`
   position: relative;
@@ -155,6 +156,7 @@ function ClubDetail() {
         </ContentBox>
       </WholeCard>
       <ClubDetailTab />
+      <ClubChatButton />
     </WholeBox>
   );
 }
