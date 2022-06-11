@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import axios from "axios";
 
 import { ContainerBox } from "../../styles/Container";
 
-// TODO : 스타일 - 데이터 create(API), 비밀번호 일치 확인, 이메일 검증, input박스 커스텀, radio 커스텀
+// TODO : 스타일 - 데이터 create(API), 비밀번호 일치 확인, input박스 커스텀, radio 커스텀
+// TODO: 검증 - 이메일 형식, 비밀번호 6자리 이상, 비밀번호 확인 일치, 닉네임 2글자 이상
 // 이야기할 것 : age , enum (성별 자료형)
 
 const RegisterFormInnerBox = styled.form`
@@ -37,6 +39,7 @@ const BirthBox = styled.input`
 
 function RegisterForm() {
   const serverUrl = `http://${window.location.hostname}:5001`;
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     email: "",
@@ -47,6 +50,18 @@ function RegisterForm() {
     sex: "",
   });
   const [birthYear, setBirthYear] = useState("");
+
+  const isEmailValid = (email: String) => {
+    return true;
+  };
+  const isPasswordValid = form.password.length >= 6;
+  const isPasswordConfirmed = form.password === form.confirmPassword;
+  const isNicknameValid = form.nickname.length >= 2;
+  const isFormValid =
+    isEmailValid(form.email) &&
+    isPasswordValid &&
+    isPasswordConfirmed &&
+    isNicknameValid;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
