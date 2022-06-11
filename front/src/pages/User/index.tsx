@@ -1,5 +1,5 @@
 import Login from "./Login";
-import Join from "./Join";
-import JoinForm from "./JoinForm";
+import Register from "./Register";
+import RegisterForm from "./RegisterForm";
 
-export { Login, Join, JoinForm };
+export { Login, Register, RegisterForm };

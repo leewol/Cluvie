@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Login, Join, JoinForm } from "./pages/User";
+import { Login, Register, RegisterForm } from "./pages/User";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,8 +15,8 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="login" element={<Login />} />
-        <Route path="join" element={<Join />} />
-        <Route path="joinByEmail" element={<JoinForm />} />
+        <Route path="register" element={<Register />} />
+        <Route path="RegisterByEmail" element={<RegisterForm />} />
       </Routes>
     </BrowserRouter>
     

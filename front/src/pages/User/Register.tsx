@@ -5,11 +5,11 @@ import { ContainerBox, InnerBox } from "../../styles/Container";
 
 // TODO : 소셜 회원가입, 스타일
 
-function Join() {
+function Register() {
   const navigate = useNavigate();
 
-  const handleJoinClick = () => {
-    navigate("/joinByEmail");
+  const handleRegisterClick = () => {
+    navigate("/RegisterByEmail");
   };
 
   return (
@@ -18,7 +18,7 @@ function Join() {
         <h1>회원가입</h1>
         <button type='button'>구글로 회원가입</button>
         <button type='button'>카카오톡으로 회원가입</button>
-        <button type='button' onClick={handleJoinClick}>
+        <button type='button' onClick={handleRegisterClick}>
           이메일로 회원가입
         </button>
         <span>이미 클러비라면?</span>
@@ -28,4 +28,4 @@ function Join() {
   );
 }
 
-export default Join;
+export default Register;
