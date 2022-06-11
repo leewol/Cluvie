@@ -42,11 +42,11 @@ module.exports = class Club extends Sequelize.Model {
           type: Sequelize.TINYINT,
           allowNull: false,
         },
-        startDate: {
+        start_date: {
           type: Sequelize.DATE,
           allowNull: true,
         },
-        endDate: {
+        end_date: {
           type: Sequelize.DATE,
           allowNull: true,
         },
@@ -74,6 +74,7 @@ module.exports = class Club extends Sequelize.Model {
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
+        // freezeTableName: true,
       }
     );
   }
