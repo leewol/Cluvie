@@ -1,38 +1,73 @@
 import * as React from "react";
-import { Box, Popper, IconButton, Button } from "@mui/material";
-import styled from "@emotion/styled";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-
-const SettingButton = styled(Button)`
-  color: black;
-`;
 
 export default function SimplePopper() {
   // prettier-ignore
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
+  const [openDelete, setOpenDelete] = React.useState(false);
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
+  const handleOpenDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    handleClose();
+    handleOpenDelete();
+  };
 
   return (
     <div>
-      <IconButton onClick={handleClick}>
+      <Button
+        id='basic-button'
+        color='inherit'
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup='true'
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+      >
         <SettingsIcon />
-      </IconButton>
-      <Popper id={id} open={open} anchorEl={anchorEl} placement='bottom-end'>
-        <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
-          <div>
-            <SettingButton>수정</SettingButton>
-          </div>
-          <div>
-            <SettingButton>삭제</SettingButton>
-          </div>
-        </Box>
-      </Popper>
+      </Button>
+      <Menu
+        id='basic-menu'
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>수정</MenuItem>
+        <MenuItem onClick={handleDelete}>삭제</MenuItem>
+      </Menu>
+      <Dialog
+        open={openDelete}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>삭제하시겠습니까?</DialogTitle>
+        <DialogActions>
+          <Button color='inherit' onClick={handleCloseDelete}>
+            취소하기
+          </Button>
+          <Button color='warning' onClick={handleCloseDelete} autoFocus>
+            삭제하기
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
