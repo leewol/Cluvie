@@ -54,8 +54,8 @@ function ClubReviewButton() {
             <textarea
               className='review-textarea'
               defaultValue='참여 후기를 작성해주세요'
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
-                console.log(e.target.value)
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>): void =>
+                console.log(event.target.value)
               }
             />
           </div>
