@@ -16,15 +16,4 @@ const InnerBox = styled(ContainerBox)`
   }
 `;
 
-const UserForm = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  input {
-    width: 99%;
-  }
-`;
-
-export { ContainerBox, InnerBox, UserForm };
+export { ContainerBox, InnerBox };
