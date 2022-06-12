@@ -26,15 +26,6 @@ registerRouter.post("/users", async (req, res) => {
       sex,
     });
 
-    const token = jwt.sign(
-      { user_id: user.id, email },
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-    user.token = token;
-
     res.status(201).json({ success: true, user });
   } catch (err) {
     res.json({ success: false });
