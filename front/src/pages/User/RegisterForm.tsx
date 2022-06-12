@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import axios from "axios";
 
-// import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-// import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 
 import { ContainerBox } from "../../styles/Container";
+import * as Api from "../../utils/api";
 
 // TODO : 스타일 - 데이터 create(API), 비밀번호 일치 확인, input박스 커스텀, radio 커스텀
-// TODO: 검증 - 이메일, 비밀번호, 비밀번호 일치, 닉네임
+// TODO : 검증 - 이메일, 비밀번호, 비밀번호 일치, 닉네임
 
 const RegisterFormInnerBox = styled.form`
   display: flex;
@@ -24,16 +24,25 @@ const RegisterInputs = styled.div`
   flex-direction: column;
 
   div {
-    width: 100%;
     position: relative;
+    width: 100%;
   }
   div > input {
     width: 100%;
   }
-  div > span {
+  .icon {
     position: absolute;
     top: 0;
     right: 1%;
+    margin-top: 3px;
+    width: 20px;
+    height: 20px;
+  }
+  .icon-ok {
+    color: #00a424;
+  }
+  .icon-no {
+    color: #ff0000;
   }
 
   input {
@@ -45,7 +54,6 @@ const RegisterInputs = styled.div`
 `;
 
 function RegisterForm() {
-  const serverUrl = `http://${window.location.hostname}:5001`;
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -73,7 +81,11 @@ function RegisterForm() {
     isNicknameValid;
 
   const showValidIcon = (validation: boolean) => {
-    return validation ? <span>o</span> : <span>x</span>;
+    return validation ? (
+      <CheckCircleOutlineIcon className='icon icon-ok' />
+    ) : (
+      <DoNotDisturbIcon className='icon icon-no' />
+    );
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,22 +103,13 @@ function RegisterForm() {
 
     // * 데이터 create 후 메인 페이지로 이동하기
     // const { email, password, nickname, birthDate, sex } = form;
-    // const bodyData = JSON.stringify({
+    // Api.post("/users", {
     //   email,
     //   password,
     //   nickname,
     //   birthDate,
     //   sex,
-    // });
-
-    // console.log(bodyData);
-
-    // axios
-    //   .post(`${serverUrl}/users`, bodyData, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
+    // })
     //   .then((res) => console.log(res))
     //   .catch((err) => console.log(err));
   };
@@ -125,7 +128,7 @@ function RegisterForm() {
                 value={form.email}
                 onChange={onChange}
               />
-              {showValidIcon(isEmailValid(form.email))}
+              {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
             </div>
           </label>
           <label htmlFor='password'>
@@ -137,6 +140,7 @@ function RegisterForm() {
                 value={form.password}
                 onChange={onChange}
               />
+              {form.password ? showValidIcon(isPasswordValid) : ""}
             </div>
           </label>
           <label htmlFor='confirmPassword'>
@@ -148,6 +152,7 @@ function RegisterForm() {
                 value={form.confirmPassword}
                 onChange={onChange}
               />
+              {form.confirmPassword ? showValidIcon(isPasswordConfirmed) : ""}
             </div>
           </label>
           <label htmlFor='nickname'>
@@ -159,6 +164,7 @@ function RegisterForm() {
                 value={form.nickname}
                 onChange={onChange}
               />
+              {form.nickname ? showValidIcon(isNicknameValid) : ""}
             </div>
           </label>
           성별
