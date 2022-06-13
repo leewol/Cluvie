@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { ContainerBox, InnerBox, InputBox } from "../../styles/Container";
+import { ContainerBox, InnerBox, InputBox } from "@/styles/Container";
 import {
   isEmailValid,
   isPasswordValid,
   showValidIcon,
-} from "../../utils/validation";
-import * as Api from "../../utils/api";
+} from "@/utils/validation";
+import * as Api from "@/utils/api";
 
 // TODO : 소셜 로그인, 스타일 (input박스, 버튼, 링크)
 

@@ -10,9 +10,9 @@ import {
   DialogActions,
 } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
-import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
-import ClubChatButton from "../components/ClubDetail/ClubChatButton";
+import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
+import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper";
+import ClubChatButton from "@/components/ClubDetail/ClubChatButton";
 
 const WholeBox = styled(Box)`
   position: relative;

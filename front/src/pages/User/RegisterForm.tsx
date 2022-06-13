@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { ContainerBox, InputBox } from "../../styles/Container";
+import { ContainerBox, InputBox } from "@/styles/Container";
 import {
   isEmailValid,
   isPasswordValid,
   isPasswordConfirmed,
   isNicknameValid,
   showValidIcon,
-} from "../../utils/validation";
-import * as Api from "../../utils/api";
+} from "@/utils/validation";
+import * as Api from "@/utils/api";
 
 // TODO : 스타일 - 데이터 create(API), 스타일 (input박스, radio, 버튼)
 
