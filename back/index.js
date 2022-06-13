@@ -11,7 +11,7 @@ const app = express();
 const PORT = 5001;
 
 db.sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => {
     console.log("데이터 베이스 연결 성공");
   })
