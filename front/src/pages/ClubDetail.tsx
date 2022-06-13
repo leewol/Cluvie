@@ -13,6 +13,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
 import ClubChatButton from "../components/ClubDetail/ClubChatButton";
+import Header from "../components/Header";
 
 const WholeBox = styled(Box)`
   position: relative;
@@ -130,63 +131,72 @@ function ClubDetail() {
   };
 
   return (
-    <WholeBox>
-      <WholeCard>
-        <img
-          // eslint-disable-next-line global-require
-          src={require("../asset/images/testimage.PNG")}
-          alt='클럽썸네일이미지'
-        />
-        <ContentBox>
-          <CardContent>
-            <Title>
-              MCU 톺아보기
-              <ClubSettingPopper />
-            </Title>
-            <Text1>
-              마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!
-            </Text1>
-            <Text2>본 클럽은 온라인으로 진행됩니다.</Text2>
-            <Text2>모집 마감까지 6자리 남았어요! (현재 14명 / 최대 20명)</Text2>
-            <Text3>*클럽 사정에 따라 모집이 조기 마감될 수 있습니다.</Text3>
-          </CardContent>
-          <ButtonBox>
-            <MyButton1 onClick={handleOpenJoin}>신청하기</MyButton1>
-            <Dialog
-              open={openJoin}
-              aria-labelledby='alert-dialog-title'
-              aria-describedby='alert-dialog-description'
-            >
-              <DialogTitle id='alert-dialog-title'>
-                신청하시겠습니까?
-              </DialogTitle>
-              <DialogActions>
-                <Button color='inherit' onClick={handleCloseJoin}>
-                  취소하기
-                </Button>
-                <Button onClick={handleCloseJoin} autoFocus>
-                  신청하기
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <MyButton2>
-              <FavoriteBorderOutlinedIcon />
-              &nbsp;찜하기
-            </MyButton2>
-            <MyButton2 onClick={sendKakaoMessage}>
-              <img
-                // eslint-disable-next-line global-require
-                src={require("../asset/images/kakao-talk.png")}
-                alt='kakao-talk'
-              />
-              &nbsp;공유하기
-            </MyButton2>
-          </ButtonBox>
-        </ContentBox>
-      </WholeCard>
-      <ClubDetailTab />
-      <ClubChatButton />
-    </WholeBox>
+    <div>
+      <Header />
+      <WholeBox style={{ marginTop: "100px" }}>
+        <WholeCard>
+          <img
+            // eslint-disable-next-line global-require
+            src={require("../asset/images/testimage.PNG")}
+            alt='클럽썸네일이미지'
+          />
+          <ContentBox>
+            <CardContent>
+              <Title>
+                MCU 톺아보기
+                <ClubSettingPopper />
+              </Title>
+              <Text1>
+                마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!
+              </Text1>
+              <Text2>본 클럽은 온라인으로 진행됩니다.</Text2>
+              <Text2>
+                모집 마감까지 6자리 남았어요! (현재 14명 / 최대 20명)
+              </Text2>
+              <Text3>*클럽 사정에 따라 모집이 조기 마감될 수 있습니다.</Text3>
+            </CardContent>
+            <ButtonBox>
+              <MyButton1 onClick={handleOpenJoin}>신청하기</MyButton1>
+              <Dialog
+                open={openJoin}
+                aria-labelledby='alert-dialog-title'
+                aria-describedby='alert-dialog-description'
+              >
+                <DialogTitle id='alert-dialog-title'>
+                  신청하시겠습니까?
+                </DialogTitle>
+                <DialogActions>
+                  <Button color='inherit' onClick={handleCloseJoin}>
+                    취소하기
+                  </Button>
+                  <Button
+                    onClick={handleCloseJoin}
+                    sx={{ color: "#ffc300" }}
+                    autoFocus
+                  >
+                    신청하기
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <MyButton2>
+                <FavoriteBorderOutlinedIcon />
+                &nbsp;찜하기
+              </MyButton2>
+              <MyButton2 onClick={sendKakaoMessage}>
+                <img
+                  // eslint-disable-next-line global-require
+                  src={require("../asset/images/kakao-talk.png")}
+                  alt='kakao-talk'
+                />
+                &nbsp;공유하기
+              </MyButton2>
+            </ButtonBox>
+          </ContentBox>
+        </WholeCard>
+        <ClubDetailTab />
+        <ClubChatButton />
+      </WholeBox>
+    </div>
   );
 }
 
