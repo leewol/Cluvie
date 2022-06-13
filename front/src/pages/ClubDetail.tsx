@@ -1,19 +1,12 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import {
-  Card,
-  CardContent,
-  Button,
-  Box,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@mui/material";
+import { Card, CardContent, Button, Box } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "../components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "../components/ClubDetail/ClubSettingPopper";
 import ClubChatButton from "../components/ClubDetail/ClubChatButton";
 import Header from "../components/Header";
+import ClubJoinDialog from "../components/ClubDetail/ClubJoinDialog";
 
 const WholeBox = styled(Box)`
   position: relative;
@@ -157,27 +150,10 @@ function ClubDetail() {
             </CardContent>
             <ButtonBox>
               <MyButton1 onClick={handleOpenJoin}>신청하기</MyButton1>
-              <Dialog
-                open={openJoin}
-                aria-labelledby='alert-dialog-title'
-                aria-describedby='alert-dialog-description'
-              >
-                <DialogTitle id='alert-dialog-title'>
-                  신청하시겠습니까?
-                </DialogTitle>
-                <DialogActions>
-                  <Button color='inherit' onClick={handleCloseJoin}>
-                    취소하기
-                  </Button>
-                  <Button
-                    onClick={handleCloseJoin}
-                    sx={{ color: "#ffc300" }}
-                    autoFocus
-                  >
-                    신청하기
-                  </Button>
-                </DialogActions>
-              </Dialog>
+              <ClubJoinDialog
+                openJoin={openJoin}
+                handleCloseJoin={handleCloseJoin}
+              />
               <MyButton2>
                 <FavoriteBorderOutlinedIcon />
                 &nbsp;찜하기
