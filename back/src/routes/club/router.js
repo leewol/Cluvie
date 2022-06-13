@@ -48,7 +48,7 @@ club_router.get("/clubs/:id", async (req, res) => {
 });
 club_router.put("/clubs/:id", async (req, res, next) => {
   try {
-    const club = await Club.findOne({ where: { id: req.params.id } });
+    const club = await Clubs.findOne({ where: { id: req.params.id } });
     if (!club) {
       return res.status(404).send("존재하지 않는 클럽입니다.");
     }
