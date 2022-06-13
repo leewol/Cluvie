@@ -19,6 +19,11 @@ export const LogoLink = styled(Link)`
   text-decoration: none;
 `;
 
+export const TextLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+`;
+
 export const ClubListDiv = styled.div`
   font-size: 16px;
   margin-left: 2%;

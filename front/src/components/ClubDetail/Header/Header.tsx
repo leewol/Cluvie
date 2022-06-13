@@ -22,7 +22,9 @@ function Header() {
             <Style.LogoLink to='/'>CLUVIE</Style.LogoLink>
           </Style.LogoIconButton>
           <Style.ClubListDiv>
-            <Button>모든 클럽 보기</Button>
+            <Button>
+              <Style.TextLink to='/clublist'>모든 클럽 보기</Style.TextLink>
+            </Button>
           </Style.ClubListDiv>
           <div>
             <IconButton
@@ -64,10 +66,10 @@ function Header() {
               onClose={handleClose}
             >
               <Style.MyMenuItem onClick={handleClose}>
-                내 클럽리스트
+                <Style.TextLink to='/myClublist'>내 클럽 리스트</Style.TextLink>
               </Style.MyMenuItem>
               <Style.MyMenuItem onClick={handleClose}>
-                마이페이지
+                <Style.TextLink to='/myPage'>마이페이지</Style.TextLink>
               </Style.MyMenuItem>
             </Menu>
           </div>
