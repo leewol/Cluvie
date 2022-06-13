@@ -47,42 +47,42 @@ club_router.get("/clubs/:id", async (req, res) => {
     });
 });
 club_router.put("/clubs/:id", async (req, res) => {
-  try {
-    const club = await Clubs.findOne({ where: { id: req.params.id } });
-    if (!club) {
-      return res.status(404).send("존재하지 않는 클럽입니다.");
-    }
-    await Clubs.update(
-      {
-        name: req.body.name,
-        intro: req.body.intro,
-        day: req.body.day,
-        description: req.body.description,
-        num: req.body.num,
-        process: req.body.process,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-      },
-      { where: { id: req.params.id } }
-    );
-    const updated_club = await Clubs.findOne({
-      where: { id: req.params.id },
-    });
-    res.status(200).json(updated_club);
-  } catch (error) {
-    next(error);
+  const club = await Clubs.findOne({ where: { id: req.params.id } });
+  if (!club) {
+    return res.status(404).json("존재하지 않는 클럽입니다.");
   }
+  await Clubs.update(
+    {
+      name: req.body.name,
+      intro: req.body.intro,
+      day: req.body.day,
+      description: req.body.description,
+      num: req.body.num,
+      process: req.body.process,
+      start_date: req.body.start_date,
+      end_date: req.body.end_date,
+    },
+    { where: { id: req.params.id } }
+  )
+    .then((result) => {
+      res.status(200).json({ success: true });
+    })
+    .catch((err) => {
+      res.status(404).json({ success: false, err });
+      console.log(err);
+    });
 });
 
-club_router.delete("/clubs/:id", async (req, res, next) => {
-  try {
-    Clubs.destroy({
-      where: { id: req.params.id },
+club_router.delete("/clubs/:id", async (req, res) => {
+  Clubs.destroy({
+    where: { id: req.params.id },
+  })
+    .then((result) => {
+      res.status(200).json({ success: true, result });
+    })
+    .catch((err) => {
+      res.status(404).json({ success: false, err });
     });
-    res.status(200).json({ id: req.params.id });
-  } catch (error) {
-    next(error);
-  }
 });
 
 module.exports = club_router;

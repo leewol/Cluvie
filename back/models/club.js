@@ -53,7 +53,7 @@ module.exports = class Club extends Sequelize.Model {
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.fn("Now"),
+          // defaultValue: Sequelize.fn("Now"),
         },
         is_deleted: {
           type: Sequelize.TINYINT,
@@ -62,7 +62,7 @@ module.exports = class Club extends Sequelize.Model {
         },
         updated_at: {
           type: Sequelize.DATE,
-          defaultValue: Sequelize.fn("Now"),
+          // defaultValue: Sequelize.fn("Now"),
           allowNull: false,
         },
       },
