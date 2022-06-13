@@ -16,4 +16,33 @@ const InnerBox = styled(ContainerBox)`
   }
 `;
 
-export { ContainerBox, InnerBox };
+const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  div {
+    position: relative;
+    width: 100%;
+  }
+
+  div > input {
+    width: 100%;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0;
+    right: 1%;
+    margin-top: 2px;
+    width: 20px;
+    height: 20px;
+  }
+  .icon-ok {
+    color: #00a424;
+  }
+  .icon-no {
+    color: #ff0000;
+  }
+`;
+
+export { ContainerBox, InnerBox, InputBox };

@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Main from "./pages/Main";
-import { Login, Register, RegisterForm } from "./pages/User";
-import ClubDetail from "./pages/ClubDetail/ClubDetail";
+import Main from "@/pages/Main";
+import { Login, Register, RegisterForm } from "@/pages/User";
+import ClubDetail from "@/pages/ClubDetail";
 
 function App() {
   return (

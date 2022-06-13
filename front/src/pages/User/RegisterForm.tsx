@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
+import { ContainerBox, InputBox } from "@/styles/Container";
+import {
+  isEmailValid,
+  isPasswordValid,
+  isPasswordConfirmed,
+  isNicknameValid,
+  showValidIcon,
+} from "@/utils/validation";
+import * as Api from "@/utils/api";
 
-import { ContainerBox } from "../../styles/Container";
-import * as Api from "../../utils/api";
-
-// TODO : 스타일 - 데이터 create(API), 비밀번호 일치 확인, input박스 커스텀, radio 커스텀
-// TODO : 검증 - 이메일, 비밀번호, 비밀번호 일치, 닉네임
+// TODO : 스타일 - 데이터 create(API), 스타일 (input박스, radio, 버튼)
 
 const RegisterFormInnerBox = styled.form`
   display: flex;
@@ -19,32 +22,7 @@ const RegisterFormInnerBox = styled.form`
   }
 `;
 
-const RegisterInputs = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  div {
-    position: relative;
-    width: 100%;
-  }
-  div > input {
-    width: 100%;
-  }
-  .icon {
-    position: absolute;
-    top: 0;
-    right: 1%;
-    margin-top: 3px;
-    width: 20px;
-    height: 20px;
-  }
-  .icon-ok {
-    color: #00a424;
-  }
-  .icon-no {
-    color: #ff0000;
-  }
-
+const RegisterInputBox = styled(InputBox)`
   input {
     margin-bottom: 20px;
   }
@@ -65,28 +43,11 @@ function RegisterForm() {
     sex: "",
   });
 
-  const isEmailValid = (email: string) => {
-    const emailRegex =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-
-    return emailRegex.test(email);
-  };
-  const isPasswordValid = form.password.length >= 6;
-  const isPasswordConfirmed = form.password === form.confirmPassword;
-  const isNicknameValid = form.nickname.length >= 2;
   const isFormValid =
     isEmailValid(form.email) &&
-    isPasswordValid &&
-    isPasswordConfirmed &&
-    isNicknameValid;
-
-  const showValidIcon = (validation: boolean) => {
-    return validation ? (
-      <CheckCircleOutlineIcon className='icon icon-ok' />
-    ) : (
-      <DoNotDisturbIcon className='icon icon-no' />
-    );
-  };
+    isPasswordValid(form.password) &&
+    isPasswordConfirmed(form.password, form.confirmPassword) &&
+    isNicknameValid(form.nickname);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -118,7 +79,7 @@ function RegisterForm() {
     <ContainerBox>
       <RegisterFormInnerBox onSubmit={handleSumbit}>
         <h1>회원가입</h1>
-        <RegisterInputs>
+        <RegisterInputBox>
           <label htmlFor='email'>
             이메일
             <div>
@@ -140,7 +101,9 @@ function RegisterForm() {
                 value={form.password}
                 onChange={onChange}
               />
-              {form.password ? showValidIcon(isPasswordValid) : ""}
+              {form.password
+                ? showValidIcon(isPasswordValid(form.password))
+                : ""}
             </div>
           </label>
           <label htmlFor='confirmPassword'>
@@ -152,7 +115,11 @@ function RegisterForm() {
                 value={form.confirmPassword}
                 onChange={onChange}
               />
-              {form.confirmPassword ? showValidIcon(isPasswordConfirmed) : ""}
+              {form.confirmPassword
+                ? showValidIcon(
+                    isPasswordConfirmed(form.password, form.confirmPassword)
+                  )
+                : ""}
             </div>
           </label>
           <label htmlFor='nickname'>
@@ -164,7 +131,9 @@ function RegisterForm() {
                 value={form.nickname}
                 onChange={onChange}
               />
-              {form.nickname ? showValidIcon(isNicknameValid) : ""}
+              {form.nickname
+                ? showValidIcon(isNicknameValid(form.nickname))
+                : ""}
             </div>
           </label>
           성별
@@ -194,7 +163,7 @@ function RegisterForm() {
           <button type='submit' disabled={!isFormValid}>
             회원가입
           </button>
-        </RegisterInputs>
+        </RegisterInputBox>
       </RegisterFormInnerBox>
     </ContainerBox>
   );
