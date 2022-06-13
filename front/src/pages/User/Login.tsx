@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { ContainerBox, InnerBox } from "../../styles/Container";
+import { ContainerBox, InnerBox, InputBox } from "../../styles/Container";
+import {
+  isEmailValid,
+  isPasswordValid,
+  showValidIcon,
+} from "../../utils/validation";
+import * as Api from "../../utils/api";
 
-// TODO : 소셜 로그인, 스타일, 이메일 비밀번호 검증
+// TODO : 소셜 로그인, 스타일 (input박스, 버튼, 링크)
 
-const UserForm = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  input {
-    width: 99%;
+const LoginInputBox = styled(InputBox)`
+  div > input {
+    width: 592px;
   }
 `;
 
@@ -22,6 +23,9 @@ function Login() {
     email: "",
     password: "",
   });
+
+  const isFormValid =
+    isEmailValid(form.email) && isPasswordValid(form.password);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -35,6 +39,7 @@ function Login() {
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(form);
+    // * 로그인 후 메인 페이지로 이동하기
   };
 
   return (
@@ -43,23 +48,35 @@ function Login() {
         <h1>로그인</h1>
         <button type='button'>구글</button>
         <button type='button'>카카오톡</button>
-        <UserForm onSubmit={handleSumbit}>
-          <input
-            type='text'
-            placeholder='이메일'
-            name='email'
-            value={form.email}
-            onChange={onChange}
-          />
-          <input
-            type='password'
-            placeholder='비밀번호'
-            name='password'
-            value={form.password}
-            onChange={onChange}
-          />
-          <button type='submit'>로그인</button>
-        </UserForm>
+        <form onSubmit={handleSumbit}>
+          <LoginInputBox>
+            <div>
+              <input
+                type='text'
+                placeholder='이메일'
+                name='email'
+                value={form.email}
+                onChange={onChange}
+              />
+              {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
+            </div>
+            <div>
+              <input
+                type='password'
+                placeholder='비밀번호'
+                name='password'
+                value={form.password}
+                onChange={onChange}
+              />
+              {form.password
+                ? showValidIcon(isPasswordValid(form.password))
+                : ""}
+            </div>
+            <button type='submit' disabled={!isFormValid}>
+              로그인
+            </button>
+          </LoginInputBox>
+        </form>
         <Link to='/register'>가입하기</Link>
       </InnerBox>
     </ContainerBox>
