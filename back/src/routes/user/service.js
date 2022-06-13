@@ -28,11 +28,20 @@ class userService {
       return { errorMessage };
     }
   };
-  static updateDescription = async ({ description, id }) => {
-    const user = await User.findById({ id });
-
-    const updatedDescription = await User.update({ id, description });
-    return updatedDescription;
+  static updateDescription = async ({ id, description }) => {
+    const user = await User.findOne({
+      where: { id },
+    });
+    if (!user) {
+      const errorMessage = "해당 사용자가 없습니다.";
+      return { errorMessage };
+    } else {
+      const updatedDescription = await User.update(
+        { description },
+        { where: { id } }
+      );
+      return updatedDescription;
+    }
   };
 
   // 회원정보 수정, 회원정보 삭제(탈퇴) 등은 추가 논의 필요

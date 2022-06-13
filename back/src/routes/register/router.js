@@ -7,7 +7,7 @@ const registerRouter = express.Router();
 // 회원가입
 registerRouter.post("/users", async (req, res) => {
   try {
-    const { email, password, nickname, age, sex } = req.body;
+    const { email, password, nickname, birthday, sex } = req.body;
     const hashedPassword = hashPassword(password);
     const duplicate = await User.findOne({
       where: { email },
@@ -20,7 +20,7 @@ registerRouter.post("/users", async (req, res) => {
       email,
       password: hashedPassword,
       nickname,
-      age,
+      birthday,
       sex,
     });
 

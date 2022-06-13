@@ -14,6 +14,7 @@ const verifyToken = async (req, res, next) => {
       const JWT_KEY = process.env.JWT_SECRET_KEY;
       const token = req.headers["authorization"].split(" ")[1];
       const decoded = jwt.verify(token, JWT_KEY);
+      // req에 해독한 user 정보 생성
       req.user = decoded.userId;
       next();
     }
