@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Main from "./pages/Main";
 import { Login, Register, RegisterForm } from "./pages/User";
-import ClubDetail from "./pages/ClubDetail";
+import ClubDetail from "./pages/clubDetail/ClubDetail";
 
 function App() {
   return (

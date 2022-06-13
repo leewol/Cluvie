@@ -1,29 +1,6 @@
 import * as React from "react";
-import { Button, Modal, Box, Rating } from "@mui/material";
-import styled from "@emotion/styled";
-
-const ReviewButton = styled(Button)`
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  color: black;
-  background-color: rgba(0, 0, 0, 0.03);
-`;
-
-const ReviewBox = styled(Box)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  background-color: white;
-  text-align: center;
-  .rating {
-    margin: 20px 0;
-  }
-  .review-textarea {
-    width: 90%;
-    height: 100px;
-  }
-`;
+import { Button, Modal, Rating } from "@mui/material";
+import * as Style from "./ClubReviewButtonStyle";
 
 function ClubReviewButton() {
   const [open, setOpen] = React.useState(false);
@@ -32,13 +9,15 @@ function ClubReviewButton() {
 
   return (
     <div>
-      <ReviewButton onClick={handleOpen}>참여 후기 작성</ReviewButton>
+      <Style.ReviewButton onClick={handleOpen}>
+        참여 후기 작성
+      </Style.ReviewButton>
       <Modal
         open={open}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <ReviewBox>
+        <Style.ReviewBox>
           <div className='rating'>
             <div>클럽에 대한 별점을 매겨주세요</div>
             <div>
@@ -65,7 +44,7 @@ function ClubReviewButton() {
               취소
             </Button>
           </div>
-        </ReviewBox>
+        </Style.ReviewBox>
       </Modal>
     </div>
   );

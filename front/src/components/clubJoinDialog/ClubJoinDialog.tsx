@@ -1,10 +1,6 @@
 import React from "react";
-import styled from "@emotion/styled";
 import { Button, Dialog, DialogTitle, DialogActions } from "@mui/material";
-
-const JoinButton = styled(Button)`
-  color: #ffc300;
-`;
+import JoinButton from "./ClubJoinDialogStyle";
 
 type ClubJoinDialogProps = {
   openJoin: boolean,

@@ -1,17 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import {
-  AppBar,
-  Box,
-  Button,
-  Toolbar,
-  IconButton,
-  MenuItem,
-  Menu,
-} from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+import { Box, Button, Toolbar, IconButton, Menu } from "@mui/material";
+import * as Style from "./HeaderStyle";
 
-export default function MenuAppBar() {
+function Header() {
   // prettier-ignore
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -24,42 +15,15 @@ export default function MenuAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position='fixed'
-        sx={{ boxShadow: "none", backgroundColor: "rgba(255,255,255,0.8)" }}
-      >
+    <Box>
+      <Style.HeaderAppBar position='fixed'>
         <Toolbar>
-          <IconButton
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='menu'
-            sx={{ marginLeft: "1%" }}
-          >
-            <Link
-              to='/'
-              style={{
-                fontSize: "30px",
-                color: "#ffc300",
-                fontWeight: "bold",
-                textDecoration: "none",
-              }}
-            >
-              CLUVIE
-            </Link>
-          </IconButton>
-          <div
-            style={{
-              fontSize: "16px",
-              marginLeft: "2%",
-              width: "84%",
-            }}
-          >
-            <Button sx={{ color: "rgba(0,0,0,0.8)", fontWeight: "550" }}>
-              모든 클럽 보기
-            </Button>
-          </div>
+          <Style.LogoIconButton edge='start' color='inherit' aria-label='menu'>
+            <Style.LogoLink to='/'>CLUVIE</Style.LogoLink>
+          </Style.LogoIconButton>
+          <Style.ClubListDiv>
+            <Button>모든 클럽 보기</Button>
+          </Style.ClubListDiv>
           <div>
             <IconButton
               aria-label='account of current user'
@@ -68,7 +32,7 @@ export default function MenuAppBar() {
               onClick={handleMenu}
               color='inherit'
             >
-              <AccountCircle sx={{ color: "#716847", fontSize: "34px" }} />
+              <Style.MyAccountCircle />
             </IconButton>
             <Menu
               id='menu-appbar'
@@ -84,7 +48,7 @@ export default function MenuAppBar() {
                     display: "block",
                     position: "absolute",
                     top: 0,
-                    right: 14,
+                    right: 17,
                     width: 10,
                     height: 10,
                     bgcolor: "background.paper",
@@ -99,12 +63,18 @@ export default function MenuAppBar() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>내 클럽리스트</MenuItem>
-              <MenuItem onClick={handleClose}>마이페이지</MenuItem>
+              <Style.MyMenuItem onClick={handleClose}>
+                내 클럽리스트
+              </Style.MyMenuItem>
+              <Style.MyMenuItem onClick={handleClose}>
+                마이페이지
+              </Style.MyMenuItem>
             </Menu>
           </div>
         </Toolbar>
-      </AppBar>
+      </Style.HeaderAppBar>
     </Box>
   );
 }
+
+export default Header;
