@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import db from "./models/index";
 import registerRouter from "./src/routes/register/router";
+import userRouter from "./src/routes/user/router";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(registerRouter);
+app.use(userRouter);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);

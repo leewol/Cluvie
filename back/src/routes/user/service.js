@@ -1,35 +1,41 @@
 import User from "../../../models/user";
-import jwt from "jsonwebtoken";
+import { hashPassword } from "../../utils/hashPassword";
+import { makeToken } from "../../utils/makeToken";
 import dotenv from "dotenv";
 dotenv.config();
 
-const SECRET_KEY = process.env.JWT_SECRET_KEY;
-
 class userService {
-  static createToken = async (req, res, next) => {
-    try {
-      const user = await User.find(req.body.user);
+  static login = async ({ email, password }) => {
+    let user = await User.findOne({
+      where: { email },
+    });
+    const hashedPassword = hashPassword(password);
+    if (!user) {
+      // 가입여부 확인
+      const errorMessage = "해당 아이디로 가입된 사용자가 없습니다.";
+      return { errorMessage };
+    } else if (user.password === hashedPassword) {
+      // 비밀번호 일치 확인
+      const token = makeToken({ userId: user.id });
 
-      if (user.length) {
-        const token = jwt.sign(
-          {
-            user_id: user[0].user_id,
-          },
-          SECRET_KEY,
-          {
-            expiresIn: "1h",
-          }
-        );
-        res.cookie("user", token);
-        res.status(200).json({ success: true, token });
-      } else {
-        res.status(404).json({ error: "유효하지 않은 사용자입니다." });
-      }
-    } catch (err) {
-      console.error(err);
-      next(err);
+      user = {
+        ...user,
+        accessToken: token,
+      };
+      return user;
+    } else {
+      const errorMessage = "비밀번호가 틀립니다.";
+      return { errorMessage };
     }
   };
+  static updateDescription = async ({ description, id }) => {
+    const user = await User.findById({ id });
+
+    const updatedDescription = await User.update({ id, description });
+    return updatedDescription;
+  };
+
+  // 회원정보 수정, 회원정보 삭제(탈퇴) 등은 추가 논의 필요
 }
 
 export { userService };

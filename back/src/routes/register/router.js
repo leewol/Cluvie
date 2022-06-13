@@ -1,7 +1,6 @@
 import express from "express";
 import User from "../../../models/user";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { hashPassword } from "../../utils/hashPassword";
 
 const registerRouter = express.Router();
 
@@ -9,14 +8,13 @@ const registerRouter = express.Router();
 registerRouter.post("/users", async (req, res) => {
   try {
     const { email, password, nickname, age, sex } = req.body;
-
+    const hashedPassword = hashPassword(password);
     const duplicate = await User.findOne({
       where: { email },
     });
     if (duplicate) {
       return res.status(403).send("중복된 이메일 입니다.");
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email,
