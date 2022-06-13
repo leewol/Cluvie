@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Tabs, Tab, Box, Rating } from "@mui/material";
 // import styled from "@emotion/styled";
-import ClubReview from "../clubReview/ClubReview";
-import ClubReviewButton from "./clubReviewButton/ClubReviewButton";
+import ClubReview from "../ClubReview/ClubReview";
+import ClubReviewButton from "./ClubReviewButton/ClubReviewButton";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props

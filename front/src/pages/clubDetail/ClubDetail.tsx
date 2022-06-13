@@ -3,9 +3,9 @@ import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "../../components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "../../components/ClubDetail/ClubSettingPopper";
-import ClubChatButton from "../../components/ClubDetail/clubChatButton/ClubChatButton";
-import Header from "../../components/ClubDetail/header/Header";
-import ClubJoinDialog from "../../components/clubJoinDialog/ClubJoinDialog";
+import ClubChatButton from "../../components/ClubDetail/ClubChatButton/ClubChatButton";
+import Header from "../../components/ClubDetail/Header/Header";
+import ClubJoinDialog from "../../components/ClubJoinDialog/ClubJoinDialog";
 import * as Style from "./ClubDetailStyle";
 
 function ClubDetail() {
