@@ -6,6 +6,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 
 import { ContainerBox } from "../../styles/Container";
+import {
+  isEmailValid,
+  isPasswordValid,
+  isPasswordConfirmed,
+  isNicknameValid,
+} from "../../utils/validation";
 import * as Api from "../../utils/api";
 
 // TODO : 스타일 - 데이터 create(API), 비밀번호 일치 확인, input박스 커스텀, radio 커스텀
@@ -65,20 +71,11 @@ function RegisterForm() {
     sex: "",
   });
 
-  const isEmailValid = (email: string) => {
-    const emailRegex =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-
-    return emailRegex.test(email);
-  };
-  const isPasswordValid = form.password.length >= 6;
-  const isPasswordConfirmed = form.password === form.confirmPassword;
-  const isNicknameValid = form.nickname.length >= 2;
   const isFormValid =
     isEmailValid(form.email) &&
-    isPasswordValid &&
-    isPasswordConfirmed &&
-    isNicknameValid;
+    isPasswordValid(form.password) &&
+    isPasswordConfirmed(form.password, form.confirmPassword) &&
+    isNicknameValid(form.nickname);
 
   const showValidIcon = (validation: boolean) => {
     return validation ? (
@@ -140,7 +137,9 @@ function RegisterForm() {
                 value={form.password}
                 onChange={onChange}
               />
-              {form.password ? showValidIcon(isPasswordValid) : ""}
+              {form.password
+                ? showValidIcon(isPasswordValid(form.password))
+                : ""}
             </div>
           </label>
           <label htmlFor='confirmPassword'>
@@ -152,7 +151,11 @@ function RegisterForm() {
                 value={form.confirmPassword}
                 onChange={onChange}
               />
-              {form.confirmPassword ? showValidIcon(isPasswordConfirmed) : ""}
+              {form.confirmPassword
+                ? showValidIcon(
+                    isPasswordConfirmed(form.password, form.confirmPassword)
+                  )
+                : ""}
             </div>
           </label>
           <label htmlFor='nickname'>
@@ -164,7 +167,9 @@ function RegisterForm() {
                 value={form.nickname}
                 onChange={onChange}
               />
-              {form.nickname ? showValidIcon(isNicknameValid) : ""}
+              {form.nickname
+                ? showValidIcon(isNicknameValid(form.nickname))
+                : ""}
             </div>
           </label>
           성별
