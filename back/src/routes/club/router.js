@@ -46,7 +46,7 @@ club_router.get("/clubs/:id", async (req, res) => {
       res.status(404).json({ success: false, err });
     });
 });
-club_router.put("/clubs/:id", async (req, res, next) => {
+club_router.put("/clubs/:id", async (req, res) => {
   try {
     const club = await Clubs.findOne({ where: { id: req.params.id } });
     if (!club) {
@@ -65,7 +65,7 @@ club_router.put("/clubs/:id", async (req, res, next) => {
       },
       { where: { id: req.params.id } }
     );
-    const updated_club = await Club.findOne({
+    const updated_club = await Clubs.findOne({
       where: { id: req.params.id },
     });
     res.status(200).json(updated_club);
