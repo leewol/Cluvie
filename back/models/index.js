@@ -10,6 +10,9 @@ const sequelize = new Sequelize(
   config.username,
   config.password,
   config
+  {
+    logging: true,
+  }
 );
 // db 객체에 모델 정보들 넣음
 db.sequelize = sequelize;

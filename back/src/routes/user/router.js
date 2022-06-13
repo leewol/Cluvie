@@ -1,6 +1,8 @@
 import express from "express";
-import User from "../../../models/user";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { userService } from "./service";
 
 const userRouter = express.Router();
+
+userRouter.post("/login", userService.createToken);
+
+export { userRouter };
