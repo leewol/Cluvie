@@ -69,25 +69,26 @@ club_router.put("/clubs/:id", async (req, res) => {
     })
     .catch((err) => {
       res.status(404).json({ success: false, err });
-      console.log(err);
     });
 });
 
 // 없는 모임을 삭제할 경우, 에러 처리
-club_router.delete("/clubs/:id", async (req, res) => {
-  Clubs.destroy({
-    where: { id: req.params.id },
-  })
-    .then((result) => {
-      res.status(200).json({ success: true });
-    })
-    .catch((err) => {
-      if (!req.params.id) {
-        res
-          .status(404)
-          .json({ success: false, message: "존재하지 않는 모임입니다." });
-      }
+club_router.delete("/clubs/:id", async (req, res, next) => {
+  try {
+    const clubId = req.params.id;
+    const club = await Clubs.findOne({ where: { id: clubId } });
+    if (!club) {
+      return res
+        .status(404)
+        .json({ success: false, message: "존재하지 않는 모임입니다." });
+    }
+    Clubs.destroy({
+      where: { id: clubId },
     });
+    res.status(200).json({ success: true });
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = club_router;
