@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "@/pages/Main";
 import { Login, Register, RegisterForm } from "@/pages/User";
 import ClubDetail from "@/pages/ClubDetail";
+import ClubList from "@/pages/ClubList";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='register' element={<Register />} />
           <Route path='registerByEmail' element={<RegisterForm />} />
           <Route path='clubDetail' element={<ClubDetail />} />
+          <Route path='clubList' element={<ClubList />} />
         </Routes>
       </BrowserRouter>
     </div>
