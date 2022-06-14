@@ -28,15 +28,22 @@ clubRouter.get("/clubs", async (req, res) => {
     });
 });
 
-clubRouter.get("/clubs/:id", async (req, res) => {
-  await Clubs.findOne({ where: { id: req.params.id } })
-    .then((result) => {
-      res.status(200).json({ success: true, result });
-    })
-    .catch((err) => {
-      res.status(404).json({ success: false, err });
-    });
+clubRouter.get("/clubs/:id", async (req, res, next) => {
+  try {
+    const clubId = req.params.id;
+    const club = await Clubs.findOne({ id: clubId });
+    club.increment({ views: 1 });
+    if (!club) {
+      return res
+        .status(404)
+        .json({ success: false, message: "존재하지 않는 모임입니다." });
+    }
+    res.status(200).json({ success: true, club });
+  } catch (err) {
+    next(err);
+  }
 });
+
 clubRouter.put("/clubs/:id", async (req, res) => {
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
