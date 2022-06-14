@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 
-function EditorComponent(this: any) {
+function EditorComponent() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
   
@@ -87,12 +87,6 @@ const modules = useMemo(
     []
   );
 
-  const handleChange  = (e: any)=> {
-    console.log(e)
-    // setContents(e)
- }
-
-
 return (
 	<div>
       <ReactQuill
@@ -101,9 +95,8 @@ return (
             QuillRef.current = element;
             }
         }}
-        value={contents}
         // eslint-disable-next-line react/no-this-in-sfc
-        onChange={handleChange}
+        onChange={setContents}
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
