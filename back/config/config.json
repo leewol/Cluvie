@@ -8,14 +8,21 @@
   },
   "test": {
     "username": "cluvie",
-    "password": "admin1234",
+    "password": "cluvie1234",
     "database": "cluvie",
     "host": "kdt-ai4-team18-gpu.elicecoding.com",
     "dialect": "mysql"
   },
   "production": {
     "username": "cluvie",
-    "password": "admin1234",
+    "password": "cluvie1234",
+    "database": "cluvie",
+    "host": "kdt-ai4-team18-gpu.elicecoding.com",
+    "dialect": "mysql"
+  },
+  "production2": {
+    "username": "cluvie",
+    "password": "cluvie1234",
     "database": "cluvie",
     "host": "kdt-ai4-team18-gpu.elicecoding.com",
     "dialect": "mysql"

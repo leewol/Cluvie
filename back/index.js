@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import db from "./models/index";
+import clubRouter from "./src/routes/club/router";
 import registerRouter from "./src/routes/register/router";
 import userRouter from "./src/routes/user/router";
 import dotenv from "dotenv";
@@ -27,6 +28,8 @@ app.get("/", (req, res) => {
   res.send("Hello Express");
 });
 
+// app.use(userAuthRouter);
+app.use(clubRouter);
 app.use(registerRouter);
 app.use(userRouter);
 
