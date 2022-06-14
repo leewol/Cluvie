@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { ContainerBox, InnerBox } from "../../styles/Container";
+import { ContainerBox, InnerBox } from "@/styles/Container";
 
 // TODO : 소셜 회원가입, 스타일
 

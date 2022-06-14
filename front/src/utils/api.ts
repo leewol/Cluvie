@@ -32,7 +32,28 @@ async function get(endpoint: string, params = "") {
 }
 
 // PUT
+async function put(endpoint: string, data: object) {
+  const bodyData = JSON.stringify(data);
+  console.log(`%cPUT 요청: ${SERVER_URL + endpoint}`, "color: #059c4b;");
+  console.log(`%cPUT 요청 데이터: ${bodyData}`, "color: #059c4b;");
+
+  return axios.put(SERVER_URL + endpoint, bodyData, {
+    headers: {
+      "Content-Type": "applications/json",
+      // Authorization 추가 (JWT)
+    },
+  });
+}
 
 // DELETE
+async function del(endpoint: string, params = "") {
+  console.log(`DELETE 요청 ${SERVER_URL + endpoint}/${params}`);
 
-export { get, post };
+  return axios.delete(`${SERVER_URL + endpoint}/${params}`, {
+    headers: {
+      // Authorization 추가 (JWT)
+    },
+  });
+}
+
+export { get, post, put, del as delete };
