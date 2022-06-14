@@ -2,11 +2,11 @@ import express from "express";
 import Clubs from "../../../models/club";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import club_service from "./service";
+// import clubService from "./service";
 // 조회수
-const club_router = express.Router();
+const clubRouter = express.Router();
 
-club_router.post("/clubs", async (req, res) => {
+clubRouter.post("/clubs", async (req, res) => {
   const club = {
     name: req.body.name,
     intro: req.body.intro,
@@ -27,7 +27,7 @@ club_router.post("/clubs", async (req, res) => {
     });
 });
 
-club_router.get("/clubs", async (req, res) => {
+clubRouter.get("/clubs", async (req, res) => {
   await Clubs.findAll({})
     .then((result) => {
       res.status(200).json({ success: true, result });
@@ -37,7 +37,7 @@ club_router.get("/clubs", async (req, res) => {
     });
 });
 
-club_router.get("/clubs/:id", async (req, res) => {
+clubRouter.get("/clubs/:id", async (req, res) => {
   await Clubs.findOne({ where: { id: req.params.id } })
     .then((result) => {
       res.status(200).json({ success: true, result });
@@ -46,7 +46,7 @@ club_router.get("/clubs/:id", async (req, res) => {
       res.status(404).json({ success: false, err });
     });
 });
-club_router.put("/clubs/:id", async (req, res) => {
+clubRouter.put("/clubs/:id", async (req, res) => {
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
     return res.status(404).json("존재하지 않는 클럽입니다.");
@@ -73,7 +73,7 @@ club_router.put("/clubs/:id", async (req, res) => {
 });
 
 // 없는 모임을 삭제할 경우, 에러 처리
-club_router.delete("/clubs/:id", async (req, res, next) => {
+clubRouter.delete("/clubs/:id", async (req, res, next) => {
   try {
     const clubId = req.params.id;
     const club = await Clubs.findOne({ where: { id: clubId } });
@@ -91,4 +91,4 @@ club_router.delete("/clubs/:id", async (req, res, next) => {
   }
 });
 
-module.exports = club_router;
+module.exports = clubRouter;
