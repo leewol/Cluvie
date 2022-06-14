@@ -1,5 +1,5 @@
 import express from "express";
-import Users from "../../../models/users";
+import Users from "../../../models/user";
 import { hashPassword } from "../../utils/hashPassword";
 
 const registerRouter = express.Router();
