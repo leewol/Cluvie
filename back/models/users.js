@@ -53,8 +53,8 @@ module.exports = class Users extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "User",
-        tableName: "user",
+        modelName: "Users",
+        tableName: "users",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
