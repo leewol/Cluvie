@@ -3,7 +3,7 @@ import Clubs from "../../../models/club";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 // import club_service from "./service";
-
+// 조회수
 const club_router = express.Router();
 
 club_router.post("/clubs", async (req, res) => {
@@ -82,7 +82,11 @@ club_router.delete("/clubs/:id", async (req, res) => {
       res.status(200).json({ success: true });
     })
     .catch((err) => {
-      res.status(404).json({ success: false, err });
+      if (!req.params.id) {
+        res
+          .status(404)
+          .json({ success: false, message: "존재하지 않는 모임입니다." });
+      }
     });
 });
 
