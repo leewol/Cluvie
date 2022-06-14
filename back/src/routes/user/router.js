@@ -12,7 +12,7 @@ userRouter.post("/sign_in", async (req, res) => {
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
-    res.status(201).json({ success: true, user });
+    res.status(201).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, err });
   }

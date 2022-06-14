@@ -24,7 +24,7 @@ registerRouter.post("/users", async (req, res) => {
       sex,
     });
 
-    res.status(200).json({ success: true, user });
+    res.status(200).json({ success: true });
   } catch (err) {
     res.json({ success: false });
     console.log(err);
