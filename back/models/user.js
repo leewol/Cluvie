@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class Users extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -23,8 +23,8 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(50),
           allowNull: false,
         },
-        age: {
-          type: Sequelize.INTEGER,
+        birthday: {
+          type: Sequelize.DATE,
           allowNull: false,
         },
         sex: {
@@ -53,8 +53,8 @@ module.exports = class User extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "User",
-        tableName: "user",
+        modelName: "Users",
+        tableName: "users",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
