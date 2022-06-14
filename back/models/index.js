@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config.json")[env];
 // 모델
-import User from "./user";
+import Users from "./users";
 
 const db = {};
 const sequelize = new Sequelize(
@@ -16,9 +16,9 @@ const sequelize = new Sequelize(
 );
 // db 객체에 모델 정보들 넣음
 db.sequelize = sequelize;
-db.User = User;
+db.Users = Users;
 
 //모델 - 테이블 연결
-User.init(sequelize);
+Users.init(sequelize);
 
 module.exports = db;

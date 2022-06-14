@@ -1,4 +1,4 @@
-import User from "../../../models/user";
+import Users from "../../../models/users";
 import { hashPassword } from "../../utils/hashPassword";
 import { makeToken } from "../../utils/makeToken";
 import dotenv from "dotenv";
@@ -6,7 +6,7 @@ dotenv.config();
 
 class userService {
   static login = async ({ email, password }) => {
-    let user = await User.findOne({
+    let user = await Users.findOne({
       where: { email },
     });
     const hashedPassword = hashPassword(password);
@@ -29,14 +29,14 @@ class userService {
     }
   };
   static updateDescription = async ({ id, description }) => {
-    const user = await User.findOne({
+    const user = await Users.findOne({
       where: { id },
     });
     if (!user) {
       const errorMessage = "해당 사용자가 없습니다.";
       return { errorMessage };
     } else {
-      const updatedDescription = await User.update(
+      const updatedDescription = await Users.update(
         { description },
         { where: { id } }
       );

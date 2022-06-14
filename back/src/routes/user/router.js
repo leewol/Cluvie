@@ -4,7 +4,7 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const userRouter = Router();
 
-userRouter.post("/sign_in", async (req, res) => {
+userRouter.post("/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userService.login({ email, password });
@@ -12,7 +12,7 @@ userRouter.post("/sign_in", async (req, res) => {
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
-    res.status(201).json({ success: true });
+    res.status(201).json({ success: true, user });
   } catch (err) {
     res.status(404).json({ success: false, err });
   }

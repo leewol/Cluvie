@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../../../models/user";
+import Users from "../../../models/users";
 import { hashPassword } from "../../utils/hashPassword";
 
 const registerRouter = express.Router();
@@ -9,14 +9,14 @@ registerRouter.post("/users", async (req, res) => {
   try {
     const { email, password, nickname, birthday, sex } = req.body;
     const hashedPassword = hashPassword(password);
-    const duplicate = await User.findOne({
+    const duplicate = await Users.findOne({
       where: { email },
     });
     if (duplicate) {
       return res.status(403).send("중복된 이메일 입니다.");
     }
 
-    const user = await User.create({
+    const user = await Users.create({
       email,
       password: hashedPassword,
       nickname,
