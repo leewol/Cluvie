@@ -32,7 +32,7 @@ clubRouter.get("/clubs/:id", async (req, res, next) => {
   try {
     const clubId = req.params.id;
     const club = await Clubs.findOne({ id: clubId });
-    club.increment({ views: 1 });
+    club.increment({ views: 1 }, { where: { id: clubId } });
     if (!club) {
       return res
         .status(404)
