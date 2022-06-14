@@ -34,7 +34,8 @@
             }
         ],
         "no-unused-vars": 1,
-        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "global-require": 0
     },
     "settings": {
         "import/resolver":{
