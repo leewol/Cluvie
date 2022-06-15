@@ -14,6 +14,7 @@ const UserButton =
   justify-content: center;
   align-items: center;
   font-size: 16px;
+  font-family: inherit;
   img {
     margin-right: 10px;
   }
@@ -59,12 +60,13 @@ const UserInputDiv = styled.div`
 
 const UserInput = styled.input`
   width: 392px;
-  height: 34px;
-  margin-bottom: 5px;
+  height: 41px;
+  margin-bottom: 8px;
   border-radius: 7px;
   border: 1px solid #d3d3d3;
   outline: none;
-  padding-left: 8px;
+  padding-left: 10px;
+  font-family: inherit;
   ::placeholder {
     font-size: 14px;
   }

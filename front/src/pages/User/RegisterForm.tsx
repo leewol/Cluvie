@@ -18,9 +18,6 @@ import * as Api from "@/utils/api";
 const RegisterFormInnerBox = styled.form`
   display: flex;
   flex-direction: column;
-  h1 {
-    margin-bottom: 50px;
-  }
 `;
 
 const RegisterInputBox = styled(InputBox)`
