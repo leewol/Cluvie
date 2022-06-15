@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { ContainerBox, InputBox } from "@/styles/Container";
+import { ContainerBox } from "@/styles/container";
+import { InputBox, FormButton } from "@/styles/user";
 import {
   isEmailValid,
   isPasswordValid,
@@ -12,7 +13,7 @@ import {
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
 
-// TODO : 스타일 - 데이터 create(API), 스타일 (input박스, radio, 버튼)
+// TODO : 스타일 (input박스, radio, 버튼)
 
 const RegisterFormInnerBox = styled.form`
   display: flex;
@@ -47,7 +48,9 @@ function RegisterForm() {
     isEmailValid(form.email) &&
     isPasswordValid(form.password) &&
     isPasswordConfirmed(form.password, form.confirmPassword) &&
-    isNicknameValid(form.nickname);
+    isNicknameValid(form.nickname) &&
+    form.birthday &&
+    form.sex;
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -62,14 +65,14 @@ function RegisterForm() {
     event.preventDefault();
     console.log(form);
 
-    // * 데이터 create 후 메인 페이지로 이동하기
+    // * 유저 데이터 create(post) > 로그인(post) > 메인 페이지로 이동
     const { email, password, nickname, birthday, sex } = form;
     Api.post("/users", {
       email,
       password,
       nickname,
       birthday,
-      sex: 1,
+      sex,
     })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
@@ -77,7 +80,7 @@ function RegisterForm() {
 
   return (
     <ContainerBox>
-      <RegisterFormInnerBox onSubmit={handleSumbit}>
+      <RegisterFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
         <h1>회원가입</h1>
         <RegisterInputBox>
           <label htmlFor='email'>
@@ -160,9 +163,14 @@ function RegisterForm() {
               onChange={onChange}
             />
           </div>
-          <button type='submit' disabled={!isFormValid}>
+          <FormButton
+            type='submit'
+            disabled={!isFormValid}
+            isFormValid={!!isFormValid}
+            social=''
+          >
             회원가입
-          </button>
+          </FormButton>
         </RegisterInputBox>
       </RegisterFormInnerBox>
     </ContainerBox>

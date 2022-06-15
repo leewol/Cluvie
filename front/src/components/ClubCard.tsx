@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled/macro";
 
-import { ContainerBox } from "@/styles/Container";
+import { ContainerBox } from "@/styles/container";
 import { Card, CardMedia, CardContent, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -51,7 +51,7 @@ const ClubCardFavoriteIcon = styled(FavoriteIcon)`
   font-size: 28px;
 `;
 
-function ClubCard() {
+function ClubCard(): React.ReactElement {
   return (
     <ContainerBox>
       <WholeCard>

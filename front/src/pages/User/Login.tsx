@@ -2,20 +2,23 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { ContainerBox, InnerBox, InputBox } from "@/styles/Container";
+import { ContainerBox, InnerBox } from "@/styles/container";
+import { InputBox, FormButton, UserInputDiv, UserInput } from "@/styles/user";
+
 import {
   isEmailValid,
   isPasswordValid,
   showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
+import SocialButton from "@/components/User/SocialButton";
 
 // TODO : 소셜 로그인, 스타일 (input박스, 버튼, 링크)
 
-const LoginInputBox = styled(InputBox)`
-  div > input {
-    width: 592px;
-  }
+const LoginButtonBox = styled.div`
+  width: 100%;
+  margin: 30px 0;
+  text-align: right;
 `;
 
 function Login() {
@@ -40,7 +43,7 @@ function Login() {
     event.preventDefault();
     console.log(form);
 
-    // * 로그인 후 메인 페이지로 이동하기
+    // * 로그인 후 메인 페이지로 이동
     const { email, password } = form;
     Api.post("/signIn", {
       email,
@@ -54,12 +57,14 @@ function Login() {
     <ContainerBox>
       <InnerBox>
         <h1>로그인</h1>
-        <button type='button'>구글</button>
-        <button type='button'>카카오톡</button>
-        <form onSubmit={handleSumbit}>
-          <LoginInputBox>
-            <div>
-              <input
+        <LoginButtonBox>
+          <SocialButton social='google' action='로그인' />
+          <SocialButton social='kakao-talk' action='로그인' />
+        </LoginButtonBox>
+        <form onSubmit={handleSumbit} autoComplete='off'>
+          <InputBox>
+            <UserInputDiv>
+              <UserInput
                 type='text'
                 placeholder='이메일'
                 name='email'
@@ -67,9 +72,9 @@ function Login() {
                 onChange={onChange}
               />
               {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
-            </div>
-            <div>
-              <input
+            </UserInputDiv>
+            <UserInputDiv>
+              <UserInput
                 type='password'
                 placeholder='비밀번호'
                 name='password'
@@ -79,13 +84,20 @@ function Login() {
               {form.password
                 ? showValidIcon(isPasswordValid(form.password))
                 : ""}
-            </div>
-            <button type='submit' disabled={!isFormValid}>
+            </UserInputDiv>
+            <FormButton
+              type='submit'
+              disabled={!isFormValid}
+              isFormValid={!!isFormValid}
+              social=''
+            >
               로그인
-            </button>
-          </LoginInputBox>
+            </FormButton>
+          </InputBox>
         </form>
-        <Link to='/register'>가입하기</Link>
+        <LoginButtonBox>
+          <Link to='/register'>가입하기</Link>
+        </LoginButtonBox>
       </InnerBox>
     </ContainerBox>
   );
