@@ -11,6 +11,7 @@ function EditorComponent() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(0);
+  const [preview, setPreview] = useState(false);
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -119,15 +120,17 @@ return (
         placeholder="내용을 입력해주세요."
         duplicated={duplication}
       />
-      <div dangerouslySetInnerHTML={{ __html: contents }} />
-      <div>{contents}</div>
+      {preview && <div dangerouslySetInnerHTML={{ __html: contents }} />}
       <Style.ButtonBox>
         <Style.MyButton1>
           취소
         </Style.MyButton1>
-        <Style.MyButton2>
-          등록
+        <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
+          미리보기
         </Style.MyButton2>
+        <Style.MyButton3>
+          등록
+        </Style.MyButton3>
       </Style.ButtonBox>
       </Style.WholeBox>
 	</div>

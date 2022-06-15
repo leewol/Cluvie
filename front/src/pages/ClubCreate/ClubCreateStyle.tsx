@@ -31,19 +31,38 @@ export const ButtonBox = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 50px 0 0 85%;
+  margin: 30px 0 0 75%;
 `;
 
 export const MyButton1 = styled(Button)`
-  width: 50%;
+  width: 33.33%;
   margin: 0 2% 0 2%;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  color: black;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const MyButton2 = styled(Button)`
-  width: 50%;
+  width: 33.33%;
   margin: 0 2% 0 2%;
   border: 1px solid rgba(0, 0, 0, 0.2);
   color: black;
+  background-color: #ffc300;
+  &:hover {
+    background-color: #716847;
+  }
+`;
+
+export const MyButton3 = styled(Button)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: white;
+  background-color: rgba(0, 0, 0, 1);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
 `;
