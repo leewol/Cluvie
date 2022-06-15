@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
 import { ContainerBox, InnerBox } from "@/styles/container";
-import { InputBox, FormButton, UserInputDiv, UserInput } from "@/styles/user";
+import {
+  InputBox,
+  FormButton,
+  UserInputDiv,
+  UserInput,
+  StyledLink,
+} from "@/styles/user";
 
 import {
   isEmailValid,
@@ -96,7 +101,7 @@ function Login() {
           </InputBox>
         </form>
         <LoginButtonBox>
-          <Link to='/register'>가입하기</Link>
+          <StyledLink to='/register'>가입하기</StyledLink>
         </LoginButtonBox>
       </InnerBox>
     </ContainerBox>

@@ -15,6 +15,12 @@ const style = css`
     h1 {
       margin-bottom: 70px;
     }
+
+    button {
+      &:hover {
+        opacity: 0.6;
+      }
+    }
   }
 `;
 

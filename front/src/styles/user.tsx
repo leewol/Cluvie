@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import styled from "@emotion/styled";
 
 const UserButton =
@@ -29,6 +31,9 @@ const FormButton =
   `
 cursor: ${(props) => (props.isFormValid ? "cursor" : "auto")};
 background-color: ${(props) => (props.isFormValid ? "#FFC300" : "#FFE047")};
+&:hover {
+  opacity: ${(props) => (props.isFormValid ? "0.6" : "1")};
+}
 `;
 
 const InputBox = styled.div`
@@ -71,7 +76,7 @@ const UserInput = styled.input`
     font-size: 14px;
   }
   :focus {
-    animation: 1s linear forwards border-focus;
+    animation: 0.7s linear forwards border-focus;
   }
   @keyframes border-focus {
     from {
@@ -82,4 +87,19 @@ const UserInput = styled.input`
     }
 `;
 
-export { InputBox, UserButton, FormButton, UserInputDiv, UserInput };
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #716847;
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+export {
+  InputBox,
+  UserButton,
+  FormButton,
+  UserInputDiv,
+  UserInput,
+  StyledLink,
+};
