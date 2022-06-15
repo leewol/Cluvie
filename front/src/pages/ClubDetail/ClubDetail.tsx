@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import React, { useEffect } from "react";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -6,6 +8,7 @@ import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper";
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
 import Header from "@/components/ClubDetail/Header/Header";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
+import * as Api from "@/utils/api";
 import * as Style from "./ClubDetailStyle";
 
 function ClubDetail() {
@@ -18,6 +21,12 @@ function ClubDetail() {
       window.Kakao.init(process.env.REACT_APP_KAKAO);
     }
   }, []);
+
+  useEffect(() => {
+    Api.get("/clubs")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  });
 
   const sendKakaoMessage = () => {
     window.Kakao.Link.sendDefault({
