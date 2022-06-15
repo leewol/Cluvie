@@ -47,7 +47,7 @@ clubRouter.get("/clubs/:id", async (req, res, next) => {
 clubRouter.put("/clubs/:id", async (req, res) => {
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
-    return res.status(404).json("존재하지 않는 클럽입니다.");
+    return res.status(404).json("존재하지 않는 모임입니다.");
   }
   await Clubs.update(
     {
