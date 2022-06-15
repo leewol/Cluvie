@@ -47,11 +47,11 @@ module.exports = class Club extends Sequelize.Model {
           allowNull: false,
         },
         start_date: {
-          type: Sequelize.DATEONLY,
+          type: Sequelize.DATE,
           allowNull: true,
         },
         end_date: {
-          type: Sequelize.DATEONLY,
+          type: Sequelize.DATE,
           allowNull: true,
         },
         created_at: {
