@@ -1,12 +1,26 @@
-import React,{ useRef, useState, useMemo } from 'react';
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+import React,{ useRef, useState, useMemo, useEffect } from 'react';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import Header from "@/components/ClubDetail/Header/Header";
+import * as Style from './ClubCreateStyle'
 
 function EditorComponent() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
+  const [duplication, setDuplication] = useState(0);
+
+  useEffect(() => {
+    if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
+    else setDuplication(0)
+  },[])
+
+  // toolbar 중복확인
+  useEffect(() => {
+    console.log('duplication',duplication)
+  },[duplication])
   
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
@@ -87,7 +101,12 @@ const modules = useMemo(
 
 return (
 	<div>
-      <ReactQuill
+    <Style.WholeBox>
+      <Header />
+      <Style.Title>
+        클럽 상세 정보
+      </Style.Title>
+      <Style.ClubReactQuill
         ref={(element) => {
             if (element !== null) {
             QuillRef.current = element;
@@ -98,9 +117,19 @@ return (
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
-        />
-        <div dangerouslySetInnerHTML={{ __html: contents }} />
-        <div>{contents}</div>
+        duplicated={duplication}
+      />
+      <div dangerouslySetInnerHTML={{ __html: contents }} />
+      <div>{contents}</div>
+      <Style.ButtonBox>
+        <Style.MyButton1>
+          취소
+        </Style.MyButton1>
+        <Style.MyButton2>
+          등록
+        </Style.MyButton2>
+      </Style.ButtonBox>
+      </Style.WholeBox>
 	</div>
 )}
 
