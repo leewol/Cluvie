@@ -39,7 +39,15 @@ function Login() {
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(form);
+
     // * 로그인 후 메인 페이지로 이동하기
+    const { email, password } = form;
+    Api.post("/signIn", {
+      email,
+      password,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (

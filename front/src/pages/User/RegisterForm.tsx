@@ -39,7 +39,7 @@ function RegisterForm() {
     nickname: "",
     password: "",
     confirmPassword: "",
-    birthDate: "",
+    birthday: "",
     sex: "",
   });
 
@@ -63,16 +63,16 @@ function RegisterForm() {
     console.log(form);
 
     // * 데이터 create 후 메인 페이지로 이동하기
-    // const { email, password, nickname, birthDate, sex } = form;
-    // Api.post("/users", {
-    //   email,
-    //   password,
-    //   nickname,
-    //   birthDate,
-    //   sex,
-    // })
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
+    const { email, password, nickname, birthday, sex } = form;
+    Api.post("/users", {
+      email,
+      password,
+      nickname,
+      birthday,
+      sex: 1,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -155,8 +155,8 @@ function RegisterForm() {
           <div className='birth'>
             <input
               type='date'
-              name='birthDate'
-              value={form.birthDate}
+              name='birthday'
+              value={form.birthday}
               onChange={onChange}
             />
           </div>
