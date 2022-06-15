@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { registerService } from "./service";
-import { verifyToken } from "../../middlewares/verifyToken";
 
 const registerRouter = Router();
 
