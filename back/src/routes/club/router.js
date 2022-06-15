@@ -56,6 +56,7 @@ clubRouter.put("/clubs/:id", async (req, res) => {
       day: req.body.day,
       description: req.body.description,
       num: req.body.num,
+      picture: req.body.picture,
       process: req.body.process,
       start_date: req.body.start_date,
       end_date: req.body.end_date,
