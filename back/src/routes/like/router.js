@@ -16,7 +16,23 @@ likeRouter.post("/:club_id/like", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: true, err });
+    res.status(404).json({ success: false, err });
+  }
+});
+
+likeRouter.delete("/:club_id/like", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const club_id = req.params.club_id;
+
+    const unlike = await likeService.unlike({ user_id, club_id });
+
+    if (unlike.errorMessage) {
+      throw new Error(unlike.errorMessage);
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
   }
 });
 
