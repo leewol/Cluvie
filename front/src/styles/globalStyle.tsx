@@ -12,10 +12,6 @@ const style = css`
       Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
       "Noto Sans KR", "Malgun Gothic", sans-serif;
 
-    h1 {
-      margin-bottom: 70px;
-    }
-
     button {
       &:hover {
         opacity: 0.6;

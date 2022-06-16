@@ -5,6 +5,9 @@ const ContainerBox = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  h1 {
+    margin-bottom: 70px;
+  }
 `;
 
 const InnerBox = styled(ContainerBox)`
