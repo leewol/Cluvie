@@ -32,14 +32,14 @@ clubRouter.get("/", async (req, res) => {
 
 clubRouter.get("/:id", async (req, res, next) => {
   try {
-    const clubId = req.params.id;
-    const club = await Clubs.findOne({ id: clubId });
-    club.increment({ views: 1 }, { where: { id: clubId } });
+    const club = await Clubs.findOne({ where: { id: req.params.id } });
     if (!club) {
       return res
         .status(404)
         .json({ success: false, message: "존재하지 않는 모임입니다." });
     }
+    await club.increment({ views: 1 }, { where: { id: req.params.id } });
+
     res.status(200).json({ success: true, club });
   } catch (err) {
     next(err);
