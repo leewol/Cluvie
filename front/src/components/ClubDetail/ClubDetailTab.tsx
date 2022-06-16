@@ -122,8 +122,7 @@ export default function BasicTabs({ club }: { club: Club }) {
         기본 정보
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* eslint-disable-next-line react/destructuring-assignment */}
-        {club.description}
+        <div dangerouslySetInnerHTML={{ __html: club.description }} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <div

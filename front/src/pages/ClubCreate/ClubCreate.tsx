@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Header from "@/components/ClubDetail/Header/Header";
+import * as Api from "@/utils/api";
 import * as Style from './ClubCreateStyle'
 
 function EditorComponent() {
@@ -12,6 +13,16 @@ function EditorComponent() {
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(0);
   const [preview, setPreview] = useState(false);
+  const [clubInfo, setClubInfo] = useState({
+    name: '텍스트에디터테스트',
+    intro: '클럽생성2텍스트에디터테스트입니다.',
+    day: 1,
+    description: '상세보기를 작성해주세요',
+    num: 40,
+    process: 1,
+    start_date: new Date(2022, 6, 20),
+    end_date: new Date(2022, 7, 21),
+  });
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -23,6 +34,10 @@ function EditorComponent() {
     console.log('duplication',duplication)
   },[duplication])
   
+  useEffect(() => {
+    setClubInfo({...clubInfo, description: contents})
+  },[contents])
+
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
   	// 파일을 업로드 하기 위한 input 태그 생성
@@ -99,6 +114,12 @@ const modules = useMemo(
     }),
     []
   );
+  
+  const handleSubmit = () => {
+    Api.post("/clubs", clubInfo)
+      .then((res)=> console.log(res))
+      .catch((err) => console.log(err));
+  }
 
 return (
 	<div>
@@ -128,7 +149,7 @@ return (
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>
-        <Style.MyButton3>
+        <Style.MyButton3 onClick={handleSubmit}>
           등록
         </Style.MyButton3>
       </Style.ButtonBox>
