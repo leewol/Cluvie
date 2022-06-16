@@ -19,8 +19,6 @@ import {
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
 
-// TODO : 스타일 (input박스, radio, 버튼)
-
 const RegisterFormInnerBox = styled.form`
   display: flex;
   flex-direction: column;
