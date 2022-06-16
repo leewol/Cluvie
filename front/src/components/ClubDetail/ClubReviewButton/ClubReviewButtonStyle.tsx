@@ -4,7 +4,10 @@ import styled from "@emotion/styled";
 export const ReviewButton = styled(Button)`
   border: 1px solid rgba(0, 0, 0, 0.2);
   color: black;
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(226, 226, 226, 1);
+  &:hover {
+    background-color: rgba(226, 226, 226, 0.6);
+  }
 `;
 
 export const ReviewBox = styled(Box)`

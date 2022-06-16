@@ -9,7 +9,7 @@ function ClubReviewButton() {
 
   return (
     <div>
-      <Style.ReviewButton onClick={handleOpen}>
+      <Style.ReviewButton color='inherit' onClick={handleOpen}>
         참여 후기 작성
       </Style.ReviewButton>
       <Modal

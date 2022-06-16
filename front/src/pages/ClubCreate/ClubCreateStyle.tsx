@@ -38,10 +38,10 @@ export const MyButton1 = styled(Button)`
   width: 33.33%;
   margin: 0 2% 0 2%;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  color: white;
-  background-color: rgba(0, 0, 0, 0.3);
+  color: black;
+  background-color: rgba(226, 226, 226, 1);
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(226, 226, 226, 0.6);
   }
 `;
 
@@ -52,7 +52,7 @@ export const MyButton2 = styled(Button)`
   color: black;
   background-color: #ffc300;
   &:hover {
-    background-color: #716847;
+    background-color: rgba(255, 195, 0, 0.6);
   }
 `;
 

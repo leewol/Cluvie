@@ -67,7 +67,7 @@ export const MyButton1 = styled(Button)`
   color: black;
   background-color: #ffc300;
   &:hover {
-    background-color: #716847;
+    background-color: rgba(255, 195, 0, 0.6);
   }
 `;
 

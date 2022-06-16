@@ -22,7 +22,7 @@ function Header() {
             <Style.LogoLink to='/'>CLUVIE</Style.LogoLink>
           </Style.LogoIconButton>
           <Style.ClubListDiv>
-            <Button>
+            <Button color='inherit'>
               <Style.TextLink to='/clublist'>모든 클럽 보기</Style.TextLink>
             </Button>
           </Style.ClubListDiv>

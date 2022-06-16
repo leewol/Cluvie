@@ -19,7 +19,7 @@ function ClubJoinDialog({ openJoin, handleCloseJoin }: ClubJoinDialogProps) {
         <Button color='inherit' onClick={handleCloseJoin}>
           취소하기
         </Button>
-        <JoinButton onClick={handleCloseJoin} autoFocus>
+        <JoinButton color='inherit' onClick={handleCloseJoin} autoFocus>
           신청하기
         </JoinButton>
       </DialogActions>

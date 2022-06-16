@@ -134,18 +134,18 @@ function ClubDetail() {
               </Style.Text3>
             </CardContent>
             <Style.ButtonBox>
-              <Style.MyButton1 onClick={handleOpenJoin}>
+              <Style.MyButton1 color='inherit' onClick={handleOpenJoin}>
                 신청하기
               </Style.MyButton1>
               <ClubJoinDialog
                 openJoin={openJoin}
                 handleCloseJoin={handleCloseJoin}
               />
-              <Style.MyButton2>
+              <Style.MyButton2 color='inherit'>
                 <FavoriteBorderOutlinedIcon />
                 &nbsp;찜하기
               </Style.MyButton2>
-              <Style.MyButton2 onClick={sendKakaoMessage}>
+              <Style.MyButton2 color='inherit' onClick={sendKakaoMessage}>
                 <img
                   // eslint-disable-next-line global-require
                   src={require("../../asset/images/kakao-talk.png")}
