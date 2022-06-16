@@ -133,8 +133,8 @@ export default function BasicTabs({ club }: { club: Club }) {
             textAlign: "center",
           }}
         >
-          <Rating defaultValue={2.5} precision={0.5} readOnly />
-          <div style={{ fontSize: "36px" }}>2.5</div>
+          <Rating value={3} readOnly />
+          <div style={{ fontSize: "36px" }}>3점</div>
           <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
             (총 5개의 후기)
           </div>
