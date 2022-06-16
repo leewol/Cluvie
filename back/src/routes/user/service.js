@@ -43,6 +43,18 @@ class userService {
       return updated;
     }
   };
+
+  static getUserData = async ({ id }) => {
+    const user = await Users.findOne({
+      where: { id },
+    });
+    if (!user) {
+      const errorMessage = "해당 사용자가 없습니다.";
+      return { errorMessage };
+    } else {
+      return user;
+    }
+  };
 }
 
 export { userService };
