@@ -4,7 +4,7 @@ import React,{ useRef, useState, useMemo, useEffect } from 'react';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Header from "@/components/ClubDetail/Header/Header";
+import Header from "@/components/Header/Header";
 import * as Api from "@/utils/api";
 import * as Style from './ClubUpdateStyle'
 

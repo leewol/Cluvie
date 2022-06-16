@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import * as React from "react";
@@ -51,9 +52,17 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
+  start_date: Date;
+  end_date: Date;
 }
 
-export default function BasicTabs({ club }: { club: Club }) {
+export default function BasicTabs({
+  club,
+  preview,
+}: {
+  club: Club,
+  preview?: boolean,
+}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -125,26 +134,31 @@ export default function BasicTabs({ club }: { club: Club }) {
         <div dangerouslySetInnerHTML={{ __html: club.description }} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <div
-          style={{
-            margin: "30px 0 50px 0",
-            padding: "46px",
-            background: "rgba(0, 0, 0, 0.03)",
-            textAlign: "center",
-          }}
-        >
-          <Rating value={3} readOnly />
-          <div style={{ fontSize: "36px" }}>3점</div>
-          <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
-            (총 5개의 후기)
+        {preview && <div>아직 참여 후기가 없습니다.</div>}
+        {!preview && (
+          <div>
+            <div
+              style={{
+                margin: "30px 0 50px 0",
+                padding: "46px",
+                background: "rgba(0, 0, 0, 0.03)",
+                textAlign: "center",
+              }}
+            >
+              <Rating value={3} readOnly />
+              <div style={{ fontSize: "36px" }}>3점</div>
+              <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
+                (총 5개의 후기)
+              </div>
+            </div>
+            <ClubReviewButton />
+            <ClubReview />
+            <ClubReview />
+            <ClubReview />
+            <ClubReview />
+            <ClubReview />
           </div>
-        </div>
-        <ClubReviewButton />
-        <ClubReview />
-        <ClubReview />
-        <ClubReview />
-        <ClubReview />
-        <ClubReview />
+        )}
       </TabPanel>
     </Box>
   );

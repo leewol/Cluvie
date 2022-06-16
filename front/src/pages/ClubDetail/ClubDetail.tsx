@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React, { useEffect, useState } from "react";
@@ -6,7 +7,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSettingPopper";
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
-import Header from "@/components/ClubDetail/Header/Header";
+import Header from "@/components/Header/Header";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
 import * as Api from "@/utils/api";
 import * as Style from "./ClubDetailStyle";
@@ -21,6 +22,8 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
+  start_date: Date;
+  end_date: Date;
 }
 
 function ClubDetail() {
@@ -35,7 +38,10 @@ function ClubDetail() {
     description: '상세보기를 작성해주세요',
     views: 0,
     num: 0,
-    process: 0});
+    process: 0,
+    start_date: new Date(1999, 6, 20),
+    end_date: new Date(2000, 6, 20),
+  });
   const handleOpenJoin = () => setOpenJoin(true);
   const handleCloseJoin = () => setOpenJoin(false);
 
@@ -59,6 +65,8 @@ function ClubDetail() {
           views,
           num,
           process,
+          start_date,
+          end_date,
         } = res.data.club;
         setClub({
           id,
@@ -70,6 +78,8 @@ function ClubDetail() {
           views,
           num,
           process,
+          start_date,
+          end_date,
         });
       })
       .catch((err) => console.log(err));
@@ -114,7 +124,7 @@ function ClubDetail() {
         <Style.WholeCard>
           <img
             // eslint-disable-next-line global-require
-            src={require("../../asset/images/testimage.PNG")}
+            src={require("@/asset/images/testimage.PNG")}
             alt='클럽썸네일이미지'
           />
           <Style.ContentBox>

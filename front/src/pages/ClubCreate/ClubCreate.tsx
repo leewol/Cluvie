@@ -4,7 +4,8 @@ import React,{ useRef, useState, useMemo, useEffect } from 'react';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Header from "@/components/ClubDetail/Header/Header";
+import Header from "@/components/Header/Header";
+import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview"
 import * as Api from "@/utils/api";
 import * as Style from './ClubCreateStyle'
 
@@ -14,8 +15,8 @@ function EditorComponent() {
   const [duplication, setDuplication] = useState(0);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState({
-    name: '텍스트에디터테스트',
-    intro: '클럽생성2텍스트에디터테스트입니다.',
+    name: '테스트22',
+    intro: '클럽생성테스트22입니다.',
     day: 1,
     description: '상세보기를 작성해주세요',
     num: 40,
@@ -141,7 +142,7 @@ return (
         placeholder="내용을 입력해주세요."
         duplicated={duplication}
       />
-      {preview && <div dangerouslySetInnerHTML={{ __html: contents }} />}
+      {preview && <ClubPreview newClub={{...clubInfo, id: 999, picture: null, views: 0}}/>}
       <Style.ButtonBox>
         <Style.MyButton1>
           취소
