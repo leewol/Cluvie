@@ -7,26 +7,12 @@ import { verifyToken } from "../../middlewares/verifyToken";
 const clubRouter = express.Router();
 
 clubRouter.post("/", verifyToken, async (req, res) => {
-  // let club = req.body;
-  // console.log(club);
-  // club.views = 0;
-  // club.manager_id = req.user;
-  // console.log(club.manager_id);
-  await Clubs.create({
-    name: req.body.name,
-    manager_id: req.user,
-    intro: req.body.intro,
-    day: req.body.day,
-    description: req.body.description,
-    num: req.body.num,
-    picture: req.body.picture,
-    club_state: req.body.club_state,
-    duration_of_progress: req.body.duration_of_progress,
-    process: req.body.process,
-    start_date: req.body.start_date,
-    end_date: req.body.end_date,
-    views: 0,
-  })
+  let club = req.body;
+  console.log(club);
+  club.views = 0;
+  club.manager_id = req.user;
+  console.log(club.manager_id);
+  await Clubs.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
     })
