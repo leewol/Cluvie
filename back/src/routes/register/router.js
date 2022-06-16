@@ -1,33 +1,25 @@
-import express from "express";
-import Users from "../../../models/user";
-import { hashPassword } from "../../utils/hashPassword";
+import { Router } from "express";
+import { registerService } from "./service";
 
-const registerRouter = express.Router();
+const registerRouter = Router();
 
-// 회원가입
 registerRouter.post("/users", async (req, res) => {
   try {
     const { email, password, nickname, birthday, sex } = req.body;
-    const hashedPassword = hashPassword(password);
-    const duplicate = await Users.findOne({
-      where: { email },
-    });
-    if (duplicate) {
-      return res.status(403).send("중복된 이메일 입니다.");
-    }
-
-    const user = await Users.create({
+    const user = await registerService.register({
       email,
-      password: hashedPassword,
+      password,
       nickname,
       birthday,
       sex,
     });
 
+    if (user.errorMessage) {
+      throw new Error(user.errorMessage);
+    }
     res.status(200).json({ success: true });
   } catch (err) {
     res.json({ success: false });
-    console.log(err);
   }
 });
 

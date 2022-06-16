@@ -1,5 +1,5 @@
-import Login from "./Login";
-import Register from "./Register";
-import RegisterForm from "./RegisterForm";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import SignUpForm from "./SignUpForm";
 
-export { Login, Register, RegisterForm };
+export { SignIn, SignUp, SignUpForm };

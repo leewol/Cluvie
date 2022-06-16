@@ -4,6 +4,7 @@ import db from "./models/index";
 import clubRouter from "./src/routes/club/router";
 import registerRouter from "./src/routes/register/router";
 import userRouter from "./src/routes/user/router";
+import likeRouter from "./src/routes/like/router";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 
 app.use(userRouter);
 app.use(registerRouter);
+app.use(likeRouter);
 app.use("/clubs", clubRouter);
 
 app.listen(PORT, () => {
