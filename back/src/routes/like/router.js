@@ -4,7 +4,7 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const likeRouter = Router();
 
-// 모임 찜하기
+// 모임 찜하기 -> 똑같은 모임 또 찜 누르면 오류 응답
 likeRouter.post("/:club_id/like", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
@@ -50,6 +50,7 @@ likeRouter.get("/clubs/like", verifyToken, async (req, res) => {
     res.status(200).json({ success: true, likeClubList });
   } catch (err) {
     res.status(404).json({ success: false, err });
+    console.log(err);
   }
 });
 
