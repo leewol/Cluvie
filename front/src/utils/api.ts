@@ -11,7 +11,7 @@ async function post(endpoint: string, data: object) {
 
   return axios.post(SERVER_URL + endpoint, bodyData, {
     headers: {
-      "Content-Type": "applications/json",
+      "Content-Type": "application/json",
       // Authorization 추가 (JWT)
     },
   });
@@ -39,7 +39,7 @@ async function put(endpoint: string, data: object) {
 
   return axios.put(SERVER_URL + endpoint, bodyData, {
     headers: {
-      "Content-Type": "applications/json",
+      "Content-Type": "application/json",
       // Authorization 추가 (JWT)
     },
   });
