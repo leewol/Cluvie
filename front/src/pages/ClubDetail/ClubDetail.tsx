@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
-import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper";
+import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSettingPopper";
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
 import Header from "@/components/ClubDetail/Header/Header";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
@@ -46,8 +46,9 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/1")
+    Api.get("/clubs/4")
       .then((res) => {
+        console.log(res);
         const {
           id,
           name,
