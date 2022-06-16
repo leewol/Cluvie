@@ -51,9 +51,9 @@ export default function SimplePopper() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <SettingLink to='/clubUpdate'>수정</SettingLink>
-        </MenuItem>
+        <SettingLink to='/clubUpdate'>
+          <MenuItem onClick={handleClose}>수정</MenuItem>
+        </SettingLink>
         <MenuItem onClick={handleDelete}>삭제</MenuItem>
       </Menu>
       <Dialog
