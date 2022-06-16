@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import * as React from "react";
 import { Tabs, Tab, Box, Rating } from "@mui/material";
 // import styled from "@emotion/styled";
@@ -39,7 +41,19 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs() {
+interface Club {
+  id: number;
+  name: string;
+  picture: string | null;
+  intro: string;
+  day: number;
+  description: string;
+  views: number | null;
+  num: number;
+  process: number;
+}
+
+export default function BasicTabs({ club }: { club: Club }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -108,7 +122,7 @@ export default function BasicTabs() {
         기본 정보
       </TabPanel>
       <TabPanel value={value} index={1}>
-        상세 정보
+        <div dangerouslySetInnerHTML={{ __html: club.description }} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <div

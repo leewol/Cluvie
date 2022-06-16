@@ -29,11 +29,10 @@ app.get("/", (req, res) => {
   res.send("Hello Express");
 });
 
-// app.use(userAuthRouter);
-app.use(clubRouter);
-app.use(registerRouter);
 app.use(userRouter);
+app.use(registerRouter);
 app.use(likeRouter);
+app.use("/clubs", clubRouter);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);

@@ -12,7 +12,7 @@ export const ChatButton = styled(Button)`
   width: 70px;
   height: 70px;
   &:hover {
-    background-color: #716847;
+    background-color: rgba(255, 195, 0, 0.6);
   }
 `;
 

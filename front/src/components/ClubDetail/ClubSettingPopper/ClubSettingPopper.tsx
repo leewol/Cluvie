@@ -8,6 +8,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import SettingLink from "./ClubSettingPopperStyle";
 
 export default function SimplePopper() {
   // prettier-ignore
@@ -50,7 +51,9 @@ export default function SimplePopper() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>수정</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <SettingLink to='/clubUpdate'>수정</SettingLink>
+        </MenuItem>
         <MenuItem onClick={handleDelete}>삭제</MenuItem>
       </Menu>
       <Dialog
