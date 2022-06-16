@@ -18,7 +18,7 @@ import {
 import * as Api from "@/utils/api";
 import SocialButton from "@/components/User/SocialButton";
 
-// TODO : 소셜 로그인, 스타일 (input박스, 버튼, 링크)
+// TODO : 소셜 로그인
 
 const LoginButtonBox = styled.div`
   width: 100%;

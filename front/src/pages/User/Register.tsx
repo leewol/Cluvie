@@ -1,11 +1,16 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 
 import { ContainerBox, InnerBox } from "@/styles/container";
-import { FormButton } from "@/styles/user";
+import { FormButton, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
-// TODO : 소셜 회원가입, 스타일
+// TODO : 소셜 회원가입
+
+const StyledSpan = styled.span`
+  margin-top: 15px;
+`;
 
 function Register() {
   const navigate = useNavigate();
@@ -28,8 +33,8 @@ function Register() {
         >
           이메일로 회원가입
         </FormButton>
-        <span>이미 클러비라면?</span>
-        <Link to='/login'>로그인하기</Link>
+        <StyledSpan>이미 클러비라면?</StyledSpan>
+        <StyledLink to='/login'>로그인하기</StyledLink>
       </InnerBox>
     </ContainerBox>
   );

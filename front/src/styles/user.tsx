@@ -44,7 +44,7 @@ const InputBox = styled.div`
     position: absolute;
     top: 0;
     right: 2%;
-    margin-top: 6px;
+    margin-top: 9px;
     width: 25px;
     height: 25px;
   }
@@ -64,8 +64,9 @@ const UserInputDiv = styled.div`
 `;
 
 const UserInput = styled.input`
-  width: 392px;
-  height: 41px;
+  width: 400px;
+  height: 45px;
+  box-sizing: border-box;
   margin-bottom: 8px;
   border-radius: 7px;
   border: 1px solid #d3d3d3;
@@ -90,9 +91,15 @@ const UserInput = styled.input`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #716847;
+  display: block;
+  margin-top: 5px;
   &:hover {
     opacity: 0.6;
   }
+`;
+
+const StyledLabel = styled.label`
+  margin-bottom: 5px;
 `;
 
 export {
@@ -102,4 +109,5 @@ export {
   UserInputDiv,
   UserInput,
   StyledLink,
+  StyledLabel,
 };
