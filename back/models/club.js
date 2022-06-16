@@ -27,7 +27,11 @@ module.exports = class Club extends Sequelize.Model {
           allowNull: false,
         },
         duration_of_progress: {
-          type: Sequelize.DATE,
+          type: Sequelize.INTEGER(10),
+          allowNull: false,
+        },
+        club_state: {
+          type: Sequelize.STRING(10),
           allowNull: false,
         },
         day: {
