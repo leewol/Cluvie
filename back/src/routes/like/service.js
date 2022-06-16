@@ -1,5 +1,6 @@
 import Likes from "../../../models/like";
 import Clubs from "../../../models/club";
+import Users from "../../../models/user";
 
 class likeService {
   static clickLike = async ({ user_id, club_id }) => {
@@ -26,6 +27,18 @@ class likeService {
         where: { user_id, club_id },
       });
       return unliked;
+    }
+  };
+
+  static getUserLikeClub = async ({ user_id }) => {
+    const user = await Users.findOne({ where: { id: user_id } });
+    if (!user) {
+      const errorMessage = "해당 사용자를 찾을 수 없습니다.";
+      return { errorMessage };
+    } else {
+      const likeClubList = await Likes.findAll({ where: user_id });
+      console.log(likeClubList);
+      return likeClubList;
     }
   };
 }

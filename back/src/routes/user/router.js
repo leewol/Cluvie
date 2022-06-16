@@ -54,4 +54,5 @@ userRouter.patch("/users", verifyToken, async (req, res) => {
     console.log(err);
   }
 });
+
 export default userRouter;

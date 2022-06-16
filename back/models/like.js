@@ -4,19 +4,15 @@ module.exports = class Likes extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         club_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         created_at: {
           type: Sequelize.DATE,
