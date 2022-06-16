@@ -8,10 +8,8 @@ const clubRouter = express.Router();
 
 clubRouter.post("/", verifyToken, async (req, res) => {
   let club = req.body;
-  console.log(club);
   club.views = 0;
   club.manager_id = req.user;
-  console.log(club.manager_id);
   await Clubs.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
@@ -48,7 +46,6 @@ clubRouter.get("/:id", async (req, res, next) => {
 });
 
 clubRouter.put("/:id", verifyToken, async (req, res) => {
-  const manager_id = req.user;
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
     return res.status(404).json("존재하지 않는 모임입니다.");
