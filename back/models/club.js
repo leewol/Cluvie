@@ -14,16 +14,20 @@ module.exports = class Club extends Sequelize.Model {
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        // manager_id: {
-        //   type: Sequelize.INTEGER,
-        //   allowNull: false,
-        // },
+        manager_id: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         picture: {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
         intro: {
           type: Sequelize.STRING(300),
+          allowNull: false,
+        },
+        duration_of_progress: {
+          type: Sequelize.DATE,
           allowNull: false,
         },
         day: {
