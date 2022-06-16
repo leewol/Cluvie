@@ -10,6 +10,7 @@ import {
   FormButton,
   StyledLabel,
 } from "@/styles/user";
+
 import {
   isEmailValid,
   isPasswordValid,
@@ -19,12 +20,14 @@ import {
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
 
-const RegisterFormInnerBox = styled.form`
+// TODO : 회원가입 실패 시 alert
+
+const SignUpFormInnerBox = styled.form`
   display: flex;
   flex-direction: column;
 `;
 
-const RegisterInputBox = styled(InputBox)`
+const SignUpInputBox = styled(InputBox)`
   input {
     margin-bottom: 20px;
   }
@@ -105,7 +108,7 @@ const StyledDateInput = styled.input`
     }
 `;
 
-function RegisterForm() {
+function SignUpForm() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -127,7 +130,6 @@ function RegisterForm() {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log(value);
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -136,7 +138,6 @@ function RegisterForm() {
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(form);
 
     // * 유저 데이터 create(post) > 로그인(post) > 메인 페이지로 이동
     const { email, password, nickname, birthday, sex } = form;
@@ -147,15 +148,36 @@ function RegisterForm() {
       birthday,
       sex,
     })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log("회원가입 성공!");
+        console.log(res);
+
+        Api.post("/signIn", {
+          email,
+          password,
+        })
+          .then((resSignIn) => {
+            console.log("로그인 성공!");
+            console.log(resSignIn);
+
+            navigate("/");
+          })
+          .catch((errSignIn) => {
+            console.log("로그인 실패!!");
+            console.error(errSignIn);
+          });
+      })
+      .catch((err) => {
+        console.log("회원가입 실패!!");
+        console.error(err);
+      });
   };
 
   return (
     <ContainerBox>
-      <RegisterFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
+      <SignUpFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
         <h1>회원가입</h1>
-        <RegisterInputBox>
+        <SignUpInputBox>
           <StyledLabel htmlFor='email'>이메일</StyledLabel>
           <UserInputDiv>
             <UserInput
@@ -254,10 +276,10 @@ function RegisterForm() {
           >
             회원가입
           </FormButton>
-        </RegisterInputBox>
-      </RegisterFormInnerBox>
+        </SignUpInputBox>
+      </SignUpFormInnerBox>
     </ContainerBox>
   );
 }
 
-export default RegisterForm;
+export default SignUpForm;

@@ -36,7 +36,8 @@
         "no-unused-vars": 1,
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "global-require": 0,
-        "import/no-dynamic-require": 0
+        "import/no-dynamic-require": 0,
+        "no-console": 0
     },
     "settings": {
         "import/resolver":{

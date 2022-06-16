@@ -12,11 +12,11 @@ const StyledSpan = styled.span`
   margin-top: 15px;
 `;
 
-function Register() {
+function SignUp() {
   const navigate = useNavigate();
 
-  const handleRegisterClick = () => {
-    navigate("/registerByEmail");
+  const handleSignUpClick = () => {
+    navigate("/signUpByEmail");
   };
 
   return (
@@ -27,17 +27,17 @@ function Register() {
         <SocialButton social='kakao-talk' action='회원가입' />
         <FormButton
           type='button'
-          onClick={handleRegisterClick}
+          onClick={handleSignUpClick}
           isFormValid
           social=''
         >
           이메일로 회원가입
         </FormButton>
         <StyledSpan>이미 클러비라면?</StyledSpan>
-        <StyledLink to='/login'>로그인하기</StyledLink>
+        <StyledLink to='/signIn'>로그인하기</StyledLink>
       </InnerBox>
     </ContainerBox>
   );
 }
 
-export default Register;
+export default SignUp;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 import { ContainerBox, InnerBox } from "@/styles/container";
 import {
@@ -9,6 +10,7 @@ import {
   UserInput,
   StyledLink,
 } from "@/styles/user";
+import SocialButton from "@/components/User/SocialButton";
 
 import {
   isEmailValid,
@@ -16,17 +18,18 @@ import {
   showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
-import SocialButton from "@/components/User/SocialButton";
 
-// TODO : 소셜 로그인
+// TODO : 소셜 로그인, 로그인 실패 시 alert
 
-const LoginButtonBox = styled.div`
+const SignInButtonBox = styled.div`
   width: 100%;
   margin-bottom: 30px;
   text-align: right;
 `;
 
-function Login() {
+function SignIn() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -46,7 +49,6 @@ function Login() {
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(form);
 
     // * 로그인 후 메인 페이지로 이동
     const { email, password } = form;
@@ -54,18 +56,26 @@ function Login() {
       email,
       password,
     })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log("로그인 성공!");
+        console.log(res);
+
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("로그인 실패!!");
+        console.error(err);
+      });
   };
 
   return (
     <ContainerBox>
       <InnerBox>
         <h1>로그인</h1>
-        <LoginButtonBox>
+        <SignInButtonBox>
           <SocialButton social='google' action='로그인' />
           <SocialButton social='kakao-talk' action='로그인' />
-        </LoginButtonBox>
+        </SignInButtonBox>
         <form onSubmit={handleSumbit} autoComplete='off'>
           <InputBox>
             <UserInputDiv>
@@ -100,12 +110,12 @@ function Login() {
             </FormButton>
           </InputBox>
         </form>
-        <LoginButtonBox>
-          <StyledLink to='/register'>가입하기</StyledLink>
-        </LoginButtonBox>
+        <SignInButtonBox>
+          <StyledLink to='/signUp'>가입하기</StyledLink>
+        </SignInButtonBox>
       </InnerBox>
     </ContainerBox>
   );
 }
 
-export default Login;
+export default SignIn;
