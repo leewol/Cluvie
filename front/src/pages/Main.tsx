@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { ContainerBox } from "@/styles/container";
+import { ContainerBox } from "@/styles/containers";
 
 function Main() {
   return (

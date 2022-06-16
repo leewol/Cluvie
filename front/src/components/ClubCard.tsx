@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled/macro";
 
-import { ContainerBox } from "@/styles/container";
+import { ContainerBox } from "@/styles/containers";
 import { Card, CardMedia, CardContent, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
