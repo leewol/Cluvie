@@ -64,7 +64,7 @@ const UserInputDiv = styled.div`
 `;
 
 const UserInput = styled.input`
-  width: 400px;
+  width: 100%;
   height: 45px;
   box-sizing: border-box;
   margin-bottom: 8px;
