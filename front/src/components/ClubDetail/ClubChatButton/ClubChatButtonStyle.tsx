@@ -1,9 +1,8 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 
-const ChatButton = styled(Button)`
+export const ChatButton = styled(Button)`
   position: fixed;
   right: 50px;
   bottom: 30px;
@@ -17,19 +16,7 @@ const ChatButton = styled(Button)`
   }
 `;
 
-const MyChatIcon = styled(ChatIcon)`
+export const MyChatIcon = styled(ChatIcon)`
   font-size: 40px;
   color: white;
 `;
-
-function ClubChatButton() {
-  return (
-    <div>
-      <ChatButton color='inherit'>
-        <MyChatIcon />
-      </ChatButton>
-    </div>
-  );
-}
-
-export default ClubChatButton;
