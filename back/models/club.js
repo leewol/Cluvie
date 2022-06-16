@@ -27,7 +27,7 @@ module.exports = class Club extends Sequelize.Model {
           allowNull: false,
         },
         duration_of_progress: {
-          type: Sequelize.INTEGER(10),
+          type: Sequelize.TINYINT,
           allowNull: false,
         },
         club_state: {
@@ -54,14 +54,14 @@ module.exports = class Club extends Sequelize.Model {
           type: Sequelize.TINYINT,
           allowNull: false,
         },
-        start_date: {
-          type: Sequelize.DATE,
-          allowNull: true,
-        },
-        end_date: {
-          type: Sequelize.DATE,
-          allowNull: true,
-        },
+        // start_date: {
+        //   type: Sequelize.DATE,
+        //   allowNull: true,
+        // },
+        // end_date: {
+        //   type: Sequelize.DATE,
+        //   allowNull: true,
+        // },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,

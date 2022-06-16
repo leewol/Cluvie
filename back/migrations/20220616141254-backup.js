@@ -6,8 +6,8 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
     });
-    queryInterface.addColumn("clubs", "duration_of_progress", {
-      type: Sequelize.INTEGER(10),
+    queryInterface.changeColumn("clubs", "duration_of_progress", {
+      type: Sequelize.TINYINT,
       allowNull: false,
     });
     queryInterface.addColumn("clubs", "club_state", {
@@ -29,5 +29,7 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+    queryInterface.removeColumn("clubs", "start_date");
+    queryInterface.removeColumn("clubs", "end_date");
   },
 };
