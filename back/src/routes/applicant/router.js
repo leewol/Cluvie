@@ -6,6 +6,6 @@ const applicantRouter = express.Router();
 
 applicantRouter.get("/:id", async (req, res, next) => {
   try {
-    const applicants = await Applicants.findAll(user_id);
+    const applicants = await Applicants.findAll({ user_id });
   } catch {}
 });
