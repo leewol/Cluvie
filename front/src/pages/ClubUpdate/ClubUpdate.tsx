@@ -143,9 +143,11 @@ return (
       />
       {preview && <div dangerouslySetInnerHTML={{ __html: contents }} />}
       <Style.ButtonBox>
+      <Style.BackLink to='/clubDetail'>
         <Style.MyButton1>
-          <Style.BackLink to='/clubDetail'>취소</Style.BackLink>
+          취소
         </Style.MyButton1>
+        </Style.BackLink>
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>

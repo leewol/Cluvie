@@ -21,12 +21,7 @@ function ClubReviewButton() {
           <div className='rating'>
             <div>클럽에 대한 별점을 매겨주세요</div>
             <div>
-              <Rating
-                name='half-rating'
-                defaultValue={0}
-                precision={0.5}
-                onChange={(event, newValue) => console.log(newValue)}
-              />
+              <Rating onChange={(event, newValue) => console.log(newValue)} />
             </div>
           </div>
           <div>
