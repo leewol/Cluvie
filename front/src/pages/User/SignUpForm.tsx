@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled/macro";
 
-import { ContainerBox } from "@/styles/container";
+import { ContainerBox } from "@/styles/containers";
 import {
   InputBox,
   UserInputDiv,

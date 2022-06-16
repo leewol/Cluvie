@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { ContainerBox, InnerBox } from "@/styles/container";
+import { ContainerBox, InnerBox } from "@/styles/containers";
 import { FormButton, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
