@@ -8,7 +8,6 @@ const clubRouter = express.Router();
 
 clubRouter.post("/", verifyToken, async (req, res) => {
   const manager_id = req.user;
-  console.log(manager_id);
   let club = req.body;
   club.views = 0;
   await Clubs.create(club)
@@ -46,7 +45,8 @@ clubRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-clubRouter.put("/:id", async (req, res) => {
+clubRouter.put("/:id", verifyToken, async (req, res) => {
+  const manager_id = req.user;
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
     return res.status(404).json("존재하지 않는 모임입니다.");
@@ -74,17 +74,16 @@ clubRouter.put("/:id", async (req, res) => {
 });
 
 // 없는 모임을 삭제할 경우, 에러 처리
-clubRouter.delete("/:id", async (req, res, next) => {
+clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   try {
-    const clubId = req.params.id;
-    const club = await Clubs.findOne({ where: { id: clubId } });
+    const club = await Clubs.findOne({ where: { id: req.params.id } });
     if (!club) {
       return res
         .status(404)
         .json({ success: false, message: "존재하지 않는 모임입니다." });
     }
     Clubs.destroy({
-      where: { id: clubId },
+      where: { id: req.params.id },
     });
     res.status(200).json({ success: true });
   } catch (err) {
