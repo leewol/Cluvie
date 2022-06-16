@@ -4,6 +4,7 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const userRouter = Router();
 
+// 로그인
 userRouter.post("/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -18,16 +19,18 @@ userRouter.post("/signIn", async (req, res) => {
   }
 });
 
-userRouter.patch("/users/description", verifyToken, async (req, res) => {
+// 회원정보 수정(nickname, description)
+userRouter.patch("/users", verifyToken, async (req, res) => {
   try {
-    const { description } = req.body;
+    const { nickname, description } = req.body;
     const id = req.user;
-    const updatedDescription = await userService.updateDescription({
+    const userUpdated = await userService.updateDescription({
       id,
+      nickname,
       description,
     });
-    if (updatedDescription.errorMessage) {
-      throw new Error(updatedDescription.errorMessage);
+    if (userUpdated.errorMessage) {
+      throw new Error(userUpdated.errorMessage);
     }
     res.status(200).json({ success: true });
   } catch (err) {
