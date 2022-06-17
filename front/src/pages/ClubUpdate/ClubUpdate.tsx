@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React,{ useRef, useState, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -8,7 +9,29 @@ import Header from "@/components/Header/Header";
 import * as Api from "@/utils/api";
 import * as Style from './ClubUpdateStyle'
 
+interface Club {
+  id: number;
+  name: string;
+  picture: string | null;
+  intro: string;
+  day: number;
+  description: string;
+  views: number | null;
+  num: number;
+  process: number;
+  start_date: Date;
+  end_date: Date;
+}
+
+interface CustomizedState {
+  club: Club
+}
+
 function EditorComponent() {
+  const location = useLocation();
+  const state = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
+  const { club } = state;
+
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(0);
@@ -28,6 +51,10 @@ function EditorComponent() {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
     else setDuplication(0)
   },[])
+
+  useEffect(() => {
+    setContents(club.description);
+  },[club])
 
   // toolbar 중복확인
   useEffect(() => {
@@ -96,7 +123,7 @@ const modules = useMemo(
     () => ({
       toolbar: {
         container: [
-          ["bold", "italic", "underline", "strike", "blockquote"],
+          ["bold", "italic", "underline", "strike"],
           [{ size: ["small", false, "large", "huge"] }, { color: [] }],
           [
             { list: "ordered" },
@@ -138,7 +165,7 @@ return (
         onChange={setContents}
         modules={modules}
         theme="snow"
-        placeholder="내용을 입력해주세요."
+        defaultValue={club.description}
         duplicated={duplication}
       />
       {preview && <div dangerouslySetInnerHTML={{ __html: contents }} />}

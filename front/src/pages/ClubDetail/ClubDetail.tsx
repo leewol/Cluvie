@@ -52,7 +52,7 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/4")
+    Api.get("/clubs/1")
       .then((res) => {
         console.log(res);
         const {
@@ -131,7 +131,7 @@ function ClubDetail() {
             <CardContent>
               <Style.Title>
                 {club.name}
-                <ClubSettingPopper />
+                <ClubSettingPopper club={club} />
               </Style.Title>
               <Style.Text1>{club.intro}</Style.Text1>
               <Style.Text2>
