@@ -1,5 +1,4 @@
-import { QueryTypes } from "sequelize";
-import sequelize from "sequelize";
+import db from "../../../models/index";
 import Likes from "../../../models/like";
 import Clubs from "../../../models/club";
 import Users from "../../../models/user";
@@ -38,12 +37,9 @@ class likeService {
       const errorMessage = "해당 사용자를 찾을 수 없습니다.";
       return { errorMessage };
     } else {
-      // const likeClubList = await sequelize.query(
-      //   "SELECT * FROM Clubs INNER JOIN Likes ON (Likes.club_id = Clubs.id) WHERE Likes.user_id = user_id ",
-      //   { type: QueryTypes.SELECT }
-      // );
-      const likeClubList = await sequelize.query(
-        "SELECT * FROM Likes WHERE Likes.user_id = user_id"
+      const likeClubList = await db.sequelize.query(
+        `SELECT * FROM clubs INNER JOIN likes ON clubs.id = likes.club_id  WHERE likes.user_id = user_id `,
+        { type: db.sequelize.QueryTypes.SELECT }
       );
       console.log(likeClubList);
       return likeClubList;
