@@ -5,7 +5,7 @@ import { Card, CardMedia, CardContent, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-import { StyledSpan } from "@/styles/span";
+import { StyledSpan } from "@/styles/text";
 
 const WholeCard = styled(Card)`
   width: 350px;

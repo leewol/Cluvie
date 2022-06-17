@@ -1,14 +1,5 @@
 import styled from "@emotion/styled/macro";
 
-import { ContainerBox } from "@/styles/containers";
-import { StyledSpan } from "@/styles/span";
-
-const ClubListContainerBox = styled(ContainerBox)`
-  flex-direction: column;
-  margin-left: 10%;
-  margin-right: 10%;
-`;
-
 const FilterBox = styled.div`
   width: 100%;
   display: flex;
@@ -73,15 +64,6 @@ const SelectedSpanBox = styled.div`
   margin-bottom: 100px;
 `;
 
-const SelectedSpan = styled(StyledSpan)`
-  background-color: #716847;
-  border-color: #716847;
-  color: white;
-  font-weight: 400;
-  padding: 5px 10px;
-  cursor: pointer;
-`;
-
 const ResetSpan = styled.span`
   font-size: 14px;
   color: #716847;
@@ -124,14 +106,12 @@ const ClubCreateButtonBox = styled.div`
 `;
 
 export {
-  ClubListContainerBox,
   FilterBox,
   SelectBox,
   SelectButton,
   SearchBox,
   SearchInput,
   SelectedSpanBox,
-  SelectedSpan,
   ResetSpan,
   ClubListBox,
   DropDownBox,

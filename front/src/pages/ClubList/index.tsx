@@ -6,15 +6,15 @@ import ClubCard from "@/components/ClubCard";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import { ColumnContainerBox } from "@/styles/containers";
+import { SelectedSpan } from "@/styles/text";
 import {
-  ClubListContainerBox,
   FilterBox,
   SelectBox,
   SelectButton,
   SearchBox,
   SearchInput,
   SelectedSpanBox,
-  SelectedSpan,
   ResetSpan,
   ClubListBox,
   DropDownBox,
@@ -33,7 +33,7 @@ function ClubList() {
   };
 
   return (
-    <ClubListContainerBox>
+    <ColumnContainerBox>
       <FilterBox>
         <SelectBox>
           <DropDownBox>
@@ -90,7 +90,7 @@ function ClubList() {
           onClick={HandleCreateButtonClick}
         />
       </ClubCreateButtonBox>
-    </ClubListContainerBox>
+    </ColumnContainerBox>
   );
 }
 

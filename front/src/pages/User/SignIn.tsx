@@ -2,14 +2,8 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
-import { ContainerBox, InnerBox } from "@/styles/containers";
-import {
-  InputBox,
-  FormButton,
-  UserInputDiv,
-  UserInput,
-  StyledLink,
-} from "@/styles/user";
+import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
+import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
 import {
@@ -79,7 +73,7 @@ function SignIn() {
         <form onSubmit={handleSumbit} autoComplete='off'>
           <InputBox>
             <UserInputDiv>
-              <UserInput
+              <StyledInput
                 type='text'
                 placeholder='이메일'
                 name='email'
@@ -89,7 +83,7 @@ function SignIn() {
               {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
             </UserInputDiv>
             <UserInputDiv>
-              <UserInput
+              <StyledInput
                 type='password'
                 placeholder='비밀번호'
                 name='password'

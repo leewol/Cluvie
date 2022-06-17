@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled/macro";
 
-import { ContainerBox } from "@/styles/containers";
-import {
-  InputBox,
-  UserInputDiv,
-  UserInput,
-  FormButton,
-  StyledLabel,
-} from "@/styles/user";
+import { ContainerBox, StyledInput } from "@/styles/containers";
+import { InputBox, UserInputDiv, FormButton } from "@/styles/user";
+import { StyledLabel } from "@/styles/text";
 
 import {
   isEmailValid,
@@ -180,7 +175,7 @@ function SignUpForm() {
         <SignUpInputBox>
           <StyledLabel htmlFor='email'>이메일</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='text'
               name='email'
               value={form.email}
@@ -191,7 +186,7 @@ function SignUpForm() {
 
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='password'
               name='password'
               value={form.password}
@@ -202,7 +197,7 @@ function SignUpForm() {
 
           <StyledLabel htmlFor='confirmPassword'>비밀번호 확인</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='password'
               name='confirmPassword'
               value={form.confirmPassword}
@@ -217,7 +212,7 @@ function SignUpForm() {
 
           <StyledLabel htmlFor='nickname'>닉네임</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='text'
               name='nickname'
               value={form.nickname}
