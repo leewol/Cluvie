@@ -267,7 +267,6 @@ function SignUpForm() {
             type='submit'
             disabled={!isFormValid}
             isFormValid={!!isFormValid}
-            social=''
           >
             회원가입
           </FormButton>
