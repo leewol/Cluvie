@@ -30,7 +30,7 @@ interface CustomizedState {
 
 function EditorComponent() {
   const location = useLocation();
-  const state = location.state as CustomizedState; // Type Casting, then you can get the params passed via router
+  const state = location.state as CustomizedState;
   const { club } = state;
 
   const QuillRef = useRef<ReactQuill>();
@@ -144,7 +144,9 @@ const modules = useMemo(
   );
   
   const handleSubmit = () => {
-    Api.post("/clubs", clubInfo)
+    console.log('clubInfo',clubInfo)
+
+    Api.put("/clubs/1", clubInfo)
       .then((res)=> console.log(res))
       .catch((err) => console.log(err));
   }
@@ -180,7 +182,7 @@ return (
           미리보기
         </Style.MyButton2>
         <Style.MyButton3 onClick={handleSubmit}>
-          등록
+          수정
         </Style.MyButton3>
       </Style.ButtonBox>
       </Style.WholeBox>
