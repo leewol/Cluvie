@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import ClubCard from "@/components/ClubCard";
-
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+
+import ClubCard from "@/components/ClubCard";
+
 import { ColumnContainerBox } from "@/styles/containers";
 import { SelectedSpan } from "@/styles/text";
 import {

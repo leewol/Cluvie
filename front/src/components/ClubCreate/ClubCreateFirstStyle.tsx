@@ -1,21 +1,26 @@
 import styled from "@emotion/styled/macro";
 
 // import { StyledInput } from "@/styles/containers";
-import { StyledSpan } from "@/styles/text";
 
 const ClubCreateFormBox = styled.form`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
 `;
 
 const ThumnailBox = styled.div`
-  width: 100%;
-  height: 400px;
+  width: 400px;
+  height: 300px;
   img {
     width: 100%;
     height: 100%;
   }
 `;
 
-export { ClubCreateFormBox, ThumnailBox };
+const Line = styled.hr`
+  width: 1;
+  height: 500px;
+  opacity: 0.2;
+`;
+
+export { ClubCreateFormBox, ThumnailBox, Line };

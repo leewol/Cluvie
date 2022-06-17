@@ -4,7 +4,6 @@ const ContainerBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   h1 {
     margin-bottom: 70px;
   }
