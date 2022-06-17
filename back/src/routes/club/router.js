@@ -1,8 +1,6 @@
 import express from "express";
 import Clubs from "../../../models/club";
-import jwt from "jsonwebtoken";
 import { verifyToken } from "../../middlewares/verifyToken";
-// import clubService from "./service";
 // 조회수
 const clubRouter = express.Router();
 

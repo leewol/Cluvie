@@ -4,64 +4,68 @@ module.exports = class Club extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        // 클럽 id
         id: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
           allowNull: false,
           primaryKey: true,
         },
+        // 클럽 name
         name: {
           type: Sequelize.STRING(45),
           allowNull: false,
         },
+        // 클럽장 id
         manager_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
+        // 클럽 썸네일
         picture: {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
+        // 클럽 한줄 소개
         intro: {
           type: Sequelize.STRING(300),
           allowNull: false,
         },
+        // 클럽 진행 기간
         duration_of_progress: {
           type: Sequelize.TINYINT,
           allowNull: false,
         },
+        // 클럽 모집 상태
         club_state: {
           type: Sequelize.STRING(10),
           allowNull: false,
         },
+        // 클럽 진행(주중/ 주말)
         day: {
           type: Sequelize.TINYINT,
           allowNull: false,
         },
+        // 클럽 상세 설명
         description: {
           type: Sequelize.TEXT,
           allowNull: false,
         },
+        // 클럽 조회수
         views: {
           type: Sequelize.INTEGER,
           allowNull: true,
         },
+        // 클럽 인원수
         num: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
+        // 클럽 진행 방식(온라인/오프라인)
         process: {
           type: Sequelize.TINYINT,
           allowNull: false,
         },
-        // start_date: {
-        //   type: Sequelize.DATE,
-        //   allowNull: true,
-        // },
-        // end_date: {
-        //   type: Sequelize.DATE,
-        //   allowNull: true,
-        // },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
