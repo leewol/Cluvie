@@ -3,6 +3,12 @@ import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import ReactQuill from "react-quill";
 
+export const CoverDiv = styled.div`
+  width: 100%,
+  height: 100%,
+  z-index: 999
+  `;
+
 export const WholeBox = styled(Box)`
   position: relative;
   margin: 80px auto 0 auto;

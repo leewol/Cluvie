@@ -30,11 +30,6 @@ function EditorComponent() {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
     else setDuplication(0)
   },[])
-
-  // toolbar 중복확인
-  useEffect(() => {
-    console.log('duplication',duplication)
-  },[duplication])
   
   useEffect(() => {
     setClubInfo({...clubInfo, description: contents})
@@ -144,7 +139,7 @@ return (
         placeholder="내용을 입력해주세요."
         duplicated={duplication}
       />
-      {preview && <ClubPreview newClub={{...clubInfo, id: 999, picture: null, views: 0}}/>}
+      {preview && <ClubPreview newClub={clubInfo}/>}
       <Style.ButtonBox>
         <Style.MyButton1>
           취소

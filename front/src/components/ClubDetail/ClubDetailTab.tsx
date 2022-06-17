@@ -5,7 +5,9 @@ import * as React from "react";
 import { Tabs, Tab, Box, Rating } from "@mui/material";
 // import styled from "@emotion/styled";
 import ClubReview from "@/components/ClubDetail/ClubReview/ClubReview";
-import ClubReviewButton from "@/components/ClubDetail//ClubReviewButton/ClubReviewButton";
+import ClubReviewButton from "@/components/ClubDetail/ClubReviewButton/ClubReviewButton";
+import ClubBasicInfo from "@/components/ClubDetail/ClubBasicInfo/ClubBasicInfo";
+import * as Interface from "@/utils/interface";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -42,25 +44,11 @@ function a11yProps(index: number) {
   };
 }
 
-interface Club {
-  id: number;
-  name: string;
-  picture: string | null;
-  intro: string;
-  day: number;
-  description: string;
-  views: number | null;
-  num: number;
-  process: number;
-  duration_of_progress: number;
-  club_state: string;
-}
-
 export default function BasicTabs({
   club,
   preview,
 }: {
-  club: Club,
+  club: Interface.Club,
   preview?: boolean,
 }) {
   const [value, setValue] = React.useState(0);
@@ -128,10 +116,13 @@ export default function BasicTabs({
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        기본 정보
+        <ClubBasicInfo club={club} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <div dangerouslySetInnerHTML={{ __html: club.description }} />
+        {club.description && (
+          // eslint-disable-next-line react/no-danger
+          <div dangerouslySetInnerHTML={{ __html: club.description }} />
+        )}
       </TabPanel>
       <TabPanel value={value} index={2}>
         {preview && <div>아직 참여 후기가 없습니다.</div>}
