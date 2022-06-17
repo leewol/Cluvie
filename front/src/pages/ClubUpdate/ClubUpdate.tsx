@@ -6,6 +6,7 @@ import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Header from "@/components/Header/Header";
+import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview"
 import * as Api from "@/utils/api";
 import * as Style from './ClubUpdateStyle'
 
@@ -168,7 +169,7 @@ return (
         defaultValue={club.description}
         duplicated={duplication}
       />
-      {preview && <div dangerouslySetInnerHTML={{ __html: contents }} />}
+      {preview && <ClubPreview newClub={{...clubInfo, id: 999, picture: null, views: 0}}/>}
       <Style.ButtonBox>
       <Style.BackLink to='/clubDetail'>
         <Style.MyButton1>
