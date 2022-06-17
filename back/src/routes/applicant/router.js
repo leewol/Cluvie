@@ -9,3 +9,5 @@ applicantRouter.get("/:id", async (req, res, next) => {
     const applicants = await Applicants.findAll({ user_id });
   } catch {}
 });
+
+module.exports = applicantRouter;
