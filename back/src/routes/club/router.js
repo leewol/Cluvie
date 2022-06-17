@@ -59,8 +59,8 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       num: req.body.num,
       picture: req.body.picture,
       process: req.body.process,
-      start_date: req.body.start_date,
-      end_date: req.body.end_date,
+      duration_of_progress: req.body.duration_of_progress,
+      club_state: req.body.club_state,
     },
     { where: { id: req.params.id } }
   )
