@@ -12,7 +12,7 @@ import * as Style from './ClubCreateStyle'
 function EditorComponent() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
-  const [duplication, setDuplication] = useState(0);
+  const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState({
     name: '테스트22',
@@ -125,6 +125,7 @@ const modules = useMemo(
 
 return (
 	<div>
+    {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       <Header />
       <Style.Title>
