@@ -4,6 +4,7 @@ import db from "./models/index";
 import clubRouter from "./src/routes/club/router";
 import registerRouter from "./src/routes/register/router";
 import userRouter from "./src/routes/user/router";
+import likeRouter from "./src/routes/like/router";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use(userRouter);
 app.use(registerRouter);
 app.use("/clubs", clubRouter);
+app.use(likeRouter);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);

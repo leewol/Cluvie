@@ -22,8 +22,8 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
-  start_date: Date;
-  end_date: Date;
+  duration_of_process: number;
+  club_state: string;
 }
 
 function ClubDetail() {
@@ -39,8 +39,8 @@ function ClubDetail() {
     views: 0,
     num: 0,
     process: 0,
-    start_date: new Date(1999, 6, 20),
-    end_date: new Date(2000, 6, 20),
+    duration_of_process : 0,
+    club_state: "모집중"
   });
   const handleOpenJoin = () => setOpenJoin(true);
   const handleCloseJoin = () => setOpenJoin(false);
@@ -52,35 +52,10 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/1")
+    Api.get("/clubs/13")
       .then((res) => {
         console.log(res);
-        const {
-          id,
-          name,
-          picture,
-          intro,
-          day,
-          description,
-          views,
-          num,
-          process,
-          start_date,
-          end_date,
-        } = res.data.club;
-        setClub({
-          id,
-          name,
-          picture,
-          intro,
-          day,
-          description,
-          views,
-          num,
-          process,
-          start_date,
-          end_date,
-        });
+        setClub(res.data.club);
       })
       .catch((err) => console.log(err));
   }, []);

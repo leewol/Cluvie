@@ -21,8 +21,8 @@ function EditorComponent() {
     description: '상세보기를 작성해주세요',
     num: 40,
     process: 1,
-    start_date: new Date(2022, 6, 20),
-    end_date: new Date(2022, 7, 21),
+    duration_of_process : 0,
+    club_state: "모집중"
   });
 
   useEffect(() => {

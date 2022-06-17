@@ -12,7 +12,7 @@ userRouter.post("/signIn", async (req, res) => {
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
-    res.status(201).json({ success: true, user });
+    res.status(200).json({ success: true, user });
   } catch (err) {
     res.status(404).json({ success: false, err });
   }
@@ -29,7 +29,7 @@ userRouter.patch("/users/description", verifyToken, async (req, res) => {
     if (updatedDescription.errorMessage) {
       throw new Error(updatedDescription.errorMessage);
     }
-    res.status(201).json({ success: true });
+    res.status(200).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, err });
     console.log(err);

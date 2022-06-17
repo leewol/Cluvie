@@ -20,8 +20,8 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
-  start_date: Date;
-  end_date: Date;
+  duration_of_process: number;
+  club_state: string;
 }
 
 export default function SimplePopper({ club }: { club: Club }) {
