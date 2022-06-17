@@ -43,12 +43,14 @@ module.exports = class Club extends Sequelize.Model {
         },
         // 클럽 진행(온라인/ 오프라인)
         online: {
-          type: Sequelize.STRING,
-          allowNull: false,
+          type: Sequelize.TINYINT,
+          allowNull: true,
+          defaultValue: 1,
         },
         offline: {
-          type: Sequelize.STRING,
-          allowNull: false,
+          type: Sequelize.TINYINT,
+          allowNull: true,
+          defaultValue: 1,
         },
         // 클럽 상세 설명
         description: {
@@ -67,12 +69,14 @@ module.exports = class Club extends Sequelize.Model {
         },
         // 클럽 진행 방식(주중/주말)
         weekday: {
-          type: Sequelize.STRING,
-          allowNull: false,
+          type: Sequelize.TINYINT,
+          allowNull: true,
+          defaultValue: 0,
         },
         weekend: {
-          type: Sequelize.STRING,
-          allowNull: false,
+          type: Sequelize.TINYINT,
+          allowNull: true,
+          defaultValue: 0,
         },
         created_at: {
           type: Sequelize.DATE,
