@@ -22,7 +22,7 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
-  duration_of_process: number;
+  duration_of_progress: number;
   club_state: string;
 }
 
@@ -39,7 +39,7 @@ function ClubDetail() {
     views: 0,
     num: 0,
     process: 0,
-    duration_of_process : 0,
+    duration_of_progress : 0,
     club_state: "모집중"
   });
   const handleOpenJoin = () => setOpenJoin(true);

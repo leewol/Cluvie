@@ -20,7 +20,7 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
-  duration_of_process: number;
+  duration_of_progress: number;
   club_state: string;
 }
 
@@ -44,7 +44,7 @@ function EditorComponent() {
     description: '상세보기를 작성해주세요',
     num: 40,
     process: 1,
-    duration_of_process : 0,
+    duration_of_progress : 0,
     club_state: "모집중"
   });
 
@@ -146,7 +146,7 @@ const modules = useMemo(
   const handleSubmit = () => {
     console.log('clubInfo',clubInfo)
 
-    Api.put("/clubs/1", clubInfo)
+    Api.put("/clubs/13", clubInfo)
       .then((res)=> console.log(res))
       .catch((err) => console.log(err));
   }

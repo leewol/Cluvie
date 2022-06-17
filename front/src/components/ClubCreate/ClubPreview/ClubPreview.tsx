@@ -17,7 +17,7 @@ interface Club {
   views: number | null;
   num: number;
   process: number;
-  duration_of_process: number;
+  duration_of_progress: number;
   club_state: string;
 }
 

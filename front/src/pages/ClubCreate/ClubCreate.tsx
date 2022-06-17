@@ -21,8 +21,9 @@ function EditorComponent() {
     description: '상세보기를 작성해주세요',
     num: 40,
     process: 1,
-    duration_of_process : 0,
-    club_state: "모집중"
+    duration_of_progress : 0,
+    club_state: "모집중",
+    manager_id: 4,
   });
 
   useEffect(() => {
