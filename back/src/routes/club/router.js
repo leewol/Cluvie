@@ -7,7 +7,7 @@ const clubRouter = express.Router();
 clubRouter.post("/", verifyToken, async (req, res) => {
   let club = req.body;
   club.views = 0;
-  club.manager_id = req.user;
+  club.manager = req.user;
   await Clubs.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
