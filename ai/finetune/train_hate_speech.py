@@ -5,7 +5,7 @@ from pprint import pprint
 
 import torch
 from torch.utils.data import Dataset, DataLoader, TensorDataset
-from torch.optim.lr_scheduler import ExponentialLR
+from torch.optim.lr_scheduler import ExponentialLR, CosineAnnealingWarmRestarts
 
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping, LearningRateMonitor
 from pytorch_lightning import LightningModule, Trainer, seed_everything, loggers as pl_loggers
@@ -100,7 +100,13 @@ class Model(LightningModule):
 
     def configure_optimizers(self):
         optimizer = AdamW(self.parameters(), lr=self.hparams.lr)
-        scheduler = ExponentialLR(optimizer, gamma=self.hparams.lr_parameter)
+
+        if self.hparams.lr_scheduler == 'cos':
+            scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=1, T_mult=2)
+        elif self.hparams.lr_scheduler == 'exp':
+            scheduler = ExponentialLR(optimizer, gamma=self.hparams.lr_parameter)
+        else:
+            raise NotImplementedError('Only cos and exp lr scheduler is Supported!')
 
         return {
             'optimizer': optimizer,
