@@ -84,7 +84,7 @@ def seq_cls_convert_examples_to_features(args, examples, tokenizer, max_length, 
     for i in range(len(examples)):
         inputs = {k: batch_encoding[k][i] for k in batch_encoding}
         if "token_type_ids" not in inputs:
-            inputs["token_type_ids"] = [0] * len(inputs["input_ids"])  # For xlm-roberta
+            inputs["token_type_ids"] = [0] * len(inputs["input_ids"])
 
         feature = InputFeatures(**inputs, label=labels[i])
         features.append(feature)
