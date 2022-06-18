@@ -144,6 +144,14 @@ class Model(LightningModule):
             else:
                 return 2
 
+        # df['comment'] = df['comment'].map(lambda x: self.tokenizer.encode(
+        #     clean(str(x)),
+        #     padding='max_length',
+        #     max_length=self.hparams.max_length,
+        #     truncation=True,
+        # ))
+        # df['hate'] = df['hate'].map(string_to_number)
+
         encoding = df['comment'].map(lambda x: self.tokenizer.encode_plus(
             clean(str(x)),
             add_special_tokens=True,
@@ -175,6 +183,11 @@ class Model(LightningModule):
     def dataloader(self, path, shuffle=False):
         df = self.read_data(path)
         df = self.preprocess_dataframe(df)
+
+        # dataset = TensorDataset(
+        #     torch.tensor(df['comment'].to_list(), dtype=torch.long),
+        #     torch.tensor(df['label'].to_list(), dtype=torch.long),
+        # )
 
         dataset = TensorDataset(
             torch.tensor(df['input_ids_list'], dtype=torch.long),
