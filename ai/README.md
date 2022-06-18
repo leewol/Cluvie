@@ -10,6 +10,7 @@ pip install -r requirements.txt
 cd finetune
 
 # summary 데이터 크기문제로 압축을 풀고 진행
+# summary 데이터 크기 문제로 gitlab에 파일을 올리지 못함
 sudo apt-get install zip unzip
 cd data/summary 
 unzip test.zip
