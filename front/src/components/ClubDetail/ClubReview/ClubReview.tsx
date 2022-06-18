@@ -5,7 +5,7 @@ import * as Style from "./ClubReviewStyle";
 function ClubReview() {
   return (
     <Style.ReviewDiv>
-      <Rating defaultValue={2.5} precision={0.5} readOnly />
+      <Rating value={3} readOnly />
       <div>
         <Style.ReviewInfoDiv>
           2022-06-10

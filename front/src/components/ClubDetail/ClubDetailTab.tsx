@@ -1,3 +1,6 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import * as React from "react";
 import { Tabs, Tab, Box, Rating } from "@mui/material";
 // import styled from "@emotion/styled";
@@ -39,7 +42,27 @@ function a11yProps(index: number) {
   };
 }
 
-export default function BasicTabs() {
+interface Club {
+  id: number;
+  name: string;
+  picture: string | null;
+  intro: string;
+  day: number;
+  description: string;
+  views: number | null;
+  num: number;
+  process: number;
+  duration_of_progress: number;
+  club_state: string;
+}
+
+export default function BasicTabs({
+  club,
+  preview,
+}: {
+  club: Club,
+  preview?: boolean,
+}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -108,29 +131,34 @@ export default function BasicTabs() {
         기본 정보
       </TabPanel>
       <TabPanel value={value} index={1}>
-        상세 정보
+        <div dangerouslySetInnerHTML={{ __html: club.description }} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <div
-          style={{
-            margin: "30px 0 50px 0",
-            padding: "46px",
-            background: "rgba(0, 0, 0, 0.03)",
-            textAlign: "center",
-          }}
-        >
-          <Rating defaultValue={2.5} precision={0.5} readOnly />
-          <div style={{ fontSize: "36px" }}>2.5</div>
-          <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
-            (총 5개의 후기)
+        {preview && <div>아직 참여 후기가 없습니다.</div>}
+        {!preview && (
+          <div>
+            <div
+              style={{
+                margin: "30px 0 50px 0",
+                padding: "46px",
+                background: "rgba(0, 0, 0, 0.03)",
+                textAlign: "center",
+              }}
+            >
+              <Rating value={3} readOnly />
+              <div style={{ fontSize: "36px" }}>3점</div>
+              <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
+                (총 5개의 후기)
+              </div>
+            </div>
+            <ClubReviewButton />
+            <ClubReview />
+            <ClubReview />
+            <ClubReview />
+            <ClubReview />
+            <ClubReview />
           </div>
-        </div>
-        <ClubReviewButton />
-        <ClubReview />
-        <ClubReview />
-        <ClubReview />
-        <ClubReview />
-        <ClubReview />
+        )}
       </TabPanel>
     </Box>
   );

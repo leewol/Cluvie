@@ -8,8 +8,23 @@ import {
   DialogActions,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import SettingLink from "./ClubSettingPopperStyle";
 
-export default function SimplePopper() {
+interface Club {
+  id: number;
+  name: string;
+  picture: string | null;
+  intro: string;
+  day: number;
+  description: string;
+  views: number | null;
+  num: number;
+  process: number;
+  duration_of_progress: number;
+  club_state: string;
+}
+
+export default function SimplePopper({ club }: { club: Club }) {
   // prettier-ignore
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -50,7 +65,9 @@ export default function SimplePopper() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>수정</MenuItem>
+        <SettingLink to='/clubUpdate' state={{ club }}>
+          <MenuItem onClick={handleClose}>수정</MenuItem>
+        </SettingLink>
         <MenuItem onClick={handleDelete}>삭제</MenuItem>
       </Menu>
       <Dialog
