@@ -52,13 +52,16 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     {
       name: req.body.name,
       intro: req.body.intro,
-      day: req.body.day,
+      online: req.body.online,
+      offline: req.body.offline,
       description: req.body.description,
-      num: req.body.num,
+      head_count: req.body.num,
       picture: req.body.picture,
-      process: req.body.process,
-      duration_of_progress: req.body.duration_of_progress,
-      club_state: req.body.club_state,
+      weekday: req.body.weekday,
+      weekend: req.body.weekend,
+      duration: req.body.duration,
+      state: req.body.state,
+      hashtags: req.body.hashtags,
     },
     { where: { id: req.params.id } }
   )
