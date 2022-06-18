@@ -1,14 +1,38 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React,{ useRef, useState, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Header from "@/components/Header/Header";
+import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview"
 import * as Api from "@/utils/api";
 import * as Style from './ClubUpdateStyle'
 
+interface Club {
+  id: number;
+  name: string;
+  picture: string | null;
+  intro: string;
+  day: number;
+  description: string;
+  views: number | null;
+  num: number;
+  process: number;
+  duration_of_progress: number;
+  club_state: string;
+}
+
+interface CustomizedState {
+  club: Club
+}
+
 function EditorComponent() {
+  const location = useLocation();
+  const state = location.state as CustomizedState;
+  const { club } = state;
+
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(0);
@@ -20,14 +44,18 @@ function EditorComponent() {
     description: '상세보기를 작성해주세요',
     num: 40,
     process: 1,
-    start_date: new Date(2022, 6, 20),
-    end_date: new Date(2022, 7, 21),
+    duration_of_progress : 0,
+    club_state: "모집중"
   });
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
     else setDuplication(0)
   },[])
+
+  useEffect(() => {
+    setContents(club.description);
+  },[club])
 
   // toolbar 중복확인
   useEffect(() => {
@@ -96,7 +124,7 @@ const modules = useMemo(
     () => ({
       toolbar: {
         container: [
-          ["bold", "italic", "underline", "strike", "blockquote"],
+          ["bold", "italic", "underline", "strike"],
           [{ size: ["small", false, "large", "huge"] }, { color: [] }],
           [
             { list: "ordered" },
@@ -116,7 +144,9 @@ const modules = useMemo(
   );
   
   const handleSubmit = () => {
-    Api.post("/clubs", clubInfo)
+    console.log('clubInfo',clubInfo)
+
+    Api.put("/clubs/13", clubInfo)
       .then((res)=> console.log(res))
       .catch((err) => console.log(err));
   }
@@ -138,10 +168,10 @@ return (
         onChange={setContents}
         modules={modules}
         theme="snow"
-        placeholder="내용을 입력해주세요."
+        defaultValue={club.description}
         duplicated={duplication}
       />
-      {preview && <div dangerouslySetInnerHTML={{ __html: contents }} />}
+      {preview && <ClubPreview newClub={{...clubInfo, id: 999, picture: null, views: 0}}/>}
       <Style.ButtonBox>
       <Style.BackLink to='/clubDetail'>
         <Style.MyButton1>
@@ -152,7 +182,7 @@ return (
           미리보기
         </Style.MyButton2>
         <Style.MyButton3 onClick={handleSubmit}>
-          등록
+          수정
         </Style.MyButton3>
       </Style.ButtonBox>
       </Style.WholeBox>

@@ -21,8 +21,9 @@ function EditorComponent() {
     description: '상세보기를 작성해주세요',
     num: 40,
     process: 1,
-    start_date: new Date(2022, 6, 20),
-    end_date: new Date(2022, 7, 21),
+    duration_of_progress : 0,
+    club_state: "모집중",
+    manager_id: 4,
   });
 
   useEffect(() => {
@@ -97,7 +98,7 @@ const modules = useMemo(
     () => ({
       toolbar: {
         container: [
-          ["bold", "italic", "underline", "strike", "blockquote"],
+          ["bold", "italic", "underline", "strike"],
           [{ size: ["small", false, "large", "huge"] }, { color: [] }],
           [
             { list: "ordered" },
