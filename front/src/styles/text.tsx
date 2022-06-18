@@ -21,6 +21,8 @@ const SelectedSpan = styled(StyledSpan)`
 `;
 
 const StyledLabel = styled.label`
+  font-weight: 600;
+  display: block;
   margin-bottom: 5px;
 `;
 

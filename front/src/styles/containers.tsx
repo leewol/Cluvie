@@ -1,4 +1,5 @@
-import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled/macro";
 
 const ContainerBox = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const ColumnContainerBox = styled(ContainerBox)`
   margin-right: 10%;
 `;
 
-const StyledInput = styled.input`
+const inputBase = css`
   width: 100%;
   height: 45px;
   box-sizing: border-box;
@@ -46,6 +47,11 @@ const StyledInput = styled.input`
     to {
       border: 1px solid #ffc300;
     }
+  }
 `;
 
-export { ContainerBox, InnerBox, ColumnContainerBox, StyledInput };
+const StyledInput = styled.input`
+  ${inputBase}
+`;
+
+export { ContainerBox, InnerBox, ColumnContainerBox, StyledInput, inputBase };

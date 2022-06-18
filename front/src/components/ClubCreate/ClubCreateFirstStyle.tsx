@@ -1,26 +1,55 @@
 import styled from "@emotion/styled/macro";
 
-// import { StyledInput } from "@/styles/containers";
+import { StyledInput, inputBase } from "@/styles/containers";
 
 const ClubCreateFormBox = styled.form`
   width: 100%;
   display: flex;
-  // justify-content: space-between;
+  justify-content: space-evenly;
 `;
 
-const ThumnailBox = styled.div`
-  width: 400px;
-  height: 300px;
+const FormBox = styled.div`
+  width: 500px;
+  height: 600px;
   img {
-    width: 100%;
-    height: 100%;
+    margin-bottom: 60px;
+  }
+`;
+
+const InputBox = styled.div`
+  width: 100%;
+  margin-bottom: 40px;
+`;
+
+const HeadCountInput = styled(StyledInput)`
+  width: 20%;
+  margin-right: 10px;
+`;
+
+const MeetingInputBox = styled.div`
+  display: flex;
+  span {
+    margin: 0 10px 0 5px;
   }
 `;
 
 const Line = styled.hr`
   width: 1;
-  height: 500px;
+  height: 600px;
   opacity: 0.2;
 `;
 
-export { ClubCreateFormBox, ThumnailBox, Line };
+const StyledSelect = styled.select`
+  ${inputBase}
+  font-size: 16px;
+`;
+
+export {
+  ClubCreateFormBox,
+  FormBox,
+  InputBox,
+  HeadCountInput,
+  MeetingInputBox,
+  Line,
+  StyledSelect,
+};

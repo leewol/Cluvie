@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 const UserButton =
   styled.button <
-  { social: string } >
+  { social?: string } >
   `
   width: 100%;
   height: 50px;
