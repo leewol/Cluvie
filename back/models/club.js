@@ -63,7 +63,7 @@ module.exports = class Club extends Sequelize.Model {
           allowNull: true,
         },
         // 클럽 인원수
-        headCount: {
+        head_count: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
