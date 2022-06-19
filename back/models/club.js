@@ -45,12 +45,12 @@ module.exports = class Club extends Sequelize.Model {
         online: {
           type: Sequelize.TINYINT,
           allowNull: true,
-          defaultValue: 1,
+          defaultValue: 0,
         },
         offline: {
           type: Sequelize.TINYINT,
           allowNull: true,
-          defaultValue: 1,
+          defaultValue: 0,
         },
         // 클럽 상세 설명
         description: {
