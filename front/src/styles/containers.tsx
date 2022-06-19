@@ -5,6 +5,7 @@ const ContainerBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
   h1 {
     margin-bottom: 70px;
   }

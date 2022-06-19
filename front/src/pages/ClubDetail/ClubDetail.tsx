@@ -81,7 +81,7 @@ function ClubDetail() {
 
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Style.WholeBox>
         <Style.WholeCard>
           <img

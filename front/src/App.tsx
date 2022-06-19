@@ -11,11 +11,13 @@ import ClubList from "@/pages/ClubList";
 import ClubCreate from "@/pages/ClubCreate/ClubCreate";
 import ClubUpdate from "@/pages/ClubUpdate/ClubUpdate";
 import ClubCreateTest from "@/pages/ClubCreateTest";
+import Header from "@/components/Header/Header";
 
 function App() {
   return (
     <div className='App'>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path='/' element={<Main />} />
           <Route path='signIn' element={<SignIn />} />
