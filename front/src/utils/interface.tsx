@@ -4,18 +4,18 @@ export interface Club {
   id?: number;
   name?: string;
   manager?: number;
-  picture?: string | null;
+  picture?: string;
   intro?: string;
   duration?: number;
   state?: string;
-  online?: number | null;
-  offline?: number | null;
+  online?: number;
+  offline?: number;
   description?: string;
-  views?: number | null;
+  views?: number;
   head_count?: number;
-  weekday?: number | null;
-  weekend?: number | null;
-  hashtags?: string | null;
+  weekday?: number;
+  weekend?: number;
+  hashtags?: string;
 }
 
 export interface ClubState {
@@ -27,7 +27,7 @@ export interface ClubState {
       picture: string,
       intro: string,
       duration: number,
-      state: boolean,
+      state: string,
       online: number,
       offline: number,
       description: string,
