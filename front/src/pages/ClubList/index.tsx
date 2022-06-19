@@ -30,7 +30,7 @@ function ClubList() {
   const navigate = useNavigate();
 
   const HandleCreateButtonClick = () => {
-    navigate("/clubCreateTest");
+    navigate("/clubCreate");
   };
 
   return (

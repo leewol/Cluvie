@@ -10,7 +10,6 @@ import ClubDetail from "@/pages/ClubDetail/ClubDetail";
 import ClubList from "@/pages/ClubList";
 import ClubCreate from "@/pages/ClubCreate/ClubCreate";
 import ClubUpdate from "@/pages/ClubUpdate/ClubUpdate";
-import ClubCreateTest from "@/pages/ClubCreateTest";
 import Header from "@/components/Header/Header";
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
           <Route path='clubList' element={<ClubList />} />
           <Route path='clubCreate' element={<ClubCreate />} />
           <Route path='clubUpdate' element={<ClubUpdate />} />
-          <Route path='clubCreateTest' element={<ClubCreateTest />} />
         </Routes>
       </BrowserRouter>
     </div>
