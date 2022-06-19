@@ -36,7 +36,7 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/22")
+    Api.get("/clubs/21")
       .then((res) => {
         console.log(res);
         setClub(res.data.club);
