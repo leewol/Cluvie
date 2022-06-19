@@ -5,7 +5,7 @@ import { verifyToken } from "../../middlewares/verifyToken";
 const likeRouter = Router();
 
 // 모임 찜하기 -> 똑같은 모임 또 찜 누르면 오류 응답
-likeRouter.post("/:club_id/like", verifyToken, async (req, res) => {
+likeRouter.post("/like/:club_id", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.club_id;
@@ -22,7 +22,7 @@ likeRouter.post("/:club_id/like", verifyToken, async (req, res) => {
 });
 
 // 모임 찜하기 해제
-likeRouter.delete("/:club_id/like", verifyToken, async (req, res) => {
+likeRouter.delete("/like/:club_id", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.club_id;
@@ -39,7 +39,7 @@ likeRouter.delete("/:club_id/like", verifyToken, async (req, res) => {
 });
 
 // 사용자가 찜한 모임 목록 GET
-likeRouter.get("/clubs/like", verifyToken, async (req, res) => {
+likeRouter.get("/like/clubs", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const likeClubList = likeService.getUserLikeClub({ user_id });
