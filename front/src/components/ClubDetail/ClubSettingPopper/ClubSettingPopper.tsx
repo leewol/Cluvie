@@ -1,15 +1,9 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import * as React from "react";
-import {
-  Button,
-  Menu,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@mui/material";
+import { Button, Menu, MenuItem } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ClubDeleteDialog from "@/components/ClubDetail/ClubDeleteDialog/ClubDeleteDialog";
 import * as Interface from "@/utils/interface";
 import SettingLink from "./ClubSettingPopperStyle";
 
@@ -59,21 +53,11 @@ export default function SimplePopper({ club }: { club: Interface.Club }) {
         </SettingLink>
         <MenuItem onClick={handleDelete}>삭제</MenuItem>
       </Menu>
-      <Dialog
-        open={openDelete}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>삭제하시겠습니까?</DialogTitle>
-        <DialogActions>
-          <Button color='inherit' onClick={handleCloseDelete}>
-            취소하기
-          </Button>
-          <Button color='warning' onClick={handleCloseDelete} autoFocus>
-            삭제하기
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ClubDeleteDialog
+        clubId={club.id}
+        openDelete={openDelete}
+        handleCloseDelete={handleCloseDelete}
+      />
     </div>
   );
 }
