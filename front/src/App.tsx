@@ -7,7 +7,7 @@ import Main from "@/pages/Main";
 import { SignIn, SignUp, SignUpForm } from "@/pages/User";
 import ClubDetail from "@/pages/ClubDetail/ClubDetail";
 
-import ClubList from "@/pages/ClubList";
+import ClubList from "@/pages/ClubList/ClubList";
 import ClubCreate from "@/pages/ClubCreate/ClubCreate";
 import ClubUpdate from "@/pages/ClubUpdate/ClubUpdate";
 import Header from "@/components/Header/Header";
