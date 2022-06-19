@@ -1,6 +1,6 @@
 import styled from "@emotion/styled/macro";
 
-const FilterBox = styled.div`
+export const FilterBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -8,11 +8,11 @@ const FilterBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const SelectBox = styled.div`
+export const SelectBox = styled.div`
   display: flex;
 `;
 
-const SelectButton = styled.button`
+export const SelectButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@ const SelectButton = styled.button`
   }
 `;
 
-const SearchBox = styled.div`
+export const SearchBox = styled.div`
   width: 300px;
   height: 42px;
   position: relative;
@@ -46,7 +46,7 @@ const SearchBox = styled.div`
   }
 `;
 
-const SearchInput = styled.input`
+export const SearchInput = styled.input`
   width: 100%;
   height: 42px;
   box-sizing: border-box;
@@ -59,27 +59,27 @@ const SearchInput = styled.input`
   // box-shadow: 3px 3px 5px #f1f1f1;
 `;
 
-const SelectedSpanBox = styled.div`
+export const SelectedSpanBox = styled.div`
   width: 100%;
   margin-bottom: 100px;
 `;
 
-const ResetSpan = styled.span`
+export const ResetSpan = styled.span`
   font-size: 14px;
   color: #716847;
   margin-left: 5px;
   cursor: pointer;
 `;
 
-const ClubListBox = styled.div`
+export const ClubListBox = styled.div`
   width: 100%;
 `;
 
-const DropDownBox = styled.div`
+export const DropDownBox = styled.div`
   position: relative;
 `;
 
-const DropDownMenu = styled.div`
+export const DropDownMenu = styled.div`
   width: 97%;
   box-sizing: border-box;
   position: absolute;
@@ -95,7 +95,7 @@ const DropDownMenu = styled.div`
   }
 `;
 
-const ClubCreateButtonBox = styled.div`
+export const ClubCreateButtonBox = styled.div`
   position: fixed;
   bottom: 10%;
   right: 9%;
@@ -104,17 +104,3 @@ const ClubCreateButtonBox = styled.div`
     cursor: pointer;
   }
 `;
-
-export {
-  FilterBox,
-  SelectBox,
-  SelectButton,
-  SearchBox,
-  SearchInput,
-  SelectedSpanBox,
-  ResetSpan,
-  ClubListBox,
-  DropDownBox,
-  DropDownMenu,
-  ClubCreateButtonBox,
-};

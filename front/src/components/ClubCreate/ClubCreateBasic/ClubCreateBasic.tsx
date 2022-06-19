@@ -13,9 +13,9 @@ import {
   MeetingInputBox,
   Line,
   StyledSelect,
-} from "./ClubCreateFirstStyle";
+} from "./ClubCreateBasicStyle";
 
-function ClubCreateFirst(props: Interface.ClubState) {
+function ClubCreateBasic(props: Interface.ClubState) {
   const { clubInfo, setClubInfo } = props;
 
   const onChange = onChangeFunction(setClubInfo);
@@ -135,4 +135,4 @@ function ClubCreateFirst(props: Interface.ClubState) {
   );
 }
 
-export default ClubCreateFirst;
+export default ClubCreateBasic;

@@ -6,7 +6,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 import Header from "@/components/Header/Header";
-import ClubCreateFirst from "@/components/ClubCreate/ClubCreateFirst";
+import ClubCreateBasic from "@/components/ClubCreate/ClubCreateBasic/ClubCreateBasic";
 import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview";
 
 import * as Api from "@/utils/api";
@@ -128,7 +128,7 @@ const modules = useMemo(
 
 return (
 	<div>
-    <ClubCreateFirst clubInfo={clubInfo} setClubInfo={setClubInfo} />
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} />
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
