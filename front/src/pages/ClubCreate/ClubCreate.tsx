@@ -15,15 +15,17 @@ function EditorComponent() {
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState({
-    name: '테스트22',
-    intro: '클럽생성테스트22입니다.',
-    day: 1,
-    description: '상세보기를 작성해주세요',
-    num: 40,
-    process: 1,
-    duration_of_progress : 0,
-    club_state: "모집중",
-    manager_id: 4,
+    name: '이름을 입력해주세요',
+    intro: '한줄소개를 입력해주세요',
+    description: '상세정보를 입력해주세요',
+    head_count: 100,
+    duration: 6,
+    online: 1,
+    offline: 0,
+    weekday: 0,
+    weekend: 1,
+    state: '모집중',
+    manager: 4,
   });
 
   useEffect(() => {

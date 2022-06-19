@@ -7,15 +7,15 @@ export interface Club {
   picture?: string | null;
   intro?: string;
   duration?: number;
-  state?: boolean;
-  online?: number;
-  offline?: number;
+  state?: string;
+  online?: number | null;
+  offline?: number | null;
   description?: string;
-  views?: number;
+  views?: number | null;
   head_count?: number;
-  weekday?: number;
-  weekend?: number;
-  hashtags?: string;
+  weekday?: number | null;
+  weekend?: number | null;
+  hashtags?: string | null;
 }
 
 export interface ClubState {

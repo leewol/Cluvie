@@ -18,16 +18,13 @@ function ClubDetail() {
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
     id: -100,
-    name: '마블 톺아보기',
-    picture: 'image',
-    intro: '마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!',
-    day: 0,
-    description: '상세보기를 작성해주세요',
-    views: 0,
-    num: 0,
-    process: 0,
-    duration_of_progress : 0,
-    club_state: "모집중"
+    name: '이름을 입력해주세요',
+    intro: '한줄소개를 입력해주세요',
+    description: '상세정보를 입력해주세요',
+    head_count: 100,
+    duration: 6,
+    state: '모집중',
+    manager: 4,
   });
   const handleOpenJoin = () => setOpenJoin(true);
   const handleCloseJoin = () => setOpenJoin(false);
@@ -39,7 +36,7 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/13")
+    Api.get("/clubs/16")
       .then((res) => {
         console.log(res);
         setClub(res.data.club);
@@ -97,10 +94,12 @@ function ClubDetail() {
               </Style.Title>
               <Style.Text1>{club.intro}</Style.Text1>
               <Style.Text2>
-                본 클럽은 {club.process ? "오프라인" : "온라인"}으로 진행됩니다.
+                본 클럽은 {club.online ? "온라인" : ""}
+                {club.offline ? "오프라인" : ""}으로 진행됩니다.
               </Style.Text2>
               <Style.Text2>
-                모집 마감까지 6자리 남았어요! (현재 14명 / 최대 {club.num}명)
+                모집 마감까지 6자리 남았어요! (현재 14명 / 최대{" "}
+                {club.head_count}명)
               </Style.Text2>
               <Style.Text3>
                 *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.

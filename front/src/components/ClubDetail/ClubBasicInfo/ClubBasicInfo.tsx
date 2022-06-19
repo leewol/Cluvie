@@ -34,10 +34,16 @@ function ClubBasicInfo({ club }: { club: Interface.Club }) {
           <InfoTitleDiv>주제</InfoTitleDiv>
           <div>{club.intro}</div>
         </BasicInfoEachDiv>
-        <div>모집 인원 {club.num}</div>
-        <div>클럽 일정 {club.day}</div>
-        <div>진행 방식 {club.process}</div>
-        <div>진행 기간 {club.duration_of_progress}</div>
+        <div>모집 인원 {club.head_count}</div>
+        <div>
+          클럽 일정 {club.weekday ? "평일" : ""}
+          {club.weekend ? "주말" : ""}
+        </div>
+        <div>
+          진행 방식 {club.online ? "온라인" : ""}
+          {club.offline ? "오프라인" : ""}
+        </div>
+        <div>진행 기간 {club.duration}</div>
       </BasicInfoDiv>
     </div>
   );

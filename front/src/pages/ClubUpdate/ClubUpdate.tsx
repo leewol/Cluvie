@@ -24,7 +24,7 @@ function EditorComponent() {
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(0);
   const [preview, setPreview] = useState(false);
-  const [clubInfo, setClubInfo] = useState({});
+  const [clubInfo, setClubInfo] = useState(club);
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -121,7 +121,7 @@ const modules = useMemo(
   const handleSubmit = () => {
     console.log('clubInfo',clubInfo)
 
-    Api.put("/clubs/13", clubInfo)
+    Api.put("/clubs/16", clubInfo)
       .then((res)=> console.log(res))
       .catch((err) => console.log(err));
   }
