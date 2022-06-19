@@ -2,24 +2,26 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // queryInterface.addColumn("clubs", "manager_id", {
-    //   type: Sequelize.INTEGER,
-    //   allowNull: false,
+    // await queryInterface.removeColumn("clubs", "online");
+    // await queryInterface.removeColumn("clubs", "offline");
+    // await queryInterface.removeColumn("clubs", "weekday");
+    // await queryInterface.removeColumn("clubs", "weekend");
+    await queryInterface.renameColumn("clubs", "headCount", "head_count");
+    // await queryInterface.addColumn("clubs", "offline", {
+    //   type: Sequelize.TINYINT,
+    //   allowNull: true,
+    //   defaultValue: 0,
     // });
-    queryInterface.changeColumn("clubs", "duration_of_progress", {
-      type: Sequelize.TINYINT,
-      allowNull: false,
-    });
-    // queryInterface.addColumn("clubs", "club_state", {
-    //   type: Sequelize.STRING(10),
-    //   allowNull: false,
+    // await queryInterface.addColumn("clubs", "weekday", {
+    //   type: Sequelize.TINYINT,
+    //   allowNull: true,
+    //   defaultValue: 0,
     // });
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    // await queryInterface.addColumn("clubs", "weekend", {
+    //   type: Sequelize.TINYINT,
+    //   allowNull: true,
+    //   defaultValue: 0,
+    // });
   },
 
   async down(queryInterface, Sequelize) {
@@ -29,7 +31,5 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    // queryInterface.removeColumn("clubs", "start_date");
-    // queryInterface.removeColumn("clubs", "end_date");
   },
 };
