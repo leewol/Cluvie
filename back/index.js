@@ -1,41 +1,8 @@
-import cors from "cors";
-import express, { application } from "express";
-import db from "./models/index";
-import clubRouter from "./src/routes/club/router";
-import registerRouter from "./src/routes/register/router";
-import userRouter from "./src/routes/user/router";
-import likeRouter from "./src/routes/like/router";
-import applicantRouter from "./src/routes/applicant/router";
-import dotenv from "dotenv";
-dotenv.config();
+import 'dotenv/config'
+import { app } from "./src/app";
 
-const app = express();
-
-const PORT = 5001;
-
-db.sequelize
-  .sync()
-  .then(() => {
-    console.log("데이터 베이스 연결 성공");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-app.use(cors({ origin: true, credentials: true }));
-// app.use(express.urlencoded({ extended: false })); // ? 알아내자
-app.use(express.json()); //->req.body 가 잘 보내짐
-
-app.get("/", (req, res) => {
-  res.send("Hello Express");
-});
-
-app.use(userRouter);
-app.use(registerRouter);
-app.use(likeRouter);
-app.use("/clubs", clubRouter);
-app.use("/applications", applicantRouter);
+const PORT = process.env.SERVER_PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
+  console.log(`정상적으로 서버를 시작하였습니다.  http://localhost:${PORT}`);
 });
