@@ -38,8 +38,12 @@ module.exports = class Club extends Sequelize.Model {
         },
         // 클럽 모집 상태
         state: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING,
           allowNull: false,
+        },
+        hashtags: {
+          type: Sequelize.STRING,
+          allowNull: true,
         },
         // 클럽 진행(온라인/ 오프라인)
         online: {
