@@ -36,7 +36,7 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/13")
+    Api.get("/clubs/16")
       .then((res) => {
         console.log(res);
         setClub(res.data.club);
@@ -94,8 +94,8 @@ function ClubDetail() {
               </Style.Title>
               <Style.Text1>{club.intro}</Style.Text1>
               <Style.Text2>
-                본 클럽은 {club.online && "온라인"}
-                {club.offline && "오프라인"}으로 진행됩니다.
+                본 클럽은 {club.online ? "온라인" : ""}
+                {club.offline ? "오프라인" : ""}으로 진행됩니다.
               </Style.Text2>
               <Style.Text2>
                 모집 마감까지 6자리 남았어요! (현재 14명 / 최대{" "}

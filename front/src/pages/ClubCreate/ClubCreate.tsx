@@ -20,9 +20,12 @@ function EditorComponent() {
     description: '상세정보를 입력해주세요',
     head_count: 100,
     duration: 6,
+    online: 1,
+    offline: 0,
+    weekday: 0,
+    weekend: 1,
     state: '모집중',
     manager: 4,
-    views: 0,
   });
 
   useEffect(() => {
