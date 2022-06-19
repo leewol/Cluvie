@@ -4,13 +4,14 @@ import pandas as pd
 from pprint import pprint
 
 import torch
+import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 from torch.optim.lr_scheduler import ExponentialLR, CosineAnnealingWarmRestarts
 
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping, LearningRateMonitor
-from pytorch_lightning import LightningModule, Trainer, seed_everything, loggers as pl_loggers
+from pytorch_lightning import LightningModule, LightningDataModule, Trainer, seed_everything, loggers as pl_loggers
 
-from transformers import ElectraForSequenceClassification, ElectraTokenizer, AdamW
+from transformers import ElectraModel, ElectraTokenizer, AdamW
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
@@ -23,10 +24,13 @@ args = {
     'output_dir': 'ckpt',
     'model_name_or_path': "monologg/koelectra-base-v3-discriminator",
     'task_name': '',
+    'doc_col': 'comment',
+    'label_col': 'hate',
     'batch_size': 32,
+    'labels': 4,
     'lr': 3e-5,  # Learning Rate
     'max_epochs': 15,  # Max Epochs
-    'max_seq_length': 128,  # Max Length input size
+    'max_length': 128,  # Max Length input size
     'train_data_path': "data/hate-speech/train.tsv",  # Train Dataset file
     'val_data_path': "data/hate-speech/val.tsv",  # Validation Dataset file
     'test_mode': False,  # Test Mode enables `fast_dev_run`
@@ -38,40 +42,65 @@ args = {
     'num_workers': 4,  # Multi thread
 }
 
-class Model(LightningModule):
+class HateSpeechClassification(LightningModule):
     def __init__(self, **kwargs):
         super().__init__()
         self.save_hyperparameters()  # self.hparams 저장
 
-        self.electra = ElectraForSequenceClassification.from_pretrained(self.hparams.model_name_or_path)
+        self.electra = ElectraModel.from_pretrained(self.hparams.model_name_or_path)
         self.tokenizer = ElectraTokenizer.from_pretrained(self.hparams.model_name_or_path)
 
-    def forward(self, **kwargs):
-        return self.electra(**kwargs)
+        self.classifier = nn.Sequential(
+            nn.Linear(self.electra.config.hidden_size, self.hparams.linear_layer_size),
+            nn.GELU(),
+            nn.Dropout(self.hparams.dropout_rate),
+            nn.Linear(self.hparams.linear_layer_size, self.hparams.labels),
+        )
 
-    def step(self, batch, batch_idx):
-        data, labels = batch
-        output = self(input_ids=data, labels=labels)
+    def forward(self, input_ids=None, attention_mask=None, labels=None):
+        output = self.electra(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
+        output = self.classifier(output.last_hidden_state[:, 0]) # if bert self.classifier(output.pooler_output)
+        output = torch.sigmoid(output)
+        loss = 0
+        if labels is not None:
+            loss = self.criterion(output, labels)
+        return loss, output
 
-        loss = output.loss
-        logits = output.logits
+    def step(self, batch, batch_idx, state):
+        '''
+        ##########################################################
+        electra forward input shape information
+        * input_ids.shape (batch_size, max_length)
+        * attention_mask.shape (batch_size, max_length)
+        * label.shape (batch_size,)
+        ##########################################################
+        '''
 
-        preds = logits.argmax(dim=-1)
+        input_ids = batch["input_ids"]
+        attention_mask = batch["attention_mask"]
+        labels = batch["labels"]
 
-        y_true = list(labels.cpu().numpy())
-        y_pred = list(preds.cpu().numpy())
+        loss, output = self(input_ids, attention_mask, labels)
 
-        return {
-            'loss': loss,
-            'y_true': y_true,
-            'y_pred': y_pred,
-        }
+        if state == "train":
+            step_name = "train_loss"
+        elif state == "val":
+            step_name = "val_loss"
+        else:
+            step_name = "test_loss"
+
+        self.log(step_name, loss, prog_bar=True, logger=True)
+
+        return {"loss": loss, "predictions": output, "labels": labels}
 
     def training_step(self, batch, batch_idx):
-        return self.step(batch, batch_idx)
+        return self.step(batch, batch_idx, "train")
 
     def validation_step(self, batch, batch_idx):
-        return self.step(batch, batch_idx)
+        return self.step(batch, batch_idx, "val")['loss']
+
+    def test_step(self, batch, batch_idx):
+        return self.step(batch, batch_idx, "test")['loss']
 
     def epoch_end(self, outputs, state='train'):
         loss = torch.tensor(0, dtype=torch.float)
@@ -118,6 +147,57 @@ class Model(LightningModule):
             # }
         }
 
+class HateSpeechDataset(Dataset):
+    def __init__(
+            self,
+            data_path,
+            model_name_or_path,
+            max_length: int = 128,
+            doc_col = "comment"
+    ):
+        self.tokenizer = ElectraTokenizer.from_pretrained(model_name_or_path)
+        self.max_length = max_length
+        self.doc_col = doc_col
+
+        # 파일 읽기
+        df = self.read_data(data_path)
+
+        # hate speech date 전처리
+        df = self.hate_speech_preprocessor(df)
+
+        self.label_columns = df.columns.tolist()[2:]
+        self.data = df
+
+    def hate_speech_preprocessor(self, df):
+
+        df['offensive'] = df['hate'].map(lambda x: 1 if x == "offensive" else 0)
+        df['hate'] = df['hate'].map(lambda x: 1 if x == "hate" else 0)
+        df['others'] = df['bias'].map(lambda x: 1 if x == "others" else 0)
+        df['gender'] = df['bias'].map(lambda x: 1 if x == "gender" else 0)
+        df.drop(['bias'], axis=1, inplace=True)
+
+        # nan 제거
+        df = df.dropna(axis=0)
+        # 중복제거
+        df.drop_duplicates(subset=[self.doc_col], inplace=True)
+
+        return df
+
+    # 한국어 데이터 전처리
+    def clean_text(self, text):
+        emojis = ''.join(emoji.UNICODE_EMOJI.keys())
+        pattern = re.compile(f'[^ .,?!/@$%~％·∼()\x00-\x7Fㄱ-힣{emojis}]+')
+        url_pattern = re.compile(
+            r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+        )
+        processed = pattern.sub(' ', text)
+        processed = url_pattern.sub(' ', processed)
+        processed = processed.strip()
+        processed = repeat_normalize(processed, num_repeats=2)
+
+        return processed
+
+    # 파일 읽기
     def read_data(self, path):
         if path.endswith('xlsx'):
             return pd.read_excel(path)
@@ -128,98 +208,75 @@ class Model(LightningModule):
         else:
             raise NotImplementedError('Only Excel(xlsx)/Csv/Tsv(txt) are Supported')
 
-    def preprocess_dataframe(self, df):
-        emojis = ''.join(emoji.UNICODE_EMOJI.keys())
-        pattern = re.compile(f'[^ .,?!/@$%~％·∼()\x00-\x7Fㄱ-힣{emojis}]+')
-        url_pattern = re.compile(
-            r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
+    def __len__(self):
+        return len(self.data)
 
-        # 텍스트 데이터 전처리
-        def clean(x):
-            x = pattern.sub(' ', x)
-            x = url_pattern.sub('', x)
-            x = x.strip()
-            x = repeat_normalize(x, num_repeats=2)
-            return x
+    def __getitem__(self, index: int):
+        data_row = self.data.iloc[index]
 
-        # hate speech label 데이터 전처리
-        def string_to_number(x):
-            if x == 'hate':
-                return 0
-            elif x == 'offensive':
-                return 1
-            else:
-                return 2
+        comment_text = data_row.comment_text
+        labels = data_row[self.label_columns]
 
-        # df['comment'] = df['comment'].map(lambda x: self.tokenizer.encode(
-        #     clean(str(x)),
-        #     padding='max_length',
-        #     max_length=self.hparams.max_length,
-        #     truncation=True,
-        # ))
-        # df['hate'] = df['hate'].map(string_to_number)
-
-        encoding = df['comment'].map(lambda x: self.tokenizer.encode_plus(
-            clean(str(x)),
+        encoding = self.tokenizer.encode_plus(
+            comment_text,
             add_special_tokens=True,
-            padding='max_length',
-            return_token_type_ids=True,
-            return_attention_mask=True,
-            max_length=self.hparams.max_seq_length,
+            max_length=self.max_length,
+            return_token_type_ids=False,
+            padding="max_length",
             truncation=True,
+            return_attention_mask=True,
             return_tensors='pt',
-        ))
-
-        input_ids_list = []
-        token_type_ids_list = []
-        attention_mask_list = []
-        label_list = df['hate'].map(string_to_number).to_list()
-
-        for feature in encoding:
-            input_ids_list.append(feature['input_ids'])
-            token_type_ids_list.append(feature['token_type_ids'])
-            attention_mask_list.append(feature['attention_mask'])
+        )
 
         return dict(
-            input_ids_list=input_ids_list,
-            token_type_ids_list=token_type_ids_list,
-            attention_mask_list=attention_mask_list,
-            label_list=label_list
+            comment_text=comment_text,
+            input_ids=encoding["input_ids"].flatten(),
+            attention_mask=encoding["attention_mask"].flatten(),
+            labels=torch.FloatTensor(labels)
         )
 
-    def dataloader(self, path, shuffle=False):
-        df = self.read_data(path)
-        df = self.preprocess_dataframe(df)
+class HateSpeechDataModule(LightningDataModule):
+    def __init__(self, train_data_path, val_data_path, max_length, batch_size,
+                 doc_col, model_name_or_path, num_workers=1):
+        super().__init__()
+        self.batch_size = batch_size
+        self.train_data_path = train_data_path
+        self.val_data_path = val_data_path
+        self.max_length = max_length
+        self.doc_col = doc_col
+        self.num_workers = num_workers
+        self.model_name_or_path = model_name_or_path
 
-        # dataset = TensorDataset(
-        #     torch.tensor(df['comment'].to_list(), dtype=torch.long),
-        #     torch.tensor(df['label'].to_list(), dtype=torch.long),
-        # )
-
-        dataset = TensorDataset(
-            torch.tensor(df['input_ids_list'], dtype=torch.long),
-            torch.tensor(df['attention_mask_list'], dtype=torch.long),
-            torch.tensor(df['token_type_ids_list'], dtype=torch.long),
-            torch.tensor(df['label_list'], dtype=torch.long),
+    def setup(self, stage=None):
+        self.train_dataset = HateSpeechDataset(
+            self.train_data_path, model_name_or_path=self.model_name_or_path, max_length=self.max_length, doc_col=self.doc_col
         )
-        return DataLoader(
-            dataset,
-            batch_size=self.hparams.batch_size or self.batch_size,
-            shuffle=shuffle,
-            num_workers=self.hparams.num_workers,
+        self.val_dataset = HateSpeechDataset(
+            self.val_data_path, model_name_or_path=self.model_name_or_path, max_length=self.max_length, doc_col=self.doc_col
         )
 
     def train_dataloader(self):
-        return self.dataloader(self.hparams.train_data_path, shuffle=True)
+        return DataLoader(self.train_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=True)
 
     def val_dataloader(self):
-        return self.dataloader(self.hparams.val_data_path, shuffle=False)
+        return DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=False)
+
+    def test_dataloader(self):
+        return DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=False)
 
 def main():
     print("Using PyTorch Ver", torch.__version__)
     print("args: ", args)
     seed_everything(args['random_seed'])
-    model = Model(**args)
+
+    # train_df, test_df, tokenizer, label_columns, num_workers, batch_size=8, max_length=128
+
+    model = HateSpeechClassification(**args)
+    dm = HateSpeechDataModule(
+        batch_size=args['batch_size'], train_data_path=args['train_data_path'],
+        val_data_path=args['val_data_path'], max_length=args['max_length'], doc_col=args['doc_col'],
+        model_name_or_path=args['model_name_or_path'], num_workers=args['num_workers']
+    )
 
     gpus = min(1, torch.cuda.device_count())
 
@@ -244,7 +301,6 @@ def main():
     tb_logger = pl_loggers.TensorBoardLogger(os.path.join(args['output_dir'], 'tb_logs'))
     lr_logger_callback = LearningRateMonitor()
 
-    print(":: Start Training ::")
     trainer = Trainer(
         callbacks=[checkpoint_callback, early_stop_callback, lr_logger_callback],
         max_epochs=args['max_epochs'],
@@ -258,6 +314,8 @@ def main():
         # For TPU Setup
         # tpu_cores=args.tpu_cores if args.tpu_cores else None,
     )
-    trainer.fit(model)
+
+    print(":: Start Training ::")
+    trainer.fit(model, dm)
 
 main()
