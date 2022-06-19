@@ -13,7 +13,6 @@ module.exports = class Users extends Sequelize.Model {
         email: {
           type: Sequelize.STRING(50),
           allowNull: false,
-          unique: true,
         },
         password: {
           type: Sequelize.STRING(200),
@@ -24,11 +23,11 @@ module.exports = class Users extends Sequelize.Model {
           allowNull: false,
         },
         birthday: {
-          type: Sequelize.DATE,
+          type: Sequelize.STRING(50),
           allowNull: false,
         },
         sex: {
-          type: Sequelize.TINYINT,
+          type: Sequelize.ENUM("여성", "남성", "여성도 남성도 아니에요"),
           allowNull: false,
         },
         description: {

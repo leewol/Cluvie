@@ -28,7 +28,7 @@ class userService {
       return { errorMessage };
     }
   };
-  static updateDescription = async ({ id, description }) => {
+  static userDataUpdate = async ({ id, nickname, description }) => {
     const user = await Users.findOne({
       where: { id },
     });
@@ -36,15 +36,25 @@ class userService {
       const errorMessage = "해당 사용자가 없습니다.";
       return { errorMessage };
     } else {
-      const updatedDescription = await Users.update(
-        { description },
+      const updated = await Users.update(
+        { nickname, description },
         { where: { id } }
       );
-      return updatedDescription;
+      return updated;
     }
   };
 
-  // 회원정보 수정, 회원정보 삭제(탈퇴) 등은 추가 논의 필요
+  static getUserData = async ({ id }) => {
+    const user = await Users.findOne({
+      where: { id },
+    });
+    if (!user) {
+      const errorMessage = "해당 사용자가 없습니다.";
+      return { errorMessage };
+    } else {
+      return user;
+    }
+  };
 }
 
 export { userService };
