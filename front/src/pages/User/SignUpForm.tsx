@@ -14,6 +14,7 @@ import {
   showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
+import { onChangeFunction } from "@/utils/eventHandler";
 
 // TODO : 회원가입 실패 시 alert
 
@@ -123,13 +124,7 @@ function SignUpForm() {
     form.birthday &&
     form.sex;
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const onChange = onChangeFunction(setForm);
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

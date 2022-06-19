@@ -12,6 +12,7 @@ import {
   showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
+import { onChangeFunction } from "@/utils/eventHandler";
 
 // TODO : 소셜 로그인, 로그인 실패 시 alert
 
@@ -32,14 +33,7 @@ function SignIn() {
   const isFormValid =
     isEmailValid(form.email) && isPasswordValid(form.password);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const onChange = onChangeFunction(setForm);
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
