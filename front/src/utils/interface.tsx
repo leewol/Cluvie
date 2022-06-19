@@ -3,11 +3,15 @@ export interface Club {
   name?: string;
   picture?: string | null;
   intro?: string;
-  day?: number;
+  online?: number | null;
+  offline?: number | null;
+  weekday?: number | null;
+  weekend?: number | null;
   description?: string;
+  hashtags?: string | null;
   views?: number | null;
-  num?: number;
-  process?: number;
-  duration_of_progress?: number;
-  club_state?: string;
+  head_count?: number;
+  duration?: number;
+  state?: string;
+  manager?: number;
 }
