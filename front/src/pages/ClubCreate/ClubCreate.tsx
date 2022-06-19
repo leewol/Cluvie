@@ -132,7 +132,7 @@ return (
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
-
+      <Style.DetailInfoDiv>상세 정보</Style.DetailInfoDiv>
       <Style.ClubReactQuill
         ref={(element) => {
             if (element !== null) {

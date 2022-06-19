@@ -72,3 +72,8 @@ export const MyButton3 = styled(Button)`
     background-color: rgba(0, 0, 0, 0.6);
   }
 `;
+
+export const DetailInfoDiv = styled.div`
+  font-weight: 600;
+  margin-bottom: 5px;
+`;

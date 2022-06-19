@@ -107,7 +107,7 @@ function ClubCreateFirst(props: Interface.ClubState) {
           </MeetingInputBox>
           <InputBox>
             <StyledLabel htmlFor='duration'>진행 기간</StyledLabel>
-            <StyledSelect name='durations' id='duration' onChange={handleSelect}>
+            <StyledSelect name='duration' id='duration' onChange={handleSelect}>
               <option value='0'>미정</option>
               <option value='1'>단기</option>
               <option value='2'>1~2개월</option>

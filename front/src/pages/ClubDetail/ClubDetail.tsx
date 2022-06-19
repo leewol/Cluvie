@@ -36,7 +36,7 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/21")
+    Api.get("/clubs/1")
       .then((res) => {
         console.log(res);
         setClub(res.data.club);
@@ -95,6 +95,7 @@ function ClubDetail() {
               <Style.Text1>{club.intro}</Style.Text1>
               <Style.Text2>
                 본 클럽은 {club.online ? "온라인" : ""}
+                {club.online && club.offline ? "/" : ""}
                 {club.offline ? "오프라인" : ""}으로 진행됩니다.
               </Style.Text2>
               <Style.Text2>

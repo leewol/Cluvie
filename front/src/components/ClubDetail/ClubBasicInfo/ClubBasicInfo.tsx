@@ -4,6 +4,16 @@ import React from "react";
 import * as Interface from "@/utils/interface";
 import * as Style from "./ClubBasicInfoStyle";
 
+const durationList = [
+  "미정",
+  "단기",
+  "1~2개월",
+  "3~4개월",
+  "5~6개월",
+  "6개월 이상",
+  "장기",
+];
+
 function ClubBasicInfo({ club }: { club: Interface.Club }) {
   return (
     <div>
@@ -24,6 +34,7 @@ function ClubBasicInfo({ club }: { club: Interface.Club }) {
           <Style.InfoTitleDiv>클럽 일정</Style.InfoTitleDiv>
           <Style.InfoContentDiv>
             {club.weekday ? "평일" : ""}
+            {club.weekday && club.weekend ? "/" : ""}
             {club.weekend ? "주말" : ""}
           </Style.InfoContentDiv>
         </Style.BasicInfoEachDiv>
@@ -31,12 +42,15 @@ function ClubBasicInfo({ club }: { club: Interface.Club }) {
           <Style.InfoTitleDiv>진행 방식</Style.InfoTitleDiv>
           <Style.InfoContentDiv>
             {club.online ? "온라인" : ""}
+            {club.online && club.offline ? "/" : ""}
             {club.offline ? "오프라인" : ""}
           </Style.InfoContentDiv>
         </Style.BasicInfoEachDiv>
         <Style.BasicInfoEachDiv>
           <Style.InfoTitleDiv>진행 기간</Style.InfoTitleDiv>
-          <Style.InfoContentDiv>{club.duration}개월</Style.InfoContentDiv>
+          <Style.InfoContentDiv>
+            {durationList[club.duration ? club.duration : 0]}
+          </Style.InfoContentDiv>
         </Style.BasicInfoEachDiv>
       </Style.BasicInfoDiv>
     </div>
