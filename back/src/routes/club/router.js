@@ -7,7 +7,7 @@ const clubRouter = express.Router();
 clubRouter.post("/", verifyToken, async (req, res) => {
   let club = req.body;
   club.views = 0;
-  club.manager_id = req.user;
+  club.manager = req.user;
   await Clubs.create(club)
     .then((result) => {
       res.status(200).json({ success: true, result });
@@ -52,13 +52,16 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     {
       name: req.body.name,
       intro: req.body.intro,
-      day: req.body.day,
+      online: req.body.online,
+      offline: req.body.offline,
       description: req.body.description,
-      num: req.body.num,
+      head_count: req.body.num,
       picture: req.body.picture,
-      process: req.body.process,
-      duration_of_progress: req.body.duration_of_progress,
-      club_state: req.body.club_state,
+      weekday: req.body.weekday,
+      weekend: req.body.weekend,
+      duration: req.body.duration,
+      state: req.body.state,
+      hashtags: req.body.hashtags,
     },
     { where: { id: req.params.id } }
   )
