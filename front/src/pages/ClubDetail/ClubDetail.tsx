@@ -10,26 +10,13 @@ import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButto
 import Header from "@/components/Header/Header";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
 import * as Api from "@/utils/api";
+import * as Interface from "@/utils/interface";
 import * as Style from "./ClubDetailStyle";
-
-interface Club {
-  id: number;
-  name: string;
-  picture: string | null;
-  intro: string;
-  day: number;
-  description: string;
-  views: number | null;
-  num: number;
-  process: number;
-  duration_of_progress: number;
-  club_state: string;
-}
 
 function ClubDetail() {
   const [openJoin, setOpenJoin] = useState(false);
   // prettier-ignore
-  const [club, setClub] = useState<Club>({
+  const [club, setClub] = useState<Interface.Club>({
     id: -100,
     name: '마블 톺아보기',
     picture: 'image',

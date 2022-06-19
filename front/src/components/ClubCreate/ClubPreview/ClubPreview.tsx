@@ -5,23 +5,10 @@ import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
+import * as Interface from "@/utils/interface";
 import * as Style from "./ClubPreviewStyle";
 
-interface Club {
-  id: number;
-  name: string;
-  picture: string | null;
-  intro: string;
-  day: number;
-  description: string;
-  views: number | null;
-  num: number;
-  process: number;
-  duration_of_progress: number;
-  club_state: string;
-}
-
-function ClubPreview({ newClub }: { newClub: Club }) {
+function ClubPreview({ newClub }: { newClub: Interface.Club }) {
   return (
     <div>
       <Style.WholeBox>

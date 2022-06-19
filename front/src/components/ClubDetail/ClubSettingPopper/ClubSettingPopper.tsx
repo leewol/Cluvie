@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import * as React from "react";
 import {
   Button,
@@ -8,23 +10,10 @@ import {
   DialogActions,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
+import * as Interface from "@/utils/interface";
 import SettingLink from "./ClubSettingPopperStyle";
 
-interface Club {
-  id: number;
-  name: string;
-  picture: string | null;
-  intro: string;
-  day: number;
-  description: string;
-  views: number | null;
-  num: number;
-  process: number;
-  duration_of_progress: number;
-  club_state: string;
-}
-
-export default function SimplePopper({ club }: { club: Club }) {
+export default function SimplePopper({ club }: { club: Interface.Club }) {
   // prettier-ignore
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openDelete, setOpenDelete] = React.useState(false);
