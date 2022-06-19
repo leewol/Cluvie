@@ -113,6 +113,7 @@ class Model(LightningModule):
             'scheduler': scheduler,
             # 'lr_scheduler': {
             #     'scheduler': scheduler,
+            #     'monitor': 'val_acc',
             #     'interval': 'step',
             # }
         }

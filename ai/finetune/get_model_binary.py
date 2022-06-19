@@ -1,5 +1,5 @@
 import argparse
-from run_summary_train import KoBARTConditionalGeneration
+from train_summary import KoBARTConditionalGeneration
 import yaml
 
 parser = argparse.ArgumentParser()

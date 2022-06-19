@@ -17,7 +17,7 @@ unzip test.zip
 unzip train.zip
 
 # 요약문 생성 
-python3 run_summary_train.py --task summary --config_file kobart-base-v2.yml
+python3 train_summary.py --task summary --config_file kobart-base-v2.yml
 
 # 혐오글 탐지
 python3 run_seq_cls.py --task hate-speech --config_file koelectra-base-v3.json
