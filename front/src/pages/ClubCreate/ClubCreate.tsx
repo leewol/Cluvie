@@ -4,8 +4,11 @@ import React,{ useRef, useState, useMemo, useEffect } from 'react';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+
 import Header from "@/components/Header/Header";
-import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview"
+import ClubCreateFirst from "@/components/ClubCreate/ClubCreateFirst";
+import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview";
+
 import * as Api from "@/utils/api";
 import * as Style from './ClubCreateStyle'
 
@@ -15,17 +18,20 @@ function EditorComponent() {
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState({
-    name: '이름을 입력해주세요',
-    intro: '한줄소개를 입력해주세요',
-    description: '상세정보를 입력해주세요',
-    head_count: 100,
-    duration: 6,
-    online: 1,
-    offline: 0,
-    weekday: 0,
-    weekend: 1,
-    state: '모집중',
+    name: "",
     manager: 4,
+    picture: "1",
+    intro: "",
+    duration: 0,
+    state: "모집중",
+    online: 0,
+    offline: 0,
+    description: '상세보기를 작성해주세요',
+    views: 0,
+    head_count: 1,
+    weekday: 0,
+    weekend: 0,
+    hashtags: ""
   });
 
   useEffect(() => {
@@ -122,12 +128,11 @@ const modules = useMemo(
 
 return (
 	<div>
+    <ClubCreateFirst clubInfo={clubInfo} setClubInfo={setClubInfo} />
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
-      <Style.Title>
-        클럽 상세 정보
-      </Style.Title>
+
       <Style.ClubReactQuill
         ref={(element) => {
             if (element !== null) {

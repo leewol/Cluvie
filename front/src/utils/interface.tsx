@@ -35,6 +35,7 @@ export interface ClubState {
       head_count: number,
       weekday: number,
       weekend: number,
+      hashtags: string,
     }>
   >;
 }

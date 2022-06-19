@@ -23,6 +23,8 @@ const ColumnContainerBox = styled(ContainerBox)`
   justify-content: start;
   margin-left: 10%;
   margin-right: 10%;
+  margin: 80px auto 0 auto;
+  max-width: 1160px;
 `;
 
 const inputBase = css`

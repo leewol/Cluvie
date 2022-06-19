@@ -36,7 +36,7 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/16")
+    Api.get("/clubs/22")
       .then((res) => {
         console.log(res);
         setClub(res.data.club);
@@ -98,7 +98,7 @@ function ClubDetail() {
                 {club.offline ? "오프라인" : ""}으로 진행됩니다.
               </Style.Text2>
               <Style.Text2>
-                모집 마감까지 6자리 남았어요! (현재 14명 / 최대{" "}
+                모집 마감까지 {club.head_count}자리 남았어요! (현재 0명 / 최대{" "}
                 {club.head_count}명)
               </Style.Text2>
               <Style.Text3>
