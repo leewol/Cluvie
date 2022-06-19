@@ -121,7 +121,7 @@ const modules = useMemo(
   const handleSubmit = () => {
     console.log('clubInfo',clubInfo)
 
-    Api.put("/clubs/16", clubInfo)
+    Api.put(`/clubs/${club.id}`, clubInfo)
       .then((res)=> console.log(res))
       .catch((err) => console.log(err));
   }
