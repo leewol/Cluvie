@@ -1,13 +1,40 @@
+import React from "react";
+
 export interface Club {
   id?: number;
   name?: string;
+  manager?: number;
   picture?: string | null;
   intro?: string;
-  day?: number;
+  duration?: number;
+  state?: boolean;
+  online?: number;
+  offline?: number;
   description?: string;
-  views?: number | null;
-  num?: number;
-  process?: number;
-  duration_of_progress?: number;
-  club_state?: string;
+  views?: number;
+  head_count?: number;
+  weekday?: number;
+  weekend?: number;
+  hashtags?: string;
+}
+
+export interface ClubState {
+  clubInfo: Club;
+  setClubInfo: React.Dispatch<
+    React.SetStateAction<{
+      name: string,
+      manager: number,
+      picture: string,
+      intro: string,
+      duration: number,
+      state: boolean,
+      online: number,
+      offline: number,
+      description: string,
+      views: number,
+      head_count: number,
+      weekday: number,
+      weekend: number,
+    }>
+  >;
 }
