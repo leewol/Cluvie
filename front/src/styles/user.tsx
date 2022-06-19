@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 const UserButton =
   styled.button <
-  { social: string } >
+  { social?: string } >
   `
   width: 100%;
   height: 50px;
@@ -63,31 +63,6 @@ const UserInputDiv = styled.div`
   width: 400px;
 `;
 
-const UserInput = styled.input`
-  width: 400px;
-  height: 45px;
-  box-sizing: border-box;
-  margin-bottom: 8px;
-  border-radius: 7px;
-  border: 1px solid #d3d3d3;
-  outline: none;
-  padding-left: 10px;
-  font-family: inherit;
-  ::placeholder {
-    font-size: 14px;
-  }
-  :focus {
-    animation: 0.7s linear forwards border-focus;
-  }
-  @keyframes border-focus {
-    from {
-      border: 1px solid #d3d3d3;
-    }
-    to {
-      border: 1px solid #ffc300;
-    }
-`;
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: #716847;
@@ -98,16 +73,4 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const StyledLabel = styled.label`
-  margin-bottom: 5px;
-`;
-
-export {
-  InputBox,
-  UserButton,
-  FormButton,
-  UserInputDiv,
-  UserInput,
-  StyledLink,
-  StyledLabel,
-};
+export { InputBox, UserButton, FormButton, UserInputDiv, StyledLink };

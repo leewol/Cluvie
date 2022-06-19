@@ -2,14 +2,8 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 
-import { ContainerBox, InnerBox } from "@/styles/containers";
-import {
-  InputBox,
-  FormButton,
-  UserInputDiv,
-  UserInput,
-  StyledLink,
-} from "@/styles/user";
+import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
+import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
 import {
@@ -18,6 +12,7 @@ import {
   showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
+import { onChangeFunction } from "@/utils/eventHandler";
 
 // TODO : 소셜 로그인, 로그인 실패 시 alert
 
@@ -38,14 +33,7 @@ function SignIn() {
   const isFormValid =
     isEmailValid(form.email) && isPasswordValid(form.password);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const onChange = onChangeFunction(setForm);
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,7 +67,7 @@ function SignIn() {
         <form onSubmit={handleSumbit} autoComplete='off'>
           <InputBox>
             <UserInputDiv>
-              <UserInput
+              <StyledInput
                 type='text'
                 placeholder='이메일'
                 name='email'
@@ -89,7 +77,7 @@ function SignIn() {
               {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
             </UserInputDiv>
             <UserInputDiv>
-              <UserInput
+              <StyledInput
                 type='password'
                 placeholder='비밀번호'
                 name='password'

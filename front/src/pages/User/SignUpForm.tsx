@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled/macro";
 
-import { ContainerBox } from "@/styles/containers";
-import {
-  InputBox,
-  UserInputDiv,
-  UserInput,
-  FormButton,
-  StyledLabel,
-} from "@/styles/user";
+import { ContainerBox, StyledInput } from "@/styles/containers";
+import { InputBox, UserInputDiv, FormButton } from "@/styles/user";
+import { StyledLabel } from "@/styles/text";
 
 import {
   isEmailValid,
@@ -19,6 +14,7 @@ import {
   showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
+import { onChangeFunction } from "@/utils/eventHandler";
 
 // TODO : 회원가입 실패 시 alert
 
@@ -128,13 +124,7 @@ function SignUpForm() {
     form.birthday &&
     form.sex;
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const onChange = onChangeFunction(setForm);
 
   const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -180,7 +170,7 @@ function SignUpForm() {
         <SignUpInputBox>
           <StyledLabel htmlFor='email'>이메일</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='text'
               name='email'
               value={form.email}
@@ -191,7 +181,7 @@ function SignUpForm() {
 
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='password'
               name='password'
               value={form.password}
@@ -202,7 +192,7 @@ function SignUpForm() {
 
           <StyledLabel htmlFor='confirmPassword'>비밀번호 확인</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='password'
               name='confirmPassword'
               value={form.confirmPassword}
@@ -217,7 +207,7 @@ function SignUpForm() {
 
           <StyledLabel htmlFor='nickname'>닉네임</StyledLabel>
           <UserInputDiv>
-            <UserInput
+            <StyledInput
               type='text'
               name='nickname'
               value={form.nickname}
@@ -272,7 +262,6 @@ function SignUpForm() {
             type='submit'
             disabled={!isFormValid}
             isFormValid={!!isFormValid}
-            social=''
           >
             회원가입
           </FormButton>

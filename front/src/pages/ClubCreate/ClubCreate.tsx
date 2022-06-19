@@ -124,7 +124,7 @@ return (
 	<div>
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
-      <Header />
+      {/* <Header /> */}
       <Style.Title>
         클럽 상세 정보
       </Style.Title>

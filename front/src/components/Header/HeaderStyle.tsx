@@ -22,6 +22,8 @@ export const LogoLink = styled(Link)`
 export const TextLink = styled(Link)`
   color: black;
   text-decoration: none;
+  font-family: Pretendard;
+  font-size: 16px;
 `;
 
 export const ClubListDiv = styled.div`

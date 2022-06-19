@@ -32,8 +32,8 @@ app.get("/", (req, res) => {
 
 app.use(userRouter);
 app.use(registerRouter);
-app.use("/clubs", clubRouter);
 app.use(likeRouter);
+app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
 
 app.listen(PORT, () => {
