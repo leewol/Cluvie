@@ -4,7 +4,7 @@ import styled from "@emotion/styled/macro";
 import { Card, CardMedia, CardContent, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-
+import testimage from "@/asset/images/testimage.PNG";
 import { StyledSpan } from "@/styles/text";
 
 const WholeCard = styled(Card)`
@@ -47,7 +47,7 @@ function ClubCard(): React.ReactElement {
       <CardMedia
         component='img'
         height='250'
-        src={require("../asset/images/testimage.PNG")}
+        src={testimage}
         alt='Club Image'
       />
       <ClubCardContent>

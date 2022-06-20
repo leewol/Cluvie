@@ -71,7 +71,7 @@ function SignIn() {
         <h1>로그인</h1>
         <SignInButtonBox>
           <SocialButton social='google' action='로그인' />
-          <SocialButton social='kakao-talk' action='로그인' />
+          <SocialButton social='kakaotalk' action='로그인' />
         </SignInButtonBox>
         <form onSubmit={handleSumbit} autoComplete='off'>
           <InputBox>

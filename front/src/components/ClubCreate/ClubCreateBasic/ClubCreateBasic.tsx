@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import * as Interface from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
+import testimage from "@/asset/images/testimage.PNG";
 
 import { ColumnContainerBox, StyledInput } from "@/styles/containers";
 import { StyledLabel, StyledSpan } from "@/styles/text";
@@ -22,7 +23,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
 
   const onChange = onChangeFunction(setClubInfo);
 
-  const onClick = (event: React.MouseEvent<HTMLInputElement>) => {
+  const handleCheckBox = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     
     setClubInfo((prev: any) => ({
@@ -58,7 +59,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
       <ClubCreateFormBox>
         <FormBox>
           <img
-            src={require("@/asset/images/testimage.PNG")}
+            src={testimage}
             alt='Club Thumnail'
             width={500}
             height={300}
@@ -102,22 +103,22 @@ function ClubCreateBasic(props: Interface.ClubState) {
                 type='checkbox'
                 name='online'
                 value={clubInfo.online}
-                onClick={onClick}
+                onClick={handleCheckBox}
               />
               <span>온라인</span>
               <input
                 type='checkbox'
                 name='offline'
                 value={clubInfo.offline}
-                onClick={onClick}
+                onClick={handleCheckBox}
               />
               <span>오프라인</span>
             </InputBox>
             <InputBox>
               <StyledLabel htmlFor='meetingDay'>진행 요일</StyledLabel>
-              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={onClick} />
+              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={handleCheckBox} />
               <span>평일</span>
-              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={onClick} />
+              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={handleCheckBox} />
               <span>주말</span>
             </InputBox>
           </MeetingInputBox>
