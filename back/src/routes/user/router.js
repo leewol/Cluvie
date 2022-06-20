@@ -8,12 +8,12 @@ const userRouter = Router();
 userRouter.post("/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userService.login({ email, password });
+    const token = await userService.login({ email, password });
 
-    if (user.errorMessage) {
-      throw new Error(user.errorMessage);
+    if (token.errorMessage) {
+      throw new Error(token.errorMessage);
     }
-    res.status(200).json({ success: true, user });
+    res.status(200).json({ success: true, token });
   } catch (err) {
     res.status(404).json({ success: false, err });
   }

@@ -8,5 +8,10 @@ const makeToken = (Object) => {
   const token = jwt.sign(Object, jwtkey, { expiresIn: "24h" });
   return token;
 };
+const makeRefreshToken = (Object) => {
+  const jwtkey = process.env.REFRESH_SECRET_KEY;
+  const token = jwt.sign(Object, jwtkey, { expiresIn: "14d" });
+  return token;
+};
 
-export { makeToken };
+export { makeToken, makeRefreshToken };

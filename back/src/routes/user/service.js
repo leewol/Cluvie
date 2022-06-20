@@ -17,12 +17,12 @@ class userService {
     } else if (user.password === hashedPassword) {
       // 비밀번호 일치 확인
       const token = makeToken({ userId: user.id });
-
-      user = {
-        ...user,
-        accessToken: token,
-      };
-      return user;
+      const refreshToken = makeRefreshToken({ userId: user.id });
+      await user.update(
+        { refresh_token: refreshToken },
+        { where: { id: user.id } }
+      );
+      return token;
     } else {
       const errorMessage = "비밀번호가 틀립니다.";
       return { errorMessage };
