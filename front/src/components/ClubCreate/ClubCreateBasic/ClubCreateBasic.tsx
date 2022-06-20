@@ -16,9 +16,12 @@ import {
 } from "./ClubCreateBasicStyle";
 
 function ClubCreateBasic(props: Interface.ClubState) {
+  const [ hashtag, setHashtag ] = useState("");
+
   const { clubInfo, setClubInfo } = props;
 
   const onChange = onChangeFunction(setClubInfo);
+
   const onClick = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     
@@ -27,6 +30,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
       [target.name]: (target.checked ? 1 : 0),
     }));
   };
+
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     
@@ -34,6 +38,18 @@ function ClubCreateBasic(props: Interface.ClubState) {
       ...prev,
       [name]: Number(value),
     }));
+  }
+
+  const handleHashtagChange = (event: React.ChangeEvent <HTMLInputElement>) => {
+    setHashtag(() => event.target.value);
+  }
+
+  const handleHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    console.log(target.name, target.value);
+    // if (event.key === "Enter") {
+
+    // }
   }
 
   return (
@@ -122,7 +138,9 @@ function ClubCreateBasic(props: Interface.ClubState) {
             <StyledInput
               type='text'
               name='hashtags'
-              value={clubInfo.hashtags}
+              value={hashtag}
+              onChange={handleHashtagChange}
+              onKeyPress={handleHashtagEnter}
             />
             <div>
               <StyledSpan>#친목도모</StyledSpan>
