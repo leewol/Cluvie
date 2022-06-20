@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import * as Api from "@/utils/api";
+
 import * as Interface from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
 import testimage from "@/asset/images/testimage.PNG";
@@ -20,6 +22,7 @@ import {
 } from "./ClubCreateBasicStyle";
 
 function ClubCreateBasic(props: Interface.ClubState) {
+  const [ thumnail, setThumnail ] = useState<any>();
   const [ hashtag, setHashtag ] = useState("");
   const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
 
@@ -79,6 +82,25 @@ function ClubCreateBasic(props: Interface.ClubState) {
     setHashtag("");
   }
 
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+
+    // files[0]은 File || null
+    if (files !== null) {
+      const formData = new FormData();
+      
+      setThumnail(files[0]);
+      formData.append("thumnail", thumnail);
+
+      try {
+        // TODO :  이미지 보낸 뒤에 url 받아오기, setClubInfo
+        const picture = await Api.post("", formData);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
   // hashtagArr 변경될 때 clubInfo를 업데이트
   useEffect(() => {
     setClubInfo((prev: any) => ({
@@ -87,17 +109,21 @@ function ClubCreateBasic(props: Interface.ClubState) {
     }));
   }, [hashtagArr]);
   
+  
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>
       <ClubCreateFormBox>
         <FormBox>
-          <img
-            src={testimage}
-            alt='Club Thumnail'
-            width={500}
-            height={300}
-          />
+          <div>
+            <input type="file" accept="image/*" onChange={handleImageUpload}/>
+            <img
+              src={testimage}
+              alt='Club Thumnail'
+              width={500}
+              height={300}
+            />
+          </div>
           <InputBox>
             <StyledLabel htmlFor='name'>클럽명</StyledLabel>
             <StyledInput
