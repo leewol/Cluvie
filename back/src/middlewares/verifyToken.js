@@ -26,7 +26,7 @@ const verifyToken = async (req, res, next) => {
     const ACCESS_KEY = process.env.JWT_SECRET_KEY;
     const REFRESH_KEY = process.env.JWT_REFRESH_SECRET_KEY;
     const myAccessToken = checkToken(accessToken, ACCESS_KEY);
-
+    console.log(myAccessToken);
     if (myAccessToken == "jwt expired") {
       // acceess token 만료
       const userInfo = jwt.verify(accessToken, ACCESS_KEY);
@@ -46,7 +46,7 @@ const verifyToken = async (req, res, next) => {
         }
       });
     } else {
-      const decoded = jwt.verify(token, JWT_KEY);
+      const decoded = jwt.verify(accessToken, ACCESS_KEY);
       // req에 해독한 user 정보 생성
       req.user = decoded.userId;
       next();

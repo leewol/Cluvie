@@ -1,6 +1,6 @@
 import Users from "../../../models/user";
 import { hashPassword } from "../../utils/hashPassword";
-import { makeToken } from "../../utils/makeToken";
+import { makeToken, makeRefreshToken } from "../../utils/makeToken";
 import dotenv from "dotenv";
 dotenv.config();
 
