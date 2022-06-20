@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
 import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
@@ -45,10 +46,18 @@ function SignIn() {
       password,
     })
       .then((res) => {
-        console.log("로그인 성공!");
-        console.log(res);
+        const { accessToken } = res.data.user;
+        window.localStorage.setItem("token", accessToken);
 
+        // API 요청 콜마다 헤더에 accessToken 담기도록 설정
+        // ! 그런데 페이지 리로드 되면 이어지지 않는다..
+        // ! -> 리프레시 토큰 이용해서 다시 해볼것
+        // axios.defaults.headers.common[
+        //   "Authorization"
+        // ] = `Bearer ${accessToken}`;
         navigate("/");
+
+        console.log("로그인 성공!");
       })
       .catch((err) => {
         console.log("로그인 실패!!");

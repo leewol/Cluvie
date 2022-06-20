@@ -61,10 +61,11 @@ function SignUpForm() {
           password,
         })
           .then((resSignIn) => {
-            console.log("로그인 성공!");
-            console.log(resSignIn);
+            const { accessToken } = resSignIn.data.user;
+            window.localStorage.setItem("token", accessToken);
 
             navigate("/");
+            console.log("로그인 성공!");
           })
           .catch((errSignIn) => {
             console.log("로그인 실패!!");
