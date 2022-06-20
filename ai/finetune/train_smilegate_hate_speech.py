@@ -26,7 +26,7 @@ tokenized_dataset.set_format(type='torch', columns=['input_ids', 'labels', 'atte
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-num_labels=len(unsmile_labels) # Label 갯수
+num_labels=len(unsmile_labels)  # Label 갯수
 
 model = ElectraForSequenceClassification.from_pretrained(
     model_name,

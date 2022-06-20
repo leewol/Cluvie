@@ -7,8 +7,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from transformers import ElectraForSequenceClassification, ElectraTokenizer, TextClassificationPipeline
 from sentence_transformers import SentenceTransformer
 
-import torch.nn as nn
-
 import re
 import emoji
 from soynlp.normalizer import repeat_normalize
@@ -16,8 +14,8 @@ from soynlp.normalizer import repeat_normalize
 app = Flask(__name__)
 sroberta_model = SentenceTransformer('jhgan/ko-sroberta-multitask')
 okt = Okt()
-hate_speech_model = ElectraForSequenceClassification.load_from_checkpoint("beomi/KcELECTRA-base")
-hate_speech_tokenizer = ElectraTokenizer.from_pretrained("beomi/KcELECTRA-base")
+hate_speech_model = ElectraForSequenceClassification.from_pretrained("./finetune/model/hatespeech")
+hate_speech_tokenizer = ElectraTokenizer.from_pretrained("./finetune/model/hatespeech")
 
 hate_speech_pipe = TextClassificationPipeline(
     model=hate_speech_model,
@@ -26,7 +24,6 @@ hate_speech_pipe = TextClassificationPipeline(
     return_all_scores=True,
     function_to_apply='sigmoid'
 )
-
 
 def mmr(doc_embedding, candidate_embeddings, words, top_n, diversity):
 
@@ -117,6 +114,16 @@ def classify_hate_speech():
 
     result = []
 
+    # 0 -> {'label': '여성/가족', 'score': 0.8253053426742554}
+    # 1 -> {'label': '남성', 'score': 0.039725180715322495}
+    # 2 -> {'label': '성소수자', 'score': 0.012144332751631737}
+    # 3 -> {'label': '인종/국적', 'score': 0.023181889206171036}
+    # 4 -> {'label': '연령', 'score': 0.010315303690731525}
+    # 5 -> {'label': '지역', 'score': 0.018454890698194504}
+    # 6 -> {'label': '종교', 'score': 0.011270025745034218}
+    # 7 -> {'label': '기타 혐오', 'score': 0.0207340307533741} -> 이거 거의 없는듯 학습이 안된건지
+    # 8 -> {'label': '악플/욕설', 'score': 0.057331427931785583}
+    # 9 -> {'label': 'clean', 'score': 0.1401052623987198}
     for output in hate_speech_pipe(processed)[0]:
         result.append(output)
 
@@ -126,23 +133,15 @@ def classify_hate_speech():
 def classify_hate_speech():
     sentences = request.get_json()['sentences']
     idx = request.get_json()['idx']
-    # 0 -> {'label': '여성/가족', 'score': 0.8253053426742554}
-    # 1 -> {'label': '남성', 'score': 0.039725180715322495}
-    # 2 -> {'label': '성소수자', 'score': 0.012144332751631737}
-    # 3 -> {'label': '인종/국적', 'score': 0.023181889206171036}
-    # 4 -> {'label': '연령', 'score': 0.010315303690731525}
-    # 5 -> {'label': '지역', 'score': 0.018454890698194504}
-    # 6 -> {'label': '종교', 'score': 0.011270025745034218}
-    # 7 -> {'label': '기타 혐오', 'score': 0.0207340307533741}
-    # 8 -> {'label': '악플/욕설', 'score': 0.057331427931785583}
-    # 9 -> {'label': 'clean', 'score': 0.1401052623987198}
     processed = clean_text(sentences)
 
     result = []
 
-    hate_speech_pipe(processed)[0][idx]
+    # --> 문장 길이가 128자 이내로 학습이 된거라 문장단위로 자르는게 맞는듯? 근데 연산이 개 많아짐
+    # --> 근데 문장 길이가 ㅈㄴ 긴 경우는?
+    # --> 연산이 많아져서 실시간성이 떨어질 경우는 ? -> 비동기로 봇 돌리듯이 해야할듯
 
-    return jsonify(result)
+    return jsonify(hate_speech_pipe(processed)[0][idx])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)

@@ -5,8 +5,8 @@ from transformers.pipelines.base import KeyDataset
 from datasets import load_dataset
 
 dataset = load_dataset('smilegate-ai/kor_unsmile')
-hate_speech_model = ElectraForSequenceClassification.load_from_checkpoint("beomi/KcELECTRA-base")
-hate_speech_tokenizer = ElectraTokenizer.from_pretrained("beomi/KcELECTRA-base")
+hate_speech_model = ElectraForSequenceClassification.from_pretrained("./model/hatespeech")
+hate_speech_tokenizer = ElectraTokenizer.from_pretrained("./model/hatespeech")
 
 hate_speech_pipe = TextClassificationPipeline(
     model=hate_speech_model,
