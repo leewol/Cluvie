@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-module.exports = class Applicants extends Sequelize.Model {
+module.exports = class Acceptances extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -26,8 +26,8 @@ module.exports = class Applicants extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "Applicants",
-        tableName: "applicants",
+        modelName: "Acceptances",
+        tableName: "acceptances",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
