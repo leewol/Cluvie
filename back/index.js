@@ -31,8 +31,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(userRouter);
-app.use(likeRouter);
 app.use(registerRouter);
+app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
 
