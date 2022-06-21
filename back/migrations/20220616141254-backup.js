@@ -6,7 +6,7 @@ module.exports = {
     // await queryInterface.removeColumn("clubs", "offline");
     // await queryInterface.removeColumn("clubs", "weekday");
     // await queryInterface.removeColumn("clubs", "weekend");
-    await queryInterface.renameColumn("clubs", "headCount", "head_count");
+    // await queryInterface.renameColumn("clubs", "headCount", "head_count");
     // await queryInterface.addColumn("clubs", "offline", {
     //   type: Sequelize.TINYINT,
     //   allowNull: true,
@@ -17,10 +17,9 @@ module.exports = {
     //   allowNull: true,
     //   defaultValue: 0,
     // });
-    // await queryInterface.addColumn("clubs", "weekend", {
-    //   type: Sequelize.TINYINT,
+    // await queryInterface.addColumn("clubs", "hashtags", {
+    //   type: Sequelize.STRING,
     //   allowNull: true,
-    //   defaultValue: 0,
     // });
   },
 
