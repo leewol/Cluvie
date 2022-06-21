@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import * as Api from "@/utils/api";
 
-import * as Interface from "@/utils/interface";
+import { Club } from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
 import testimage from "@/asset/images/testimage.PNG";
 
@@ -21,19 +21,25 @@ import {
   HashtagSpan
 } from "./ClubCreateBasicStyle";
 
-function ClubCreateBasic(props: Interface.ClubState) {
+// * Props type은 해당 파일 내에서 정의
+interface Props {
+  clubInfo: Club;
+  setClubInfo: React.Dispatch<
+  React.SetStateAction<Club>>;
+}
+
+// ! state setter는 prop으로 가지 않는 게 좋다
+function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
   const [ thumnail, setThumnail ] = useState<any>();
   const [ hashtag, setHashtag ] = useState("");
   const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
-
-  const { clubInfo, setClubInfo } = props;
 
   const onChange = onChangeFunction(setClubInfo);
 
   const handleCheckBox = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       [target.name]: (target.checked ? 1 : 0),
     }));
@@ -42,7 +48,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       [name]: Number(value),
     }));
@@ -103,7 +109,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
   }
   // hashtagArr 변경될 때 clubInfo를 업데이트
   useEffect(() => {
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       hashtags: hashtagArr.join(","),
     }));

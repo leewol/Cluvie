@@ -5,7 +5,8 @@ import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import Header from "@/components/Header/Header";
+import { Club } from "@/utils/interface";
+
 import ClubCreateBasic from "@/components/ClubCreate/ClubCreateBasic/ClubCreateBasic";
 import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview";
 
@@ -17,7 +18,7 @@ function EditorComponent() {
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
-  const [clubInfo, setClubInfo] = useState({
+  const [clubInfo, setClubInfo] = useState<Club>({
     name: "",
     manager: 4,
     picture: "1",
