@@ -56,7 +56,7 @@ export default function BasicTabs() {
           onChange={handleChange}
           sx={{ width: "100%" }}
           TabIndicatorProps={{
-            style: { background: "#FFC300" },
+            style: { background: "#FFC300", height: "3px" },
           }}
           aria-label='basic tabs example'
         >
