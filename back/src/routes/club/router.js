@@ -5,10 +5,36 @@ import { verifyToken } from "../../middlewares/verifyToken";
 const clubRouter = express.Router();
 
 clubRouter.post("/", verifyToken, async (req, res) => {
-  let club = req.body;
-  club.views = 0;
-  club.manager = req.user;
-  await Clubs.create(club)
+  let {
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    state,
+    hashtags,
+  } = req.body;
+  await Clubs.create({
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    state,
+    hashtags,
+    views: 0,
+    manager: req.user,
+  })
     .then((result) => {
       res.status(200).json({ success: true, result });
     })
@@ -54,7 +80,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     online,
     offline,
     description,
-    num,
+    head_count,
     picture,
     weekday,
     weekend,
@@ -69,7 +95,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       online,
       offline,
       description,
-      head_count: num,
+      head_count,
       picture,
       weekday,
       weekend,
