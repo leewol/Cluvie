@@ -26,8 +26,7 @@ function ClubDetail() {
     state: '모집중',
     manager: 4,
   });
-  const handleOpenJoin = () => setOpenJoin(true);
-  const handleCloseJoin = () => setOpenJoin(false);
+  const handleToggleJoin = () => setOpenJoin((prev) => !prev);
 
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
@@ -107,12 +106,12 @@ function ClubDetail() {
               </Style.Text3>
             </CardContent>
             <Style.ButtonBox>
-              <Style.MyButton1 color='inherit' onClick={handleOpenJoin}>
+              <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
                 신청하기
               </Style.MyButton1>
               <ClubJoinDialog
                 openJoin={openJoin}
-                handleCloseJoin={handleCloseJoin}
+                handleToggleJoin={handleToggleJoin}
               />
               <Style.MyButton2 color='inherit'>
                 <FavoriteBorderOutlinedIcon />

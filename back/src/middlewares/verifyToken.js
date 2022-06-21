@@ -28,9 +28,8 @@ const verifyToken = async (req, res, next) => {
 
   try {
     const ACCESS_KEY = process.env.JWT_SECRET_KEY;
-    const REFRESH_KEY = process.env.JWT_REFRESH_SECRET_KEY;
+    const REFRESH_KEY = process.env.REFRESH_SECRET_KEY;
     const myAccessToken = checkToken(accessToken, ACCESS_KEY);
-    console.log(myAccessToken);
     if (myAccessToken == "jwt expired") {
       // acceess token 만료
       const userInfo = jwt.verify(accessToken, ACCESS_KEY);
