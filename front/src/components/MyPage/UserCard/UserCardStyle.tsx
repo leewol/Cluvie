@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Card, CardContent, IconButton } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 
 export const WholeUserCard = styled(Card)`
   width: 250px;

@@ -1,13 +1,19 @@
-import React from "react";
-import { Card, CardContent, IconButton } from "@mui/material";
+/* eslint-disable import/extensions */
+import React, { useEffect } from "react";
+import { CardContent, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import EmailIcon from "@mui/icons-material/Email";
+import * as Api from "@/utils/api";
 import * as Style from "./UserCardStyle";
 
 function UserCard() {
+  // useEffect(()=>{
+  //     Api.get
+  // },[])
+
   return (
     <Style.WholeUserCard>
       <Style.FirstCardContent>
