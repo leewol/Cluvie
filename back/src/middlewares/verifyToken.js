@@ -8,11 +8,11 @@ dotenv.config();
 // 401 : 토큰 만료
 // 403 : 토큰 없음
 
-const checkToken = async (token, keyType) => {
+const checkToken =  (token, keyType) => {
   try {
     return jwt.verify(token, keyType);
   } catch (err) {
-    return error.message;
+    return err.message;
   }
 };
 
@@ -30,9 +30,11 @@ const verifyToken = async (req, res, next) => {
     const ACCESS_KEY = process.env.JWT_SECRET_KEY;
     const REFRESH_KEY = process.env.REFRESH_SECRET_KEY;
     const myAccessToken = checkToken(accessToken, ACCESS_KEY);
+
     if (myAccessToken == "jwt expired") {
       // acceess token 만료
-      const userInfo = jwt.verify(accessToken, ACCESS_KEY);
+      const userInfo = jwt.decode(accessToken, ACCESS_KEY);
+
       const userId = userInfo.userId;
       Users.findOne({ where: { id: userId } }).then((user) => {
         const refreshToken = user.refresh_token;
@@ -45,7 +47,7 @@ const verifyToken = async (req, res, next) => {
               message: "토크 만료, 로그인이 필요합니다",
             });
         } else {
-          const myNewAccessToken = jwt.sign(userId, ACCESS_KEY, {
+          const myNewAccessToken = jwt.sign({userId}, ACCESS_KEY, {
             expiresIn: "2h",
           });
           res.status(200).json({ success: true, myNewAccessToken });
