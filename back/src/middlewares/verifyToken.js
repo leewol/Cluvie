@@ -4,6 +4,10 @@ import Users from "../../models/user";
 import dotenv from "dotenv";
 dotenv.config();
 
+// status code
+// 401 : 토큰 만료
+// 403 : 토큰 없음
+
 const checkToken = async (token, keyType) => {
   try {
     return jwt.verify(token, keyType);
@@ -14,7 +18,7 @@ const checkToken = async (token, keyType) => {
 
 const verifyToken = async (req, res, next) => {
   if (!req.headers["authorization"]) {
-    res.status(404).json({
+    res.status(403).json({
       success: false,
       message: "token이 없습니다",
     });
@@ -36,8 +40,11 @@ const verifyToken = async (req, res, next) => {
         const myRefreshToken = checkToken(refreshToken, REFRESH_KEY);
         if (myRefreshToken == "jwt expired") {
           res
-            .status(404)
-            .json({ success: false, message: "로그인이 필요합니다" });
+            .status(401)
+            .json({
+              success: false,
+              message: "토크 만료, 로그인이 필요합니다",
+            });
         } else {
           const myNewAccessToken = jwt.sign(userId, ACCESS_KEY, {
             expiresIn: "2h",

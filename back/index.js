@@ -2,7 +2,6 @@ import cors from "cors";
 import express, { application } from "express";
 import db from "./models/index";
 import clubRouter from "./src/routes/club/router";
-import registerRouter from "./src/routes/register/router";
 import userRouter from "./src/routes/user/router";
 import likeRouter from "./src/routes/like/router";
 import applicantRouter from "./src/routes/applicant/router";
@@ -31,7 +30,6 @@ app.get("/", (req, res) => {
 });
 
 app.use(userRouter);
-app.use(registerRouter);
 app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
