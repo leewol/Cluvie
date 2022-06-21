@@ -4,8 +4,10 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const userRouter = Router();
 
+// 공통 url: "/users"
+
 // 회원가입
-userRouter.post("/users", async (req, res) => {
+userRouter.post("/", async (req, res) => {
   try {
     const { email, password, nickname, birthday, sex } = req.body;
     const user = await userService.register({
@@ -27,7 +29,7 @@ userRouter.post("/users", async (req, res) => {
 });
 
 // 로그인
-userRouter.post("/users/signIn", async (req, res) => {
+userRouter.post("/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = await userService.login({ email, password });
@@ -43,7 +45,7 @@ userRouter.post("/users/signIn", async (req, res) => {
 });
 
 // 사용자 정보 GET
-userRouter.get("/users", verifyToken, async (req, res) => {
+userRouter.get("/", verifyToken, async (req, res) => {
   try {
     const id = req.user;
     const user = await userService.getUserData({ id });
@@ -59,7 +61,7 @@ userRouter.get("/users", verifyToken, async (req, res) => {
 });
 
 // 회원정보 수정(nickname, description)
-userRouter.patch("/users", verifyToken, async (req, res) => {
+userRouter.patch("/", verifyToken, async (req, res) => {
   try {
     const { nickname, description } = req.body;
     const id = req.user;
