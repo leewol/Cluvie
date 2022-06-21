@@ -1,14 +1,40 @@
 import express from "express";
 import Clubs from "../../../models/club";
 import { verifyToken } from "../../middlewares/verifyToken";
-// 조회수
+
 const clubRouter = express.Router();
 
 clubRouter.post("/", verifyToken, async (req, res) => {
-  let club = req.body;
-  club.views = 0;
-  club.manager = req.user;
-  await Clubs.create(club)
+  let {
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    state,
+    hashtags,
+  } = req.body;
+  await Clubs.create({
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    state,
+    hashtags,
+    views: 0,
+    manager: req.user,
+  })
     .then((result) => {
       res.status(200).json({ success: true, result });
     })
@@ -48,20 +74,34 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
   if (!club) {
     return res.status(404).json("존재하지 않는 모임입니다.");
   }
+  let {
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    state,
+    hashtags,
+  } = req.body;
   await Clubs.update(
     {
-      name: req.body.name,
-      intro: req.body.intro,
-      online: req.body.online,
-      offline: req.body.offline,
-      description: req.body.description,
-      head_count: req.body.num,
-      picture: req.body.picture,
-      weekday: req.body.weekday,
-      weekend: req.body.weekend,
-      duration: req.body.duration,
-      state: req.body.state,
-      hashtags: req.body.hashtags,
+      name,
+      intro,
+      online,
+      offline,
+      description,
+      head_count,
+      picture,
+      weekday,
+      weekend,
+      duration,
+      state,
+      hashtags,
     },
     { where: { id: req.params.id } }
   )

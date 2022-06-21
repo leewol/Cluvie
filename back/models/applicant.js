@@ -4,12 +4,6 @@ module.exports = class Applicants extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
