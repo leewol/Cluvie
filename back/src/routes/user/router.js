@@ -27,7 +27,7 @@ userRouter.post("/users", async (req, res) => {
 });
 
 // 로그인
-userRouter.post("/signIn", async (req, res) => {
+userRouter.post("/users/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = await userService.login({ email, password });
