@@ -1,5 +1,6 @@
 import express from "express";
 import Clubs from "../../../models/club";
+import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
 
 const clubRouter = express.Router();
@@ -44,8 +45,11 @@ clubRouter.post("/", verifyToken, async (req, res) => {
 });
 
 clubRouter.get("/", async (req, res) => {
-  await Clubs.findAll({})
+  const club = await Clubs.findAll({});
+  const scrollClubList = await clubService
+    .getClublist({ picture, name, intro })
     .then((result) => {
+      console.log(scrollClubList);
       res.status(200).json({ success: true, result });
     })
     .catch((err) => {
