@@ -4,10 +4,10 @@ import JoinButton from "./ClubJoinDialogStyle";
 
 type ClubJoinDialogProps = {
   openJoin: boolean,
-  handleCloseJoin: React.MouseEventHandler<HTMLButtonElement>,
+  handleToggleJoin: React.MouseEventHandler<HTMLButtonElement>,
 };
 
-function ClubJoinDialog({ openJoin, handleCloseJoin }: ClubJoinDialogProps) {
+function ClubJoinDialog({ openJoin, handleToggleJoin }: ClubJoinDialogProps) {
   return (
     <Dialog
       open={openJoin}
@@ -16,10 +16,10 @@ function ClubJoinDialog({ openJoin, handleCloseJoin }: ClubJoinDialogProps) {
     >
       <DialogTitle id='alert-dialog-title'>신청하시겠습니까?</DialogTitle>
       <DialogActions>
-        <Button color='inherit' onClick={handleCloseJoin}>
+        <Button color='inherit' onClick={handleToggleJoin}>
           취소하기
         </Button>
-        <JoinButton color='inherit' onClick={handleCloseJoin} autoFocus>
+        <JoinButton color='inherit' onClick={handleToggleJoin} autoFocus>
           신청하기
         </JoinButton>
       </DialogActions>
