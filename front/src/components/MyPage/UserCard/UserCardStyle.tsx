@@ -3,7 +3,7 @@ import { Card, CardContent } from "@mui/material";
 
 export const WholeUserCard = styled(Card)`
   width: 250px;
-  height: 300px;
+  height: 250px;
   overflow: auto;
   position: fixed;
 `;
