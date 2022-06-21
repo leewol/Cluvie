@@ -7,10 +7,12 @@ module.exports = class Acceptances extends Sequelize.Model {
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         club_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         created_at: {
           type: Sequelize.DATE,

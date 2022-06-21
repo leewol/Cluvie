@@ -62,4 +62,68 @@ applicantRouter.get("/clubs", verifyToken, async (req, res) => {
   }
 });
 
+// 모임 신청자 목록
+applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
+  try {
+    const club_id = req.params.club_id;
+
+    const applicants = await applicantService.getApplicants({
+      club_id,
+    });
+
+    if (applicants.errorMessager) {
+      throw new Error(applicants.errorMessager);
+    }
+    res.status(200).json({ success: true, applicants });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
+    console.log(err);
+  }
+});
+
+// 모임 신청 수락하기
+applicantRouter.post(
+  "/:club_id/:user_id/acceptance",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const user_id = req.params.user_id;
+      const club_id = req.params.club_id;
+
+      const accepted = await applicantService.acceptance({ user_id, club_id });
+
+      if (accepted.errorMessager) {
+        throw new Error(accepted.errorMessager);
+      }
+      res.status(200).json({ success: true });
+    } catch (err) {
+      res.status(404).json({ success: false, err });
+    }
+  }
+);
+
+// 모임 신청 수락 취소하기
+applicantRouter.delete(
+  "/:club_id/:user_id/acceptance",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const user_id = req.params.user_id;
+      const club_id = req.params.club_id;
+
+      const canceled = await applicantService.cancelAcceptance({
+        user_id,
+        club_id,
+      });
+
+      if (canceled.errorMessager) {
+        throw new Error(canceled.errorMessager);
+      }
+      res.status(200).json({ success: true });
+    } catch (err) {
+      res.status(404).json({ success: false, err });
+    }
+  }
+);
+
 module.exports = applicantRouter;
