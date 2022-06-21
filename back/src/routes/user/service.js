@@ -1,10 +1,29 @@
 import Users from "../../../models/user";
 import { hashPassword } from "../../utils/hashPassword";
-import { makeToken } from "../../utils/makeToken";
+import { makeToken, makeRefreshToken } from "../../utils/makeToken";
 import dotenv from "dotenv";
 dotenv.config();
 
 class userService {
+  static register = async ({ email, password, nickname, birthday, sex }) => {
+    const hashedPassword = hashPassword(password);
+    const duplicate = await Users.findOne({
+      where: { email },
+    });
+    if (duplicate) {
+      const errorMessage = "중복된 이메일 입니다";
+      return { errorMessage };
+    } else {
+      const user = await Users.create({
+        email,
+        password: hashedPassword,
+        nickname,
+        birthday,
+        sex,
+      });
+      return user;
+    }
+  };
   static login = async ({ email, password }) => {
     let user = await Users.findOne({
       where: { email },
@@ -17,18 +36,18 @@ class userService {
     } else if (user.password === hashedPassword) {
       // 비밀번호 일치 확인
       const token = makeToken({ userId: user.id });
-
-      user = {
-        ...user,
-        accessToken: token,
-      };
-      return user;
+      const refreshToken = makeRefreshToken({ userId: user.id });
+      await user.update(
+        { refresh_token: refreshToken },
+        { where: { id: user.id } }
+      );
+      return token;
     } else {
       const errorMessage = "비밀번호가 틀립니다.";
       return { errorMessage };
     }
   };
-  static updateDescription = async ({ id, description }) => {
+  static userDataUpdate = async ({ id, nickname, description }) => {
     const user = await Users.findOne({
       where: { id },
     });
@@ -36,15 +55,25 @@ class userService {
       const errorMessage = "해당 사용자가 없습니다.";
       return { errorMessage };
     } else {
-      const updatedDescription = await Users.update(
-        { description },
+      const updated = await Users.update(
+        { nickname, description },
         { where: { id } }
       );
-      return updatedDescription;
+      return updated;
     }
   };
 
-  // 회원정보 수정, 회원정보 삭제(탈퇴) 등은 추가 논의 필요
+  static getUserData = async ({ id }) => {
+    const user = await Users.findOne({
+      where: { id },
+    });
+    if (!user) {
+      const errorMessage = "해당 사용자가 없습니다.";
+      return { errorMessage };
+    } else {
+      return user;
+    }
+  };
 }
 
 export { userService };

@@ -4,27 +4,12 @@ module.exports = class Applicants extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
         club_id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        accept: {
-          type: Sequelize.TINYINT,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        entry_date: {
-          type: Sequelize.DATE,
           allowNull: false,
         },
         created_at: {
@@ -46,7 +31,7 @@ module.exports = class Applicants extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "applicants",
+        modelName: "Applicants",
         tableName: "applicants",
         paranoid: false,
         charset: "utf8",

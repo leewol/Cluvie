@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
-const config = require("../config/config.json")[env];
+const config = require("../config/config.js")[env];
 // 모델
 import Users from "./user";
 import Clubs from "./club";
