@@ -1,18 +1,25 @@
 import Sequelize from "sequelize";
 
-module.exports = class Likes extends Sequelize.Model {
+module.exports = class Hashtags extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        user_id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          primaryKey: true,
-        },
         club_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
           primaryKey: true,
+        },
+        hashtag1: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        hashtag2: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        hashtag3: {
+          type: Sequelize.STRING,
+          allowNull: true,
         },
         created_at: {
           type: Sequelize.DATE,
@@ -27,8 +34,8 @@ module.exports = class Likes extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "Likes",
-        tableName: "likes",
+        modelName: "Hashtags",
+        tableName: "hashtags",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",

@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 
 app.use(userRouter);
 app.use(registerRouter);
-app.use(likeRouter);
+app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
 

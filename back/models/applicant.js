@@ -18,15 +18,6 @@ module.exports = class Applicants extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        accept: {
-          type: Sequelize.TINYINT,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        entry_date: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
@@ -46,7 +37,7 @@ module.exports = class Applicants extends Sequelize.Model {
       {
         sequelize,
         timestamps: false,
-        modelName: "applicants",
+        modelName: "Applicants",
         tableName: "applicants",
         paranoid: false,
         charset: "utf8",

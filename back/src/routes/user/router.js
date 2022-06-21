@@ -4,10 +4,26 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const userRouter = Router();
 
+// 로그인
 userRouter.post("/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userService.login({ email, password });
+    const token = await userService.login({ email, password });
+
+    if (token.errorMessage) {
+      throw new Error(token.errorMessage);
+    }
+    res.status(200).json({ success: true, token });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
+  }
+});
+
+// 사용자 정보 GET
+userRouter.get("/users", verifyToken, async (req, res) => {
+  try {
+    const id = req.user;
+    const user = await userService.getUserData({ id });
 
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
@@ -15,19 +31,22 @@ userRouter.post("/signIn", async (req, res) => {
     res.status(200).json({ success: true, user });
   } catch (err) {
     res.status(404).json({ success: false, err });
+    console.log(err);
   }
 });
 
-userRouter.patch("/users/description", verifyToken, async (req, res) => {
+// 회원정보 수정(nickname, description)
+userRouter.patch("/users", verifyToken, async (req, res) => {
   try {
-    const { description } = req.body;
+    const { nickname, description } = req.body;
     const id = req.user;
-    const updatedDescription = await userService.updateDescription({
+    const userUpdated = await userService.userDataUpdate({
       id,
+      nickname,
       description,
     });
-    if (updatedDescription.errorMessage) {
-      throw new Error(updatedDescription.errorMessage);
+    if (userUpdated.errorMessage) {
+      throw new Error(userUpdated.errorMessage);
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -35,4 +54,5 @@ userRouter.patch("/users/description", verifyToken, async (req, res) => {
     console.log(err);
   }
 });
+
 export default userRouter;
