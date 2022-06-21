@@ -38,7 +38,7 @@ class likeService {
       return { errorMessage };
     } else {
       const likeClubList = await db.sequelize.query(
-        `SELECT * FROM clubs INNER JOIN likes ON clubs.id = likes.club_id  WHERE likes.user_id = user_id `,
+        "SELECT l.user_id, i.club_id, c.club_id, c.club_name, c.club_intro, c.picture, c.hashtags FROM Likes As l LEFT JOIN Club AS c ON i.club_id = c.id WHERE user_id",
         { type: db.sequelize.QueryTypes.SELECT }
       );
       console.log(likeClubList);

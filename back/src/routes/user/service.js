@@ -1,10 +1,29 @@
 import Users from "../../../models/user";
 import { hashPassword } from "../../utils/hashPassword";
-import { makeToken } from "../../utils/makeToken";
+import { makeToken, makeRefreshToken } from "../../utils/makeToken";
 import dotenv from "dotenv";
 dotenv.config();
 
 class userService {
+  static register = async ({ email, password, nickname, birthday, sex }) => {
+    const hashedPassword = hashPassword(password);
+    const duplicate = await Users.findOne({
+      where: { email },
+    });
+    if (duplicate) {
+      const errorMessage = "중복된 이메일 입니다";
+      return { errorMessage };
+    } else {
+      const user = await Users.create({
+        email,
+        password: hashedPassword,
+        nickname,
+        birthday,
+        sex,
+      });
+      return user;
+    }
+  };
   static login = async ({ email, password }) => {
     let user = await Users.findOne({
       where: { email },
@@ -17,12 +36,12 @@ class userService {
     } else if (user.password === hashedPassword) {
       // 비밀번호 일치 확인
       const token = makeToken({ userId: user.id });
-
-      user = {
-        ...user,
-        accessToken: token,
-      };
-      return user;
+      const refreshToken = makeRefreshToken({ userId: user.id });
+      await user.update(
+        { refresh_token: refreshToken },
+        { where: { id: user.id } }
+      );
+      return token;
     } else {
       const errorMessage = "비밀번호가 틀립니다.";
       return { errorMessage };

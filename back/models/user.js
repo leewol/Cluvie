@@ -34,6 +34,10 @@ module.exports = class Users extends Sequelize.Model {
           type: Sequelize.TEXT,
           allowNull: true,
         },
+        refresh_token: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,

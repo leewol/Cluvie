@@ -1,42 +1,44 @@
 import Sequelize from "sequelize";
 
-module.exports = class Applicants extends Sequelize.Model {
+module.exports = class Hashtags extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        user_id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
         club_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
+        },
+        hashtag1: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        hashtag2: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        hashtag3: {
+          type: Sequelize.STRING,
+          allowNull: true,
         },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.fn("Now"),
+          defaultValue: Sequelize.fn("NOW"),
         },
         is_deleted: {
           type: Sequelize.TINYINT,
-          allowNull: false,
-          defaultValue: "0",
-        },
-        updated_at: {
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.fn("Now"),
-          allowNull: false,
+          allowNull: true,
         },
       },
       {
         sequelize,
         timestamps: false,
-        modelName: "Applicants",
-        tableName: "applicants",
+        modelName: "Hashtags",
+        tableName: "hashtags",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
-        // freezeTableName: true,
       }
     );
   }
