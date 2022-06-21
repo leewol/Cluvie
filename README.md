@@ -24,8 +24,11 @@
 - 관심 분야가 비슷한 사람들끼리의 친목 도모, 영화 산업 활성화
 
 ##### 2. 사용된 인공지능 알고리즘 및 모델 과 기술스택
-- 인공지능 : ElectraModel, Transfer learning, classification(혐오글 탐지, NER), 
-- BartForConditionalGeneration(요약문 생성), SentenceTransformers(키워드 추출)
+- 인공지능 : beomi/kcElectra-base, koBart, srobertaModel, Transfer learning, 
+- ElectraForSequenceClassification : 혐오글 탐지, 
+- ElectraForTokenClassification : NER
+- BartForConditionalGeneration : 요약문 생성
+- SentenceTransformers : 키워드 추출
 - 프론트엔드: React, Typescript, React-Query, EmotionJS
 - 백엔드: NodeJS, MySQL, Redis, Websocket
 
