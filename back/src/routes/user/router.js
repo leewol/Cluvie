@@ -38,6 +38,7 @@ userRouter.post("/signIn", async (req, res) => {
     res.status(200).json({ success: true, token });
   } catch (err) {
     res.status(404).json({ success: false, err });
+    console.log(err);
   }
 });
 
