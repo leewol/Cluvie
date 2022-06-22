@@ -1,16 +1,38 @@
 import axios from "axios";
-import axiosApiInstance from "./interceptor";
 
 const BACKEND_PORT = "5001";
 const SERVER_URL = `http://${window.location.hostname}:${BACKEND_PORT}`;
 
-// POST
+// * axios 인스턴스 생성
+const axiosApiInstance = axios.create({
+  baseURL: SERVER_URL,
+});
+
+// Request interceptor for API calls
+axiosApiInstance.interceptors.request.use(
+  (config: any) => {
+    // 요청 성공 직전 호출, axios 설정값 넣기
+    const token = localStorage.getItem("token");
+
+    config.headers["Content-Type"] = "application/json";
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    // 요청 에러 직전 호출
+    Promise.reject(error);
+  }
+);
+
+// * POST
 async function post(endpoint: string, data: object) {
   const bodyData = JSON.stringify(data);
   console.log(`%cPOST 요청: ${SERVER_URL + endpoint}`, "color: #296aba;");
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
-  return axiosApiInstance.post(SERVER_URL + endpoint, bodyData);
+  return axiosApiInstance.post(endpoint, bodyData);
 }
 
 // GET

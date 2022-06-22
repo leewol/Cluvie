@@ -61,8 +61,8 @@ function SignUpForm() {
           password,
         })
           .then((resSignIn) => {
-            const { accessToken } = resSignIn.data.user;
-            window.localStorage.setItem("token", accessToken);
+            const { token } = resSignIn.data;
+            window.localStorage.setItem("token", token);
 
             navigate("/");
             console.log("로그인 성공!");
