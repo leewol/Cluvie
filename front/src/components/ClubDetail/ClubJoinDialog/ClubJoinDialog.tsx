@@ -25,15 +25,6 @@ function ClubJoinDialog({
     handleToggleJoin(event);
   };
 
-  const handleDeleteJoin = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    Api.delete(`/applications/${clubId}`)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    handleToggleJoin(event);
-  };
   return (
     <Dialog
       open={openJoin}
@@ -42,7 +33,7 @@ function ClubJoinDialog({
     >
       <DialogTitle id='alert-dialog-title'>신청하시겠습니까?</DialogTitle>
       <DialogActions>
-        <Button color='inherit' onClick={handleDeleteJoin}>
+        <Button color='inherit' onClick={handleToggleJoin}>
           취소하기
         </Button>
         <JoinButton color='inherit' onClick={handlePostJoin} autoFocus>

@@ -71,6 +71,17 @@ export const MyButton1 = styled(Button)`
   }
 `;
 
+export const MyDeleteButton = styled(Button)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: black;
+  background-color: #716847;
+  &:hover {
+    background-color: rgba(113, 104, 71, 0.6);
+  }
+`;
+
 export const MyButton2 = styled(Button)`
   width: 33.33%;
   margin: 0 2% 0 2%;

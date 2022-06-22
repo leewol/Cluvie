@@ -10,12 +10,14 @@ import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSet
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
 import Header from "@/components/Header/Header";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
+import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/ClubDeleteJoinDialog";
 import * as Api from "@/utils/api";
 import * as Interface from "@/utils/interface";
 import * as Style from "./ClubDetailStyle";
 
 function ClubDetail() {
   const [openJoin, setOpenJoin] = useState(false);
+  const [openDeleteJoin, setOpenDeleteJoin] = useState(false);
   const [likesButton, setLikesButton] = useState(false);
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
@@ -29,6 +31,7 @@ function ClubDetail() {
     manager: 4,
   });
   const handleToggleJoin = () => setOpenJoin((prev) => !prev);
+  const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
 
   const handleDeleteLikes = () => {
     Api.delete(`/likes/${club.id}`)
@@ -135,10 +138,21 @@ function ClubDetail() {
               <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
                 신청하기
               </Style.MyButton1>
+              <Style.MyDeleteButton
+                color='inherit'
+                onClick={handleToggleDeleteJoin}
+              >
+                신청취소
+              </Style.MyDeleteButton>
               <ClubJoinDialog
                 clubId={club.id}
                 openJoin={openJoin}
                 handleToggleJoin={handleToggleJoin}
+              />
+              <ClubDeleteJoinDialog
+                clubId={club.id}
+                openDeleteJoin={openDeleteJoin}
+                handleToggleDeleteJoin={handleToggleDeleteJoin}
               />
               {likesButton ? (
                 <Style.MyButton2 color='inherit' onClick={handleDeleteLikes}>
