@@ -95,6 +95,7 @@ applicantRouter.post("/acceptance", verifyToken, async (req, res) => {
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, err });
+    console.log(err);
   }
 });
 

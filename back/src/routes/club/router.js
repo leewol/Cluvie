@@ -4,7 +4,7 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const clubRouter = express.Router();
 
-// 공통 url: "/clubs" 
+// 공통 url: "/clubs"
 
 clubRouter.post("/", verifyToken, async (req, res) => {
   let {
@@ -19,7 +19,6 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
-    hashtags,
   } = req.body;
   await Clubs.create({
     name,
@@ -33,7 +32,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
-    hashtags,
+
     views: 0,
     manager: req.user,
   })
@@ -88,7 +87,6 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
-    hashtags,
   } = req.body;
   await Clubs.update(
     {
@@ -103,7 +101,6 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       weekend,
       duration,
       state,
-      hashtags,
     },
     { where: { id: req.params.id } }
   )
