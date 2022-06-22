@@ -65,7 +65,11 @@ function ClubDetail() {
 
   useEffect(() => {
     Api.get("/likes/clubs")
-      .then((res) => console.log(res.data.likeClubList))
+      .then((res) => console.log("찜하기목록", res.data.likeClubList))
+      .catch((err) => console.log(err));
+
+    Api.get("/applications/clubs")
+      .then((res) => console.log("신청목록", res.data.applyingClubList))
       .catch((err) => console.log(err));
   }, []);
 
@@ -132,6 +136,7 @@ function ClubDetail() {
                 신청하기
               </Style.MyButton1>
               <ClubJoinDialog
+                clubId={club.id}
                 openJoin={openJoin}
                 handleToggleJoin={handleToggleJoin}
               />
