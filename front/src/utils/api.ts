@@ -10,7 +10,13 @@ async function post(endpoint: string, data: object) {
   console.log(`%cPOST 요청: ${SERVER_URL + endpoint}`, "color: #296aba;");
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
-  return axiosApiInstance.post(SERVER_URL + endpoint, bodyData);
+  // return axiosApiInstance.post(SERVER_URL + endpoint, bodyData);
+  return axios.post(SERVER_URL + endpoint, bodyData, {
+    headers: {
+      "Content-Type": "application/json",
+      // Authorization 추가 (JWT)
+    },
+  });
 }
 
 // GET
