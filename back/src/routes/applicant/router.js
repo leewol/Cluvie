@@ -4,13 +4,13 @@ import { applicantService } from "./service";
 
 const applicantRouter = express.Router();
 
-// 공통 url: "/applicants"
+// 공통 url: "/applications"
 
 // 모임 신청하기
-applicantRouter.post("/:club_id", verifyToken, async (req, res) => {
+applicantRouter.post("/", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-    const club_id = req.params.club_id;
+    const club_id = req.body.club_id;
 
     const applicated = await applicantService.application({ user_id, club_id });
 
@@ -24,10 +24,10 @@ applicantRouter.post("/:club_id", verifyToken, async (req, res) => {
 });
 
 // 모임 신청 취소
-applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
+applicantRouter.delete("/", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-    const club_id = req.params.club_id;
+    const club_id = req.body.club_id;
 
     const canceled = await applicantService.cancelApplication({
       user_id,
@@ -63,9 +63,9 @@ applicantRouter.get("/clubs", verifyToken, async (req, res) => {
 });
 
 // 모임 신청자 목록
-applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
+applicantRouter.get("/users", verifyToken, async (req, res) => {
   try {
-    const club_id = req.params.club_id;
+    const club_id = req.body.club_id;
 
     const applicants = await applicantService.getApplicants({
       club_id,
@@ -82,48 +82,40 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
 });
 
 // 모임 신청 수락하기
-applicantRouter.post(
-  "/:club_id/:user_id/acceptance",
-  verifyToken,
-  async (req, res) => {
-    try {
-      const user_id = req.params.user_id;
-      const club_id = req.params.club_id;
+applicantRouter.post("/acceptance", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.body.user_id;
+    const club_id = req.body.club_id;
 
-      const accepted = await applicantService.acceptance({ user_id, club_id });
+    const accepted = await applicantService.acceptance({ user_id, club_id });
 
-      if (accepted.errorMessager) {
-        throw new Error(accepted.errorMessager);
-      }
-      res.status(200).json({ success: true });
-    } catch (err) {
-      res.status(404).json({ success: false, err });
+    if (accepted.errorMessager) {
+      throw new Error(accepted.errorMessager);
     }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
   }
-);
+});
 
 // 모임 신청 수락 취소하기
-applicantRouter.delete(
-  "/:club_id/:user_id/acceptance",
-  verifyToken,
-  async (req, res) => {
-    try {
-      const user_id = req.params.user_id;
-      const club_id = req.params.club_id;
+applicantRouter.delete("/acceptance", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.body.user_id;
+    const club_id = req.body.club_id;
 
-      const canceled = await applicantService.cancelAcceptance({
-        user_id,
-        club_id,
-      });
+    const canceled = await applicantService.cancelAcceptance({
+      user_id,
+      club_id,
+    });
 
-      if (canceled.errorMessager) {
-        throw new Error(canceled.errorMessager);
-      }
-      res.status(200).json({ success: true });
-    } catch (err) {
-      res.status(404).json({ success: false, err });
+    if (canceled.errorMessager) {
+      throw new Error(canceled.errorMessager);
     }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
   }
-);
+});
 
 module.exports = applicantRouter;

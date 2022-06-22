@@ -7,10 +7,10 @@ const likeRouter = Router();
 // 공통 url: "/likes"
 
 // 모임 찜하기 -> 똑같은 모임 또 찜 누르면 오류 응답
-likeRouter.post("/:club_id", verifyToken, async (req, res) => {
+likeRouter.post("/", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-    const club_id = req.params.club_id;
+    const club_id = req.body.club_id;
 
     const like = await likeService.clickLike({ user_id, club_id });
 
@@ -24,10 +24,10 @@ likeRouter.post("/:club_id", verifyToken, async (req, res) => {
 });
 
 // 모임 찜하기 해제
-likeRouter.delete("/:club_id", verifyToken, async (req, res) => {
+likeRouter.delete("/", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-    const club_id = req.params.club_id;
+    const club_id = req.body.club_id;
 
     const unlike = await likeService.unlike({ user_id, club_id });
 
