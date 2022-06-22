@@ -3,7 +3,7 @@
 /* eslint-disable import/extensions */
 import * as React from "react";
 import { Tabs, Tab, Box } from "@mui/material";
-import * as Style from "./MyPageTabStyle";
+import DefaultTabPanel from "@/components/MyPage/DefaultTabPanel/DefaultTabPanel";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -94,30 +94,16 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Style.LikesClubDiv>
-          <Style.Text1>아직 내가 찜한 클럽이 없어요!</Style.Text1>
-          <Style.Text2>
-            내 취향에 맞는 클럽을 찜하고, 다른 클러비들과 가까워져 보세요!
-          </Style.Text2>
-          <Style.MyLink to='/clubList'>
-            <Style.MyPageButton color='inherit'>
-              다양한 클럽 둘러보기
-            </Style.MyPageButton>
-          </Style.MyLink>
-        </Style.LikesClubDiv>
+        <DefaultTabPanel
+          text1='아직 내가 찜한 클럽이 없어요!'
+          text2='내 취향에 맞는 클럽을 찜하고, 다른 클러비들과 가까워져 보세요!'
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Style.LikesClubDiv>
-          <Style.Text1>아직 내가 신청한 클럽이 없어요!</Style.Text1>
-          <Style.Text2>
-            내 취향에 맞는 클럽에 가입하고, 다른 클러비들과 가까워져 보세요!
-          </Style.Text2>
-          <Style.MyLink to='/clubList'>
-            <Style.MyPageButton color='inherit'>
-              다양한 클럽 둘러보기
-            </Style.MyPageButton>
-          </Style.MyLink>
-        </Style.LikesClubDiv>
+        <DefaultTabPanel
+          text1='아직 내가 신청한 클럽이 없어요!'
+          text2='내 취향에 맞는 클럽에 가입하고, 다른 클러비들과 가까워져 보세요!'
+        />
       </TabPanel>
     </Box>
   );

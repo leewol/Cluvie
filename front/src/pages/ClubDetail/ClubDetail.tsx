@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from "react";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSettingPopper";
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
@@ -156,7 +155,7 @@ function ClubDetail() {
               />
               {likesButton ? (
                 <Style.MyButton2 color='inherit' onClick={handleDeleteLikes}>
-                  <FavoriteIcon />
+                  <Style.MyFavoriteIcon />
                   &nbsp;찜해제
                 </Style.MyButton2>
               ) : (
