@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSettingPopper";
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
@@ -28,6 +29,12 @@ function ClubDetail() {
   });
   const handleToggleJoin = () => setOpenJoin((prev) => !prev);
 
+  const handleLikes = () => {
+    Api.get(`/likes/${club.id}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.REACT_APP_KAKAO);
@@ -43,6 +50,12 @@ function ClubDetail() {
         })
         .catch((err) => console.log(err));
     }
+  }, []);
+
+  useEffect(() => {
+    Api.get("/likes/clubs")
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   }, []);
 
   const sendKakaoMessage = () => {
@@ -111,7 +124,7 @@ function ClubDetail() {
                 openJoin={openJoin}
                 handleToggleJoin={handleToggleJoin}
               />
-              <Style.MyButton2 color='inherit'>
+              <Style.MyButton2 color='inherit' onClick={handleLikes}>
                 <FavoriteBorderOutlinedIcon />
                 &nbsp;찜하기
               </Style.MyButton2>

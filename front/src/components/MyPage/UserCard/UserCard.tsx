@@ -70,7 +70,7 @@ function UserCard() {
     }
   }, []);
 
-  if (!userInfo) return null;
+  if (!userInfo.email) return null;
 
   return (
     <Style.WholeUserCard>
