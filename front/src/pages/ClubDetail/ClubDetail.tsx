@@ -16,6 +16,7 @@ import * as Style from "./ClubDetailStyle";
 
 function ClubDetail() {
   const [openJoin, setOpenJoin] = useState(false);
+  const [likesButton, setLikesButton] = useState(false);
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
     id: -100,
@@ -29,10 +30,20 @@ function ClubDetail() {
   });
   const handleToggleJoin = () => setOpenJoin((prev) => !prev);
 
-  const handleLikes = () => {
-    Api.get(`/likes/${club.id}`)
+  const handleDeleteLikes = () => {
+    Api.delete(`/likes/${club.id}`)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+
+    setLikesButton((prev) => !prev);
+  };
+
+  const handlePostLikes = () => {
+    Api.post("/likes", { club_id: club.id })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
+    setLikesButton((prev) => !prev);
   };
 
   useEffect(() => {
@@ -54,7 +65,7 @@ function ClubDetail() {
 
   useEffect(() => {
     Api.get("/likes/clubs")
-      .then((res) => console.log(res.data))
+      .then((res) => console.log(res.data.likeClubList))
       .catch((err) => console.log(err));
   }, []);
 
@@ -124,10 +135,17 @@ function ClubDetail() {
                 openJoin={openJoin}
                 handleToggleJoin={handleToggleJoin}
               />
-              <Style.MyButton2 color='inherit' onClick={handleLikes}>
-                <FavoriteBorderOutlinedIcon />
-                &nbsp;찜하기
-              </Style.MyButton2>
+              {likesButton ? (
+                <Style.MyButton2 color='inherit' onClick={handleDeleteLikes}>
+                  <FavoriteIcon />
+                  &nbsp;찜해제
+                </Style.MyButton2>
+              ) : (
+                <Style.MyButton2 color='inherit' onClick={handlePostLikes}>
+                  <FavoriteBorderOutlinedIcon />
+                  &nbsp;찜하기
+                </Style.MyButton2>
+              )}
               <Style.MyButton2 color='inherit' onClick={sendKakaoMessage}>
                 <img
                   // eslint-disable-next-line global-require
