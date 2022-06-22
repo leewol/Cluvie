@@ -58,17 +58,14 @@ clubRouter.get("/", async (req, res) => {
     });
 });
 
-clubRouter.get("/scrollClublist/:page", async (req, res) => {
-  console.log("scrollClublist", req.params.page);
-  const scrollClublist = await clubService
-    .getClublist(req.params.page)
-    .then((result) => {
-      res.json({ success: true, result });
-    })
-    .catch((err) => {
-      res.json({ success: false, err });
-      console.log(err);
-    });
+clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
+  try {
+    const currentClubId = req.params.club_id;
+    const scrollClublist = await clubService.getClublist(currentClubId);
+    res.json({ success: true, scrollClublist });
+  } catch (err) {
+    next(err);
+  }
 });
 
 clubRouter.get("/:id", async (req, res, next) => {
