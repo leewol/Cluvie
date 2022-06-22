@@ -5,6 +5,8 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const clubRouter = express.Router();
 
+// 공통 url: "/clubs" 
+
 clubRouter.post("/", verifyToken, async (req, res) => {
   let {
     name,

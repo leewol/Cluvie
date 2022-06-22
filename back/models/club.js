@@ -41,10 +41,6 @@ module.exports = class Club extends Sequelize.Model {
           type: Sequelize.STRING,
           allowNull: false,
         },
-        hashtags: {
-          type: Sequelize.STRING,
-          allowNull: true,
-        },
         // 클럽 진행(온라인/ 오프라인)
         online: {
           type: Sequelize.TINYINT,
