@@ -8,7 +8,7 @@ dotenv.config();
 // 401 : 토큰 만료
 // 403 : 토큰 없음
 
-const checkToken =  (token, keyType) => {
+const checkToken = (token, keyType) => {
   try {
     return jwt.verify(token, keyType);
   } catch (err) {
@@ -40,17 +40,15 @@ const verifyToken = async (req, res, next) => {
         const refreshToken = user.refresh_token;
         const myRefreshToken = checkToken(refreshToken, REFRESH_KEY);
         if (myRefreshToken == "jwt expired") {
-          res
-            .status(401)
-            .json({
-              success: false,
-              message: "토크 만료, 로그인이 필요합니다",
-            });
+          res.status(401).json({
+            success: false,
+            message: "토크 만료, 로그인이 필요합니다",
+          });
         } else {
-          const myNewAccessToken = jwt.sign({userId}, ACCESS_KEY, {
+          const myNewAccessToken = jwt.sign({ userId }, ACCESS_KEY, {
             expiresIn: "2h",
           });
-          res.status(200).json({ success: true, myNewAccessToken });
+          res.status(401).json({ success: false, myNewAccessToken });
         }
       });
     } else {
