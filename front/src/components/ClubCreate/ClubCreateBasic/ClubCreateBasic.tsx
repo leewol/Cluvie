@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import * as Api from "@/utils/api";
+import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 
 import { Club } from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
@@ -10,6 +11,9 @@ import { ColumnContainerBox, StyledInput } from "@/styles/containers";
 import { StyledLabel } from "@/styles/text";
 import {
   ClubCreateFormBox,
+  ThumnailBox,
+  ThumnailLabel,
+  ThumnailImage,
   FormBox,
   InputBox,
   HeadCountInput,
@@ -114,22 +118,25 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
       hashtags: hashtagArr.join(","),
     }));
   }, [hashtagArr]);
-  
-  
+
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>
       <ClubCreateFormBox>
         <FormBox>
-          <div>
-            <input type="file" accept="image/*" onChange={handleImageUpload}/>
-            <img
-              src={testimage}
-              alt='Club Thumnail'
-              width={500}
-              height={300}
-            />
-          </div>
+          <ThumnailBox noThumnail={!thumnail}>
+            <ThumnailLabel noThumnail={!thumnail} htmlFor="chooseFile">
+              <PhotoCameraBackIcon className="thumnail-icon"/>
+            </ThumnailLabel>
+            <input id="chooseFile" style={{display: 'none'}} type="file" accept="image/*" onChange={handleImageUpload}/>
+            {
+              !thumnail ? "" :
+              <ThumnailImage
+                src={testimage}
+                alt='Club Thumnail'
+              />
+            }
+          </ThumnailBox>
           <InputBox>
             <StyledLabel htmlFor='name'>클럽명</StyledLabel>
             <StyledInput
