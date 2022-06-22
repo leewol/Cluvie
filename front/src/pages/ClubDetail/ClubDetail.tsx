@@ -35,17 +35,15 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("/clubs/1")
-      .then((res) => {
-        console.log(res);
-        setClub(res.data.club);
-      })
-      .catch((err) => console.log(err));
+    if (club.id === -100) {
+      Api.get("/clubs/1")
+        .then((res) => {
+          console.log(res);
+          setClub(res.data.club);
+        })
+        .catch((err) => console.log(err));
+    }
   }, []);
-
-  useEffect(() => {
-    console.log("club", club);
-  }, [club]);
 
   const sendKakaoMessage = () => {
     window.Kakao.Link.sendDefault({
