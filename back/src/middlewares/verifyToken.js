@@ -6,6 +6,7 @@ dotenv.config();
 
 // status code
 // 401 : 토큰 만료
+// 402 : 토큰 재발급
 // 403 : 토큰 없음
 
 const checkToken = (token, keyType) => {
@@ -40,7 +41,7 @@ const verifyToken = async (req, res, next) => {
         const refreshToken = user.refresh_token;
         const myRefreshToken = checkToken(refreshToken, REFRESH_KEY);
         if (myRefreshToken == "jwt expired") {
-          res.status(401).json({
+          res.status(402).json({
             success: false,
             message: "토크 만료, 로그인이 필요합니다",
           });
