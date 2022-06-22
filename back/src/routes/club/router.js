@@ -58,9 +58,10 @@ clubRouter.get("/", async (req, res) => {
     });
 });
 
-clubRouter.get("/scrollClublist", async (req, res) => {
+clubRouter.get("/scrollClublist/:page", async (req, res) => {
+  console.log("scrollClublist", req.params.page);
   const scrollClublist = await clubService
-    .getClublist()
+    .getClublist(req.params.page)
     .then((result) => {
       res.json({ success: true, result });
     })
