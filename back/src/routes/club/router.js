@@ -5,7 +5,7 @@ import { verifyToken } from "../../middlewares/verifyToken";
 
 const clubRouter = express.Router();
 
-// 공통 url: "/clubs" 
+// 공통 url: "/clubs"
 
 clubRouter.post("/", verifyToken, async (req, res) => {
   let {
@@ -49,13 +49,14 @@ clubRouter.post("/", verifyToken, async (req, res) => {
 clubRouter.get("/", async (req, res) => {
   const club = await Clubs.findAll({});
   const scrollClubList = await clubService
-    .getClublist({ picture, name, intro })
+    .getClublist()
     .then((result) => {
       console.log(scrollClubList);
       res.status(200).json({ success: true, result });
     })
     .catch((err) => {
       res.status(404).json({ success: false, err });
+      console.log(err);
     });
 });
 
