@@ -22,37 +22,44 @@ import {
   ClubListBox,
   ClubCreateButtonBox,
 } from "./ClubListStyle";
-import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 
-// TODO : 필터링, 추가된 라벨 클릭 시 삭제, 필터 초기화, 검색, 클럽 카드 불러오기 (Api), 무한 스크롤
-// TODO : 스타일 - 필터링 버튼 클릭 시 변경 색상 유지, 모든 dropdown 메뉴 완성
+// TODO : 추가된 라벨 클릭 시 삭제, 필터 초기화, 클럽 카드 불러오기 (Api), 무한 스크롤, 필터링, 검색 
 
 const clubState = new Map([
-  ["clubstate_open", "모집중"],
-  ["clubstate_closed", "마감"],
+  ["state0", "모집중"],
+  ["state1", "마감"],
 ]);
 
 const clubMeeting = new Map([
-  ["clubmeeting_online", "온라인"],
-  ["clubmeeting_offline", "오프라인"],
+  ["online1", "온라인"],
+  ["offline1", "오프라인"],
 ]);
 
 const clubDuration = new Map([
-  ["clubduration_short", "단기"],
-  ["clubduration_12", "1~2개월"],
-  ["clubduration_34", "3~4개월"],
-  ["clubduration_56", "5~6개월"],
-  ["clubduration_6over", "6개월 이상"],
-  ["clubduration_long", "장기"],
+  ["clubduration0", "단기"],
+  ["clubduration1", "1~2개월"],
+  ["clubduration2", "3~4개월"],
+  ["clubduration3", "5~6개월"],
+  ["clubduration4", "6개월 이상"],
+  ["clubduration5", "장기"],
 ]);
 
 const clubDay = new Map([
-  ["clubday_weekday", "평일"],
-  ["clubday_weekend", "주말"],
+  ["weekday1", "평일"],
+  ["weekend1", "주말"],
 ]);
 
 function ClubList() {
   const navigate = useNavigate();
+
+  const handleCreateButtonClick = () => {
+    navigate("/clubCreate");
+  };
+
+  const handleDropDownItemCheck = (event: React.MouseEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    console.log(target.name, target.value);
+  }
 
   const makeDropDown = (items: Map<string, string>) => {
     const dropDown: Array<any> = [];
@@ -60,7 +67,7 @@ function ClubList() {
     items.forEach((value, key) => {
       dropDown.push(
         <label key={value} htmlFor={key}>
-          <input id={key} type='checkbox' />
+          <input id={key} type='checkbox' value={value} onClick={handleDropDownItemCheck} />
           <span>{value}</span>
         </label>
       );
@@ -69,11 +76,7 @@ function ClubList() {
     return dropDown;
   };
 
-  const HandleCreateButtonClick = () => {
-    navigate("/clubCreate");
-  };
-
-  const HandleDropDownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDropDownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.currentTarget as HTMLInputElement;
     const dropDownMenu = document.querySelector(`.${target.name}`) as HTMLElement;
     
@@ -89,7 +92,7 @@ function ClubList() {
             <SelectButton
               type='button'
               name='clubstate'
-              onClick={HandleDropDownClick}
+              onClick={handleDropDownClick}
             >
               모집 상태
               <ArrowDropDownRoundedIcon />
@@ -102,7 +105,7 @@ function ClubList() {
             <SelectButton
               type='button'
               name='clubmeeting'
-              onClick={HandleDropDownClick}
+              onClick={handleDropDownClick}
             >
               진행 방식
               <ArrowDropDownRoundedIcon />
@@ -115,7 +118,7 @@ function ClubList() {
             <SelectButton
               type='button'
               name='clubduration'
-              onClick={HandleDropDownClick}
+              onClick={handleDropDownClick}
             >
               진행 기간
               <ArrowDropDownRoundedIcon />
@@ -128,7 +131,7 @@ function ClubList() {
             <SelectButton
               type='button'
               name='clubday'
-              onClick={HandleDropDownClick}
+              onClick={handleDropDownClick}
             >
               요일
               <ArrowDropDownRoundedIcon />
@@ -154,7 +157,7 @@ function ClubList() {
       <ClubCreateButtonBox>
         <AddCircleOutlinedIcon
           className='create-icon'
-          onClick={HandleCreateButtonClick}
+          onClick={handleCreateButtonClick}
         />
       </ClubCreateButtonBox>
     </ColumnContainerBox>
