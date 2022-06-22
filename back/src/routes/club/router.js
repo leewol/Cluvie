@@ -2,6 +2,7 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
+import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
 
@@ -47,15 +48,24 @@ clubRouter.post("/", verifyToken, async (req, res) => {
 });
 
 clubRouter.get("/", async (req, res) => {
-  const club = await Clubs.findAll({});
-  const scrollClubList = await clubService
-    .getClublist()
+  await Clubs.findAll({})
     .then((result) => {
-      console.log(scrollClubList);
       res.status(200).json({ success: true, result });
     })
     .catch((err) => {
       res.status(404).json({ success: false, err });
+      console.log(err);
+    });
+});
+
+clubRouter.get("/scrollClublist", async (req, res) => {
+  const scrollClublist = await clubService
+    .getClublist()
+    .then((result) => {
+      res.json({ success: true, result });
+    })
+    .catch((err) => {
+      res.json({ success: false, err });
       console.log(err);
     });
 });
