@@ -4,7 +4,7 @@ import { CardContent, IconButton, TextField, CardActions } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import CakeIcon from "@mui/icons-material/Cake";
 import EmailIcon from "@mui/icons-material/Email";
 import * as Api from "@/utils/api";
 import * as Style from "./UserCardStyle";
@@ -112,7 +112,7 @@ function UserCard() {
             marginBottom: "10px",
           }}
         >
-          <PeopleAltIcon />
+          <CakeIcon />
           <span style={{ marginLeft: "5px" }}>{userInfo.birthday}</span>
         </div>
         <div
