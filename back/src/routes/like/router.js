@@ -24,10 +24,10 @@ likeRouter.post("/", verifyToken, async (req, res) => {
 });
 
 // 모임 찜하기 해제
-likeRouter.delete("/", verifyToken, async (req, res) => {
+likeRouter.delete("/:club_id", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-    const club_id = req.body.club_id;
+    const club_id = req.params.club_id;
 
     const unlike = await likeService.unlike({ user_id, club_id });
 
