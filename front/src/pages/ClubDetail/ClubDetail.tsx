@@ -18,6 +18,7 @@ function ClubDetail() {
   const [openJoin, setOpenJoin] = useState(false);
   const [openDeleteJoin, setOpenDeleteJoin] = useState(false);
   const [likesButton, setLikesButton] = useState(false);
+  const [applicantsButton, setApplicantsButton] = useState(false);
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
     id: -100,
@@ -67,13 +68,31 @@ function ClubDetail() {
 
   useEffect(() => {
     Api.get("/likes/clubs")
-      .then((res) => console.log("찜하기목록", res.data.likeClubList))
+      .then((res) => {
+        setLikesButton(
+          Boolean(
+            res.data.likeClubList.find(
+              (likeclub: { club_id: number | undefined }) =>
+                likeclub.club_id === club.id
+            )
+          )
+        );
+      })
       .catch((err) => console.log(err));
 
     Api.get("/applications/clubs")
-      .then((res) => console.log("신청목록", res.data.applyingClubList))
+      .then((res) => {
+        setApplicantsButton(
+          Boolean(
+            res.data.applyingClubList.find(
+              (applicantClub: { club_id: number | undefined }) =>
+                applicantClub.club_id === club.id
+            )
+          )
+        );
+      })
       .catch((err) => console.log(err));
-  }, []);
+  }, [club]);
 
   const sendKakaoMessage = () => {
     window.Kakao.Link.sendDefault({
@@ -134,24 +153,29 @@ function ClubDetail() {
               </Style.Text3>
             </CardContent>
             <Style.ButtonBox>
-              <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
-                신청하기
-              </Style.MyButton1>
-              <Style.MyDeleteButton
-                color='inherit'
-                onClick={handleToggleDeleteJoin}
-              >
-                신청취소
-              </Style.MyDeleteButton>
+              {!applicantsButton ? (
+                <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
+                  신청하기
+                </Style.MyButton1>
+              ) : (
+                <Style.MyDeleteButton
+                  color='inherit'
+                  onClick={handleToggleDeleteJoin}
+                >
+                  신청취소
+                </Style.MyDeleteButton>
+              )}
               <ClubJoinDialog
                 clubId={club.id}
                 openJoin={openJoin}
                 handleToggleJoin={handleToggleJoin}
+                setApplicantsButton={setApplicantsButton}
               />
               <ClubDeleteJoinDialog
                 clubId={club.id}
                 openDeleteJoin={openDeleteJoin}
                 handleToggleDeleteJoin={handleToggleDeleteJoin}
+                setApplicantsButton={setApplicantsButton}
               />
               {likesButton ? (
                 <Style.MyButton2 color='inherit' onClick={handleDeleteLikes}>

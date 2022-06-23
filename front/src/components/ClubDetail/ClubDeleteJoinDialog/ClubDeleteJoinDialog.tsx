@@ -8,12 +8,14 @@ type ClubDeleteJoinDialogProps = {
   clubId?: number,
   openDeleteJoin: boolean,
   handleToggleDeleteJoin: React.MouseEventHandler<HTMLButtonElement>,
+  setApplicantsButton: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
 function ClubDeleteJoinDialog({
   clubId,
   openDeleteJoin,
   handleToggleDeleteJoin,
+  setApplicantsButton,
 }: ClubDeleteJoinDialogProps) {
   const handleDeleteJoin = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -23,6 +25,7 @@ function ClubDeleteJoinDialog({
       .catch((err) => console.log(err));
 
     handleToggleDeleteJoin(event);
+    setApplicantsButton((prev) => !prev);
   };
   return (
     <Dialog

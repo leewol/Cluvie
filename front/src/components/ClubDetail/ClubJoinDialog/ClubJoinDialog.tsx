@@ -8,12 +8,14 @@ type ClubJoinDialogProps = {
   clubId?: number,
   openJoin: boolean,
   handleToggleJoin: React.MouseEventHandler<HTMLButtonElement>,
+  setApplicantsButton: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
 function ClubJoinDialog({
   clubId,
   openJoin,
   handleToggleJoin,
+  setApplicantsButton,
 }: ClubJoinDialogProps) {
   const handlePostJoin = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -23,6 +25,7 @@ function ClubJoinDialog({
       .catch((err) => console.log(err));
 
     handleToggleJoin(event);
+    setApplicantsButton((prev) => !prev);
   };
 
   return (
