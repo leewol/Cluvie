@@ -18,11 +18,33 @@ axiosApiInstance.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
     // 요청 에러 직전 호출
-    Promise.reject(error);
+    return Promise.reject(error);
+  }
+);
+
+// Request interceptor for API calls
+axiosApiInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // 404 에러 시 에러 메시지 alert
+    if (error.response && error.response.status === 404) {
+      const errorMessage = error.response.data.err;
+      alert(errorMessage);
+    }
+
+    if (error.response && error.response.status === 401) {
+      // 토큰 재발급 받은 뒤 다시 set & 요청
+      const newToken = error.response.data.myNewAccessToken;
+      localStorage.setItem("token", newToken);
+
+      return axiosApiInstance.request(error.config);
+    }
+    return Promise.reject(error);
   }
 );
 

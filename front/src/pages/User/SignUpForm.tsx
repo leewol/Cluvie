@@ -68,7 +68,6 @@ function SignUpForm() {
             console.log("로그인 성공!");
           })
           .catch((errSignIn) => {
-            console.log("로그인 실패!!");
             console.error(errSignIn);
           });
       })

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
 import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
@@ -48,12 +47,11 @@ function SignIn() {
       .then((res) => {
         const { token } = res.data;
         window.localStorage.setItem("token", token);
-
+        console.log(res);
         navigate("/");
         console.log("로그인 성공!");
       })
       .catch((err) => {
-        console.log("로그인 실패!!");
         console.error(err);
       });
   };
