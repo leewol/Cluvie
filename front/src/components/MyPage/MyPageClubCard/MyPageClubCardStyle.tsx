@@ -31,6 +31,8 @@ export const ClubCardContent1 = styled(CardContent)`
 
 export const ClubCardContent2 = styled(CardContent)`
   padding: 0 16px;
+  height: 23px;
+  overflow: hidden;
 `;
 
 export const ClubCardInfos = styled(CardContent)`

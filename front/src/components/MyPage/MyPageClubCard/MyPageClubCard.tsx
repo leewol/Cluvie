@@ -34,6 +34,7 @@ function MyPageClubCard({
           {/* 해시태그 받아서 표시 */}
           <StyledSpan>#지금뜨는</StyledSpan>
           <StyledSpan>#마감임박</StyledSpan>
+          <StyledSpan>#주말</StyledSpan>
         </Style.ClubCardContent2>
         <Style.ClubCardInfos>
           {/* 온오프라인 받아서 표시 / 좋아요 적용 */}
