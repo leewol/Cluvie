@@ -20,6 +20,7 @@ userRouter.post("/", async (req, res) => {
 
     if (user.errorMessage) {
       res.status(403).json({ success: false, err: user.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -36,6 +37,7 @@ userRouter.post("/signIn", async (req, res) => {
 
     if (token.errorMessage) {
       res.status(403).json({ success: false, err: token.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, token });
   } catch (err) {
@@ -52,6 +54,7 @@ userRouter.get("/", verifyToken, async (req, res) => {
 
     if (user.errorMessage) {
       res.status(403).json({ success: false, err: user.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, user });
   } catch (err) {
@@ -72,6 +75,7 @@ userRouter.patch("/", verifyToken, async (req, res) => {
     });
     if (userUpdated.errorMessage) {
       res.status(403).json({ success: false, err: userUpdated.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
