@@ -16,6 +16,7 @@ applicantRouter.post("/", verifyToken, async (req, res) => {
 
     if (applicated.errorMessager) {
       res.status(403).json({ success: false, err: applicated.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -36,6 +37,7 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
 
     if (canceled.errorMessager) {
       res.status(403).json({ success: false, err: canceled.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -56,6 +58,7 @@ applicantRouter.get("/clubs", verifyToken, async (req, res) => {
       res
         .status(403)
         .json({ success: false, err: applyingClubList.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, applyingClubList });
   } catch (err) {
@@ -75,6 +78,7 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
 
     if (applicants.errorMessager) {
       res.status(403).json({ success: false, err: applicants.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, applicants });
   } catch (err) {
@@ -93,6 +97,7 @@ applicantRouter.post("/acceptance", verifyToken, async (req, res) => {
 
     if (accepted.errorMessager) {
       res.status(403).json({ success: false, err: accepted.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -116,6 +121,7 @@ applicantRouter.delete(
 
       if (canceled.errorMessager) {
         res.status(403).json({ success: false, err: canceled.errorMessage });
+        return;
       }
       res.status(200).json({ success: true });
     } catch (err) {

@@ -16,6 +16,7 @@ likeRouter.post("/", verifyToken, async (req, res) => {
 
     if (like.errorMessage) {
       res.status(403).json({ success: false, err: like.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -33,6 +34,7 @@ likeRouter.delete("/:club_id", verifyToken, async (req, res) => {
 
     if (unlike.errorMessage) {
       res.status(403).json({ success: false, err: unlike.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -48,6 +50,7 @@ likeRouter.get("/clubs", verifyToken, async (req, res) => {
 
     if (likeClubList.errorMessage) {
       res.status(403).json({ success: false, err: likeClubList.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, likeClubList });
   } catch (err) {
