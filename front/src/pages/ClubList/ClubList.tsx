@@ -1,10 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 
+import { isSignInState } from "@/utils/recoil";
 import ClubCard from "@/components/ClubCard";
 
 import { ColumnContainerBox } from "@/styles/containers";
@@ -51,6 +53,8 @@ const clubDay = new Map([
 
 function ClubList() {
   const navigate = useNavigate();
+
+  const isSignIn = useRecoilValue<boolean>(isSignInState);
 
   const handleCreateButtonClick = () => {
     navigate("/clubCreate");
@@ -154,12 +158,15 @@ function ClubList() {
       <ClubListBox>
         <ClubCard />
       </ClubListBox>
-      <ClubCreateButtonBox>
-        <AddCircleOutlinedIcon
-          className='create-icon'
-          onClick={handleCreateButtonClick}
-        />
-      </ClubCreateButtonBox>
+      {
+        isSignIn && (
+        <ClubCreateButtonBox>
+          <AddCircleOutlinedIcon
+            className='create-icon'
+            onClick={handleCreateButtonClick}
+          />
+        </ClubCreateButtonBox>
+      )}
     </ColumnContainerBox>
   );
 }

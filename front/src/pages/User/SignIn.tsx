@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
 import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
+
+import { isSignInState } from "@/utils/recoil";
 
 import {
   isEmailValid,
@@ -14,7 +17,7 @@ import {
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
 
-// TODO : 소셜 로그인, 로그인 실패 시 alert
+// TODO : 소셜 로그인
 
 const SignInButtonBox = styled.div`
   width: 100%;
@@ -25,6 +28,7 @@ const SignInButtonBox = styled.div`
 function SignIn() {
   const navigate = useNavigate();
 
+  const setIsSignIn = useSetRecoilState(isSignInState);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -47,7 +51,8 @@ function SignIn() {
       .then((res) => {
         const { token } = res.data;
         window.localStorage.setItem("token", token);
-        console.log(res);
+        setIsSignIn(() => true);
+
         navigate("/");
         console.log("로그인 성공!");
       })
