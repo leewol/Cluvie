@@ -7,7 +7,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 
 import { isSignInState } from "@/utils/recoil";
-import ClubCard from "@/components/ClubCard";
+import ClubCard from "@/components/ClubCard/ClubCard";
 
 import { ColumnContainerBox } from "@/styles/containers";
 import { SelectedSpan } from "@/styles/text";

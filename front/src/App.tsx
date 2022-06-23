@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { isSignInState } from "@/utils/recoil";
 import { axiosInstanceToNavigate } from "@/utils/api";
 
-import Main from "@/pages/Main";
+import Main from "@/pages/Main/Main";
 import { SignIn, SignUp, SignUpForm } from "@/pages/User";
 import ClubDetail from "@/pages/ClubDetail/ClubDetail";
 import ClubList from "@/pages/ClubList/ClubList";
