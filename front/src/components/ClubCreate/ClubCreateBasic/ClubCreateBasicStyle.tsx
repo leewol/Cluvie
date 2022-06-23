@@ -9,6 +9,35 @@ const ClubCreateFormBox = styled.form`
   justify-content: space-evenly;
 `;
 
+const ThumnailBox = styled.div<{ noThumnail?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 300px;
+  background-color: ${(props) => (props.noThumnail ? "#d3d3d3" : "")};
+  border-radius: 10px;
+  position: relative;
+  margin-bottom: 35px;
+`;
+
+const ThumnailLabel = styled.label<{ noThumnail?: boolean }>`
+  position: absolute;
+  color: white;
+  opacity: ${(props) => (props.noThumnail ? 1 : 0)};
+  .thumnail-icon {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+  }
+`;
+const ThumnailImage = styled.img`
+  width: 500px;
+  height: 300px;
+  margin-top: 60px;
+  border-radius: 10px;
+`;
+
 const FormBox = styled.div`
   width: 500px;
   height: 600px;
@@ -65,6 +94,9 @@ const HashtagSpan = styled(StyledSpan)`
 
 export {
   ClubCreateFormBox,
+  ThumnailBox,
+  ThumnailLabel,
+  ThumnailImage,
   FormBox,
   InputBox,
   HeadCountInput,

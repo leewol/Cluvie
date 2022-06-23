@@ -22,11 +22,14 @@ export const SelectButton = styled.button`
   cursor: pointer;
   border: 1px solid #ffc300;
   border-radius: 7px;
-  background-color: transparent;
+  background-color: white;
   font-size: 16px;
   font-family: inherit;
   &:hover {
     opacity: 1;
+    background-color: #ffc300;
+  }
+  &.clicked {
     background-color: #ffc300;
   }
 `;
@@ -77,6 +80,9 @@ export const ClubListBox = styled.div`
 
 export const DropDownBox = styled.div`
   position: relative;
+  .hidden {
+    visibility: hidden;
+  }
 `;
 
 export const DropDownMenu = styled.div`
