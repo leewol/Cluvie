@@ -2,11 +2,13 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
+import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
 
 // 공통 url: "/clubs"
 
+/** 클럽 생성 */
 clubRouter.post("/", verifyToken, async (req, res) => {
   let {
     name,
@@ -46,6 +48,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     });
 });
 
+/** 전체 클럽 목록 불러오기 */
 clubRouter.get("/", async (req, res) => {
   await Clubs.findAll({})
     .then((result) => {
@@ -53,9 +56,26 @@ clubRouter.get("/", async (req, res) => {
     })
     .catch((err) => {
       res.status(404).json({ success: false, err });
+      console.log(err);
     });
 });
 
+/** 클럽 4개씩 불러오기
+ * @param club_id 가장 최근 클럽ID
+ */
+clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
+  try {
+    const currentClubId = req.params.club_id;
+    const scrollClublist = await clubService.getClublist(currentClubId);
+    res.json({ success: true, scrollClublist });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/** 클럽 1개씩 불러오기
+ * @param id 클럽ID
+ */
 clubRouter.get("/:id", async (req, res, next) => {
   try {
     const club = await Clubs.findOne({ where: { id: req.params.id } });
@@ -72,6 +92,9 @@ clubRouter.get("/:id", async (req, res, next) => {
   }
 });
 
+/** 클럽 수정
+ * @param id 클럽ID
+ */
 clubRouter.put("/:id", verifyToken, async (req, res) => {
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
@@ -116,6 +139,9 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     });
 });
 
+/** 클럽 삭제
+ * @param id 클럽ID
+ */
 // 없는 모임을 삭제할 경우, 에러 처리
 clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   try {
@@ -134,8 +160,25 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   }
 });
 
+// 모임 모집 마감하기
+clubRouter.patch("/:club_id/close", verifyToken, async (req, res) => {
+  try {
+    const closeApplication = await clubService.closeApplication({ club_id });
+
+    if (closeApplication.errorMessage) {
+      res
+        .status(403)
+        .json({ success: false, err: closeApplication.errorMessage });
+      return;
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
+  }
+});
+
 // 모임 참여 후기 작성
-clubRouter.post("/clubs/:club_id/review", verifyToken, async (req, res) => {
+clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.club_id;
