@@ -39,7 +39,7 @@ class applicantService {
       return { errorMessage };
     } else {
       const applyingClubList = await db.sequelize.query(
-        "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id",
+        "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id AND a.status=0",
         { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
       );
       console.log(applyingClubList);
@@ -64,36 +64,57 @@ class applicantService {
 
   static acceptance = async ({ user_id, club_id }) => {
     const applicant = await Applicants.findOne({ where: { user_id, club_id } });
-    const applicants = await Applicants.findAll({ where: club_id });
-    console.log(applicants);
+    // const applicants = await Applicants.findAll({ where: club_id });
     const club = await Clubs.findOne({ where: club_id });
 
     if (!applicant) {
       const errorMessage = "해당 신청자가 존재하지 않습니다.";
       return { errorMessage };
     }
-    if (applicants.length === club.haed_count) {
-      const errorMessage = "모임 인원 초과";
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
-    } else {
-      const accepted = await Acceptances.create({ user_id, club_id });
+    }
+    // if (applicants.length === club.haed_count) {
+    //   const errorMessage = "모임 인원 초과";
+    //   return { errorMessage };
+    // }
+    else {
+      const accepted = await applicant.update({ status: 1 });
       return accepted;
     }
   };
 
   static cancelAcceptance = async ({ user_id, club_id }) => {
-    const acceptedApplicant = await Acceptances.findOne({
-      where: { user_id, club_id },
-    });
-
-    if (!acceptedApplicant) {
-      const errorMessage = "해당 유저는 수락기록이 존재하지 않습니다.";
+    const applicant = await Applicants.findOne({ where: { user_id, club_id } });
+    const club = await Clubs.findOne({ where: club_id });
+    if (!applicant) {
+      const errorMessage = "해당 신청자가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     } else {
-      const canceled = await Acceptances.destroy({
-        where: { user_id, club_id },
-      });
+      const canceled = await applicant.update({ status: 0 });
       return canceled;
+    }
+  };
+
+  static getMyclubList = async ({ user_id }) => {
+    const applyingClub = await Applicants.findOne({
+      where: { user_id, status: 1 },
+    });
+
+    if (!applyingClub) {
+      const errorMessage = "가입된 모임이 없습니다";
+      return { errorMessage };
+    } else {
+      const applyingClubList = await db.sequelize.query(
+        "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id AND a.status=1",
+        { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
+      );
+      return applyingClubList;
     }
   };
 }

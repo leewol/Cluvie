@@ -6,6 +6,7 @@ const clubRouter = express.Router();
 
 // 공통 url: "/clubs"
 
+// 모임 생성
 clubRouter.post("/", verifyToken, async (req, res) => {
   let {
     name,
@@ -44,6 +45,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     });
 });
 
+// 모임목록 불러오기
 clubRouter.get("/", async (req, res) => {
   await Clubs.findAll({})
     .then((result) => {
@@ -54,6 +56,7 @@ clubRouter.get("/", async (req, res) => {
     });
 });
 
+// 모임 상세정보 조회
 clubRouter.get("/:id", async (req, res, next) => {
   try {
     const club = await Clubs.findOne({ where: { id: req.params.id } });
@@ -70,6 +73,7 @@ clubRouter.get("/:id", async (req, res, next) => {
   }
 });
 
+// 모임 정보 수정
 clubRouter.put("/:id", verifyToken, async (req, res) => {
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
@@ -112,6 +116,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     });
 });
 
+// 모임 삭제
 // 없는 모임을 삭제할 경우, 에러 처리
 clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   try {
@@ -129,5 +134,7 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     next(err);
   }
 });
+
+// 모임 모집 마감
 
 module.exports = clubRouter;
