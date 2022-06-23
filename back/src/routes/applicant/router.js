@@ -47,7 +47,7 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
 applicantRouter.get("/clubs", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-
+    console.log(user_id);
     const applyingClubList = await applicantService.getApplyingClubs({
       user_id,
     });
