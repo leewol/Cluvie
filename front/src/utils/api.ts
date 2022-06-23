@@ -37,7 +37,7 @@ axiosApiInstance.interceptors.response.use(
       if (error.response.status === 401) {
         const newToken = error.response.data.myNewAccessToken;
         localStorage.setItem("token", newToken);
-  
+
         return axiosApiInstance.request(error.config);
       }
 
@@ -46,7 +46,7 @@ axiosApiInstance.interceptors.response.use(
         const errorMessage = error.response.data.err;
         if (errorMessage) alert(errorMessage);
       }
-    } 
+    }
     return Promise.reject(error);
   }
 );
@@ -61,8 +61,9 @@ const axiosInstanceToNavigate = (navigate: NavigateFunction) => {
         navigate("/signIn");
       }
       return Promise.reject(error);
-  });
-}
+    }
+  );
+};
 
 // * POST
 async function post(endpoint: string, data: object) {

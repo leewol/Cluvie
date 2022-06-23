@@ -1,7 +1,13 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { isSignInState } from "@/utils/recoil";
@@ -23,46 +29,44 @@ function InterceptorToNavigate() {
 }
 
 function App() {
-  const isSignIn = useRecoilValue<boolean>(isSignInState);
+  const isSignIn = useRecoilValue < boolean > isSignInState;
 
   return (
-      <div className='App'>
-        <BrowserRouter>
-            <InterceptorToNavigate />
-            <Header />
-            <Routes>
-              <Route path='/' element={<Main />} />
-              <Route path='signIn' element={isSignIn ? <Navigate to="/" replace /> : <SignIn />} />
-              <Route path='signUp' element={isSignIn ? <Navigate to="/" replace /> : <SignUp />} />
-              <Route path='signUpByEmail' element={
-                  isSignIn ? 
-                  <Navigate to="/" replace /> : 
-                  <SignUpForm />
-                } 
-              />
-              <Route path='clubDetail' element={<ClubDetail />} />
-              <Route path='clubList' element={<ClubList />} />
-              <Route path='clubCreate' element={
-                  !isSignIn ? 
-                  <Navigate to="/" replace /> :
-                  <ClubCreate />
-                } 
-              />
-              <Route path='clubUpdate' element={
-                  !isSignIn ? 
-                  <Navigate to="/" replace /> :
-                  <ClubUpdate />
-                } 
-              />
-              <Route path='myPage' element={
-                  !isSignIn ? 
-                  <Navigate to="/signIn" replace /> :
-                  <MyPage />
-                } 
-              />
-            </Routes>
-        </BrowserRouter>
-      </div>
+    <div className='App'>
+      <BrowserRouter>
+        <InterceptorToNavigate />
+        <Header />
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route
+            path='signIn'
+            element={isSignIn ? <Navigate to='/' replace /> : <SignIn />}
+          />
+          <Route
+            path='signUp'
+            element={isSignIn ? <Navigate to='/' replace /> : <SignUp />}
+          />
+          <Route
+            path='signUpByEmail'
+            element={isSignIn ? <Navigate to='/' replace /> : <SignUpForm />}
+          />
+          <Route path='clubDetail' element={<ClubDetail />} />
+          <Route path='clubList' element={<ClubList />} />
+          <Route
+            path='clubCreate'
+            element={!isSignIn ? <Navigate to='/' replace /> : <ClubCreate />}
+          />
+          <Route
+            path='clubUpdate'
+            element={!isSignIn ? <Navigate to='/' replace /> : <ClubUpdate />}
+          />
+          <Route
+            path='myPage'
+            element={!isSignIn ? <Navigate to='/signIn' replace /> : <MyPage />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 export interface Club {
   id?: number;
+  club_id?: number;
   name?: string;
   manager?: number;
   picture?: string;
