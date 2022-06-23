@@ -1,6 +1,5 @@
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
-import Acceptances from "../../../models/acceptance";
 import Users from "../../../models/user";
 import db from "../../../models/index";
 

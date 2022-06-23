@@ -4,12 +4,6 @@ module.exports = class Reviews extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
@@ -18,7 +12,7 @@ module.exports = class Reviews extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        star_score: {
+        star_rating: {
           type: Sequelize.FLOAT,
           allowNull: false,
         },
@@ -27,11 +21,6 @@ module.exports = class Reviews extends Sequelize.Model {
           allowNull: false,
         },
         created_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
-          defaultValue: Sequelize.fn("NOW"),
-        },
-        updated_at: {
           type: Sequelize.DATE,
           allowNull: false,
           defaultValue: Sequelize.fn("NOW"),
