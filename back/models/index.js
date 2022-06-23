@@ -4,13 +4,10 @@ const config = require("../config/config.js")[env];
 // 모델
 import Users from "./user";
 import Clubs from "./club";
-<<<<<<< HEAD
-import Reviews from "./review";
-=======
 import Likes from "./like";
 import Applicants from "./applicant";
-import Acceptances from "./acceptance"
->>>>>>> 84a261b4f6197e7b3242c1414c92775eb58f0c35
+import Acceptances from "./acceptance";
+import Reviews from "./review";
 
 const db = {};
 const sequelize = new Sequelize(
