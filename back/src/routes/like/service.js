@@ -38,8 +38,8 @@ class likeService {
       return { errorMessage };
     } else {
       const likeClubList = await db.sequelize.query(
-        "SELECT * FROM likes As l LEFT JOIN clubs AS c ON l.club_id = c.id WHERE user_id",
-        { type: db.sequelize.QueryTypes.SELECT }
+        "SELECT * FROM likes As l LEFT JOIN clubs AS c ON l.club_id = c.id WHERE l.user_id =:id",
+        { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
       );
       console.log(likeClubList);
       return likeClubList;
