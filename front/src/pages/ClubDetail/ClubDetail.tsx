@@ -2,6 +2,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
@@ -15,6 +16,7 @@ import * as Interface from "@/utils/interface";
 import * as Style from "./ClubDetailStyle";
 
 function ClubDetail() {
+  const params = useParams();
   const [openJoin, setOpenJoin] = useState(false);
   const [openDeleteJoin, setOpenDeleteJoin] = useState(false);
   const [likesButton, setLikesButton] = useState(false);
@@ -57,14 +59,14 @@ function ClubDetail() {
 
   useEffect(() => {
     if (club.id === -100) {
-      Api.get("/clubs/1")
+      Api.get(`/clubs/${params.id}`)
         .then((res) => {
           console.log(res);
           setClub(res.data.club);
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [params]);
 
   useEffect(() => {
     Api.get("/likes/clubs")

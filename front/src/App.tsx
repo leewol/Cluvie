@@ -23,7 +23,7 @@ function App() {
           <Route path='signIn' element={<SignIn />} />
           <Route path='signUp' element={<SignUp />} />
           <Route path='signUpByEmail' element={<SignUpForm />} />
-          <Route path='clubDetail' element={<ClubDetail />} />
+          <Route path='clubDetail/:id' element={<ClubDetail />} />
           <Route path='clubList' element={<ClubList />} />
           <Route path='clubCreate' element={<ClubCreate />} />
           <Route path='clubUpdate' element={<ClubUpdate />} />

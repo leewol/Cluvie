@@ -121,7 +121,7 @@ export default function BasicTabs() {
         /> */}
         <Style.ClubList>
           {likesClubs.map((likesClub) => (
-            <MyPageClubCard club={likesClub} like />
+            <MyPageClubCard key={likesClub["club_id"]} club={likesClub} like />
           ))}
         </Style.ClubList>
       </TabPanel>
@@ -132,7 +132,10 @@ export default function BasicTabs() {
         /> */}
         <Style.ClubList>
           {applicantsClubs.map((applicantsClub) => (
-            <MyPageClubCard club={applicantsClub} />
+            <MyPageClubCard
+              key={applicantsClub["club_id"]}
+              club={applicantsClub}
+            />
           ))}
         </Style.ClubList>
       </TabPanel>

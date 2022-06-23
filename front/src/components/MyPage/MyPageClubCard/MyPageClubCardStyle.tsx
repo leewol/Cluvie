@@ -60,3 +60,14 @@ export const StyledSpan2 = styled.span`
   margin-right: 5px;
   padding: 0 5px;
 `;
+
+
+export const StyledSpan3 = styled.span`
+  color: white;
+  font-size: 14px;
+  background-color: black;
+  border: 3px solid black;
+  border-radius: 10px;
+  margin-right: 5px;
+  padding: 0 5px;
+`;
