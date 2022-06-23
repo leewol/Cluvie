@@ -1,10 +1,11 @@
 import express from "express";
 import Clubs from "../../../models/club";
+import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
 
 const clubRouter = express.Router();
 
-// 공통 url: "/clubs" 
+// 공통 url: "/clubs"
 
 clubRouter.post("/", verifyToken, async (req, res) => {
   let {
@@ -130,6 +131,29 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     res.status(200).json({ success: true });
   } catch (err) {
     next(err);
+  }
+});
+
+// 모임 참여 후기 작성
+clubRouter.post("/clubs/:club_id/review", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const club_id = req.params.club_id;
+    const { star_score, contents } = req.body;
+
+    const review = await clubService.writeReview({
+      club_id,
+      user_id,
+      star_score,
+      contents,
+    });
+
+    if (review.errorMessage) {
+      res.status(403).json({ success: false, err: review.errorMessage });
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
   }
 });
 

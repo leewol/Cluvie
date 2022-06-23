@@ -8,7 +8,7 @@ class applicantService {
   static application = async ({ user_id, club_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
-      const errorMessage = "해당 클럽이 존재하지 않습니다.";
+      const errorMessage = "해당 클럽이 존재하지 않습니다";
       return { errorMessage };
     } else {
       const applicated = await Applicants.create({
@@ -22,7 +22,7 @@ class applicantService {
   static cancelApplication = async ({ user_id, club_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
-      const errorMessage = "해당 클럽이 존재하지 않습니다.";
+      const errorMessage = "해당 클럽이 존재하지 않습니다";
       return { errorMessage };
     } else {
       const canceled = await Applicants.destroy({
@@ -35,7 +35,7 @@ class applicantService {
   static getApplyingClubs = async ({ user_id }) => {
     const user = await Users.findOne({ where: { id: user_id } });
     if (!user) {
-      const errorMessage = "해당 사용자를 찾을 수 없습니다.";
+      const errorMessage = "해당 사용자를 찾을 수 없습니다";
       return { errorMessage };
     } else {
       const applyingClubList = await db.sequelize.query(
@@ -50,7 +50,7 @@ class applicantService {
   static getApplicants = async ({ club_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
-      const errorMessage = "해당 클럽이 존재하지 않습니다.";
+      const errorMessage = "해당 클럽이 존재하지 않습니다";
       return { errorMessage };
     } else {
       const applicants = await db.sequelize.query(
@@ -66,10 +66,11 @@ class applicantService {
     const applicant = await Applicants.findOne({ where: { user_id, club_id } });
 
     if (!applicant) {
-      const errorMessage = "해당 신청자가 존재하지 않습니다.";
+      const errorMessage = "해당 신청자가 존재하지 않습니다";
       return { errorMessage };
     } else {
       const accepted = await Acceptances.create({ applicant });
+      await Applicants.destroy({ where: { user_id, club_id } });
       return accepted;
     }
   };
@@ -80,7 +81,7 @@ class applicantService {
     });
 
     if (!acceptedApplicant) {
-      const errorMessage = "해당 유저는 수락기록이 존재하지 않습니다.";
+      const errorMessage = "해당 유저는 수락기록이 존재하지 않습니다";
       return { errorMessage };
     } else {
       const canceled = await Acceptances.destroy({ acceptedApplicant });
