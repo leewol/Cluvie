@@ -149,7 +149,7 @@ return (
       />
       {preview && <ClubPreview newClub={{...clubInfo, id: 999, picture: "", views: 0}}/>}
       <Style.ButtonBox>
-      <Style.BackLink to='/clubDetail'>
+      <Style.BackLink to={`/clubDetail/${club.id}`}>
         <Style.MyButton1>
           취소
         </Style.MyButton1>

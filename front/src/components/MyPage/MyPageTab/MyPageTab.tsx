@@ -115,29 +115,41 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {/* <DefaultTabPanel
-          text1='아직 내가 찜한 클럽이 없어요!'
-          text2='내 취향에 맞는 클럽을 찜하고, 다른 클러비들과 가까워져 보세요!'
-        /> */}
-        <Style.ClubList>
-          {likesClubs.map((likesClub) => (
-            <MyPageClubCard key={likesClub["club_id"]} club={likesClub} like />
-          ))}
-        </Style.ClubList>
+        {likesClubs.length === 0 && (
+          <DefaultTabPanel
+            text1='아직 내가 찜한 클럽이 없어요!'
+            text2='내 취향에 맞는 클럽을 찜하고, 다른 클러비들과 가까워져 보세요!'
+          />
+        )}
+        {!(likesClubs.length === 0) && (
+          <Style.ClubList>
+            {likesClubs.map((likesClub) => (
+              <MyPageClubCard
+                key={likesClub["club_id"]}
+                club={likesClub}
+                like
+              />
+            ))}
+          </Style.ClubList>
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* <DefaultTabPanel
-          text1='아직 내가 신청한 클럽이 없어요!'
-          text2='내 취향에 맞는 클럽에 가입하고, 다른 클러비들과 가까워져 보세요!'
-        /> */}
-        <Style.ClubList>
-          {applicantsClubs.map((applicantsClub) => (
-            <MyPageClubCard
-              key={applicantsClub["club_id"]}
-              club={applicantsClub}
-            />
-          ))}
-        </Style.ClubList>
+        {applicantsClubs.length === 0 && (
+          <DefaultTabPanel
+            text1='아직 내가 신청한 클럽이 없어요!'
+            text2='내 취향에 맞는 클럽에 가입하고, 다른 클러비들과 가까워져 보세요!'
+          />
+        )}
+        {!(applicantsClubs.length === 0) && (
+          <Style.ClubList>
+            {applicantsClubs.map((applicantsClub) => (
+              <MyPageClubCard
+                key={applicantsClub["club_id"]}
+                club={applicantsClub}
+              />
+            ))}
+          </Style.ClubList>
+        )}
       </TabPanel>
     </Box>
   );

@@ -16,7 +16,7 @@ export const FirstCardContent = styled(CardContent)`
 export const UserEditButton = styled(Button)`
   height: 35px;
   min-width: 50px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 8px auto;
   color: white;
   font-size: 16px;
   background-color: #ffc300;
