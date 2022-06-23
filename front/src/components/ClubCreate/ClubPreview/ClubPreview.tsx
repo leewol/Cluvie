@@ -27,6 +27,7 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
               <Style.Text1>{newClub.intro}</Style.Text1>
               <Style.Text2>
                 본 클럽은 {newClub.online ? "온라인" : ""}
+                {newClub.online && newClub.offline ? "/" : ""}
                 {newClub.offline ? "오프라인" : ""}으로 진행됩니다.
               </Style.Text2>
               <Style.Text2>

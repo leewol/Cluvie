@@ -13,7 +13,6 @@ module.exports = class Users extends Sequelize.Model {
         email: {
           type: Sequelize.STRING(50),
           allowNull: false,
-          unique: true,
         },
         password: {
           type: Sequelize.STRING(200),
@@ -33,6 +32,10 @@ module.exports = class Users extends Sequelize.Model {
         },
         description: {
           type: Sequelize.TEXT,
+          allowNull: true,
+        },
+        refresh_token: {
+          type: Sequelize.STRING,
           allowNull: true,
         },
         created_at: {

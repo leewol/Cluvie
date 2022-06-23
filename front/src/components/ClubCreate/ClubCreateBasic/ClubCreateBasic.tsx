@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import * as Interface from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
+import testimage from "@/asset/images/testimage.PNG";
 
 import { ColumnContainerBox, StyledInput } from "@/styles/containers";
-import { StyledLabel, StyledSpan } from "@/styles/text";
+import { StyledLabel } from "@/styles/text";
 import {
   ClubCreateFormBox,
   FormBox,
@@ -13,13 +14,20 @@ import {
   MeetingInputBox,
   Line,
   StyledSelect,
+  HashtagsBox,
+  HashtagNotice,
+  HashtagSpan
 } from "./ClubCreateBasicStyle";
 
 function ClubCreateBasic(props: Interface.ClubState) {
+  const [ hashtag, setHashtag ] = useState("");
+  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
+
   const { clubInfo, setClubInfo } = props;
 
   const onChange = onChangeFunction(setClubInfo);
-  const onClick = (event: React.MouseEvent<HTMLInputElement>) => {
+
+  const handleCheckBox = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     
     setClubInfo((prev: any) => ({
@@ -27,6 +35,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
       [target.name]: (target.checked ? 1 : 0),
     }));
   };
+
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     
@@ -36,13 +45,55 @@ function ClubCreateBasic(props: Interface.ClubState) {
     }));
   }
 
+  const handleHashtagChange = (event: React.ChangeEvent <HTMLInputElement>) => {
+    setHashtag(event.target.value);
+  }
+
+  const handleHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const { name, value } = target;
+    
+    if (event.key === "Enter") {
+      // 중복 처리
+      if (hashtagArr.includes(value)) {
+        alert("이미 등록된 해시태그입니다!");
+        return;
+      }
+
+      // 3개까지만 입력 가능
+      if (hashtagArr.length === 3) {
+        alert("해시태그를 3개 모두 입력하셨습니다!");
+        return;
+      }
+
+      setHashtagArr((prev) => [...prev, value]);
+      setHashtag(""); 
+    }
+  }
+
+  const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const clickedHashtag = event.currentTarget.id;
+    const newHashtagArr = hashtagArr.filter((el: string) => el !== clickedHashtag);
+
+    setHashtagArr(() => newHashtagArr);
+    setHashtag("");
+  }
+
+  // hashtagArr 변경될 때 clubInfo를 업데이트
+  useEffect(() => {
+    setClubInfo((prev: any) => ({
+      ...prev,
+      hashtags: hashtagArr.join(","),
+    }));
+  }, [hashtagArr]);
+  
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>
       <ClubCreateFormBox>
         <FormBox>
           <img
-            src={require("@/asset/images/testimage.PNG")}
+            src={testimage}
             alt='Club Thumnail'
             width={500}
             height={300}
@@ -86,28 +137,28 @@ function ClubCreateBasic(props: Interface.ClubState) {
                 type='checkbox'
                 name='online'
                 value={clubInfo.online}
-                onClick={onClick}
+                onClick={handleCheckBox}
               />
               <span>온라인</span>
               <input
                 type='checkbox'
                 name='offline'
                 value={clubInfo.offline}
-                onClick={onClick}
+                onClick={handleCheckBox}
               />
               <span>오프라인</span>
             </InputBox>
             <InputBox>
               <StyledLabel htmlFor='meetingDay'>진행 요일</StyledLabel>
-              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={onClick} />
+              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={handleCheckBox} />
               <span>평일</span>
-              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={onClick} />
+              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={handleCheckBox} />
               <span>주말</span>
             </InputBox>
           </MeetingInputBox>
           <InputBox>
             <StyledLabel htmlFor='duration'>진행 기간</StyledLabel>
-            <StyledSelect name='durations' id='duration' onChange={handleSelect}>
+            <StyledSelect name='duration' id='duration' onChange={handleSelect}>
               <option value='0'>미정</option>
               <option value='1'>단기</option>
               <option value='2'>1~2개월</option>
@@ -118,16 +169,19 @@ function ClubCreateBasic(props: Interface.ClubState) {
             </StyledSelect>
           </InputBox>
           <InputBox>
-            <StyledLabel htmlFor='hashtags'>해시태그</StyledLabel>
+            <StyledLabel htmlFor='hashtags'>해시태그
+              <HashtagNotice>최대 3개를 입력해 주세요</HashtagNotice>
+            </StyledLabel>
             <StyledInput
               type='text'
               name='hashtags'
-              value={clubInfo.hashtags}
+              value={hashtag}
+              onChange={handleHashtagChange}
+              onKeyPress={handleHashtagEnter}
             />
-            <div>
-              <StyledSpan>#친목도모</StyledSpan>
-              <StyledSpan>#넷플릭스</StyledSpan>
-            </div>
+            <HashtagsBox>
+              {hashtagArr.map((el: string) => <HashtagSpan id={el} key={el} onClick={handleSpanClickDelete}>#{el}</HashtagSpan>)}
+            </HashtagsBox>
           </InputBox>
         </FormBox>
       </ClubCreateFormBox>

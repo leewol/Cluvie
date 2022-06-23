@@ -1,6 +1,7 @@
 import styled from "@emotion/styled/macro";
 
 import { StyledInput, inputBase } from "@/styles/containers";
+import { StyledSpan } from "@/styles/text";
 
 const ClubCreateFormBox = styled.form`
   width: 100%;
@@ -44,6 +45,24 @@ const StyledSelect = styled.select`
   font-size: 16px;
 `;
 
+const HashtagsBox = styled.div`
+  margin-top: 10px;
+`;
+
+const HashtagNotice = styled.span`
+  color: #716847;
+  font-size: 12px;
+  margin-left: 10px;
+`;
+
+const HashtagSpan = styled(StyledSpan)`
+  background-color: #716847;
+  border: 5px solid #716847;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
 export {
   ClubCreateFormBox,
   FormBox,
@@ -52,4 +71,7 @@ export {
   MeetingInputBox,
   Line,
   StyledSelect,
+  HashtagsBox,
+  HashtagNotice,
+  HashtagSpan,
 };

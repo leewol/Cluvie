@@ -132,7 +132,7 @@ return (
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
-
+      <Style.DetailInfoDiv>상세 정보</Style.DetailInfoDiv>
       <Style.ClubReactQuill
         ref={(element) => {
             if (element !== null) {
@@ -148,9 +148,11 @@ return (
       />
       {preview && <ClubPreview newClub={clubInfo}/>}
       <Style.ButtonBox>
-        <Style.MyButton1>
-          취소
-        </Style.MyButton1>
+        <Style.BackLink to="/clubList">
+          <Style.MyButton1>
+            취소
+          </Style.MyButton1>
+        </Style.BackLink>
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>

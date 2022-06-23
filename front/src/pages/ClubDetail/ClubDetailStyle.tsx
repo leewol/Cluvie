@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Card, Button, Box } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export const WholeBox = styled(Box)`
   position: relative;
@@ -71,6 +72,17 @@ export const MyButton1 = styled(Button)`
   }
 `;
 
+export const MyDeleteButton = styled(Button)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: white;
+  background-color: #716847;
+  &:hover {
+    background-color: rgba(113, 104, 71, 0.6);
+  }
+`;
+
 export const MyButton2 = styled(Button)`
   width: 33.33%;
   margin: 0 2% 0 2%;
@@ -79,4 +91,8 @@ export const MyButton2 = styled(Button)`
   img {
     width: 24px;
   }
+`;
+
+export const MyFavoriteIcon = styled(FavoriteIcon)`
+  color: #ff0000;
 `;

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import ReactQuill from "react-quill";
@@ -40,9 +41,15 @@ export const ButtonBox = styled(Box)`
   margin: 30px 0 0 75%;
 `;
 
-export const MyButton1 = styled(Button)`
+export const BackLink = styled(Link)`
   width: 33.33%;
   margin: 0 2% 0 2%;
+  text-decoration: none;
+  color: black;
+`;
+
+export const MyButton1 = styled(Button)`
+  width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.2);
   color: black;
   background-color: rgba(226, 226, 226, 1);
@@ -71,4 +78,9 @@ export const MyButton3 = styled(Button)`
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
   }
+`;
+
+export const DetailInfoDiv = styled.div`
+  font-weight: 600;
+  margin-bottom: 5px;
 `;
