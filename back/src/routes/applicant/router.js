@@ -15,7 +15,8 @@ applicantRouter.post("/", verifyToken, async (req, res) => {
     const applicated = await applicantService.application({ user_id, club_id });
 
     if (applicated.errorMessager) {
-      throw new Error(applicated.errorMessager);
+      res.status(403).json({ success: false, err: applicated.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -35,7 +36,8 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
     });
 
     if (canceled.errorMessager) {
-      throw new Error(canceled.errorMessager);
+      res.status(403).json({ success: false, err: canceled.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -53,7 +55,10 @@ applicantRouter.get("/clubs", verifyToken, async (req, res) => {
     });
 
     if (applyingClubList.errorMessager) {
-      throw new Error(applyingClubList.errorMessager);
+      res
+        .status(403)
+        .json({ success: false, err: applyingClubList.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, applyingClubList });
   } catch (err) {
@@ -72,7 +77,8 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
     });
 
     if (applicants.errorMessager) {
-      throw new Error(applicants.errorMessager);
+      res.status(403).json({ success: false, err: applicants.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, applicants });
   } catch (err) {
@@ -90,7 +96,8 @@ applicantRouter.post("/acceptance", verifyToken, async (req, res) => {
     const accepted = await applicantService.acceptance({ user_id, club_id });
 
     if (accepted.errorMessager) {
-      throw new Error(accepted.errorMessager);
+      res.status(403).json({ success: false, err: accepted.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -114,7 +121,8 @@ applicantRouter.delete(
       });
 
       if (canceled.errorMessager) {
-        throw new Error(canceled.errorMessager);
+        res.status(403).json({ success: false, err: canceled.errorMessage });
+        return;
       }
       res.status(200).json({ success: true });
     } catch (err) {

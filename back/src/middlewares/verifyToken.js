@@ -5,9 +5,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // status code
-// 401 : 토큰 만료
-// 402 : 토큰 재발급
-// 403 : 토큰 없음
+// 401 : access token 만료->토큰 재발급
+// 402 : 아예 refreshToken 만료 -> 새로 로그인 필요
+// 403 : 토큰 없음(로그인 안된 상태)
 
 const checkToken = (token, keyType) => {
   try {
