@@ -34,7 +34,7 @@ class clubService {
       return { errorMessage };
     }
     const closeApplication = await club.update({ state: "모집마감" });
-    await Applicants.find({ where: club_id }).update({ status: 2 });
+    await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
     return { closeApplication };
   };
 
