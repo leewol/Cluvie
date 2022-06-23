@@ -7,11 +7,16 @@ dotenv.config();
 class userService {
   static register = async ({ email, password, nickname, birthday, sex }) => {
     const hashedPassword = hashPassword(password);
-    const duplicate = await Users.findOne({
+    const duplicateEmmail = await Users.findOne({
       where: { email },
     });
-    if (duplicate) {
+    const duplicateNickname = await Users.findOne({ where: { nickname } });
+    if (duplicateEmmail) {
       const errorMessage = "중복된 이메일 입니다";
+      return { errorMessage };
+    }
+    if (duplicateNickname) {
+      const errorMessage = "중복된 닉네임 입니다";
       return { errorMessage };
     } else {
       const user = await Users.create({

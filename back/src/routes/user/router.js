@@ -19,11 +19,11 @@ userRouter.post("/", async (req, res) => {
     });
 
     if (user.errorMessage) {
-      throw new Error(user.errorMessage);
+      res.status(403).json({ success: false, err: user.errorMessage });
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.json({ success: false });
+    res.status(404).json({ success: false });
     console.log(err);
   }
 });
@@ -35,7 +35,7 @@ userRouter.post("/signIn", async (req, res) => {
     const token = await userService.login({ email, password });
 
     if (token.errorMessage) {
-      throw new Error(token.errorMessage);
+      res.status(403).json({ success: false, err: token.errorMessage });
     }
     res.status(200).json({ success: true, token });
   } catch (err) {
@@ -51,7 +51,7 @@ userRouter.get("/", verifyToken, async (req, res) => {
     const user = await userService.getUserData({ id });
 
     if (user.errorMessage) {
-      throw new Error(user.errorMessage);
+      res.status(403).json({ success: false, err: user.errorMessage });
     }
     res.status(200).json({ success: true, user });
   } catch (err) {
@@ -71,7 +71,7 @@ userRouter.patch("/", verifyToken, async (req, res) => {
       description,
     });
     if (userUpdated.errorMessage) {
-      throw new Error(userUpdated.errorMessage);
+      res.status(403).json({ success: false, err: userUpdated.errorMessage });
     }
     res.status(200).json({ success: true });
   } catch (err) {
