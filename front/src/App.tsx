@@ -12,6 +12,7 @@ import ClubCreate from "@/pages/ClubCreate/ClubCreate";
 import ClubUpdate from "@/pages/ClubUpdate/ClubUpdate";
 import Header from "@/components/Header/Header";
 import MyPage from "@/pages/MyPage/MyPage";
+import MyClubList from "@/pages/MyClubList/MyClubList";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='clubCreate' element={<ClubCreate />} />
           <Route path='clubUpdate' element={<ClubUpdate />} />
           <Route path='myPage' element={<MyPage />} />
+          <Route path='myClubList' element={<MyClubList />} />
         </Routes>
       </BrowserRouter>
     </div>
