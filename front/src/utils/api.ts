@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NavigateFunction } from "react-router-dom";
 
 const BACKEND_PORT = "5001";
 const SERVER_URL = `http://${window.location.hostname}:${BACKEND_PORT}`;
@@ -31,22 +32,37 @@ axiosApiInstance.interceptors.request.use(
 axiosApiInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // 404 에러 시 에러 메시지 alert
-    if (error.response && error.response.status === 404) {
-      const errorMessage = error.response.data.err;
-      alert(errorMessage);
-    }
+    if (error.response) {
+      // 401 에러 : 토큰 재발급 받은 뒤 다시 set & 요청
+      if (error.response.status === 401) {
+        const newToken = error.response.data.myNewAccessToken;
+        localStorage.setItem("token", newToken);
+  
+        return axiosApiInstance.request(error.config);
+      }
 
-    if (error.response && error.response.status === 401) {
-      // 토큰 재발급 받은 뒤 다시 set & 요청
-      const newToken = error.response.data.myNewAccessToken;
-      localStorage.setItem("token", newToken);
-
-      return axiosApiInstance.request(error.config);
-    }
+      // 403 에러 : 에러 메시지 alert (비로그인 에러 제외)
+      if (error.response.status === 403) {
+        const errorMessage = error.response.data.err;
+        if (errorMessage) alert(errorMessage);
+      }
+    } 
     return Promise.reject(error);
   }
 );
+
+// ! 402 에러 처리 : 나중에 다시 확인 - App.tsx 파일 같이
+const axiosInstanceToNavigate = (navigate: NavigateFunction) => {
+  axiosApiInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      // 402 에러 : refresh Token 만료 시 (임시저장 후) 로그인 페이지로
+      if (error.response && error.response.status === 402) {
+        navigate("/signIn");
+      }
+      return Promise.reject(error);
+  });
+}
 
 // * POST
 async function post(endpoint: string, data: object) {
@@ -102,4 +118,4 @@ async function del(endpoint: string, params = "") {
   return axiosApiInstance.delete(`${SERVER_URL + endpoint}/${params}`);
 }
 
-export { get, post, put, patch, del as delete };
+export { axiosInstanceToNavigate, get, post, put, patch, del as delete };

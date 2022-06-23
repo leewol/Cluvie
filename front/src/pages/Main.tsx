@@ -8,12 +8,6 @@ function Main() {
     <ContainerBox>
       <ul>
         <li>
-          <Link to='/signIn'>로그인</Link>
-        </li>
-        <li>
-          <Link to='/clublist'>클럽 목록</Link>
-        </li>
-        <li>
           <Link to='/myClublist'>내 클럽 리스트</Link>
         </li>
         <li>
