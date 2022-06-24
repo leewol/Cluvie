@@ -16,6 +16,38 @@ class clubService {
   //     console.log(scrollClubList);
   //     return scrollClubList;
   //   };
+
+  static createClub = async ({
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    state,
+    views,
+    manager,
+  }) => {
+    const club = await Clubs.create({
+      intro,
+      online,
+      offline,
+      description,
+      head_count,
+      picture,
+      weekday,
+      weekend,
+      duration,
+      state,
+      views: 0,
+      manager,
+    });
+    return club;
+  };
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
@@ -33,7 +65,7 @@ class clubService {
       const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     }
-    const closeApplication = await club.update({ state: "모집마감" });
+    const closeApplication = await club.update({ state: 1 });
     await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
     return { closeApplication };
   };
