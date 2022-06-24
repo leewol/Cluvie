@@ -17,6 +17,7 @@ module.exports = class Reviews extends Sequelize.Model {
         star_rating: {
           type: Sequelize.FLOAT,
           allowNull: false,
+          defaultValue: 0,
         },
         contents: {
           type: Sequelize.TEXT,

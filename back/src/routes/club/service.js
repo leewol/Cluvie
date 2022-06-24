@@ -74,7 +74,7 @@ class clubService {
     return { closeApplication };
   };
 
-  static writeReview = async ({ user_id, club_id, star_score, contents }) => {
+  static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     const user = await Users.findOne({ where: { id: user_id } });
     if (!club) {
@@ -88,15 +88,18 @@ class clubService {
       const review = await Reviews.create({
         user_id,
         club_id,
-        star_score,
+        star_rating,
         contents,
       });
-      await grades
-        .findOne({ where: club_id })
-        .increment({ count: 1, grade: star_score });
-      console.log(updateGrade);
       return review;
     }
+  };
+  static sumReviewRating = async ({ club_id, star }) => {
+    await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
+    await Ratings.increment("star_sum", {
+      by: star,
+      where: { club_id: club_id },
+    });
   };
 }
 export { clubService };

@@ -182,15 +182,16 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.club_id;
-    const { star_score, contents } = req.body;
+    const { star_rating, contents } = req.body;
 
     const review = await clubService.writeReview({
       club_id,
       user_id,
-      star_score,
+      star_rating,
       contents,
     });
-
+    const star = review.star_rating;
+    await clubService.sumReviewRating({ club_id, star });
     if (review.errorMessage) {
       res.status(403).json({ success: false, err: review.errorMessage });
     }
