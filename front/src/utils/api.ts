@@ -104,12 +104,13 @@ async function patch(endpoint: string, data: object) {
   console.log(`%cPATCH 요청: ${SERVER_URL + endpoint}`, "color: #059c4b;");
   console.log(`%cPATCH 요청 데이터: ${bodyData}`, "color: #059c4b;");
 
-  return axios.patch(SERVER_URL + endpoint, bodyData, {
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization 추가 (JWT)
-    },
-  });
+  // return axios.patch(SERVER_URL + endpoint, bodyData, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     // Authorization 추가 (JWT)
+  //   },
+  // });
+  return axiosApiInstance.patch(SERVER_URL + endpoint, bodyData);
 }
 
 // DELETE
