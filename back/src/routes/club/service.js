@@ -2,6 +2,7 @@ import Reviews from "../../../models/review";
 import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
+import Ratings from "../../../models/rating";
 import db from "../../../models/index";
 
 class clubService {
@@ -28,11 +29,10 @@ class clubService {
     weekday,
     weekend,
     duration,
-    state,
-    views,
     manager,
   }) => {
     const club = await Clubs.create({
+      name,
       intro,
       online,
       offline,
@@ -42,12 +42,16 @@ class clubService {
       weekday,
       weekend,
       duration,
-      state,
-      views: 0,
       manager,
     });
     return club;
   };
+
+  static createClubReviewRating = async (club_id) => {
+    const reviewRating = await Ratings.create({ club_id });
+    return reviewRating;
+  };
+
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
