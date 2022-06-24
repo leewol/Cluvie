@@ -30,33 +30,34 @@ import {
 // TODO : 추가된 라벨 클릭 시 삭제, 필터 초기화, 클럽 카드 불러오기 (Api), 무한 스크롤, 필터링, 검색 
 
 const clubState = new Map([
-  ["state0", "모집중"],
-  ["state1", "마감"],
+  ["모집중", "state0"],
+  ["모집완료", "state1"],
 ]);
 
 const clubMeeting = new Map([
-  ["online1", "온라인"],
-  ["offline1", "오프라인"],
+  ["온라인", "online1"],
+  ["오프라인", "offline1"],
 ]);
 
 const clubDuration = new Map([
-  ["clubduration0", "단기"],
-  ["clubduration1", "1~2개월"],
-  ["clubduration2", "3~4개월"],
-  ["clubduration3", "5~6개월"],
-  ["clubduration4", "6개월 이상"],
-  ["clubduration5", "장기"],
+  ["단기", "clubduration0"],
+  ["1~2개월", "clubduration1"],
+  ["3~4개월", "clubduration2"],
+  ["5~6개월", "clubduration3"],
+  ["6개월 이상", "clubduration4"],
+  ["장기", "clubduration5"],
 ]);
 
 const clubDay = new Map([
-  ["weekday1", "평일"],
-  ["weekend1", "주말"],
+  ["평일", "weekday1"],
+  ["주말", "weekend1"],
 ]);
 
 function ClubList() {
   const navigate = useNavigate();
 
   const isSignIn = useRecoilValue<boolean>(isSignInState);
+  const [ checkedItems, setCheckedItems ] = useState<string[]>([]);
   const [ lastIndex, setLastIndex ] = useState<number>(0);
   const [ resClubList, setResClubList ] = useState<Club[]>([]);
 
@@ -66,7 +67,45 @@ function ClubList() {
 
   const handleDropDownItemCheck = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    console.log(target.name, target.value);
+    const checkEachFilter = (selected: Map<string, string>) => {
+      if (selected.has(target.value)) {
+        return selected.get(target.value);
+      }
+      return "";
+    }
+    const filterVal = checkEachFilter(clubState) || checkEachFilter(clubMeeting) || checkEachFilter(clubDuration) || checkEachFilter(clubDay);
+
+    // * (1) Span으로 필터링 label 표시 @target.value
+    // * (2) CardList 필터링 @Map의 value 값(target.id와 동일) -> CardList 있을 때만
+    if (target.checked) {
+      setCheckedItems((prev) => [
+        ...prev,
+        target.value
+      ]);
+
+      if (resClubList) {
+        const attribute = filterVal?.slice(0, filterVal.length - 1);
+        const attValue = filterVal?.slice(-1);
+        setResClubList((prevArr) => {
+          return prevArr.filter((club) => club[attribute] === Number(attValue));
+        });
+      }
+    } else {
+      setCheckedItems((prevArr) => { 
+        return prevArr.filter((el) => el !== target.value);
+      });
+    }
+  }
+
+  const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const clickedItem = event.currentTarget.id;
+    setCheckedItems((prevArr) => { 
+      return prevArr.filter((el) => el !== clickedItem);
+    });
+  }
+
+  const handleFilterClear = () => {
+    setCheckedItems([]);
   }
 
   const makeDropDown = (items: Map<string, string>) => {
@@ -74,9 +113,9 @@ function ClubList() {
 
     items.forEach((value, key) => {
       dropDown.push(
-        <label key={value} htmlFor={key}>
-          <input id={key} type='checkbox' value={value} onClick={handleDropDownItemCheck} />
-          <span>{value}</span>
+        <label key={value} htmlFor={value}>
+          <input id={value} type='checkbox' value={key} onClick={handleDropDownItemCheck} />
+          <span>{key}</span>
         </label>
       );
     });
@@ -105,6 +144,7 @@ function ClubList() {
     Api.get(`/clubs/scrollClublist/${lastIndex}`)
       .then((res) => {
         const { scrollClublist } = res.data;
+
         setResClubList((prev: any) => [
           ...prev,
           ...scrollClublist
@@ -176,9 +216,8 @@ function ClubList() {
         </SearchBox>
       </FilterBox>
       <SelectedSpanBox>
-        <SelectedSpan>온라인</SelectedSpan>
-        <SelectedSpan>1~2개월</SelectedSpan>
-        <ResetSpan>필터 초기화</ResetSpan>
+        {checkedItems.map((item) => <SelectedSpan id={item} key={item} onClick={handleSpanClickDelete}>{item}</SelectedSpan>)}
+        {!!checkedItems.length && (<ResetSpan onClick={handleFilterClear}>필터 초기화</ResetSpan>)}
       </SelectedSpanBox>
       <ClubListBox>
         {resClubList.map((club) => <ClubCard key={`${club.manager}+${club.id}`} club={club}/>)}
