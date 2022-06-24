@@ -25,7 +25,7 @@ db.Clubs = Clubs;
 db.Likes = Likes;
 db.Applicants = Applicants;
 db.Reviews = Reviews;
-db.Grades = Grades;
+// db.Grades = Grades;
 
 //모델 - 테이블 연결
 Users.init(sequelize);
