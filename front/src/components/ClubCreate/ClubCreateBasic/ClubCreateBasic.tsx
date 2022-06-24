@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import * as Interface from "@/utils/interface";
+import * as Api from "@/utils/api";
+import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
+
+import { Club } from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
 import testimage from "@/asset/images/testimage.PNG";
 
@@ -8,6 +11,9 @@ import { ColumnContainerBox, StyledInput } from "@/styles/containers";
 import { StyledLabel } from "@/styles/text";
 import {
   ClubCreateFormBox,
+  ThumnailBox,
+  ThumnailLabel,
+  ThumnailImage,
   FormBox,
   InputBox,
   HeadCountInput,
@@ -19,18 +25,25 @@ import {
   HashtagSpan
 } from "./ClubCreateBasicStyle";
 
-function ClubCreateBasic(props: Interface.ClubState) {
+// * Props type은 해당 파일 내에서 정의
+interface Props {
+  clubInfo: Club;
+  setClubInfo: React.Dispatch<
+  React.SetStateAction<Club>>;
+}
+
+// ! state setter는 prop으로 가지 않는 게 좋다
+function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
+  const [ thumnail, setThumnail ] = useState<any>();
   const [ hashtag, setHashtag ] = useState("");
   const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
-
-  const { clubInfo, setClubInfo } = props;
 
   const onChange = onChangeFunction(setClubInfo);
 
   const handleCheckBox = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       [target.name]: (target.checked ? 1 : 0),
     }));
@@ -39,7 +52,7 @@ function ClubCreateBasic(props: Interface.ClubState) {
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       [name]: Number(value),
     }));
@@ -79,25 +92,51 @@ function ClubCreateBasic(props: Interface.ClubState) {
     setHashtag("");
   }
 
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+
+    // files[0]은 File || null
+    if (files !== null) {
+      const formData = new FormData();
+      
+      setThumnail(files[0]);
+      formData.append("thumnail", thumnail);
+
+      try {
+        // TODO :  이미지 보낸 뒤에 url 받아오기, setClubInfo
+        const picture = await Api.post("", formData);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
   // hashtagArr 변경될 때 clubInfo를 업데이트
   useEffect(() => {
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       hashtags: hashtagArr.join(","),
     }));
   }, [hashtagArr]);
-  
+
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>
       <ClubCreateFormBox>
         <FormBox>
-          <img
-            src={testimage}
-            alt='Club Thumnail'
-            width={500}
-            height={300}
-          />
+          <ThumnailBox noThumnail={!thumnail}>
+            <ThumnailLabel noThumnail={!thumnail} htmlFor="chooseFile">
+              <PhotoCameraBackIcon className="thumnail-icon"/>
+            </ThumnailLabel>
+            <input id="chooseFile" style={{display: 'none'}} type="file" accept="image/*" onChange={handleImageUpload}/>
+            {
+              !thumnail ? "" :
+              <ThumnailImage
+                src={testimage}
+                alt='Club Thumnail'
+              />
+            }
+          </ThumnailBox>
           <InputBox>
             <StyledLabel htmlFor='name'>클럽명</StyledLabel>
             <StyledInput
