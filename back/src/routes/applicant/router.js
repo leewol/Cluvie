@@ -15,7 +15,8 @@ applicantRouter.post("/", verifyToken, async (req, res) => {
     const applicated = await applicantService.application({ user_id, club_id });
 
     if (applicated.errorMessager) {
-      throw new Error(applicated.errorMessager);
+      res.status(403).json({ success: false, err: applicated.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -35,7 +36,8 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
     });
 
     if (canceled.errorMessager) {
-      throw new Error(canceled.errorMessager);
+      res.status(403).json({ success: false, err: canceled.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -47,13 +49,15 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
 applicantRouter.get("/clubs", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
-
     const applyingClubList = await applicantService.getApplyingClubs({
       user_id,
     });
 
     if (applyingClubList.errorMessager) {
-      throw new Error(applyingClubList.errorMessager);
+      res
+        .status(403)
+        .json({ success: false, err: applyingClubList.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, applyingClubList });
   } catch (err) {
@@ -72,7 +76,8 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
     });
 
     if (applicants.errorMessager) {
-      throw new Error(applicants.errorMessager);
+      res.status(403).json({ success: false, err: applicants.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, applicants });
   } catch (err) {
@@ -82,44 +87,63 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
 });
 
 // 모임 신청 수락하기
-applicantRouter.post("/acceptance", verifyToken, async (req, res) => {
+applicantRouter.patch("/acceptance", verifyToken, async (req, res) => {
   try {
+    // 모임장이 수락하고자 하는 유저의 id
     const user_id = req.body.user_id;
     const club_id = req.body.club_id;
 
     const accepted = await applicantService.acceptance({ user_id, club_id });
 
     if (accepted.errorMessager) {
-      throw new Error(accepted.errorMessager);
+      res.status(403).json({ success: false, err: accepted.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, err });
+    console.log(err);
   }
 });
 
 // 모임 신청 수락 취소하기
-applicantRouter.delete(
-  "/:club_id/:user_id/acceptance",
-  verifyToken,
-  async (req, res) => {
-    try {
-      const user_id = req.params.user_id;
-      const club_id = req.params.club_id;
+applicantRouter.patch("/refuse", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.body.user_id;
+    const club_id = req.body.club_id;
 
-      const canceled = await applicantService.cancelAcceptance({
-        user_id,
-        club_id,
-      });
+    const canceled = await applicantService.cancelAcceptance({
+      user_id,
+      club_id,
+    });
 
-      if (canceled.errorMessager) {
-        throw new Error(canceled.errorMessager);
-      }
-      res.status(200).json({ success: true });
-    } catch (err) {
-      res.status(404).json({ success: false, err });
+    if (canceled.errorMessager) {
+      res.status(403).json({ success: false, err: canceled.errorMessage });
+      return;
     }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
+    console.log(err);
   }
-);
+});
+
+// 유저가 가입된(수락완료된) 모임 목록
+applicantRouter.get("/acceptance/clubs", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.user;
+
+    const myClubList = await applicantService.getMyclubList({ user_id });
+
+    if (myClubList.errorMessage) {
+      res.status(403).json({ success: false, err: myClubList.errorMessage });
+      return;
+    }
+    res.status(200).json({ success: true, myClubList });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
+    console.log(err);
+  }
+});
 
 module.exports = applicantRouter;

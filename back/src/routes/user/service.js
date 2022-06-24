@@ -7,11 +7,16 @@ dotenv.config();
 class userService {
   static register = async ({ email, password, nickname, birthday, sex }) => {
     const hashedPassword = hashPassword(password);
-    const duplicate = await Users.findOne({
+    const duplicateEmmail = await Users.findOne({
       where: { email },
     });
-    if (duplicate) {
+    const duplicateNickname = await Users.findOne({ where: { nickname } });
+    if (duplicateEmmail) {
       const errorMessage = "중복된 이메일 입니다";
+      return { errorMessage };
+    }
+    if (duplicateNickname) {
+      const errorMessage = "중복된 닉네임 입니다";
       return { errorMessage };
     } else {
       const user = await Users.create({
@@ -31,7 +36,7 @@ class userService {
     const hashedPassword = hashPassword(password);
     if (!user) {
       // 가입여부 확인
-      const errorMessage = "해당 아이디로 가입된 사용자가 없습니다.";
+      const errorMessage = "해당 아이디로 가입된 사용자가 없습니다";
       return { errorMessage };
     } else if (user.password === hashedPassword) {
       // 비밀번호 일치 확인
@@ -43,7 +48,7 @@ class userService {
       );
       return token;
     } else {
-      const errorMessage = "비밀번호가 틀립니다.";
+      const errorMessage = "비밀번호가 틀립니다";
       return { errorMessage };
     }
   };
@@ -52,7 +57,7 @@ class userService {
       where: { id },
     });
     if (!user) {
-      const errorMessage = "해당 사용자가 없습니다.";
+      const errorMessage = "해당 사용자를 찾을 수 없습니다";
       return { errorMessage };
     } else {
       const updated = await Users.update(
@@ -68,7 +73,7 @@ class userService {
       where: { id },
     });
     if (!user) {
-      const errorMessage = "해당 사용자가 없습니다.";
+      const errorMessage = "해당 사용자를 찾을 수 없습니다";
       return { errorMessage };
     } else {
       return user;

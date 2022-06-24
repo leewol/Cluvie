@@ -15,7 +15,8 @@ likeRouter.post("/", verifyToken, async (req, res) => {
     const like = await likeService.clickLike({ user_id, club_id });
 
     if (like.errorMessage) {
-      throw new Error(like.errorMessage);
+      res.status(403).json({ success: false, err: like.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -32,7 +33,8 @@ likeRouter.delete("/:club_id", verifyToken, async (req, res) => {
     const unlike = await likeService.unlike({ user_id, club_id });
 
     if (unlike.errorMessage) {
-      throw new Error(unlike.errorMessage);
+      res.status(403).json({ success: false, err: unlike.errorMessage });
+      return;
     }
     res.status(200).json({ success: true });
   } catch (err) {
@@ -47,7 +49,8 @@ likeRouter.get("/clubs", verifyToken, async (req, res) => {
     const likeClubList = await likeService.getUserLikeClub({ user_id });
 
     if (likeClubList.errorMessage) {
-      throw new Error(likeClubList.errorMessage);
+      res.status(403).json({ success: false, err: likeClubList.errorMessage });
+      return;
     }
     res.status(200).json({ success: true, likeClubList });
   } catch (err) {
