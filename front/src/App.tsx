@@ -13,7 +13,7 @@ import { useRecoilValue } from "recoil";
 import { isSignInState } from "@/utils/recoil";
 import { axiosInstanceToNavigate } from "@/utils/api";
 
-import Main from "@/pages/Main";
+import Main from "@/pages/Main/Main";
 import { SignIn, SignUp, SignUpForm } from "@/pages/User";
 import ClubDetail from "@/pages/ClubDetail/ClubDetail";
 import ClubList from "@/pages/ClubList/ClubList";
@@ -30,8 +30,7 @@ function InterceptorToNavigate() {
 }
 
 function App() {
-  // prettier-ignore
-  const isSignIn = useRecoilValue<boolean>(isSignInState);
+  const isSignIn = useRecoilValue(isSignInState);
 
   return (
     <div className='App'>

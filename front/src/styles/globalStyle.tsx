@@ -4,6 +4,10 @@ import { Global, css } from "@emotion/react";
 const style = css`
   @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
+  .ql-editor {
+    overflow-y: hidden;
+  }
+
   html {
     font-size: 16px;
   }

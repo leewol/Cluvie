@@ -76,6 +76,10 @@ export const ResetSpan = styled.span`
 
 export const ClubListBox = styled.div`
   width: 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5%;
 `;
 
 export const DropDownBox = styled.div`
