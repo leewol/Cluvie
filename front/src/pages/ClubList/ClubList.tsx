@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
@@ -8,6 +8,8 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 
 import { isSignInState } from "@/utils/recoil";
 import ClubCard from "@/components/ClubCard/ClubCard";
+import * as Api from "@/utils/api";
+import { Club } from "@/utils/interface";
 
 import { ColumnContainerBox } from "@/styles/containers";
 import { SelectedSpan } from "@/styles/text";
@@ -55,6 +57,8 @@ function ClubList() {
   const navigate = useNavigate();
 
   const isSignIn = useRecoilValue<boolean>(isSignInState);
+  const [ lastIndex, setLastIndex ] = useState<number>(0);
+  const [ resClubList, setResClubList ] = useState<Club[]>([]);
 
   const handleCreateButtonClick = () => {
     navigate("/clubCreate");
@@ -87,6 +91,27 @@ function ClubList() {
     target.classList.toggle("clicked");
     dropDownMenu.classList.toggle("hidden");
   };
+
+  useEffect(() => {
+    Api.get(`/clubs`)
+      .then((res) => {
+        const { id } = res.data.result[3]; 
+        setLastIndex(() => id);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    Api.get(`/clubs/scrollClublist/${lastIndex}`)
+      .then((res) => {
+        const { scrollClublist } = res.data;
+        setResClubList((prev: any) => [
+          ...prev,
+          ...scrollClublist
+        ]);
+      })
+      .catch((err) => console.error(err));
+  }, [lastIndex])
 
   return (
     <ColumnContainerBox>
@@ -156,7 +181,7 @@ function ClubList() {
         <ResetSpan>필터 초기화</ResetSpan>
       </SelectedSpanBox>
       <ClubListBox>
-        <ClubCard />
+        {resClubList.map((club) => <ClubCard key={`${club.manager}+${club.id}`} club={club}/>)}
       </ClubListBox>
       {
         isSignIn && (
