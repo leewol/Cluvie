@@ -22,7 +22,6 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
-    hashtags,
   } = req.body;
   await Clubs.create({
     name,
@@ -36,7 +35,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
-    hashtags,
+
     views: 0,
     manager: req.user,
   })
@@ -112,7 +111,6 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
-    hashtags,
   } = req.body;
   await Clubs.update(
     {
@@ -127,7 +125,6 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       weekend,
       duration,
       state,
-      hashtags,
     },
     { where: { id: req.params.id } }
   )
@@ -157,6 +154,48 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     res.status(200).json({ success: true });
   } catch (err) {
     next(err);
+  }
+});
+
+// 모임 모집 마감하기
+clubRouter.patch("/close", verifyToken, async (req, res) => {
+  try {
+    const club_id = req.body.club_id;
+    const closeApplication = await clubService.closeApplication({ club_id });
+
+    if (closeApplication.errorMessage) {
+      res
+        .status(403)
+        .json({ success: false, err: closeApplication.errorMessage });
+      return;
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
+    console.log(err);
+  }
+});
+
+// 모임 참여 후기 작성
+clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const club_id = req.params.club_id;
+    const { star_score, contents } = req.body;
+
+    const review = await clubService.writeReview({
+      club_id,
+      user_id,
+      star_score,
+      contents,
+    });
+
+    if (review.errorMessage) {
+      res.status(403).json({ success: false, err: review.errorMessage });
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, err });
   }
 });
 

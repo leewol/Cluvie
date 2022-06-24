@@ -1,6 +1,6 @@
 import Sequelize from "sequelize";
 
-module.exports = class Acceptances extends Sequelize.Model {
+module.exports = class Reviews extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -14,22 +14,29 @@ module.exports = class Acceptances extends Sequelize.Model {
           allowNull: false,
           primaryKey: true,
         },
+        star_rating: {
+          type: Sequelize.FLOAT,
+          allowNull: false,
+        },
+        contents: {
+          type: Sequelize.TEXT,
+          allowNull: false,
+        },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
-          defaultValue: Sequelize.fn("Now"),
+          defaultValue: Sequelize.fn("NOW"),
         },
         is_deleted: {
           type: Sequelize.TINYINT,
-          allowNull: false,
-          defaultValue: "0",
+          allowNull: true,
         },
       },
       {
         sequelize,
         timestamps: false,
-        modelName: "Acceptances",
-        tableName: "acceptances",
+        modelName: "Reviews",
+        tableName: "reviews",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
