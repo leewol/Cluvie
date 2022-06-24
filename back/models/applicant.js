@@ -14,6 +14,11 @@ module.exports = class Applicants extends Sequelize.Model {
           allowNull: false,
           primaryKey: true,
         },
+        status: {
+          type: Sequelize.TINYINT,
+          allowNull: false,
+          defaultValue: "0",
+        },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
