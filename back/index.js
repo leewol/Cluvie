@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
   res.send("Hello Express");
 });
 
-app.use(userRouter);
+app.use("/users", userRouter);
 app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
