@@ -26,7 +26,6 @@ db.Clubs = Clubs;
 db.Likes = Likes;
 db.Applicants = Applicants;
 db.Reviews = Reviews;
-db.Grades = Grades;
 db.Ratings = Ratings;
 
 //모델 - 테이블 연결
