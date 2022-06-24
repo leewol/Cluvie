@@ -81,12 +81,12 @@ async function get(endpoint: string, params = "") {
     "color: #a25cd1;"
   );
 
-  // return axiosApiInstance.get(`${SERVER_URL + endpoint}/${params}`);
-  return axios.get(`${SERVER_URL + endpoint}/${params}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return axiosApiInstance.get(`${SERVER_URL + endpoint}/${params}`);
+  // return axios.get(`${SERVER_URL + endpoint}/${params}`, {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
 }
 
 // PUT
