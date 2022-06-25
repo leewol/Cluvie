@@ -2,6 +2,7 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
+
 import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
@@ -10,41 +11,41 @@ const clubRouter = express.Router();
 
 /** 클럽 생성 */
 clubRouter.post("/", verifyToken, async (req, res) => {
-  let {
-    name,
-    intro,
-    online,
-    offline,
-    description,
-    head_count,
-    picture,
-    weekday,
-    weekend,
-    duration,
-    state,
-  } = req.body;
-  await Clubs.create({
-    name,
-    intro,
-    online,
-    offline,
-    description,
-    head_count,
-    picture,
-    weekday,
-    weekend,
-    duration,
-    state,
+  try {
+    const {
+      name,
+      intro,
+      online,
+      offline,
+      description,
+      head_count,
+      picture,
+      weekday,
+      weekend,
+      duration,
+    } = req.body;
+    const manager = req.user;
 
-    views: 0,
-    manager: req.user,
-  })
-    .then((result) => {
-      res.status(200).json({ success: true, result });
-    })
-    .catch((err) => {
-      res.json({ success: false, err });
+    const club = await clubService.createClub({
+      name,
+      intro,
+      online,
+      offline,
+      description,
+      head_count,
+      picture,
+      weekday,
+      weekend,
+      duration,
+      manager,
     });
+
+    const club_id = club.id;
+    const reviewRating = await clubService.createClubReviewRating(club_id);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
 });
 
 /** 전체 클럽 목록 불러오기 */
@@ -54,7 +55,7 @@ clubRouter.get("/", async (req, res) => {
       res.status(200).json({ success: true, result });
     })
     .catch((err) => {
-      res.status(404).json({ success: false, err });
+      res.status(404).json({ success: false, message: err.message });
       console.log(err);
     });
 });
@@ -132,7 +133,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       res.status(200).json({ success: true });
     })
     .catch((err) => {
-      res.status(404).json({ success: false, err });
+      res.status(404).json({ success: false, message: err.message });
     });
 });
 
@@ -171,7 +172,7 @@ clubRouter.patch("/close", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -181,21 +182,22 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.club_id;
-    const { star_score, contents } = req.body;
+    const { star_rating, contents } = req.body;
 
     const review = await clubService.writeReview({
       club_id,
       user_id,
-      star_score,
+      star_rating,
       contents,
     });
-
+    const star = review.star_rating;
+    await clubService.sumReviewRating({ club_id, star });
     if (review.errorMessage) {
       res.status(403).json({ success: false, err: review.errorMessage });
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
   }
 });
 
