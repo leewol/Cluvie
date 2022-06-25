@@ -73,6 +73,19 @@ clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
   }
 });
 
+// 유저가 만든 모임 목록
+clubRouter.get("/user", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.user;
+
+    const clubList = await clubService.getClubListMadeByMe({ user_id });
+
+    res.status(200).json({ success: true, clubList });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
 /** 클럽 1개씩 불러오기
  * @param id 클럽ID
  */
@@ -200,5 +213,17 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
     res.status(404).json({ success: false, message: err.message });
   }
 });
+
+// 모임 후기 평점 불러오기
+// clubRouter.get("/:club_id/reviews/rating", verifyToken, async (req, res) => {
+//   try {
+//     const club_id = req.params.club_id;
+
+//     const ratingData = await clubService.getReviewsRating({club_id})
+
+//     const rating = ratingData.star_sum / ratingData.count
+
+//   }
+// })
 
 module.exports = clubRouter;

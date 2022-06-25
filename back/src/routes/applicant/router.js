@@ -135,10 +135,6 @@ applicantRouter.get("/acceptance/clubs", verifyToken, async (req, res) => {
 
     const myClubList = await applicantService.getMyclubList({ user_id });
 
-    if (myClubList.errorMessage) {
-      res.status(403).json({ success: false, err: myClubList.errorMessage });
-      return;
-    }
     res.status(200).json({ success: true, myClubList });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
