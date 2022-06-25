@@ -100,6 +100,16 @@ class clubService {
     }
   };
 
+  static getAllReviews = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    const reviews = await Clubs.findAll({ where: { id: club_id } });
+    return reviews;
+  };
+
   static sumReviewRating = async ({ club_id, star }) => {
     await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
     await Ratings.increment("star_sum", {

@@ -214,6 +214,21 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   }
 });
 
+// 모임 참여 후기 목록 불러오기
+clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
+  try {
+    const club_id = req.params.club_id;
+    const reviews = await clubService.getAllReviews({ club_id });
+
+    if (reviews.errorMessage) {
+      res.status(403).json({ success: false, err: reviews.errorMessage });
+    }
+    res.status(200).json({ success: true, reviews });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
 // 모임 후기 평점 불러오기
 // clubRouter.get("/:club_id/reviews/rating", verifyToken, async (req, res) => {
 //   try {
