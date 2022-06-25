@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { useQuery } from "react-query";
 
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -80,6 +81,7 @@ function ClubList() {
 
     // * (1) Span으로 필터링 label 표시 @target.value
     // * (2) CardList 필터링 @Map의 value 값(target.id와 동일) -> CardList 있을 때만
+    // 체크하는 경우
     if (target.checked) {
       setCheckedItems((prev) => [
         ...prev,
@@ -91,6 +93,7 @@ function ClubList() {
           return prevArr.filter((club) => club[attribute] === Number(attValue));
         });
       }
+    // 체크 해제하는 경우
     } else {
       setCheckedItems((prevArr) => { 
         return prevArr.filter((el) => el !== target.value);
@@ -132,6 +135,8 @@ function ClubList() {
     dropDownMenu.classList.toggle("hidden");
   };
 
+  // const { data, isLoading, error } = useQuery("allClubList", () => Api.get("/clubs"));
+
   useEffect(() => {
     Api.get(`/clubs`)
       .then((res) => {
@@ -145,7 +150,6 @@ function ClubList() {
     Api.get(`/clubs/scrollClublist/${lastIndex}`)
       .then((res) => {
         const { scrollClublist } = res.data;
-
         setResClubList((prev: any) => [
           ...prev,
           ...scrollClublist
