@@ -60,6 +60,7 @@ function ClubList() {
   const [ checkedItems, setCheckedItems ] = useState<string[]>([]);
   const [ lastIndex, setLastIndex ] = useState<number>(0);
   const [ resClubList, setResClubList ] = useState<Club[]>([]);
+  const [ prevResClubList, setPrevResClubList ] = useState<Club[]>([]);
 
   const handleCreateButtonClick = () => {
     navigate("/clubCreate");
@@ -73,7 +74,9 @@ function ClubList() {
       }
       return "";
     }
-    const filterVal = checkEachFilter(clubState) || checkEachFilter(clubMeeting) || checkEachFilter(clubDuration) || checkEachFilter(clubDay);
+    const filterVal = checkEachFilter(clubState) || checkEachFilter(clubMeeting) || checkEachFilter(clubDuration) || checkEachFilter(clubDay) || "";
+    const attribute = filterVal?.slice(0, filterVal.length - 1);
+    const attValue = filterVal?.slice(-1);
 
     // * (1) Span으로 필터링 label 표시 @target.value
     // * (2) CardList 필터링 @Map의 value 값(target.id와 동일) -> CardList 있을 때만
@@ -82,10 +85,8 @@ function ClubList() {
         ...prev,
         target.value
       ]);
-
+      
       if (resClubList) {
-        const attribute = filterVal?.slice(0, filterVal.length - 1);
-        const attValue = filterVal?.slice(-1);
         setResClubList((prevArr) => {
           return prevArr.filter((club) => club[attribute] === Number(attValue));
         });
