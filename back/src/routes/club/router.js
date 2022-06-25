@@ -73,6 +73,25 @@ clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
   }
 });
 
+// 모임 모집 마감하기
+clubRouter.patch("/close", verifyToken, async (req, res) => {
+  try {
+    const club_id = req.body.club_id;
+    const closeApplication = await clubService.closeApplication({ club_id });
+
+    if (closeApplication.errorMessage) {
+      res
+        .status(403)
+        .json({ success: false, err: closeApplication.errorMessage });
+      return;
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+    console.log(err);
+  }
+});
+
 // 유저가 만든 모임 목록
 clubRouter.get("/user", verifyToken, async (req, res) => {
   try {
@@ -168,25 +187,6 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     res.status(200).json({ success: true });
   } catch (err) {
     next(err);
-  }
-});
-
-// 모임 모집 마감하기
-clubRouter.patch("/close", verifyToken, async (req, res) => {
-  try {
-    const club_id = req.body.club_id;
-    const closeApplication = await clubService.closeApplication({ club_id });
-
-    if (closeApplication.errorMessage) {
-      res
-        .status(403)
-        .json({ success: false, err: closeApplication.errorMessage });
-      return;
-    }
-    res.status(200).json({ success: true });
-  } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
-    console.log(err);
   }
 });
 
