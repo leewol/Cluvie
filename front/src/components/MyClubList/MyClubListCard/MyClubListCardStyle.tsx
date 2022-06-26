@@ -8,9 +8,13 @@ export const WholeCardDiv = styled.div`
   width: 33.33%;
 `;
 
-export const WholeCard = styled(Card)`
-  margin: 16px;
+export const WholeCard =
+  styled(Card) <
+  { make: string } >
+  `
+  margin: ${(props) => (props.make === "true" ? "25px 25px 0 25px" : "25px")};
   height: 400px;
+  border-radius: 4px 4px 0px 0px;
 `;
 
 export const ClubCardContent1 = styled(CardContent)`
@@ -48,7 +52,7 @@ export const ClubCardInfos = styled(CardContent)`
 
 export const ClubCardFavoriteIcon = styled(FavoriteIcon)`
   color: #f07167;
-  font-size: 25px;
+  font-size: 28px;
 `;
 
 export const MyIconButton = styled(IconButton)`
@@ -62,7 +66,6 @@ export const StyledSpan2 = styled.span`
   background-color: #716847;
   border: 3px solid #716847;
   border-radius: 10px;
-  margin-right: 5px;
   padding: 0 5px;
 `;
 
@@ -74,4 +77,12 @@ export const StyledSpan3 = styled.span`
   border-radius: 10px;
   margin-right: 5px;
   padding: 0 5px;
+`;
+
+export const OnOffDiv = styled.div`
+  padding: 8px 0px;
+`;
+
+export const AccordionDiv = styled.div`
+  margin: 0px 25px 25px 25px;
 `;

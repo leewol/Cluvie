@@ -3,8 +3,8 @@
 /* eslint-disable import/extensions */
 import React, { useState, useEffect } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
-import DefaultTabPanel from "@/components/MyPage/DefaultTabPanel/DefaultTabPanel";
-import MyPageClubCard from "@/components/MyPage/MyPageClubCard/MyPageClubCard";
+import DefaultTabPanel from "@/components/MyClubList/DefaultTabPanel/DefaultTabPanel";
+import MyClubListCard from "@/components/MyClubList/MyClubListCard/MyClubListCard";
 import * as Api from "@/utils/api";
 import * as Style from "./MyClubListTabStyle";
 
@@ -45,8 +45,8 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
   const [value, setValue] = useState(0);
-  const [likesClubs, setLikesClubs] = useState([]);
-  const [applicantsClubs, setApplicantsClubs] = useState([]);
+  const [makeClubs, setMakeClubs] = useState([]);
+  const [acceptanceClubs, setAcceptanceClubs] = useState([]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -55,21 +55,21 @@ export default function BasicTabs() {
   useEffect(() => {
     Api.get("/likes/clubs")
       .then((res) => {
-        console.log("찜하기목록", res.data.likeClubList);
-        setLikesClubs(res.data.likeClubList);
+        console.log("만든클럽목록", res.data);
+        setMakeClubs(res.data.likeClubList);
       })
       .catch((err) => console.log(err));
 
-    Api.get("/applications/clubs")
+    Api.get("/applications/acceptance/clubs")
       .then((res) => {
-        console.log("신청목록", res.data.applyingClubList);
-        setApplicantsClubs(res.data.applyingClubList);
+        console.log("가입한클럽목록", res.data);
+        setAcceptanceClubs(res.data.likeClubList);
       })
       .catch((err) => console.log(err));
   }, []);
 
   return (
-    <Box sx={{ width: "100%", marginLeft: "300px" }}>
+    <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor='inherit'
@@ -90,7 +90,7 @@ export default function BasicTabs() {
                   fontWeight: value === 0 ? "bold" : "normal",
                 }}
               >
-                찜한 클럽
+                만든 클럽
               </span>
             }
             // eslint-disable-next-line react/jsx-props-no-spreading
@@ -106,7 +106,7 @@ export default function BasicTabs() {
                   fontWeight: value === 1 ? "bold" : "normal",
                 }}
               >
-                신청한 클럽
+                가입한 클럽
               </span>
             } // eslint-disable-next-line react/jsx-props-no-spreading
             {...a11yProps(0)}
@@ -115,37 +115,39 @@ export default function BasicTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {likesClubs.length === 0 && (
+        {makeClubs.length === 0 && (
           <DefaultTabPanel
-            text1='아직 내가 찜한 클럽이 없어요!'
-            text2='내 취향에 맞는 클럽을 찜하고, 다른 클러비들과 가까워져 보세요!'
+            text1='아직 내가 만든 클럽이 없어요!'
+            text2='내 취향에 맞는 클럽을 만들고, 다른 클러비들과 가까워져 보세요!'
+            make
           />
         )}
-        {!(likesClubs.length === 0) && (
+        {!(makeClubs.length === 0) && (
           <Style.ClubList>
-            {likesClubs.map((likesClub) => (
-              <MyPageClubCard
-                key={likesClub["club_id"]}
-                club={likesClub}
-                like
+            {makeClubs.map((makeClub) => (
+              <MyClubListCard
+                key={makeClub["club_id"]}
+                club={makeClub}
+                make='true'
               />
             ))}
           </Style.ClubList>
         )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {applicantsClubs.length === 0 && (
+        {acceptanceClubs.length === 0 && (
           <DefaultTabPanel
-            text1='아직 내가 신청한 클럽이 없어요!'
+            text1='아직 내가 가입한 클럽이 없어요!'
             text2='내 취향에 맞는 클럽에 가입하고, 다른 클러비들과 가까워져 보세요!'
           />
         )}
-        {!(applicantsClubs.length === 0) && (
+        {!(acceptanceClubs.length === 0) && (
           <Style.ClubList>
-            {applicantsClubs.map((applicantsClub) => (
-              <MyPageClubCard
-                key={applicantsClub["club_id"]}
-                club={applicantsClub}
+            {acceptanceClubs.map((acceptanceClub) => (
+              <MyClubListCard
+                key={acceptanceClub["club_id"]}
+                club={acceptanceClub}
+                make='false'
               />
             ))}
           </Style.ClubList>

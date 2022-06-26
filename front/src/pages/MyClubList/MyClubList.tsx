@@ -6,7 +6,7 @@ import * as Style from "./MyClubListStyle";
 function MyClubList() {
   return (
     <Style.WholeBox>
-      <Style.Title>마이페이지</Style.Title>
+      <Style.Title>내 클럽 리스트</Style.Title>
       <MyClubListTab />
     </Style.WholeBox>
   );
