@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 import { CardMedia, CardContent, IconButton } from "@mui/material";
 
@@ -17,9 +17,9 @@ interface Props {
   club: Club;
 }
 
-function ClubCard({ club }: Props): React.ReactElement {
-  return (
-    <WholeCard>
+const ClubCard = forwardRef<HTMLDivElement, Props>(
+  ({ club }, ref) => (
+    <WholeCard ref={ref}>
       <CardMedia
         component='img'
         height='250'
@@ -45,7 +45,7 @@ function ClubCard({ club }: Props): React.ReactElement {
         </IconButton>
       </ClubCardInfos>
     </WholeCard>
-  );
-}
+  )
+);
 
 export default ClubCard;
