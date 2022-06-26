@@ -18,15 +18,19 @@ import * as Style from "./MyClubListCardStyle";
 function MyClubListCard({
   club,
   make,
+  closedClub,
 }: {
   club: Interface.Club,
   // eslint-disable-next-line react/require-default-props
   make: string,
+  closedClub: number,
 }) {
   const [openCloseApplicants, setOpenCloseApplicants] = useState(false);
   const [closeApplicantsButton, setCloseApplicantsButton] = useState(false);
   const [accordionClick, setAccordionClick] = useState(false);
   const [applicantsList, setApplicantsList] = useState([]);
+  const [isAcceptance, setIsAcceptance] = useState(false);
+  const [applicantsUserId, setApplicantsUserId] = useState();
   const handleToggleCloseApplicants = () =>
     setOpenCloseApplicants((prev) => !prev);
 
@@ -44,6 +48,12 @@ function MyClubListCard({
         .catch((err) => console.log(err));
     }
   }, [accordionClick]);
+
+  useEffect(() => {
+    if (isAcceptance && applicantsUserId) {
+      console.log("applicantsUserId", applicantsUserId);
+    }
+  }, [applicantsUserId]);
 
   return (
     <Style.WholeCardDiv>
@@ -73,7 +83,7 @@ function MyClubListCard({
             {club.offline ? <StyledSpan>오프라인</StyledSpan> : ""}
             {club.online ? <StyledSpan>온라인</StyledSpan> : ""}
           </Style.OnOffDiv>
-          {make === "true" && !closeApplicantsButton && (
+          {!closedClub && make === "true" && !closeApplicantsButton && (
             <Style.MyIconButton
               aria-label='favorite'
               onClick={handleToggleCloseApplicants}
@@ -81,10 +91,18 @@ function MyClubListCard({
               <Style.StyledSpan2>모집마감하기</Style.StyledSpan2>
             </Style.MyIconButton>
           )}
-          {make === "true" && closeApplicantsButton && (
+          {!closedClub && make === "true" && closeApplicantsButton && (
             <Style.MyIconButton aria-label='favorite'>
               <Style.StyledSpan3>모집마감중</Style.StyledSpan3>
             </Style.MyIconButton>
+          )}
+
+          {closedClub ? (
+            <Style.MyIconButton aria-label='favorite'>
+              <Style.StyledSpan4>모집완료</Style.StyledSpan4>
+            </Style.MyIconButton>
+          ) : (
+            ""
           )}
           <CloseApplicantsDialog
             clubId={club.id}
@@ -94,7 +112,7 @@ function MyClubListCard({
           />
         </Style.ClubCardInfos>
       </Style.WholeCard>
-      {make === "true" && (
+      {!closedClub && make === "true" && (
         <Style.AccordionDiv>
           <Accordion style={{ borderRadius: "0px 0px 4px 4px" }}>
             <AccordionSummary
@@ -120,11 +138,22 @@ function MyClubListCard({
                         marginBottom: "10px",
                       }}
                     >
-                      <div style={{ width: "80%" }}>
+                      <div style={{ width: "100%" }}>
                         {applicants["nickname"]}
                       </div>
-                      <Style.ApplicantsButton1>수락</Style.ApplicantsButton1>
-                      <Style.ApplicantsButton2>거절</Style.ApplicantsButton2>
+                      <Style.ApplicantsButton1
+                        onClick={() => {
+                          setApplicantsUserId(applicants["id"]);
+                          setIsAcceptance(true);
+                        }}
+                      >
+                        수락
+                      </Style.ApplicantsButton1>
+                      {/* <Style.ApplicantsButton2
+                        onClick={handleToggleApplicantsRefuse}
+                      >
+                        수락취소
+                      </Style.ApplicantsButton2> */}
                     </div>
                   ))}
               </div>

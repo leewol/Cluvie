@@ -79,6 +79,16 @@ export const StyledSpan3 = styled.span`
   padding: 0 5px;
 `;
 
+export const StyledSpan4 = styled.span`
+  color: white;
+  font-size: 14px;
+  background-color: #ffc300;
+  border: 3px solid #ffc300;
+  border-radius: 10px;
+  margin-right: 5px;
+  padding: 0 5px;
+`;
+
 export const OnOffDiv = styled.div`
   padding: 8px 0px;
 `;
@@ -89,6 +99,7 @@ export const AccordionDiv = styled.div`
 
 export const ApplicantsButton1 = styled(Button)`
   height: 25px;
+  width: 100%;
   margin: 0 5px;
   color: white;
   font-size: 12px;

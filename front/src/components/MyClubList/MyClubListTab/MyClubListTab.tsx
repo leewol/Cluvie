@@ -129,6 +129,7 @@ export default function BasicTabs() {
                 key={makeClub["id"]}
                 club={makeClub}
                 make='true'
+                closedClub={makeClub["state"]}
               />
             ))}
           </Style.ClubList>
@@ -148,6 +149,7 @@ export default function BasicTabs() {
                 key={acceptanceClub["id"]}
                 club={acceptanceClub}
                 make='false'
+                closedClub={acceptanceClub["state"]}
               />
             ))}
           </Style.ClubList>
