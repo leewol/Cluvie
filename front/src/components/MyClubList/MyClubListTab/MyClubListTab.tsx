@@ -53,17 +53,17 @@ export default function BasicTabs() {
   };
 
   useEffect(() => {
-    Api.get("/likes/clubs")
+    Api.get("/clubs/user")
       .then((res) => {
         console.log("만든클럽목록", res.data);
-        setMakeClubs(res.data.likeClubList);
+        setMakeClubs(res.data.clubList.clubList);
       })
       .catch((err) => console.log(err));
 
     Api.get("/applications/acceptance/clubs")
       .then((res) => {
         console.log("가입한클럽목록", res.data);
-        setAcceptanceClubs(res.data.likeClubList);
+        setAcceptanceClubs(res.data.myClubList);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -126,7 +126,7 @@ export default function BasicTabs() {
           <Style.ClubList>
             {makeClubs.map((makeClub) => (
               <MyClubListCard
-                key={makeClub["club_id"]}
+                key={makeClub["id"]}
                 club={makeClub}
                 make='true'
               />
@@ -145,7 +145,7 @@ export default function BasicTabs() {
           <Style.ClubList>
             {acceptanceClubs.map((acceptanceClub) => (
               <MyClubListCard
-                key={acceptanceClub["club_id"]}
+                key={acceptanceClub["id"]}
                 club={acceptanceClub}
                 make='false'
               />

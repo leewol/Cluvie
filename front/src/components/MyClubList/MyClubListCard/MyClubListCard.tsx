@@ -35,7 +35,7 @@ function MyClubListCard({
 
   useEffect(() => {
     if (accordionClick) {
-      Api.get(`/applications/${club.club_id}/users`)
+      Api.get(`/applications/${club.id}/users`)
         .then((res) => console.log("모임에 신청한 사람", res.data.applicants))
         .catch((err) => console.log(err));
     }
@@ -44,7 +44,7 @@ function MyClubListCard({
   return (
     <Style.WholeCardDiv>
       <Style.WholeCard make={make}>
-        <Link to={`/clubDetail/${club.club_id}`}>
+        <Link to={`/clubDetail/${club.id}`}>
           <CardMedia
             component='img'
             height='200'
@@ -83,7 +83,7 @@ function MyClubListCard({
             </Style.MyIconButton>
           )}
           <CloseApplicantsDialog
-            clubId={club.club_id}
+            clubId={club.id}
             openCloseApplicants={openCloseApplicants}
             handleToggleCloseApplicants={handleToggleCloseApplicants}
             setCloseApplicantsButton={setCloseApplicantsButton}
