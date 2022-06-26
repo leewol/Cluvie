@@ -57,11 +57,12 @@ class clubService {
     console.log("확인:", club_id);
 
     // 로그인된 유저의 좋아요 여부 확인 - 작업중
-
+    // static getClubList = async ({club_id, user_id}) => {
     // let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend FROM clubs AS c LEFT JOIN likes WHERE c.id = l.club_id AND l.user_id=:id`
     // const scrollClubList = await db.sequelize.query(sql, {
     //   replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT,
     // });
+
     let sql = `SELECT * FROM clubs WHERE id <= ${club_id}  ORDER BY id DESC LIMIT  4`;
     const scrollClubList = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
