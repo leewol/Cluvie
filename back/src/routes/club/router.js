@@ -41,7 +41,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     });
 
     const club_id = club.id;
-    const reviewRating = await clubService.createClubReviewRating(club_id);
+    await clubService.createClubReviewRating(club_id);
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
