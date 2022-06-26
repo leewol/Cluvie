@@ -105,6 +105,65 @@ clubRouter.get("/user", verifyToken, async (req, res) => {
   }
 });
 
+// 모임 참여 후기 작성
+clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
+  try {
+    const user_id = req.user;
+    const club_id = req.params.club_id;
+    const { star_rating, contents } = req.body;
+
+    const review = await clubService.writeReview({
+      club_id,
+      user_id,
+      star_rating,
+      contents,
+    });
+    const star = review.star_rating;
+    await clubService.setReviewRating({ club_id, star });
+
+    if (review.errorMessage) {
+      res.status(403).json({ success: false, err: review.errorMessage });
+    }
+    res.status(200).json({ success: true });
+  } catch (err) {
+    if (err.message == "Validation error") {
+      res.status(403).json({
+        success: false,
+        message: "모임 후기는 한 번만 작성할 수 있습니다",
+      });
+    } else {
+      res.status(404).json({ success: false, message: err.message });
+    }
+  }
+});
+
+// 모임 참여 후기 목록 불러오기
+clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
+  try {
+    const club_id = req.params.club_id;
+    const reviews = await clubService.getAllReviews({ club_id });
+
+    if (reviews.errorMessage) {
+      res.status(403).json({ success: false, err: reviews.errorMessage });
+    }
+    res.status(200).json({ success: true, reviews });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
+//모임 후기 평점 불러오기
+clubRouter.get("/:club_id/rating", verifyToken, async (req, res) => {
+  try {
+    const club_id = req.params.club_id;
+    const rating = await clubService.calculateRating({ club_id });
+
+    res.status(200).json({ success: true, rating });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
 /** 클럽 1개씩 불러오기
  * @param id 클럽ID
  */
@@ -189,56 +248,5 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     next(err);
   }
 });
-
-// 모임 참여 후기 작성
-clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
-  try {
-    const user_id = req.user;
-    const club_id = req.params.club_id;
-    const { star_rating, contents } = req.body;
-
-    const review = await clubService.writeReview({
-      club_id,
-      user_id,
-      star_rating,
-      contents,
-    });
-    const star = review.star_rating;
-    await clubService.sumReviewRating({ club_id, star });
-    if (review.errorMessage) {
-      res.status(403).json({ success: false, err: review.errorMessage });
-    }
-    res.status(200).json({ success: true });
-  } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
-  }
-});
-
-// 모임 참여 후기 목록 불러오기
-clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
-  try {
-    const club_id = req.params.club_id;
-    const reviews = await clubService.getAllReviews({ club_id });
-
-    if (reviews.errorMessage) {
-      res.status(403).json({ success: false, err: reviews.errorMessage });
-    }
-    res.status(200).json({ success: true, reviews });
-  } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
-  }
-});
-
-// 모임 후기 평점 불러오기
-// clubRouter.get("/:club_id/reviews/rating", verifyToken, async (req, res) => {
-//   try {
-//     const club_id = req.params.club_id;
-
-//     const ratingData = await clubService.getReviewsRating({club_id})
-
-//     const rating = ratingData.star_sum / ratingData.count
-
-//   }
-// })
 
 module.exports = clubRouter;

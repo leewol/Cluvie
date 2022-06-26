@@ -110,7 +110,7 @@ class clubService {
     return reviews;
   };
 
-  static sumReviewRating = async ({ club_id, star }) => {
+  static setReviewRating = async ({ club_id, star }) => {
     await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
     await Ratings.increment("star_sum", {
       by: star,
@@ -118,15 +118,15 @@ class clubService {
     });
   };
 
-  static getReviewsRating = async ({ club_id }) => {
-    const club = await Clubs.findOne({ where: { id: club_id } });
-    const ratingData = await Ratings.findOne({ where: { club_id } });
+  static calculateRating = async ({ club_id }) => {
+    const ratingData = await Ratings.findOne({ where: { club_id: club_id } });
+    const rating = ratingData.star_sum / ratingData.count;
 
-    if (!club) {
-      const errorMessage = "존재하지 않는 모임입니다.";
-      return { errorMessage };
-    }
-    return ratingData;
+    const result = await ratingData.update(
+      { rating: rating },
+      { where: { club_id: club_id } }
+    );
+    return result.rating;
   };
 }
 export { clubService };
