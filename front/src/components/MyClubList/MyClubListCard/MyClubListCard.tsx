@@ -26,6 +26,7 @@ function MyClubListCard({
   const [openCloseApplicants, setOpenCloseApplicants] = useState(false);
   const [closeApplicantsButton, setCloseApplicantsButton] = useState(false);
   const [accordionClick, setAccordionClick] = useState(false);
+  const [applicantsList, setApplicantsList] = useState([]);
   const handleToggleCloseApplicants = () =>
     setOpenCloseApplicants((prev) => !prev);
 
@@ -36,7 +37,10 @@ function MyClubListCard({
   useEffect(() => {
     if (accordionClick) {
       Api.get(`/applications/${club.id}/users`)
-        .then((res) => console.log("모임에 신청한 사람", res.data.applicants))
+        .then((res) => {
+          console.log("모임에 신청한 사람", res.data.applicants);
+          setApplicantsList(res.data.applicants);
+        })
         .catch((err) => console.log(err));
     }
   }, [accordionClick]);
@@ -92,22 +96,37 @@ function MyClubListCard({
       </Style.WholeCard>
       {make === "true" && (
         <Style.AccordionDiv>
-          <Accordion
-            style={{ borderRadius: "0px 0px 4px 4px" }}
-            onClick={handleClickAccordion}
-          >
+          <Accordion style={{ borderRadius: "0px 0px 4px 4px" }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls='panel1a-content'
               id='panel1a-header'
+              onClick={handleClickAccordion}
             >
               <div style={{ fontWeight: "bold" }}>신청자 목록</div>
             </AccordionSummary>
             <AccordionDetails>
               <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
+                {applicantsList.length === 0 && (
+                  <div>아직 신청자가 없습니다.</div>
+                )}
+                {!(applicantsList.length === 0) &&
+                  applicantsList.map((applicants) => (
+                    <div
+                      key={applicants["id"]}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <div style={{ width: "80%" }}>
+                        {applicants["nickname"]}
+                      </div>
+                      <Style.ApplicantsButton1>수락</Style.ApplicantsButton1>
+                      <Style.ApplicantsButton2>거절</Style.ApplicantsButton2>
+                    </div>
+                  ))}
               </div>
             </AccordionDetails>
           </Accordion>

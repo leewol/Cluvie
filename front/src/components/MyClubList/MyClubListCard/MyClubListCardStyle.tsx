@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import styled from "@emotion/styled/macro";
-import { Card, CardContent, IconButton } from "@mui/material";
+import { Card, CardContent, IconButton, Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { StyledSpan } from "@/styles/text";
 
@@ -85,4 +85,26 @@ export const OnOffDiv = styled.div`
 
 export const AccordionDiv = styled.div`
   margin: 0px 25px 25px 25px;
+`;
+
+export const ApplicantsButton1 = styled(Button)`
+  height: 25px;
+  margin: 0 5px;
+  color: white;
+  font-size: 12px;
+  background-color: #ffc300;
+  &:hover {
+    background-color: rgba(255, 195, 0, 0.6);
+  }
+`;
+
+export const ApplicantsButton2 = styled(Button)`
+  height: 25px;
+  margin: 0 5px;
+  color: white;
+  font-size: 12px;
+  background-color: #ff0000;
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.6);
+  }
 `;
