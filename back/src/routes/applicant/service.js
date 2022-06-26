@@ -53,7 +53,7 @@ class applicantService {
       return { errorMessage };
     } else {
       const applicants = await db.sequelize.query(
-        "SELECT u.id, u.nickname FROM applicants AS a LEFT JOIN users AS u ON a.user_id = u.id WHERE a.club_id = :id",
+        "SELECT u.id, u.nickname, a.status FROM applicants AS a LEFT JOIN users AS u ON a.user_id = u.id WHERE a.club_id = :id",
         { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
       );
       console.log(applicants);

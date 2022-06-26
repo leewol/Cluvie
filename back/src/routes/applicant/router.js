@@ -6,6 +6,11 @@ const applicantRouter = express.Router();
 
 // 공통 url: "/applications"
 
+// 모임 신청 status
+// status: 0 (신청중)
+// status: 1 (수락)
+// status: 2 (수락받지 못하고 모임 모집 마감 -> 거절)
+
 // 모임 신청하기
 applicantRouter.post("/", verifyToken, async (req, res) => {
   try {
