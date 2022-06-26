@@ -2,6 +2,7 @@ import Reviews from "../../../models/review";
 import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
+import Ratings from "../../../models/rating";
 import db from "../../../models/index";
 
 class clubService {
@@ -16,6 +17,41 @@ class clubService {
   //     console.log(scrollClubList);
   //     return scrollClubList;
   //   };
+
+  static createClub = async ({
+    name,
+    intro,
+    online,
+    offline,
+    description,
+    head_count,
+    picture,
+    weekday,
+    weekend,
+    duration,
+    manager,
+  }) => {
+    const club = await Clubs.create({
+      name,
+      intro,
+      online,
+      offline,
+      description,
+      head_count,
+      picture,
+      weekday,
+      weekend,
+      duration,
+      manager,
+    });
+    return club;
+  };
+
+  static createClubReviewRating = async (club_id) => {
+    const reviewRating = await Ratings.create({ club_id });
+    return reviewRating;
+  };
+
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
@@ -27,18 +63,23 @@ class clubService {
     return scrollClubList;
   };
 
+  static getClubListMadeByMe = async ({ user_id }) => {
+    const clubList = await Clubs.findAll({ where: { manager: user_id } });
+    return { clubList };
+  };
+
   static closeApplication = async ({ club_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
       const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     }
-    const closeApplication = await club.update({ state: "모집마감" });
+    const closeApplication = await club.update({ state: 1 });
     await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
-    return { closeApplication };
+    return closeApplication;
   };
 
-  static writeReview = async ({ user_id, club_id, star_score, contents }) => {
+  static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     const user = await Users.findOne({ where: { id: user_id } });
     if (!club) {
@@ -52,15 +93,40 @@ class clubService {
       const review = await Reviews.create({
         user_id,
         club_id,
-        star_score,
+        star_rating,
         contents,
       });
-      await grades
-        .findOne({ where: club_id })
-        .increment({ count: 1, grade: star_score });
-      console.log(updateGrade);
       return review;
     }
+  };
+
+  static getAllReviews = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    const reviews = await Clubs.findAll({ where: { id: club_id } });
+    return reviews;
+  };
+
+  static sumReviewRating = async ({ club_id, star }) => {
+    await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
+    await Ratings.increment("star_sum", {
+      by: star,
+      where: { club_id: club_id },
+    });
+  };
+
+  static getReviewsRating = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    const ratingData = await Ratings.findOne({ where: { club_id } });
+
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    return ratingData;
   };
 }
 export { clubService };

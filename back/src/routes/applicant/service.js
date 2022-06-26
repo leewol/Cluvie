@@ -101,20 +101,11 @@ class applicantService {
   };
 
   static getMyclubList = async ({ user_id }) => {
-    const applyingClub = await Applicants.findOne({
-      where: { user_id, status: 1 },
-    });
-
-    if (!applyingClub) {
-      const errorMessage = "가입된 모임이 없습니다";
-      return { errorMessage };
-    } else {
-      const applyingClubList = await db.sequelize.query(
-        "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id AND a.status=1",
-        { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
-      );
-      return applyingClubList;
-    }
+    const applyingClubList = await db.sequelize.query(
+      "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id AND a.status=1",
+      { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
+    );
+    return applyingClubList;
   };
 }
 

@@ -7,6 +7,7 @@ import Clubs from "./club";
 import Likes from "./like";
 import Applicants from "./applicant";
 import Reviews from "./review";
+import Ratings from "./rating";
 
 const db = {};
 const sequelize = new Sequelize(
@@ -25,7 +26,7 @@ db.Clubs = Clubs;
 db.Likes = Likes;
 db.Applicants = Applicants;
 db.Reviews = Reviews;
-// db.Grades = Grades;
+db.Ratings = Ratings;
 
 //모델 - 테이블 연결
 Users.init(sequelize);
@@ -33,5 +34,6 @@ Clubs.init(sequelize);
 Likes.init(sequelize);
 Applicants.init(sequelize);
 Reviews.init(sequelize);
+Ratings.init(sequelize);
 
 module.exports = db;
