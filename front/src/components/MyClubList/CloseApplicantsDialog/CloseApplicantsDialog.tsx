@@ -21,7 +21,7 @@ function CloseApplicantsDialog({
   const handleCloseApplicants = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    Api.delete(`/applications/${clubId}`)
+    Api.patch("/clubs/close", { club_id: clubId })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
