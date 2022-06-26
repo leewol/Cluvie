@@ -1,7 +1,9 @@
-const express = require("express");
+import express from "express";
+import { Server } from "socket.io";
+import { createServer } from "http";
 const app = express();
-const http = require("http");
-const server = http.createServer(app);
+const server = createServer(app);
+const socketio = new Server(server);
 import dotenv from "dotenv";
 dotenv.config();
 
