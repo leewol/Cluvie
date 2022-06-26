@@ -106,7 +106,10 @@ class clubService {
       const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     }
-    const reviews = await Clubs.findAll({ where: { id: club_id } });
+    const reviews = await db.sequelize.query(
+      "SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=:id",
+      { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
+    );
     return reviews;
   };
 
