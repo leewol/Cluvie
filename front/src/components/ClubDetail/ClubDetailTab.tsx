@@ -142,7 +142,7 @@ export default function BasicTabs({
                 (총 5개의 후기)
               </div>
             </div>
-            <ClubReviewButton />
+            {club.id && <ClubReviewButton clubId={club.id} />}
             <ClubReview />
             <ClubReview />
             <ClubReview />
