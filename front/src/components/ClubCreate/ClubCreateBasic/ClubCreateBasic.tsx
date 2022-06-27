@@ -104,7 +104,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
       formData.append("file", files[0]);
 
       try {
-        // TODO :  이미지 보낸 뒤에 url 받아오기, setClubInfo
+        // TODO : 이미지 올렸을 때 미리보기로 나오지 않을 때가 있다?
         const pictureRes = await Api.post("/clubs/picture", formData);
         const { fileName } = pictureRes.data;
 
