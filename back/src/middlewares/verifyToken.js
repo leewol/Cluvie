@@ -59,7 +59,7 @@ const verifyToken = async (req, res, next) => {
       next();
     }
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     next(err);
   }
 };
