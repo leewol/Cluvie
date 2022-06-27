@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
@@ -11,7 +11,7 @@ import ClubFilter from "@/components/ClubList/ClubFilter/ClubFilter";
 import ClubSearch from "@/components/ClubList/ClubSearch/ClubSearch";
 import ClubFilterSpanList from "@/components/ClubList/ClubFilterSpanList/ClubFilterSpanList";
 
-import { useScrollClubList } from "@/hooks/queries/useClubList";
+import { useAllClubList, useScrollClubList } from "@/hooks/queries/useClubList";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 import { isSignInState } from "@/utils/recoil";
@@ -33,9 +33,7 @@ function ClubList() {
   };
 
   useInfiniteScroll(clubListRes, cardRef);
-
-  console.log(clubsPerScroll);
-
+  
   if (clubListRes.isLoading) {
     return <ContainerBox>Loading...</ContainerBox>;
   }

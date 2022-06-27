@@ -28,7 +28,7 @@ export function useScrollClubList() {
     // QueryKey
     ["scrollClubList"], 
     // QueryFn
-    async ({ pageParam = 0 }) => {
+    async ({ pageParam = 999999 }) => {
       const res = await Api.get("/clubs/scrollClublist", pageParam);
       return res.data;
     }, {
