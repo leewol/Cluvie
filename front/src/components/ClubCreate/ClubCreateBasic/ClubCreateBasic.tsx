@@ -125,6 +125,10 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
     }));
   }, [hashtagArr]);
 
+  useEffect(() => {
+    console.log(clubInfo);
+  }, [clubInfo.picture]);
+
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>

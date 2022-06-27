@@ -1,11 +1,12 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import React,{ useRef, useState, useMemo, useEffect } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { AxiosError } from "axios";
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from "react-quill";
 
 import { Club } from "@/utils/interface";
+import * as Api from "@/utils/api";
 import { useCreateClub } from "@/hooks/queries/useClubList";
 
 import ClubCreateBasic from "@/components/ClubCreate/ClubCreateBasic/ClubCreateBasic";
@@ -63,17 +64,17 @@ function EditorComponent() {
     input.onchange = async () => {
       const file = input.files;
       if (file !== null) {
-        formData.append("image", file[0]);
+        formData.append("file", file[0]);
 
 	// 저의 경우 파일 이미지를 서버에 저장했기 때문에
     	// 백엔드 개발자분과 통신을 통해 이미지를 저장하고 불러왔습니다.
         try {
         // axios를 통해 백엔드 개발자분과 통신했고, 데이터는 폼데이터로 주고받았습니다.
         // const res = await axios.post("/api/upload", formData);
-        const res = {data:{url:'image'}}
-
+          const res = await Api.post("/clubs/picture", formData);
+          const { fileName } = res.data;
 	// 백엔드 개발자 분이 통신 성공시에 보내주는 이미지 url을 변수에 담는다.
-          url = res.data.url;
+          url = `http://${window.location.hostname}:3000/uploads/${fileName}`;
 
 	// 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드 
     	// 해당 DOM의 데이터가 필요하기에 useRef를 사용한다.
@@ -142,9 +143,9 @@ return (
       <Style.DetailInfoDiv>상세 정보</Style.DetailInfoDiv>
       <Style.ClubReactQuill
         ref={(element) => {
-            if (element !== null) {
+          if (element !== null) {
             QuillRef.current = element;
-            }
+          }
         }}
         // eslint-disable-next-line react/no-this-in-sfc
         onChange={setContents}
