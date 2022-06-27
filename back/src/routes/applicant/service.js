@@ -63,7 +63,7 @@ class applicantService {
 
   static acceptance = async ({ user_id, club_id }) => {
     const applicant = await Applicants.findOne({ where: { user_id, club_id } });
-    // const applicants = await Applicants.findAll({ where: club_id });
+    // const acceptedUser = await Applicants.findAll({ where: {club_id: club_id, status: 1} });
     const club = await Clubs.findOne({ where: club_id });
 
     if (!applicant) {
@@ -74,8 +74,8 @@ class applicantService {
       const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     }
-    // if (applicants.length === club.haed_count) {
-    //   const errorMessage = "모임 인원 초과";
+    // if (acceptedUser.length === club.haed_count) {
+    //   const errorMessage = "모집인원을 초과하였습니다";
     //   return { errorMessage };
     // }
     else {

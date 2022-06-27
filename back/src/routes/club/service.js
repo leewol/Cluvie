@@ -55,12 +55,24 @@ class clubService {
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
+
     let sql = `SELECT * FROM clubs WHERE id <= ${club_id}  ORDER BY id DESC LIMIT  4`;
     const scrollClubList = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
     console.log(scrollClubList);
     return scrollClubList;
+  };
+
+  // 로그인된 유저의 좋아요 여부 확인 - 작업중
+  // 유저가 좋아요 누른 모임이 없을 경우 -> 에러 ...
+  static getClubListTest = async ({ user_id }) => {
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend FROM clubs AS c LEFT JOIN likes ON c.id = l.club_id WHERE l.user_id=:id`;
+    const clubList = await db.sequelize.query(sql, {
+      replacements: { id: user_id },
+      type: db.sequelize.QueryTypes.SELECT,
+    });
+    return clubList;
   };
 
   static getClubListMadeByMe = async ({ user_id }) => {
