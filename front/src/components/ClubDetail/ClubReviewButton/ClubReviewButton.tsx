@@ -15,7 +15,10 @@ function ClubReviewButton({ clubId }: { clubId: number }) {
       contents: review,
     })
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        alert("참여 후기는 한 번만 작성할 수 있습니다.");
+      });
 
     handleToggle();
   };
