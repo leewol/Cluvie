@@ -3,15 +3,15 @@
 import React,{ useRef, useState, useMemo, useEffect } from 'react';
 import axios, { AxiosError } from "axios";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
 import { Club } from "@/utils/interface";
+import { useCreateClub } from "@/hooks/queries/useClubList";
 
 import ClubCreateBasic from "@/components/ClubCreate/ClubCreateBasic/ClubCreateBasic";
 import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview";
 
-import * as Api from "@/utils/api";
-import * as Style from './ClubCreateStyle'
+import "react-quill/dist/quill.snow.css";
+import * as Style from "./ClubCreateStyle";
 
 function EditorComponent() {
   const QuillRef = useRef<ReactQuill>();
@@ -24,7 +24,7 @@ function EditorComponent() {
     picture: "1",
     intro: "",
     duration: 0,
-    state: "모집중",
+    state: 0,
     online: 0,
     offline: 0,
     description: '상세보기를 작성해주세요',
@@ -34,6 +34,7 @@ function EditorComponent() {
     weekend: 0,
     hashtags: ""
   });
+  const { mutate } = useCreateClub("scrollClubList");
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -122,9 +123,11 @@ const modules = useMemo(
   );
   
   const handleSubmit = () => {
-    Api.post("/clubs", clubInfo)
-      .then((res)=> console.log(res))
-      .catch((err) => console.log(err));
+    mutate(clubInfo, {
+      onSuccess: () => {
+        console.log("클럽 생성 성공");
+      }
+    });
   }
 
 return (

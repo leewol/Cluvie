@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from "react-query";
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { AxiosError, AxiosResponse } from "axios";
 
 import * as Api from "@/utils/api";
@@ -13,9 +13,10 @@ import { Club } from "@/utils/interface";
 export function useAllClubList(options?: object) {
   return useQuery<AxiosResponse, AxiosError, Club[], string[]>(
     ["allClubList"], 
-    () => Api.get("/clubs"),
-    {
-      select: ({ data }) => data?.result,
+    async () => { 
+      const res = await Api.get("/clubs");
+      return res.data.result;
+    }, {
       ...options,
     }
   );
@@ -27,13 +28,29 @@ export function useScrollClubList() {
     // QueryKey
     ["scrollClubList"], 
     // QueryFn
-    ({ pageParam = 0 }) => Api.get("/clubs/scrollClublist", pageParam),
-    // QueryOptions
-    {
+    async ({ pageParam = 0 }) => {
+      const res = await Api.get("/clubs/scrollClublist", pageParam);
+      return res.data;
+    }, {
+      // QueryOptions
       getNextPageParam: (lastPage, allPages) => {
-        const nextId = lastPage.data.scrollClublist.length - 1;
-        return nextId === 5 && lastPage.data.scrollClublist[nextId].id;
+        const nextId = lastPage.scrollClublist.length - 1;
+        return nextId === 5 && lastPage.scrollClublist[nextId].id;
       },
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+    }
+  );
+}
+
+// 클럽 생성하기
+export function useCreateClub(queryKey: string) {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (clubInfo: Club) => Api.post("/clubs", clubInfo), {
+      // QueryOptions   
+      // 요청이 성공한 경우 queryKey 유효성 제거
+      onSuccess: () => queryClient.invalidateQueries(`${queryKey}`)
     }
   );
 }

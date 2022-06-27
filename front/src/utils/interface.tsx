@@ -7,7 +7,7 @@ export interface Club {
   picture?: string;
   intro?: string;
   duration?: number;
-  state?: string;
+  state?: number;
   online?: number;
   offline?: number;
   description?: string;

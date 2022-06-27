@@ -34,7 +34,7 @@ function ClubList() {
 
   useInfiniteScroll(clubListRes, cardRef);
 
-  console.log(clubListRes);
+  console.log(clubsPerScroll);
 
   if (clubListRes.isLoading) {
     return <ContainerBox>Loading...</ContainerBox>;
@@ -50,7 +50,7 @@ function ClubList() {
       <ClubListBox>
         {
           clubsPerScroll.map((scroll, scrollIndex) => {
-            const { scrollClublist } = scroll.data;
+            const { scrollClublist } = scroll;
             return scrollClublist.map((club: Club, clubIndex: number) =>
               <ClubCard 
                 key={`${club.manager}+${club.id}`}
