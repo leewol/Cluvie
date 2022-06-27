@@ -78,7 +78,7 @@ function MyClubListCard({
 
   return (
     <Style.WholeCardDiv>
-      <Style.WholeCard make={make}>
+      <Style.WholeCard make={make} closedclub={closedClub.toString()}>
         <Link to={`/clubDetail/${club.id}`}>
           <CardMedia
             component='img'
