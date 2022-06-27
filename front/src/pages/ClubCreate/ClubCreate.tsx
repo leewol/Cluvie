@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import React,{ useRef, useState, useMemo, useEffect } from 'react';
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import { useNavigate } from 'react-router-dom';
 import ReactQuill from "react-quill";
 
 import { Club } from "@/utils/interface";
@@ -14,6 +15,7 @@ import "react-quill/dist/quill.snow.css";
 import * as Style from "./ClubCreateStyle";
 
 function EditorComponent() {
+  const navigate = useNavigate();
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
@@ -21,7 +23,7 @@ function EditorComponent() {
   const [clubInfo, setClubInfo] = useState<Club>({
     name: "",
     manager: 4,
-    picture: "1",
+    picture: "",
     intro: "",
     duration: 0,
     state: 0,
@@ -126,6 +128,7 @@ const modules = useMemo(
     mutate(clubInfo, {
       onSuccess: () => {
         console.log("클럽 생성 성공");
+        navigate("/clublist");
       }
     });
   }
