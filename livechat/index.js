@@ -6,7 +6,6 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 import dotenv from "dotenv";
-import { disconnect } from "process";
 dotenv.config();
 
 const PORT = 5001;
@@ -28,29 +27,12 @@ app.get("/", (req, res) => {
 });
 
 io.sockets.on("connection", (socket) => {
-  socket.on("new User", (name) => {
-    console.log(name, "님이 접속하였습니다.");
-    socket.name = name;
-    io.sockets.emit("update", {
-      type: "connect",
-      name: "SERVER",
-      message: name + "님이 접속하였습니다.",
-    });
+  console.log("유저 접속 됨");
+  socket.on("send", (data) => {
+    console.log("전달된 메시지: ", data.msg);
   });
-
-  socket.on("message", (data) => {
-    data.name = socket.name;
-    console.log(data);
-    socket.broadcast.emit("update", data);
-  });
-
   socket.on("disconnect", () => {
-    console.log(socket.name + "님이 나가셨습니다.");
-    socket.broadcast.emit("update", {
-      type: disconnect,
-      name: "SERVER",
-      message: socket.name + "님이 나가셨습니다.",
-    });
+    console.log("접속 종료");
   });
 });
 
