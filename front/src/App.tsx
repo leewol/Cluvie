@@ -22,6 +22,7 @@ import ClubUpdate from "@/pages/ClubUpdate/ClubUpdate";
 import Header from "@/components/Header/Header";
 import MyPage from "@/pages/MyPage/MyPage";
 import MyClubList from "@/pages/MyClubList/MyClubList";
+import ReactQueryTest from "@/pages/ReactQueryTest";
 
 function InterceptorToNavigate() {
   const navigate = useNavigate();
@@ -71,6 +72,7 @@ function App() {
               !isSignIn ? <Navigate to='/signIn' replace /> : <MyClubList />
             }
           />
+          <Route path="test" element={<ReactQueryTest />} />
         </Routes>
       </BrowserRouter>
     </div>

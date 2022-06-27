@@ -1,4 +1,5 @@
-import React from "react";
+import React, { forwardRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { CardMedia, CardContent, IconButton } from "@mui/material";
 
@@ -17,9 +18,14 @@ interface Props {
   club: Club;
 }
 
-function ClubCard({ club }: Props): React.ReactElement {
-  return (
-    <WholeCard>
+const ClubCard = forwardRef<HTMLDivElement, Props>(
+  ({ club }, ref) => {
+    const navigate = useNavigate();
+    const handleClickCard = (clubId: number | undefined) => {
+      navigate(`/clubDetail/${clubId}`);
+    }
+
+    return <WholeCard ref={ref} onClick={() => handleClickCard(club.id)}>
       <CardMedia
         component='img'
         height='250'
@@ -45,7 +51,7 @@ function ClubCard({ club }: Props): React.ReactElement {
         </IconButton>
       </ClubCardInfos>
     </WholeCard>
-  );
-}
+  }
+);
 
 export default ClubCard;

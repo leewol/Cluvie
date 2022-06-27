@@ -45,7 +45,8 @@
         "no-param-reassign": 0,
         "no-useless-return": 0,
         "no-restricted-syntax": "warn",
-        "react/jsx-no-useless-fragment": "warn"
+        "react/jsx-no-useless-fragment": "warn",
+        "consistent-return": "warn"
     },
     "settings": {
         "import/resolver":{

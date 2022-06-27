@@ -29,7 +29,7 @@ function ClubDetail() {
     description: '상세정보를 입력해주세요',
     head_count: 100,
     duration: 6,
-    state: '모집중',
+    state: 0,
     manager: 4,
   });
   const handleToggleJoin = () => setOpenJoin((prev) => !prev);

@@ -1,4 +1,5 @@
 export interface Club {
+  [key: string]: number | string | undefined;
   id?: number;
   club_id?: number;
   name?: string;
@@ -6,7 +7,7 @@ export interface Club {
   picture?: string;
   intro?: string;
   duration?: number;
-  state?: string;
+  state?: number;
   online?: number;
   offline?: number;
   description?: string;

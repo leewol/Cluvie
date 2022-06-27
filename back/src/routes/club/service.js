@@ -55,8 +55,8 @@ class clubService {
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
-
-    let sql = `SELECT * FROM clubs WHERE id <= ${club_id}  ORDER BY id DESC LIMIT  4`;
+    // 임시 변경
+    let sql = `SELECT * FROM clubs WHERE id > ${club_id} ORDER BY id LIMIT 6`;
     const scrollClubList = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
