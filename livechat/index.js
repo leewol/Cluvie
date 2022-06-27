@@ -48,7 +48,7 @@ io.sockets.on("connection", (socket) => {
     socket.broadcast.emit("update", {
       type: "disconnect",
       name: "SERVER",
-      message: socket.nmae + "님이 나가셨습니다.",
+      message: socket.name + "님이 나가셨습니다.",
     });
   });
 });
