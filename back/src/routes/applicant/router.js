@@ -6,6 +6,11 @@ const applicantRouter = express.Router();
 
 // 공통 url: "/applications"
 
+// 모임 신청 status
+// status: 0 (신청중)
+// status: 1 (수락)
+// status: 2 (수락받지 못하고 모임 모집 마감 -> 거절)
+
 // 모임 신청하기
 applicantRouter.post("/", verifyToken, async (req, res) => {
   try {
@@ -20,7 +25,7 @@ applicantRouter.post("/", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
   }
 });
 
@@ -41,7 +46,7 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
   }
 });
 
@@ -61,7 +66,7 @@ applicantRouter.get("/clubs", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true, applyingClubList });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -81,7 +86,7 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true, applicants });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -101,7 +106,7 @@ applicantRouter.patch("/acceptance", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -123,7 +128,7 @@ applicantRouter.patch("/refuse", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -135,13 +140,9 @@ applicantRouter.get("/acceptance/clubs", verifyToken, async (req, res) => {
 
     const myClubList = await applicantService.getMyclubList({ user_id });
 
-    if (myClubList.errorMessage) {
-      res.status(403).json({ success: false, err: myClubList.errorMessage });
-      return;
-    }
     res.status(200).json({ success: true, myClubList });
   } catch (err) {
-    res.status(404).json({ success: false, err });
+    res.status(404).json({ success: false, message: err.message });
     console.log(err);
   }
 });

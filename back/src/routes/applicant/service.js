@@ -53,7 +53,7 @@ class applicantService {
       return { errorMessage };
     } else {
       const applicants = await db.sequelize.query(
-        "SELECT u.id, u.nickname FROM applicants AS a LEFT JOIN users AS u ON a.user_id = u.id WHERE a.club_id = :id",
+        "SELECT u.id, u.nickname, a.status FROM applicants AS a LEFT JOIN users AS u ON a.user_id = u.id WHERE a.club_id = :id",
         { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
       );
       console.log(applicants);
@@ -63,7 +63,7 @@ class applicantService {
 
   static acceptance = async ({ user_id, club_id }) => {
     const applicant = await Applicants.findOne({ where: { user_id, club_id } });
-    // const applicants = await Applicants.findAll({ where: club_id });
+    // const acceptedUser = await Applicants.findAll({ where: {club_id: club_id, status: 1} });
     const club = await Clubs.findOne({ where: club_id });
 
     if (!applicant) {
@@ -74,8 +74,8 @@ class applicantService {
       const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     }
-    // if (applicants.length === club.haed_count) {
-    //   const errorMessage = "모임 인원 초과";
+    // if (acceptedUser.length === club.haed_count) {
+    //   const errorMessage = "모집인원을 초과하였습니다";
     //   return { errorMessage };
     // }
     else {
@@ -101,20 +101,11 @@ class applicantService {
   };
 
   static getMyclubList = async ({ user_id }) => {
-    const applyingClub = await Applicants.findOne({
-      where: { user_id, status: 1 },
-    });
-
-    if (!applyingClub) {
-      const errorMessage = "가입된 모임이 없습니다";
-      return { errorMessage };
-    } else {
-      const applyingClubList = await db.sequelize.query(
-        "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id AND a.status=1",
-        { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
-      );
-      return applyingClubList;
-    }
+    const applyingClubList = await db.sequelize.query(
+      "SELECT * FROM applicants AS a LEFT JOIN clubs AS c ON a.club_id = c.id WHERE a.user_id=:id AND a.status=1",
+      { replacements: { id: user_id }, type: db.sequelize.QueryTypes.SELECT }
+    );
+    return applyingClubList;
   };
 }
 
