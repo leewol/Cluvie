@@ -128,7 +128,7 @@ class clubService {
       return { errorMessage };
     }
     const reviews = await db.sequelize.query(
-      "SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents, r.created_at, FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=:id ORDER BY r.created_at DESC",
+      "SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents, r.created_at FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=:id ORDER BY r.created_at DESC",
       { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
     );
     return reviews;
