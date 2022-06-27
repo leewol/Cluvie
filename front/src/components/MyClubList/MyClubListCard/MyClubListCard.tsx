@@ -228,14 +228,6 @@ function MyClubListCard({
             </AccordionSummary>
             <AccordionDetails>
               {applicantsList.length === 0 && <div>클럽원이 없습니다.</div>}
-              {/* {!(applicantsList.length === 0) &&
-                applicantsList.map((applicants) => {
-                  if (applicants["status"] === 1) {
-                    return (
-                      <div key={applicants["id"]}>{applicants["nickname"]}</div>
-                    );
-                  }
-                })} */}
               {!(applicantsList.length === 0) &&
                 applicantsList
                   .filter((applicants) => applicants["status"] === 1)
