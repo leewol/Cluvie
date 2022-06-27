@@ -1,13 +1,14 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Box, Rating } from "@mui/material";
 // import styled from "@emotion/styled";
 import ClubReview from "@/components/ClubDetail/ClubReview/ClubReview";
 import ClubReviewButton from "@/components/ClubDetail/ClubReviewButton/ClubReviewButton";
 import ClubBasicInfo from "@/components/ClubDetail/ClubBasicInfo/ClubBasicInfo";
 import * as Interface from "@/utils/interface";
+import * as Api from "@/utils/api";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -51,11 +52,25 @@ export default function BasicTabs({
   club: Interface.Club,
   preview?: boolean,
 }) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [reviewList, setReviewList] = useState([]);
+  const [rating, setRating] = useState();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    if (!preview) {
+      Api.get(`/clubs/${club.id}/review`)
+        .then((res) => setReviewList(res.data.reviews))
+        .catch((err) => console.log(err));
+
+      Api.get(`/clubs/${club.id}/rating`)
+        .then((res) => setRating(res.data.rating))
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -136,18 +151,18 @@ export default function BasicTabs({
                 textAlign: "center",
               }}
             >
-              <Rating value={3} readOnly />
-              <div style={{ fontSize: "36px" }}>3점</div>
+              <Rating value={Number(rating)} precision={0.1} readOnly />
+              <div style={{ fontSize: "36px" }}>{rating}점</div>
               <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
-                (총 5개의 후기)
+                (총 {reviewList.length}개의 후기)
               </div>
             </div>
             {club.id && <ClubReviewButton clubId={club.id} />}
-            <ClubReview />
-            <ClubReview />
-            <ClubReview />
-            <ClubReview />
-            <ClubReview />
+            {reviewList.length === 0 && <div>아직 참여 후기가 없습니다.</div>}
+            {!(reviewList.length === 0) &&
+              reviewList.map((review) => (
+                <ClubReview key={review["id"]} review={review} />
+              ))}
           </div>
         )}
       </TabPanel>
