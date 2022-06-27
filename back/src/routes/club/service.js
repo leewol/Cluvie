@@ -55,12 +55,29 @@ class clubService {
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
+    // 임시 변경
     let sql = `SELECT * FROM clubs WHERE id > ${club_id} ORDER BY id LIMIT 6`;
     const scrollClubList = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
     console.log(scrollClubList);
     return scrollClubList;
+  };
+
+  // 로그인된 유저의 좋아요 여부 확인 - 작업중
+  // 유저가 좋아요 누른 모임이 없을 경우 -> 에러 ...
+  static getClubListTest = async ({ user_id }) => {
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend FROM clubs AS c LEFT JOIN likes ON c.id = l.club_id WHERE l.user_id=:id`;
+    const clubList = await db.sequelize.query(sql, {
+      replacements: { id: user_id },
+      type: db.sequelize.QueryTypes.SELECT,
+    });
+    return clubList;
+  };
+
+  static getClubListMadeByMe = async ({ user_id }) => {
+    const clubList = await Clubs.findAll({ where: { manager: user_id } });
+    return { clubList };
   };
 
   static closeApplication = async ({ club_id }) => {
@@ -71,7 +88,7 @@ class clubService {
     }
     const closeApplication = await club.update({ state: 1 });
     await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
-    return { closeApplication };
+    return closeApplication;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
@@ -94,12 +111,37 @@ class clubService {
       return review;
     }
   };
-  static sumReviewRating = async ({ club_id, star }) => {
+
+  static getAllReviews = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    const reviews = await db.sequelize.query(
+      "SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=:id ORDER BY r.created_at DESC",
+      { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
+    );
+    return reviews;
+  };
+
+  static setReviewRating = async ({ club_id, star }) => {
     await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
     await Ratings.increment("star_sum", {
       by: star,
       where: { club_id: club_id },
     });
+  };
+
+  static calculateRating = async ({ club_id }) => {
+    const ratingData = await Ratings.findOne({ where: { club_id: club_id } });
+    const rating = ratingData.star_sum / ratingData.count;
+
+    const result = await ratingData.update(
+      { rating: rating },
+      { where: { club_id: club_id } }
+    );
+    return result.rating.toFixed(1); //소수점 한자리까지 표현
   };
 }
 export { clubService };
