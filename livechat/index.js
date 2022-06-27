@@ -27,12 +27,29 @@ app.get("/", (req, res) => {
 });
 
 io.sockets.on("connection", (socket) => {
-  console.log("유저 접속 됨");
-  socket.on("send", (data) => {
-    console.log("전달된 메시지: ", data.msg);
+  socket.on("newUser", (name) => {
+    console.log(name + "님이 접속하였습니다.");
+    socket.name = name;
+    io.sockets.emit("update", {
+      type: "connect",
+      name: "SERVER",
+      message: name + "님이 접속하였습니다.",
+    });
   });
+
+  socket.on("message", (data) => {
+    data.name = socket.name;
+    console.log(data);
+    socket.broadcast.emit("update", data);
+  });
+
   socket.on("disconnect", () => {
-    console.log("접속 종료");
+    console.log(socket.name + "님이 나가셨습니다.");
+    socket.broadcast.emit("update", {
+      type: "disconnect",
+      name: "SERVER",
+      message: socket.nmae + "님이 나가셨습니다.",
+    });
   });
 });
 
