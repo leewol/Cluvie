@@ -36,7 +36,7 @@ class userService {
     const hashedPassword = hashPassword(password);
     if (!user) {
       // 가입여부 확인
-      const errorMessage = "해당 아이디로 가입된 사용자가 없습니다.";
+      const errorMessage = "해당 아이디로 가입된 사용자가 없습니다";
       return { errorMessage };
     } else if (user.password === hashedPassword) {
       // 비밀번호 일치 확인
@@ -48,7 +48,7 @@ class userService {
       );
       return token;
     } else {
-      const errorMessage = "비밀번호가 틀립니다.";
+      const errorMessage = "비밀번호가 틀립니다";
       return { errorMessage };
     }
   };
@@ -57,7 +57,7 @@ class userService {
       where: { id },
     });
     if (!user) {
-      const errorMessage = "해당 사용자가 없습니다.";
+      const errorMessage = "해당 사용자를 찾을 수 없습니다";
       return { errorMessage };
     } else {
       const updated = await Users.update(
@@ -73,7 +73,7 @@ class userService {
       where: { id },
     });
     if (!user) {
-      const errorMessage = "해당 사용자가 없습니다.";
+      const errorMessage = "해당 사용자를 찾을 수 없습니다";
       return { errorMessage };
     } else {
       return user;

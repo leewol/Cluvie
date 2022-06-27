@@ -38,8 +38,10 @@ module.exports = class Club extends Sequelize.Model {
         },
         // 클럽 모집 상태
         state: {
-          type: Sequelize.STRING,
+          type: Sequelize.TINYINT,
+          // 0: 모집중 , 1: 모집마감
           allowNull: false,
+          defaultValue: 0,
         },
         // 클럽 진행(온라인/ 오프라인)
         online: {
@@ -61,6 +63,7 @@ module.exports = class Club extends Sequelize.Model {
         views: {
           type: Sequelize.INTEGER,
           allowNull: true,
+          defaultValue: 0,
         },
         // 클럽 인원수
         head_count: {

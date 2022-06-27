@@ -81,12 +81,7 @@ async function get(endpoint: string, params = "") {
     "color: #a25cd1;"
   );
 
-  // return axiosApiInstance.get(`${SERVER_URL + endpoint}/${params}`);
-  return axios.get(`${SERVER_URL + endpoint}/${params}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return axiosApiInstance.get(`${endpoint}/${params}`);
 }
 
 // PUT
@@ -95,7 +90,7 @@ async function put(endpoint: string, data: object) {
   console.log(`%cPUT 요청: ${SERVER_URL + endpoint}`, "color: #059c4b;");
   console.log(`%cPUT 요청 데이터: ${bodyData}`, "color: #059c4b;");
 
-  return axiosApiInstance.put(SERVER_URL + endpoint, bodyData);
+  return axiosApiInstance.put(endpoint, bodyData);
 }
 
 // PATCH
@@ -104,19 +99,14 @@ async function patch(endpoint: string, data: object) {
   console.log(`%cPATCH 요청: ${SERVER_URL + endpoint}`, "color: #059c4b;");
   console.log(`%cPATCH 요청 데이터: ${bodyData}`, "color: #059c4b;");
 
-  return axios.patch(SERVER_URL + endpoint, bodyData, {
-    headers: {
-      "Content-Type": "application/json",
-      // Authorization 추가 (JWT)
-    },
-  });
+  return axiosApiInstance.patch(endpoint, bodyData);
 }
 
 // DELETE
 async function del(endpoint: string, params = "") {
   console.log(`DELETE 요청 ${SERVER_URL + endpoint}/${params}`);
 
-  return axiosApiInstance.delete(`${SERVER_URL + endpoint}/${params}`);
+  return axiosApiInstance.delete(`${endpoint}/${params}`);
 }
 
 export { axiosInstanceToNavigate, get, post, put, patch, del as delete };
