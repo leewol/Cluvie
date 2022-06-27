@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { ContainerBox, ColumnContainerBox } from "@/styles/containers";
-import { FilterBox, ClubListBox, ClubCreateButtonBox } from "./ClubListStyle";
+import { FilterBox, ClubListBox, ClubCreateButtonBox, LoadingMsg } from "./ClubListStyle";
 
 import ClubCard from "@/components/ClubCard/ClubCard";
 import ClubFilter from "@/components/ClubList/ClubFilter/ClubFilter";
@@ -33,7 +33,7 @@ function ClubList() {
   };
 
   useInfiniteScroll(clubListRes, cardRef);
-  
+
   if (clubListRes.isLoading) {
     return <ContainerBox>Loading...</ContainerBox>;
   }
@@ -67,6 +67,12 @@ function ClubList() {
           />
         </ClubCreateButtonBox>
       )}
+      {
+        clubListRes.isFetchingNextPage &&
+        <LoadingMsg className={`${!clubListRes.hasNextPage ? "hidden" : ""}`}>
+          Loading more...
+        </LoadingMsg>
+      }
     </ColumnContainerBox>
   );
 }

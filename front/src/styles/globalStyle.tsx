@@ -22,6 +22,10 @@ const style = css`
         opacity: 0.6;
       }
     }
+    
+    .hidden {
+      visibility: hidden;
+    }
   }
 `;
 
