@@ -99,7 +99,6 @@ export const AccordionDiv = styled.div`
 
 export const ApplicantsButton1 = styled(Button)`
   height: 25px;
-  width: 100%;
   margin: 0 5px;
   color: white;
   font-size: 12px;

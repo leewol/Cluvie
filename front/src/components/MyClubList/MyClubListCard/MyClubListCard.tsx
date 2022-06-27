@@ -51,7 +51,29 @@ function MyClubListCard({
 
   useEffect(() => {
     if (isAcceptance && applicantsUserId) {
-      console.log("applicantsUserId", applicantsUserId);
+      console.log("applicantsUserId 수락처리", applicantsUserId);
+
+      Api.patch("/applications/acceptance", {
+        club_id: club.id,
+        user_id: applicantsUserId,
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+
+      setIsAcceptance((prev) => !prev);
+    }
+
+    if (!isAcceptance && applicantsUserId) {
+      console.log("applicantsUserId 수락취소처리", applicantsUserId);
+
+      Api.patch("/applications/refuse", {
+        club_id: club.id,
+        user_id: applicantsUserId,
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+
+      setIsAcceptance((prev) => !prev);
     }
   }, [applicantsUserId]);
 
@@ -98,7 +120,7 @@ function MyClubListCard({
           )}
 
           {closedClub ? (
-            <Style.MyIconButton aria-label='favorite'>
+            <Style.MyIconButton aria-label='favorite' disabled>
               <Style.StyledSpan4>모집완료</Style.StyledSpan4>
             </Style.MyIconButton>
           ) : (
@@ -124,39 +146,72 @@ function MyClubListCard({
               <div style={{ fontWeight: "bold" }}>신청자 목록</div>
             </AccordionSummary>
             <AccordionDetails>
-              <div>
-                {applicantsList.length === 0 && (
-                  <div>아직 신청자가 없습니다.</div>
-                )}
-                {!(applicantsList.length === 0) &&
-                  applicantsList.map((applicants) => (
-                    <div
-                      key={applicants["id"]}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <div style={{ width: "100%" }}>
-                        {applicants["nickname"]}
-                      </div>
+              {applicantsList.length === 0 && (
+                <div>아직 신청자가 없습니다.</div>
+              )}
+              {!(applicantsList.length === 0) &&
+                applicantsList.map((applicants) => (
+                  <div
+                    key={applicants["id"]}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {applicants["nickname"]}
+                    {!applicants["status"] ? (
                       <Style.ApplicantsButton1
                         onClick={() => {
                           setApplicantsUserId(applicants["id"]);
                           setIsAcceptance(true);
                         }}
                       >
-                        수락
+                        수락하기
                       </Style.ApplicantsButton1>
-                      {/* <Style.ApplicantsButton2
-                        onClick={handleToggleApplicantsRefuse}
+                    ) : (
+                      <Style.ApplicantsButton2
+                        onClick={() => {
+                          setApplicantsUserId(applicants["id"]);
+                          setIsAcceptance(false);
+                        }}
                       >
                         수락취소
-                      </Style.ApplicantsButton2> */}
-                    </div>
+                      </Style.ApplicantsButton2>
+                    )}
+                  </div>
+                ))}
+            </AccordionDetails>
+          </Accordion>
+        </Style.AccordionDiv>
+      )}
+      {closedClub && (
+        <Style.AccordionDiv>
+          <Accordion style={{ borderRadius: "0px 0px 4px 4px" }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+              onClick={handleClickAccordion}
+            >
+              <div style={{ fontWeight: "bold" }}>클럽원 목록</div>
+            </AccordionSummary>
+            <AccordionDetails>
+              {applicantsList.length === 0 && <div>클럽원이 없습니다.</div>}
+              {/* {!(applicantsList.length === 0) &&
+                applicantsList.map((applicants) => {
+                  if (applicants["status"] === 1) {
+                    return (
+                      <div key={applicants["id"]}>{applicants["nickname"]}</div>
+                    );
+                  }
+                })} */}
+              {!(applicantsList.length === 0) &&
+                applicantsList
+                  .filter((applicants) => applicants["status"] === 1)
+                  .map((applicants) => (
+                    <div key={applicants["id"]}>{applicants["nickname"]}</div>
                   ))}
-              </div>
             </AccordionDetails>
           </Accordion>
         </Style.AccordionDiv>
