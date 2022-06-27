@@ -152,13 +152,17 @@ export default function BasicTabs({
               }}
             >
               <Rating value={Number(rating)} precision={0.1} readOnly />
-              <div style={{ fontSize: "36px" }}>{rating}점</div>
+              <div style={{ fontSize: "36px" }}>{rating || "0"}점</div>
               <div style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)" }}>
                 (총 {reviewList.length}개의 후기)
               </div>
             </div>
             {club.id && <ClubReviewButton clubId={club.id} />}
-            {reviewList.length === 0 && <div>아직 참여 후기가 없습니다.</div>}
+            {reviewList.length === 0 && (
+              <div style={{ marginTop: "50px" }}>
+                아직 참여 후기가 없습니다.
+              </div>
+            )}
             {!(reviewList.length === 0) &&
               reviewList.map((review) => (
                 <ClubReview key={review["id"]} review={review} />

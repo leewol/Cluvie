@@ -8,6 +8,7 @@ interface Review {
   contents: string;
   nickname: string;
   star_rating: number;
+  created_at: Date;
 }
 
 function ClubReview({ review }: { review: Review }) {
@@ -16,9 +17,11 @@ function ClubReview({ review }: { review: Review }) {
       <Rating value={review.star_rating} readOnly />
       <Style.ReviewContentDiv>
         <Style.ReviewInfoDiv>
-          2022-06-10
-          <br />
-          {review.nickname}
+          <div>
+            {review.created_at.toString().slice(0, 10)}
+            <br />
+            {review.nickname}
+          </div>
         </Style.ReviewInfoDiv>
         <div>{review.contents}</div>
       </Style.ReviewContentDiv>
