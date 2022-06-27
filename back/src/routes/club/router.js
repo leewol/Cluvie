@@ -12,21 +12,7 @@ const clubRouter = express.Router();
 /** 클럽 생성 */
 clubRouter.post("/", verifyToken, async (req, res) => {
   try {
-    const {
-      name,
-      intro,
-      online,
-      offline,
-      description,
-      head_count,
-      picture,
-      weekday,
-      weekend,
-      duration,
-    } = req.body;
-    const manager = req.user;
-
-    const club = await clubService.createClub({
+    const obj = {
       name,
       intro,
       online,
@@ -38,7 +24,11 @@ clubRouter.post("/", verifyToken, async (req, res) => {
       weekend,
       duration,
       manager,
-    });
+    };
+    obj = req.body;
+    obj.manager = req.user;
+
+    const club = await clubService.createClub({ obj });
 
     const club_id = club.id;
     await clubService.createClubReviewRating(club_id);

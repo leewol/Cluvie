@@ -43,7 +43,7 @@ const verifyToken = async (req, res, next) => {
         if (myRefreshToken == "jwt expired") {
           res.status(402).json({
             success: false,
-            message: "토크 만료, 로그인이 필요합니다",
+            message: "토큰 만료, 로그인이 필요합니다",
           });
         } else {
           const myNewAccessToken = jwt.sign({ userId }, ACCESS_KEY, {

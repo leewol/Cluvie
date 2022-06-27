@@ -52,6 +52,7 @@ class clubService {
     return reviewRating;
   };
 
+  // 비로그인 -> 메인페이지(로그인 안해도 전체 클럽목록 볼 수 있어서)
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
@@ -64,15 +65,23 @@ class clubService {
     return scrollClubList;
   };
 
-  // 로그인된 유저의 좋아요 여부 확인 - 작업중
-  // 유저가 좋아요 누른 모임이 없을 경우 -> 에러 ...
+  // 로그인 후 -> 메인페이지(전체 클럽 목록 GET)
+  // 로그인된 유저의 모임 찜 여부 확인
   static getClubListTest = async ({ user_id }) => {
-    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend FROM clubs AS c LEFT JOIN likes ON c.id = l.club_id WHERE l.user_id=:id`;
-    const clubList = await db.sequelize.query(sql, {
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE user_id = :id) AS l ON c.id = l.club_id`;
+    const clubs = await db.sequelize.query(sql, {
       replacements: { id: user_id },
       type: db.sequelize.QueryTypes.SELECT,
     });
-    return clubList;
+    // 클럽목록 배열로 보낼 때, 로그인한 유저의 모임 찜 여부를 user_id: 0 or 1 로 표현
+    const clubListView = clubs.map((club) => {
+      if (club.user_id != null) {
+        return { ...club, user_id: 1 };
+      } else {
+        return { ...club, user_id: 0 };
+      }
+    });
+    return clubListView;
   };
 
   static getClubListMadeByMe = async ({ user_id }) => {
