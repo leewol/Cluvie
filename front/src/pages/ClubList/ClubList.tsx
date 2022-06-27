@@ -18,7 +18,7 @@ import { isSignInState } from "@/utils/recoil";
 import { Club } from "@/utils/interface";
 
 
-// TODO : 추가된 라벨 클릭 시 삭제, 필터 초기화, 클럽 카드 불러오기 (Api), 무한 스크롤, 필터링, 검색 
+// TODO : 추가된 라벨 클릭 시 삭제, 필터 초기화, 필터링, 검색 
 
 function ClubList() {
   const isSignIn = useRecoilValue<boolean>(isSignInState);

@@ -9,6 +9,7 @@ import { StyledSpan } from "@/styles/text";
 const WholeCard = styled(Card)`
   width: 350px;
   height: 500px;
+  cursor: pointer;
 `;
 
 const ClubCardContent = styled(CardContent)`
