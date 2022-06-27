@@ -29,14 +29,39 @@ function MyClubListCard({
   const [closeApplicantsButton, setCloseApplicantsButton] = useState(false);
   const [accordionClick, setAccordionClick] = useState(false);
   const [applicantsList, setApplicantsList] = useState([]);
-  const [isAcceptance, setIsAcceptance] = useState(false);
-  const [applicantsUserId, setApplicantsUserId] = useState();
+  const [acceptanceButtonLoading, setAcceptanceButtonLoading] = useState([]);
   const handleToggleCloseApplicants = () =>
     setOpenCloseApplicants((prev) => !prev);
 
   const handleClickAccordion = () => {
     setAccordionClick((prev) => !prev);
   };
+
+  const handleClickAcceptance = (applicantsUserId: number) => {
+    console.log("applicantsUserId 수락처리", applicantsUserId);
+
+    Api.patch("/applications/acceptance", {
+      club_id: club.id,
+      user_id: applicantsUserId,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  const handleClickRefuse = (applicantsUserId: number) => {
+    console.log("applicantsUserId 수락취소처리", applicantsUserId);
+
+    Api.patch("/applications/refuse", {
+      club_id: club.id,
+      user_id: applicantsUserId,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    console.log(acceptanceButtonLoading);
+  }, [acceptanceButtonLoading]);
 
   useEffect(() => {
     if (accordionClick) {
@@ -46,36 +71,10 @@ function MyClubListCard({
           setApplicantsList(res.data.applicants);
         })
         .catch((err) => console.log(err));
+
+      setAcceptanceButtonLoading([]);
     }
   }, [accordionClick]);
-
-  useEffect(() => {
-    if (isAcceptance && applicantsUserId) {
-      console.log("applicantsUserId 수락처리", applicantsUserId);
-
-      Api.patch("/applications/acceptance", {
-        club_id: club.id,
-        user_id: applicantsUserId,
-      })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-
-      setIsAcceptance((prev) => !prev);
-    }
-
-    if (!isAcceptance && applicantsUserId) {
-      console.log("applicantsUserId 수락취소처리", applicantsUserId);
-
-      Api.patch("/applications/refuse", {
-        club_id: club.id,
-        user_id: applicantsUserId,
-      })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-
-      setIsAcceptance((prev) => !prev);
-    }
-  }, [applicantsUserId]);
 
   return (
     <Style.WholeCardDiv>
@@ -157,27 +156,58 @@ function MyClubListCard({
                       display: "flex",
                       alignItems: "center",
                       marginBottom: "10px",
+                      justifyContent: "space-between",
                     }}
                   >
                     {applicants["nickname"]}
-                    {!applicants["status"] ? (
+                    {!acceptanceButtonLoading.includes(applicants["id"]) &&
+                    !applicants["status"] ? (
                       <Style.ApplicantsButton1
                         onClick={() => {
-                          setApplicantsUserId(applicants["id"]);
-                          setIsAcceptance(true);
+                          console.log('applicants["id"]', applicants["id"]);
+                          handleClickAcceptance(applicants["id"]);
+                          setAcceptanceButtonLoading([
+                            ...acceptanceButtonLoading,
+                            applicants["id"],
+                          ]);
                         }}
                       >
                         수락하기
                       </Style.ApplicantsButton1>
                     ) : (
+                      ""
+                    )}
+                    {!acceptanceButtonLoading.includes(applicants["id"]) &&
+                    applicants["status"] ? (
                       <Style.ApplicantsButton2
                         onClick={() => {
-                          setApplicantsUserId(applicants["id"]);
-                          setIsAcceptance(false);
+                          handleClickRefuse(applicants["id"]);
+                          setAcceptanceButtonLoading([
+                            ...acceptanceButtonLoading,
+                            applicants["id"],
+                          ]);
                         }}
                       >
                         수락취소
                       </Style.ApplicantsButton2>
+                    ) : (
+                      ""
+                    )}
+                    {acceptanceButtonLoading.includes(applicants["id"]) &&
+                    !applicants["status"] ? (
+                      <Style.ApplicantsButton3 disabled>
+                        수락중
+                      </Style.ApplicantsButton3>
+                    ) : (
+                      ""
+                    )}
+                    {acceptanceButtonLoading.includes(applicants["id"]) &&
+                    applicants["status"] ? (
+                      <Style.ApplicantsButton3 disabled>
+                        수락취소중
+                      </Style.ApplicantsButton3>
+                    ) : (
+                      ""
                     )}
                   </div>
                 ))}
@@ -185,7 +215,7 @@ function MyClubListCard({
           </Accordion>
         </Style.AccordionDiv>
       )}
-      {closedClub && (
+      {closedClub ? (
         <Style.AccordionDiv>
           <Accordion style={{ borderRadius: "0px 0px 4px 4px" }}>
             <AccordionSummary
@@ -215,6 +245,8 @@ function MyClubListCard({
             </AccordionDetails>
           </Accordion>
         </Style.AccordionDiv>
+      ) : (
+        ""
       )}
     </Style.WholeCardDiv>
   );

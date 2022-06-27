@@ -118,3 +118,8 @@ export const ApplicantsButton2 = styled(Button)`
     background-color: rgba(255, 0, 0, 0.6);
   }
 `;
+
+export const ApplicantsButton3 = styled(Button)`
+  height: 25px;
+  margin: 0 5px;
+`;
