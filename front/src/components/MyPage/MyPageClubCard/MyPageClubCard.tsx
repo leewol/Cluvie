@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { CardMedia, IconButton } from "@mui/material";
+import { CardMedia } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import testimage from "@/asset/images/testimage.PNG";
 import { StyledSpan } from "@/styles/text";
@@ -66,24 +66,30 @@ function MyPageClubCard({
             {club.online ? <StyledSpan>온라인</StyledSpan> : ""}
           </div>
           {like && !likesButton && (
-            <IconButton aria-label='favorite' onClick={handleDeleteLikes}>
+            <Style.MyIconButton
+              aria-label='favorite'
+              onClick={handleDeleteLikes}
+            >
               <Style.ClubCardFavoriteIcon />
-            </IconButton>
+            </Style.MyIconButton>
           )}
           {like && likesButton && (
-            <IconButton aria-label='favorite' onClick={handlePostLikes}>
+            <Style.MyIconButton aria-label='favorite' onClick={handlePostLikes}>
               <FavoriteBorderIcon />
-            </IconButton>
+            </Style.MyIconButton>
           )}
           {!like && !applicantsButton && (
-            <IconButton aria-label='favorite' onClick={handleToggleDeleteJoin}>
+            <Style.MyIconButton
+              aria-label='favorite'
+              onClick={handleToggleDeleteJoin}
+            >
               <Style.StyledSpan2>수락대기중</Style.StyledSpan2>
-            </IconButton>
+            </Style.MyIconButton>
           )}
           {!like && applicantsButton && (
-            <IconButton aria-label='favorite'>
+            <Style.MyIconButton aria-label='favorite'>
               <Style.StyledSpan3>신청취소중</Style.StyledSpan3>
-            </IconButton>
+            </Style.MyIconButton>
           )}
           <ClubDeleteJoinDialog
             clubId={club.club_id}
