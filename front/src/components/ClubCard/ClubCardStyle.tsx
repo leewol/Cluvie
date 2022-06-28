@@ -6,10 +6,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { StyledSpan } from "@/styles/text";
 
-const WholeCard = styled(Card)`
+const WholeCard = styled(Card)<{ clubState: boolean }>`
   width: 350px;
   height: 500px;
   cursor: pointer;
+  opacity: ${(props) => (props.clubState ? "0.5" : "1")};
 `;
 
 const ClubCardContent = styled(CardContent)`
