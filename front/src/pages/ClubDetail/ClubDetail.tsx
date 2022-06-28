@@ -34,6 +34,7 @@ function ClubDetail() {
   const [isManager, setIsmanager] = useState(0);
   const [applicantsNum, setApplicantsNum] = useState(0);
   const [restNum, setRestNum] = useState(0);
+  const [isAccept, setIsAccept] = useState(false);
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
     id: -100,
@@ -119,6 +120,21 @@ function ClubDetail() {
                   applicantClub.club_id === club.id
               )
             )
+          );
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [club]);
+
+  useEffect(() => {
+    if (isSignIn) {
+      Api.get("/applications/acceptance/clubs")
+        .then((res) => {
+          console.log("가입완료", res.data);
+          setIsAccept(
+            res.data.myClubList.filter(
+              (curClub: Interface.Club) => curClub.id === club.id
+            ).length
           );
         })
         .catch((err) => console.log(err));
@@ -224,19 +240,26 @@ function ClubDetail() {
               )}
             </CardContent>
             <Style.ButtonBox>
-              {!club.state && !applicantsButton && isSignIn ? (
+              {!isAccept && !club.state && !applicantsButton && isSignIn ? (
                 <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
                   신청하기
                 </Style.MyButton1>
               ) : (
                 ""
               )}
-              {!club.state && applicantsButton && isSignIn ? (
+              {!isAccept && !club.state && applicantsButton && isSignIn ? (
                 <Style.MyDeleteButton
                   color='inherit'
                   onClick={handleToggleDeleteJoin}
                 >
                   신청취소
+                </Style.MyDeleteButton>
+              ) : (
+                ""
+              )}
+              {isAccept ? (
+                <Style.MyDeleteButton color='inherit' disabled>
+                  신청수락
                 </Style.MyDeleteButton>
               ) : (
                 ""
@@ -251,7 +274,7 @@ function ClubDetail() {
               ) : (
                 ""
               )}
-              {club.state ? (
+              {!isAccept && club.state ? (
                 <Style.MyButton1
                   color='inherit'
                   onClick={() => alert("이미 모집 마감된 클럽입니다.")}
