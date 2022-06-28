@@ -148,7 +148,11 @@ function ClubDetail() {
               <Style.Text2>
                 본 클럽은 {club.online ? "온라인" : ""}
                 {club.online && club.offline ? "/" : ""}
-                {club.offline ? "오프라인" : ""}으로 진행됩니다.
+                {club.offline ? "오프라인" : ""}
+                {club.online || club.offline ? "으로 진행됩니다." : ""}
+                {!(club.online || club.offline)
+                  ? "진행 방식이 아직 정해지지 않았습니다."
+                  : ""}
               </Style.Text2>
               <Style.Text2>
                 모집 마감까지 {club.head_count}자리 남았어요! (현재 0명 / 최대{" "}

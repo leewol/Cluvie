@@ -33,7 +33,11 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
               <Style.Text2>
                 본 클럽은 {newClub.online ? "온라인" : ""}
                 {newClub.online && newClub.offline ? "/" : ""}
-                {newClub.offline ? "오프라인" : ""}으로 진행됩니다.
+                {newClub.offline ? "오프라인" : ""}
+                {newClub.online || newClub.offline ? "으로 진행됩니다." : ""}
+                {!(newClub.online || newClub.offline)
+                  ? "진행 방식이 아직 정해지지 않았습니다."
+                  : ""}
               </Style.Text2>
               <Style.Text2>
                 모집 마감까지 6자리 남았어요! (현재 14명 / 최대{" "}
