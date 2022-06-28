@@ -37,6 +37,12 @@ io.sockets.on("connection", (socket) => {
     });
   });
 
+  var roomName;
+  socket.on("join", (data) => {
+    roomName = data;
+    socket.join(data);
+  });
+
   socket.on("message", (data) => {
     data.name = socket.name;
     console.log(data);
