@@ -67,10 +67,9 @@ class clubService {
 
   // 로그인 후 -> 메인페이지(전체 클럽 목록 GET)
   // 로그인된 유저의 모임 찜 여부 확인
-  static getClubListTest = async ({ user_id }) => {
-    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE user_id = :id) AS l ON c.id = l.club_id`;
+  static getClubListTest = async ({ user_id, club_id }) => {
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE ${user_id}) AS l ON c.id = l.club_id WHERE c.id <= ${club_id} ORDER BY id DESC LIMIT 6`;
     const clubs = await db.sequelize.query(sql, {
-      replacements: { id: user_id },
       type: db.sequelize.QueryTypes.SELECT,
     });
     // 클럽목록 배열로 보낼 때, 로그인한 유저의 모임 찜 여부를 user_id: 0 or 1 로 표현
@@ -128,8 +127,8 @@ class clubService {
       return { errorMessage };
     }
     const reviews = await db.sequelize.query(
-      "SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents, r.created_at FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=:id ORDER BY r.created_at DESC",
-      { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
+      `SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents, r.created_at FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=${club_id} ORDER BY r.created_at DESC`,
+      { type: db.sequelize.QueryTypes.SELECT }
     );
     return reviews;
   };
