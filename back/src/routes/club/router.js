@@ -16,13 +16,11 @@ clubRouter.post("/picture", async (req, res) => {
     if (err) {
       return res.status(404).json({ success: false, message: err.message });
     }
-    return res
-      .status(200)
-      .json({
-        success: true,
-        filePath: res.req.file.path,
-        fileName: res.req.file.filename,
-      });
+    return res.status(200).json({
+      success: true,
+      filePath: res.req.file.path,
+      fileName: res.req.file.filename,
+    });
   });
 });
 
@@ -78,16 +76,24 @@ clubRouter.get("/", async (req, res) => {
 });
 
 // 메인페이지는 로그인 안하고 볼 수 있음 -> 로그인하고나서의 메인페이지 라우터
-// 클럽 목록 불러오기(로그인한 유저의 좋아요 여부 포함)
-clubRouter.get("/test", verifyToken, async (req, res) => {
-  try {
-    const user_id = req.user;
-    const clubList = await clubService.getClubListTest({ user_id });
-    res.status(200).json({ success: true, clubList });
-  } catch (err) {
-    res.status(404).send({ success: false, message: err.message });
+// 클럽 목록 불러오기 6개씩(로그인한 유저의 좋아요 여부 포함)
+clubRouter.get(
+  "/isLogined/scrollClublist/:club_id",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const user_id = req.user;
+      const club_id = req.params.club_id;
+      const scrollClublist = await clubService.getClubListTest({
+        user_id,
+        club_id,
+      });
+      res.status(200).json({ success: true, scrollClublist });
+    } catch (err) {
+      res.status(404).send({ success: false, message: err.message });
+    }
   }
-});
+);
 
 /** 클럽 4개씩 불러오기
  * @param club_id 가장 최근 클럽ID
