@@ -21,6 +21,7 @@ function ClubDetail() {
   const [openDeleteJoin, setOpenDeleteJoin] = useState(false);
   const [likesButton, setLikesButton] = useState(false);
   const [applicantsButton, setApplicantsButton] = useState(false);
+  const [isManager, setIsmanager] = useState(0);
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
     id: -100,
@@ -56,6 +57,18 @@ function ClubDetail() {
       window.Kakao.init(process.env.REACT_APP_KAKAO);
     }
   }, []);
+
+  useEffect(() => {
+    Api.get("clubs/user")
+      .then((res) => {
+        setIsmanager(
+          res.data.clubList.clubList.filter(
+            (curClub: Interface.Club) => curClub.id === club.id
+          ).length
+        );
+      })
+      .catch((err) => console.log(err));
+  }, [club]);
 
   useEffect(() => {
     if (club.id === -100) {
@@ -142,7 +155,7 @@ function ClubDetail() {
             <CardContent>
               <Style.Title>
                 {club.name}
-                <ClubSettingPopper club={club} />
+                {isManager !== 0 ? <ClubSettingPopper club={club} /> : ""}
               </Style.Title>
               <Style.Text1>{club.intro}</Style.Text1>
               <Style.Text2>
