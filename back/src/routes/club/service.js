@@ -6,18 +6,6 @@ import Ratings from "../../../models/rating";
 import db from "../../../models/index";
 
 class clubService {
-  // static getClublist = async (page) => {
-  //   const clubList = await Clubs.findAll({});
-  //   let startFrom = 6 * (page - 1);
-  //   console.log("확인:", startFrom);
-  //   let sql = `SELECT * FROM clubs WHERE id >= ${startFrom} ORDER BY id DESC LIMIT ${startFrom}, 6`;
-  //   const scrollClubList = await db.sequelize.query(sql, {
-  //     type: db.sequelize.QueryTypes.SELECT,
-  //   });
-  //   console.log(scrollClubList);
-  //   return scrollClubList;
-  // };
-
   static createClub = async ({
     name,
     intro,
@@ -143,6 +131,9 @@ class clubService {
 
   static calculateRating = async ({ club_id }) => {
     const ratingData = await Ratings.findOne({ where: { club_id: club_id } });
+    if (ratingData.rating == 0) {
+      return 0;
+    }
     const rating = ratingData.star_sum / ratingData.count;
 
     const result = await ratingData.update(
