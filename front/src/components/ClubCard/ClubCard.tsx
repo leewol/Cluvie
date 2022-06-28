@@ -47,7 +47,7 @@ const ClubCard = forwardRef<HTMLDivElement, Props>(
         .catch((err) => console.error(err))
     }
 
-    return <WholeCard ref={ref} clubState={!club.state}>
+    return <WholeCard ref={ref} clubstate={club.state}>
       <CardMedia
         component='img'
         height='250'
