@@ -1,15 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import { ContainerBox, ColumnContainerBox } from "@/styles/containers";
-import { FilterBox, ClubListBox, ClubCreateButtonBox } from "./ClubListStyle";
-
-import ClubCard from "@/components/ClubCard/ClubCard";
-import ClubFilter from "@/components/ClubList/ClubFilter/ClubFilter";
-import ClubSearch from "@/components/ClubList/ClubSearch/ClubSearch";
-import ClubFilterSpanList from "@/components/ClubList/ClubFilterSpanList/ClubFilterSpanList";
 
 import { useScrollClubList } from "@/hooks/queries/useClubList";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
@@ -17,6 +8,14 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { isSignInState } from "@/utils/recoil";
 import { Club } from "@/utils/interface";
 
+import ClubCard from "@/components/ClubCard/ClubCard";
+import ClubFilter from "@/components/ClubList/ClubFilter/ClubFilter";
+import ClubSearch from "@/components/ClubList/ClubSearch/ClubSearch";
+import ClubFilterSpanList from "@/components/ClubList/ClubFilterSpanList/ClubFilterSpanList";
+
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import { ContainerBox, ColumnContainerBox } from "@/styles/containers";
+import { FilterBox, ClubListBox, ClubCreateButtonBox, LoadingMsg } from "./ClubListStyle";
 
 // TODO : 추가된 라벨 클릭 시 삭제, 필터 초기화, 필터링, 검색 
 
@@ -33,8 +32,6 @@ function ClubList() {
   };
 
   useInfiniteScroll(clubListRes, cardRef);
-
-  console.log(clubsPerScroll);
 
   if (clubListRes.isLoading) {
     return <ContainerBox>Loading...</ContainerBox>;
@@ -69,6 +66,12 @@ function ClubList() {
           />
         </ClubCreateButtonBox>
       )}
+      {
+        clubListRes.isFetchingNextPage &&
+        <LoadingMsg className={`${!clubListRes.hasNextPage ? "hidden" : ""}`}>
+          Loading more...
+        </LoadingMsg>
+      }
     </ColumnContainerBox>
   );
 }

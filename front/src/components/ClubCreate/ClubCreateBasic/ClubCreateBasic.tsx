@@ -99,13 +99,19 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
     if (files !== null) {
       const formData = new FormData();
       
-      setThumnail(files[0]);
-      formData.append("thumnail", thumnail);
+      setThumnail(() => files[0]);
+      // "file"로 안 하면 field name 오류 발생
+      formData.append("file", files[0]);
 
       try {
-        // TODO :  이미지 보낸 뒤에 url 받아오기, setClubInfo
-        const picture = await Api.post("", formData);
+        // TODO : 이미지 올렸을 때 미리보기로 나오지 않을 때가 있다?
+        const pictureRes = await Api.post("/clubs/picture", formData);
+        const { fileName } = pictureRes.data;
 
+        setClubInfo((prev: Club) => ({
+          ...prev,
+          picture: fileName,
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -119,6 +125,10 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
     }));
   }, [hashtagArr]);
 
+  useEffect(() => {
+    console.log(clubInfo);
+  }, [clubInfo.picture]);
+
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>
@@ -130,9 +140,9 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
             </ThumnailLabel>
             <input id="chooseFile" style={{display: 'none'}} type="file" accept="image/*" onChange={handleImageUpload}/>
             {
-              !thumnail ? "" :
+              clubInfo.picture &&
               <ThumnailImage
-                src={testimage}
+                src={`http://${window.location.hostname}:3000/uploads/${clubInfo.picture}`}
                 alt='Club Thumnail'
               />
             }

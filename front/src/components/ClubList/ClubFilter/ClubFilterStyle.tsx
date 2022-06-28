@@ -28,9 +28,6 @@ export const SelectButton = styled.button`
 
 export const DropDownBox = styled.div`
   position: relative;
-  .hidden {
-    visibility: hidden;
-  }
 `;
 
 export const DropDownMenu = styled.div`

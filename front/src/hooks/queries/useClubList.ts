@@ -22,13 +22,33 @@ export function useAllClubList(options?: object) {
   );
 }
 
+export function useTestClubList() {
+  return useInfiniteQuery(
+    // QueryKey
+    ["useTestClubList"], 
+    // QueryFn
+    async ({ pageParam = 999999 }) => {
+      const res = await Api.get("/clubs/test", pageParam);
+      return res.data;
+    }, {
+      // QueryOptions
+      // getNextPageParam: (lastPage, allPages) => {
+      //   const nextId = lastPage.scrollClublist.length - 1;
+      //   return nextId === 5 && lastPage.scrollClublist[nextId].id;
+      // },
+      // refetchOnMount: true,
+      // refetchOnReconnect: true,
+    }
+  );
+}
+
 // 무한 스크롤 위해서 6개씩 클럽 리스트 불러오기
 export function useScrollClubList() {
   return useInfiniteQuery(
     // QueryKey
     ["scrollClubList"], 
     // QueryFn
-    async ({ pageParam = 0 }) => {
+    async ({ pageParam = 999999 }) => {
       const res = await Api.get("/clubs/scrollClublist", pageParam);
       return res.data;
     }, {
