@@ -172,8 +172,8 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   }
 });
 
-// 모임 참여 후기 목록 불러오기
-clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
+// 모임 참여 후기 목록 불러오기(비로그인으로 가능)
+clubRouter.get("/:club_id/review", async (req, res) => {
   try {
     const club_id = req.params.club_id;
     const reviews = await clubService.getAllReviews({ club_id });
@@ -188,7 +188,7 @@ clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
 });
 
 //모임 후기 평점 불러오기
-clubRouter.get("/:club_id/rating", verifyToken, async (req, res) => {
+clubRouter.get("/:club_id/rating", async (req, res) => {
   try {
     const club_id = req.params.club_id;
     const rating = await clubService.calculateRating({ club_id });
