@@ -6,18 +6,6 @@ import Ratings from "../../../models/rating";
 import db from "../../../models/index";
 
 class clubService {
-  //   static getClublist = async (page) => {
-  //     const clubList = await Clubs.findAll({});
-  //     let startFrom = page * (page - 1);
-  //     console.log("확인:", startFrom);
-  //     let sql = `SELECT * FROM clubs WHERE id >= ${startFrom} ORDER BY id DESC LIMIT ${startFrom}, 4`;
-  //     const scrollClubList = await db.sequelize.query(sql, {
-  //       type: db.sequelize.QueryTypes.SELECT,
-  //     });
-  //     console.log(scrollClubList);
-  //     return scrollClubList;
-  //   };
-
   static createClub = async ({
     name,
     intro,
@@ -57,7 +45,7 @@ class clubService {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
 
-    let sql = `SELECT * FROM clubs WHERE id <= ${club_id}  ORDER BY id DESC LIMIT  4`;
+    let sql = `SELECT * FROM clubs WHERE id <= ${club_id} ORDER BY id DESC LIMIT 6`;
     const scrollClubList = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
