@@ -6,6 +6,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import * as Interface from "@/utils/interface";
+import testimage from "@/asset/images/testimage.PNG";
 import * as Style from "./ClubPreviewStyle";
 
 function ClubPreview({ newClub }: { newClub: Interface.Club }) {
@@ -15,7 +16,11 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
         <Style.WholeCard>
           <img
             // eslint-disable-next-line global-require
-            src={require("@/asset/images/testimage.PNG")}
+            src={
+              newClub.picture
+                ? `http://${window.location.hostname}:3000/uploads/${newClub.picture}`
+                : testimage
+            }
             alt='클럽썸네일이미지'
           />
           <Style.ContentBox>

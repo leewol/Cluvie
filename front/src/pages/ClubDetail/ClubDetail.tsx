@@ -8,9 +8,9 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSettingPopper";
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
-import Header from "@/components/Header/Header";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
 import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/ClubDeleteJoinDialog";
+import testimage from "@/asset/images/testimage.PNG";
 import * as Api from "@/utils/api";
 import * as Interface from "@/utils/interface";
 import * as Style from "./ClubDetailStyle";
@@ -131,7 +131,11 @@ function ClubDetail() {
         <Style.WholeCard>
           <img
             // eslint-disable-next-line global-require
-            src={require("@/asset/images/testimage.PNG")}
+            src={
+              club.picture
+                ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
+                : testimage
+            }
             alt='클럽썸네일이미지'
           />
           <Style.ContentBox>
