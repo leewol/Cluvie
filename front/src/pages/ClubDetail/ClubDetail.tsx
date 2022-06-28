@@ -275,11 +275,8 @@ function ClubDetail() {
                 ""
               )}
               {!isAccept && club.state ? (
-                <Style.MyButton1
-                  color='inherit'
-                  onClick={() => alert("이미 모집 마감된 클럽입니다.")}
-                >
-                  신청하기
+                <Style.MyButton1 color='inherit' disabled>
+                  모집마감
                 </Style.MyButton1>
               ) : (
                 ""
