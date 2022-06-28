@@ -56,7 +56,7 @@ class clubService {
   // 로그인 후 -> 메인페이지(전체 클럽 목록 GET)
   // 로그인된 유저의 모임 찜 여부 확인
   static getClubListTest = async ({ user_id, club_id }) => {
-    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE ${user_id}) AS l ON c.id = l.club_id WHERE c.id <= ${club_id} ORDER BY id DESC LIMIT 6`;
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE user_id=${user_id}) AS l ON c.id = l.club_id WHERE c.id < ${club_id} ORDER BY id DESC LIMIT 6`;
     const clubs = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
