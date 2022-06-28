@@ -1,52 +1,152 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import * as Interface from "@/utils/interface";
+import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
+
+import * as Api from "@/utils/api";
+import { Club } from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
+import testimage from "@/asset/images/testimage.PNG";
 
 import { ColumnContainerBox, StyledInput } from "@/styles/containers";
-import { StyledLabel, StyledSpan } from "@/styles/text";
+import { StyledLabel } from "@/styles/text";
 import {
   ClubCreateFormBox,
+  ThumnailBox,
+  ThumnailLabel,
+  ThumnailImage,
   FormBox,
   InputBox,
   HeadCountInput,
   MeetingInputBox,
   Line,
   StyledSelect,
+  HashtagsBox,
+  HashtagNotice,
+  HashtagSpan
 } from "./ClubCreateBasicStyle";
 
-function ClubCreateBasic(props: Interface.ClubState) {
-  const { clubInfo, setClubInfo } = props;
+// * Props type은 해당 파일 내에서 정의
+interface Props {
+  clubInfo: Club;
+  setClubInfo: React.Dispatch<
+  React.SetStateAction<Club>>;
+}
+
+// ! state setter는 prop으로 가지 않는 게 좋다
+function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
+  const [ thumnail, setThumnail ] = useState<any>();
+  const [ hashtag, setHashtag ] = useState("");
+  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
 
   const onChange = onChangeFunction(setClubInfo);
-  const onClick = (event: React.MouseEvent<HTMLInputElement>) => {
+
+  const handleCheckBox = (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       [target.name]: (target.checked ? 1 : 0),
     }));
   };
+
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     
-    setClubInfo((prev: any) => ({
+    setClubInfo((prev: Club) => ({
       ...prev,
       [name]: Number(value),
     }));
   }
+
+  const handleHashtagChange = (event: React.ChangeEvent <HTMLInputElement>) => {
+    setHashtag(event.target.value);
+  }
+
+  const handleHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const { name, value } = target;
+    
+    if (event.key === "Enter") {
+      // 중복 처리
+      if (hashtagArr.includes(value)) {
+        alert("이미 등록된 해시태그입니다!");
+        return;
+      }
+
+      // 3개까지만 입력 가능
+      if (hashtagArr.length === 3) {
+        alert("해시태그를 3개 모두 입력하셨습니다!");
+        return;
+      }
+
+      setHashtagArr((prev) => [...prev, value]);
+      setHashtag(""); 
+    }
+  }
+
+  const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const clickedHashtag = event.currentTarget.id;
+    const newHashtagArr = hashtagArr.filter((el: string) => el !== clickedHashtag);
+
+    setHashtagArr(() => newHashtagArr);
+    setHashtag("");
+  }
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+
+    // files[0]은 File || null
+    if (files !== null) {
+      const formData = new FormData();
+      
+      setThumnail(() => files[0]);
+      // "file"로 안 하면 field name 오류 발생
+      formData.append("file", files[0]);
+
+      try {
+        // TODO : 이미지 올렸을 때 미리보기로 나오지 않을 때가 있다?
+        const pictureRes = await Api.post("/clubs/picture", formData);
+        const { fileName } = pictureRes.data;
+
+        setClubInfo((prev: Club) => ({
+          ...prev,
+          picture: fileName,
+        }));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+  // hashtagArr 변경될 때 clubInfo를 업데이트
+  useEffect(() => {
+    setClubInfo((prev: Club) => ({
+      ...prev,
+      hashtags: hashtagArr.join(","),
+    }));
+  }, [hashtagArr]);
+
+  useEffect(() => {
+    console.log(clubInfo);
+  }, [clubInfo.picture]);
 
   return (
     <ColumnContainerBox>
       <h1>클럽 생성하기</h1>
       <ClubCreateFormBox>
         <FormBox>
-          <img
-            src={require("@/asset/images/testimage.PNG")}
-            alt='Club Thumnail'
-            width={500}
-            height={300}
-          />
+          <ThumnailBox noThumnail={!thumnail}>
+            <ThumnailLabel noThumnail={!thumnail} htmlFor="chooseFile">
+              <PhotoCameraBackIcon className="thumnail-icon"/>
+            </ThumnailLabel>
+            <input id="chooseFile" style={{display: 'none'}} type="file" accept="image/*" onChange={handleImageUpload}/>
+            {
+              clubInfo.picture &&
+              <ThumnailImage
+                src={`http://${window.location.hostname}:3000/uploads/${clubInfo.picture}`}
+                alt='Club Thumnail'
+              />
+            }
+          </ThumnailBox>
           <InputBox>
             <StyledLabel htmlFor='name'>클럽명</StyledLabel>
             <StyledInput
@@ -86,28 +186,28 @@ function ClubCreateBasic(props: Interface.ClubState) {
                 type='checkbox'
                 name='online'
                 value={clubInfo.online}
-                onClick={onClick}
+                onClick={handleCheckBox}
               />
               <span>온라인</span>
               <input
                 type='checkbox'
                 name='offline'
                 value={clubInfo.offline}
-                onClick={onClick}
+                onClick={handleCheckBox}
               />
               <span>오프라인</span>
             </InputBox>
             <InputBox>
               <StyledLabel htmlFor='meetingDay'>진행 요일</StyledLabel>
-              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={onClick} />
+              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={handleCheckBox} />
               <span>평일</span>
-              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={onClick} />
+              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={handleCheckBox} />
               <span>주말</span>
             </InputBox>
           </MeetingInputBox>
           <InputBox>
             <StyledLabel htmlFor='duration'>진행 기간</StyledLabel>
-            <StyledSelect name='durations' id='duration' onChange={handleSelect}>
+            <StyledSelect name='duration' id='duration' onChange={handleSelect}>
               <option value='0'>미정</option>
               <option value='1'>단기</option>
               <option value='2'>1~2개월</option>
@@ -118,16 +218,19 @@ function ClubCreateBasic(props: Interface.ClubState) {
             </StyledSelect>
           </InputBox>
           <InputBox>
-            <StyledLabel htmlFor='hashtags'>해시태그</StyledLabel>
+            <StyledLabel htmlFor='hashtags'>해시태그
+              <HashtagNotice>최대 3개를 입력해 주세요</HashtagNotice>
+            </StyledLabel>
             <StyledInput
               type='text'
               name='hashtags'
-              value={clubInfo.hashtags}
+              value={hashtag}
+              onChange={handleHashtagChange}
+              onKeyPress={handleHashtagEnter}
             />
-            <div>
-              <StyledSpan>#친목도모</StyledSpan>
-              <StyledSpan>#넷플릭스</StyledSpan>
-            </div>
+            <HashtagsBox>
+              {hashtagArr.map((el: string) => <HashtagSpan id={el} key={el} onClick={handleSpanClickDelete}>#{el}</HashtagSpan>)}
+            </HashtagsBox>
           </InputBox>
         </FormBox>
       </ClubCreateFormBox>

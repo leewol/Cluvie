@@ -24,7 +24,7 @@ function SignUp() {
       <InnerBox>
         <h1>회원가입</h1>
         <SocialButton social='google' action='회원가입' />
-        <SocialButton social='kakao-talk' action='회원가입' />
+        <SocialButton social='kakaotalk' action='회원가입' />
         <FormButton
           type='button'
           onClick={handleSignUpClick}

@@ -6,8 +6,25 @@ import { verifyToken } from "../../middlewares/verifyToken";
 import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
+const upload = require("../../middlewares/fileUpload");
 
 // 공통 url: "/clubs"
+
+// 클럽 사진 서버에 업로드
+clubRouter.post("/picture", async (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(404).json({ success: false, message: err.message });
+    }
+    return res
+      .status(200)
+      .json({
+        success: true,
+        filePath: res.req.file.path,
+        fileName: res.req.file.filename,
+      });
+  });
+});
 
 /** 클럽 생성 */
 clubRouter.post("/", verifyToken, async (req, res) => {

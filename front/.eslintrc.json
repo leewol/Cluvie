@@ -40,7 +40,13 @@
         "no-console": 0,
         "import/prefer-default-export" : ["warn"],
         "import/no-unresolved": 0,
-        "import/order": "warn"
+        "import/order": "warn",
+        "dot-notation": 0,
+        "no-param-reassign": 0,
+        "no-useless-return": 0,
+        "no-restricted-syntax": "warn",
+        "react/jsx-no-useless-fragment": "warn",
+        "consistent-return": "warn"
     },
     "settings": {
         "import/resolver":{
