@@ -1,4 +1,5 @@
-const getAge = (birthday) => {
+const getAge = (string) => {
+  const birthday = new Date(string);
   const today = new Date();
   const yearDiff = today.getFullYear() - birthday.getFullYear();
   const monthDiff = today.getMonth() - birthday.getMonth();
