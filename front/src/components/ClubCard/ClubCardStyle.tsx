@@ -41,4 +41,8 @@ const ClubCardFavoriteIcon = styled(FavoriteIcon)`
   font-size: 28px;
 `;
 
-export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon };
+const ClubCardFavoriteBorderIcon = styled(FavoriteBorderIcon)`
+  font-size: 28px;
+`;
+
+export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon, ClubCardFavoriteBorderIcon };

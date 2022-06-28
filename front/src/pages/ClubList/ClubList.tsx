@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { useScrollClubList } from "@/hooks/queries/useClubList";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
-import { isSignInState } from "@/utils/recoil";
+import { isSignInUser } from "@/utils/recoil";
 import { Club } from "@/utils/interface";
 
 import ClubCard from "@/components/ClubCard/ClubCard";
@@ -20,17 +20,19 @@ import { FilterBox, ClubListBox, ClubCreateButtonBox, LoadingMsg } from "./ClubL
 // TODO : 추가된 라벨 클릭 시 삭제, 필터 초기화, 필터링, 검색 
 
 function ClubList() {
-  const isSignIn = useRecoilValue<boolean>(isSignInState);
+  const isSignIn = useRecoilValue<boolean>(isSignInUser);
 
   const navigate = useNavigate();
   const cardRef = useRef<HTMLDivElement>(null);
-  const clubListRes = useScrollClubList();
+  const clubListRes = useScrollClubList(isSignIn ? "isLogined/scrollClublist" : "scrollClublist");
   const clubsPerScroll = clubListRes?.data?.pages ?? [];
 
   const handleCreateButtonClick = () => {
     navigate("/clubCreate");
   };
 
+  console.log(clubListRes);
+  
   useInfiniteScroll(clubListRes, cardRef);
 
   if (clubListRes.isLoading) {

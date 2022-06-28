@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const isSignInState = atom<boolean>({
-  key: "isSignInState",
+export const isSignInUser = atom<boolean>({
+  key: "isSignInUser",
   default: !!window.localStorage["token"],
 });

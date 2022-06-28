@@ -113,7 +113,7 @@ async function patch(endpoint: string, data: object) {
 }
 
 // * DELETE
-async function del(endpoint: string, params = "") {
+async function del(endpoint: string, params?: any) {
   console.log(`DELETE 요청 ${SERVER_URL + endpoint}/${params}`);
 
   return axiosApiInstance.delete(`${endpoint}/${params}`);
