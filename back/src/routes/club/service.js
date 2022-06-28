@@ -143,6 +143,9 @@ class clubService {
 
   static calculateRating = async ({ club_id }) => {
     const ratingData = await Ratings.findOne({ where: { club_id: club_id } });
+    if (ratingData.rating == 0) {
+      return 0;
+    }
     const rating = ratingData.star_sum / ratingData.count;
 
     const result = await ratingData.update(
