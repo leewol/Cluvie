@@ -55,6 +55,7 @@ export default function BasicTabs({
   const [value, setValue] = useState(0);
   const [reviewList, setReviewList] = useState([]);
   const [rating, setRating] = useState();
+  const [isAcceptClub, setIsAcceptClub] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -71,6 +72,18 @@ export default function BasicTabs({
         .catch((err) => console.log(err));
     }
   }, []);
+
+  useEffect(() => {
+    Api.get("/applications/acceptance/clubs")
+      .then((res) => {
+        setIsAcceptClub(
+          res.data.myClubList.filter(
+            (curClub: Interface.Club) => curClub.id === club.id
+          ).length
+        );
+      })
+      .catch((err) => console.log(err));
+  }, [club]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -157,7 +170,11 @@ export default function BasicTabs({
                 (총 {reviewList.length}개의 후기)
               </div>
             </div>
-            {club.id && club.state ? <ClubReviewButton clubId={club.id} /> : ""}
+            {club.id && club.state && isAcceptClub ? (
+              <ClubReviewButton clubId={club.id} />
+            ) : (
+              ""
+            )}
             {reviewList.length === 0 && (
               <div style={{ marginTop: "50px" }}>
                 아직 참여 후기가 없습니다.
