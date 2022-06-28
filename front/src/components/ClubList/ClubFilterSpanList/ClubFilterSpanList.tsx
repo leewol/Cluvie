@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
+import { useRecoilState } from "recoil";
 
 import { SelectedSpanBox, ResetSpan } from "./ClubFilterSpanListStyle";
 import { SelectedSpan } from "@/styles/text";
 
+import { filters } from "@/utils/recoil";
+
 function ClubFilterSpanList() {
-  const [ checkedItems, setCheckedItems ] = useState<string[]>([]);
+  const [checkedItems, setCheckedItems] = useRecoilState(filters);
 
   const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
     const clickedItem = event.currentTarget.id;
-    setCheckedItems((prevArr) => { 
-      return prevArr.filter((el) => el !== clickedItem);
+    setCheckedItems((prev) => {
+      return Object.fromEntries(
+        Object.entries(prev)
+          .filter((el) => !el.includes(clickedItem)))
     });
   }
 
   const handleFilterClear = () => {
-    setCheckedItems([]);
+    setCheckedItems({});
   }
 
   return <SelectedSpanBox>
-    {checkedItems.map((item) => <SelectedSpan id={item} key={item} onClick={handleSpanClickDelete}>{item}</SelectedSpan>)}
-    {!!checkedItems.length && (<ResetSpan onClick={handleFilterClear}>필터 초기화</ResetSpan>)}
+    {
+      Object.keys(checkedItems).map((item) => 
+        <SelectedSpan id={item} key={item} onClick={handleSpanClickDelete}>
+          {item}
+        </SelectedSpan>
+      )
+    }
+    {
+      !!Object.keys(checkedItems).length && 
+      (<ResetSpan onClick={handleFilterClear}>필터 초기화</ResetSpan>)
+    }
   </SelectedSpanBox>
 }
 

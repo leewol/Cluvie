@@ -1,8 +1,10 @@
 import React from "react";
+import { useRecoilState } from "recoil";
 
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-
 import { SelectBox, SelectButton, DropDownBox, DropDownMenu} from "./ClubFilterStyle";
+
+import { filters } from "@/utils/recoil";
 
 const clubState = new Map([
   ["모집중", "state0"],
@@ -15,12 +17,12 @@ const clubMeeting = new Map([
 ]);
 
 const clubDuration = new Map([
-  ["단기", "clubduration0"],
-  ["1~2개월", "clubduration1"],
-  ["3~4개월", "clubduration2"],
-  ["5~6개월", "clubduration3"],
-  ["6개월 이상", "clubduration4"],
-  ["장기", "clubduration5"],
+  ["단기", "duration0"],
+  ["1~2개월", "duration1"],
+  ["3~4개월", "duration2"],
+  ["5~6개월", "duration3"],
+  ["6개월 이상", "duration4"],
+  ["장기", "duration5"],
 ]);
 
 const clubDay = new Map([
@@ -29,6 +31,8 @@ const clubDay = new Map([
 ]);
 
 function ClubFilter() {
+  const [checkedItems, setCheckedItems] = useRecoilState(filters);
+
   // 이벤트 함수
   const handleDropDownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.currentTarget as HTMLInputElement;
@@ -38,7 +42,7 @@ function ClubFilter() {
     dropDownMenu.classList.toggle("hidden");
   };
 
-  const handleDropDownItemCheck = (event: React.MouseEvent<HTMLInputElement>) => {
+  const handleDropDownItemCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const checkEachFilter = (selected: Map<string, string>) => {
       if (selected.has(target.value)) {
@@ -46,30 +50,24 @@ function ClubFilter() {
       }
       return "";
     }
-    const filterVal = checkEachFilter(clubState) || checkEachFilter(clubMeeting) || checkEachFilter(clubDuration) || checkEachFilter(clubDay) || "";
-    const attribute = filterVal?.slice(0, filterVal.length - 1);
-    const attValue = filterVal?.slice(-1);
+    const filterKey = checkEachFilter(clubState) || checkEachFilter(clubMeeting) || checkEachFilter(clubDuration) || checkEachFilter(clubDay) || "";
 
-    // * (1) Span으로 필터링 label 표시 @target.value
-    // * (2) CardList 필터링 @Map의 value 값(target.id와 동일) -> CardList 있을 때만
+    // * Span으로 필터링 label 표시 @target.value
     // 체크하는 경우
-    // if (target.checked) {
-    //   setCheckedItems((prev) => [
-    //     ...prev,
-    //     target.value
-    //   ]);
-      
-    //   if (resClubList) {
-    //     setResClubList((prevArr) => {
-    //       return prevArr.filter((club) => club[attribute] === Number(attValue));
-    //     });
-    //   }
-    // // 체크 해제하는 경우
-    // } else {
-    //   setCheckedItems((prevArr) => { 
-    //     return prevArr.filter((el) => el !== target.value);
-    //   });
-    // }
+    if (target.checked) {
+      setCheckedItems((prev) => ({
+          ...prev,
+          [target.value]: filterKey,
+        })
+      );
+    // 체크 해제하는 경우
+    } else {
+      setCheckedItems((prev) => { 
+        return Object.fromEntries(
+          Object.entries(prev)
+            .filter((el) => !el.includes(target.value)))
+      });
+    }
   }
 
   const makeDropDown = (items: Map<string, string>) => {
@@ -78,7 +76,8 @@ function ClubFilter() {
     items.forEach((value, key) => {
       dropDown.push(
         <label key={value} htmlFor={value}>
-          <input id={value} type='checkbox' value={key} onClick={handleDropDownItemCheck} />
+          <input id={value} type='checkbox' value={key} 
+            onChange={handleDropDownItemCheck} checked={Object.keys(checkedItems).includes(key)} />
           <span>{key}</span>
         </label>
       );
