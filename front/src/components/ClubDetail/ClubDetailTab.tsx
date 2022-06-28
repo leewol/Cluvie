@@ -157,7 +157,7 @@ export default function BasicTabs({
                 (총 {reviewList.length}개의 후기)
               </div>
             </div>
-            {club.id && <ClubReviewButton clubId={club.id} />}
+            {club.id && club.state ? <ClubReviewButton clubId={club.id} /> : ""}
             {reviewList.length === 0 && (
               <div style={{ marginTop: "50px" }}>
                 아직 참여 후기가 없습니다.
