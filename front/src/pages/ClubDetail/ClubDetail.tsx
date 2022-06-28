@@ -3,6 +3,7 @@
 /* eslint-disable import/extensions */
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
@@ -13,15 +14,26 @@ import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/C
 import testimage from "@/asset/images/testimage.PNG";
 import * as Api from "@/utils/api";
 import * as Interface from "@/utils/interface";
+import { isSignInState } from "@/utils/recoil";
 import * as Style from "./ClubDetailStyle";
+
+interface Applicants {
+  id: number;
+  nickname: string;
+  status: number;
+}
 
 function ClubDetail() {
   const params = useParams();
+  // prettier-ignore
+  const isSignIn =  useRecoilValue<boolean>(isSignInState);
   const [openJoin, setOpenJoin] = useState(false);
   const [openDeleteJoin, setOpenDeleteJoin] = useState(false);
   const [likesButton, setLikesButton] = useState(false);
   const [applicantsButton, setApplicantsButton] = useState(false);
   const [isManager, setIsmanager] = useState(0);
+  const [applicantsNum, setApplicantsNum] = useState(0);
+  const [restNum, setRestNum] = useState(0);
   // prettier-ignore
   const [club, setClub] = useState<Interface.Club>({
     id: -100,
@@ -59,15 +71,17 @@ function ClubDetail() {
   }, []);
 
   useEffect(() => {
-    Api.get("clubs/user")
-      .then((res) => {
-        setIsmanager(
-          res.data.clubList.clubList.filter(
-            (curClub: Interface.Club) => curClub.id === club.id
-          ).length
-        );
-      })
-      .catch((err) => console.log(err));
+    if (isSignIn) {
+      Api.get("clubs/user")
+        .then((res) => {
+          setIsmanager(
+            res.data.clubList.clubList.filter(
+              (curClub: Interface.Club) => curClub.id === club.id
+            ).length
+          );
+        })
+        .catch((err) => console.log(err));
+    }
   }, [club]);
 
   useEffect(() => {
@@ -82,32 +96,62 @@ function ClubDetail() {
   }, [params]);
 
   useEffect(() => {
-    Api.get("/likes/clubs")
-      .then((res) => {
-        setLikesButton(
-          Boolean(
-            res.data.likeClubList.find(
-              (likeclub: { club_id: number | undefined }) =>
-                likeclub.club_id === club.id
+    if (isSignIn) {
+      Api.get("/likes/clubs")
+        .then((res) => {
+          setLikesButton(
+            Boolean(
+              res.data.likeClubList.find(
+                (likeclub: { club_id: number | undefined }) =>
+                  likeclub.club_id === club.id
+              )
             )
-          )
-        );
-      })
-      .catch((err) => console.log(err));
+          );
+        })
+        .catch((err) => console.log(err));
 
-    Api.get("/applications/clubs")
-      .then((res) => {
-        setApplicantsButton(
-          Boolean(
-            res.data.applyingClubList.find(
-              (applicantClub: { club_id: number | undefined }) =>
-                applicantClub.club_id === club.id
+      Api.get("/applications/clubs")
+        .then((res) => {
+          setApplicantsButton(
+            Boolean(
+              res.data.applyingClubList.find(
+                (applicantClub: { club_id: number | undefined }) =>
+                  applicantClub.club_id === club.id
+              )
             )
-          )
-        );
-      })
-      .catch((err) => console.log(err));
+          );
+        })
+        .catch((err) => console.log(err));
+    }
   }, [club]);
+
+  useEffect(() => {
+    if (isSignIn) {
+      Api.get(`/applications/${club.id}/users`)
+        .then((res) => {
+          console.log("모임에 신청한 사람", res.data.applicants);
+          console.log(
+            "모임에 가입된 사람",
+            res.data.applicants.filter(
+              (applicants: Applicants) => applicants["status"] === 1
+            )
+          );
+          setApplicantsNum(
+            res.data.applicants.filter(
+              (applicants: Applicants) => applicants["status"] === 1
+            ).length
+          );
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [club]);
+
+  useEffect(() => {
+    if (isSignIn)
+      setRestNum(
+        club.head_count ? club.head_count - applicantsNum : applicantsNum
+      );
+  }, [club, applicantsNum]);
 
   const sendKakaoMessage = () => {
     window.Kakao.Link.sendDefault({
@@ -168,25 +212,41 @@ function ClubDetail() {
                   : ""}
               </Style.Text2>
               <Style.Text2>
-                모집 마감까지 {club.head_count}자리 남았어요! (현재 0명 / 최대{" "}
-                {club.head_count}명)
+                {isSignIn
+                  ? `모집 마감까지 ${restNum}자리 남았어요! (현재 ${applicantsNum}명 / 최대 ${club.head_count}명)`
+                  : `최대 ${club.head_count}명까지 참여할 수 있는 클럽입니다.`}
               </Style.Text2>
               <Style.Text3>
                 *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.
               </Style.Text3>
             </CardContent>
             <Style.ButtonBox>
-              {!applicantsButton ? (
+              {!applicantsButton && isSignIn ? (
                 <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
                   신청하기
                 </Style.MyButton1>
               ) : (
+                ""
+              )}
+              {applicantsButton && isSignIn ? (
                 <Style.MyDeleteButton
                   color='inherit'
                   onClick={handleToggleDeleteJoin}
                 >
                   신청취소
                 </Style.MyDeleteButton>
+              ) : (
+                ""
+              )}
+              {!isSignIn ? (
+                <Style.MyButton1
+                  color='inherit'
+                  onClick={() => alert("로그인이 필요한 서비스입니다.")}
+                >
+                  신청하기
+                </Style.MyButton1>
+              ) : (
+                ""
               )}
               <ClubJoinDialog
                 clubId={club.id}
@@ -200,16 +260,32 @@ function ClubDetail() {
                 handleToggleDeleteJoin={handleToggleDeleteJoin}
                 setApplicantsButton={setApplicantsButton}
               />
-              {likesButton ? (
+              {likesButton && isSignIn ? (
                 <Style.MyButton2 color='inherit' onClick={handleDeleteLikes}>
                   <Style.MyFavoriteIcon />
                   &nbsp;찜해제
                 </Style.MyButton2>
               ) : (
+                ""
+              )}
+              {!likesButton && isSignIn ? (
                 <Style.MyButton2 color='inherit' onClick={handlePostLikes}>
                   <FavoriteBorderOutlinedIcon />
                   &nbsp;찜하기
                 </Style.MyButton2>
+              ) : (
+                ""
+              )}
+              {!isSignIn ? (
+                <Style.MyButton2
+                  color='inherit'
+                  onClick={() => alert("로그인이 필요한 서비스입니다.")}
+                >
+                  <FavoriteBorderOutlinedIcon />
+                  &nbsp;찜하기
+                </Style.MyButton2>
+              ) : (
+                ""
               )}
               <Style.MyButton2 color='inherit' onClick={sendKakaoMessage}>
                 <img
