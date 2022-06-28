@@ -129,18 +129,12 @@ function ClubDetail() {
     if (isSignIn) {
       Api.get(`/applications/${club.id}/users`)
         .then((res) => {
-          console.log("모임에 신청한 사람", res.data.applicants);
-          console.log(
-            "모임에 가입된 사람",
-            res.data.applicants.filter(
-              (applicants: Applicants) => applicants["status"] === 1
-            )
-          );
-          setApplicantsNum(
-            res.data.applicants.filter(
-              (applicants: Applicants) => applicants["status"] === 1
-            ).length
-          );
+          if (res.data.applicants.length !== 0)
+            setApplicantsNum(
+              res.data.applicants.filter(
+                (applicants: Applicants) => applicants["status"] === 1
+              ).length
+            );
         })
         .catch((err) => console.log(err));
     }
@@ -211,24 +205,33 @@ function ClubDetail() {
                   ? "진행 방식이 아직 정해지지 않았습니다."
                   : ""}
               </Style.Text2>
-              <Style.Text2>
-                {isSignIn
-                  ? `모집 마감까지 ${restNum}자리 남았어요! (현재 ${applicantsNum}명 / 최대 ${club.head_count}명)`
-                  : `최대 ${club.head_count}명까지 참여할 수 있는 클럽입니다.`}
-              </Style.Text2>
-              <Style.Text3>
-                *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.
-              </Style.Text3>
+              {!club.state && (
+                <Style.Text2>
+                  {isSignIn
+                    ? `모집 마감까지 ${restNum}자리 남았어요! (현재 ${applicantsNum}명 / 최대 ${club.head_count}명)`
+                    : `최대 ${club.head_count}명까지 참여할 수 있는 클럽입니다.`}
+                </Style.Text2>
+              )}
+              {club.state ? (
+                <Style.Text2>모집이 마감된 클럽입니다.</Style.Text2>
+              ) : (
+                ""
+              )}
+              {!club.state && (
+                <Style.Text3>
+                  *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.
+                </Style.Text3>
+              )}
             </CardContent>
             <Style.ButtonBox>
-              {!applicantsButton && isSignIn ? (
+              {!club.state && !applicantsButton && isSignIn ? (
                 <Style.MyButton1 color='inherit' onClick={handleToggleJoin}>
                   신청하기
                 </Style.MyButton1>
               ) : (
                 ""
               )}
-              {applicantsButton && isSignIn ? (
+              {!club.state && applicantsButton && isSignIn ? (
                 <Style.MyDeleteButton
                   color='inherit'
                   onClick={handleToggleDeleteJoin}
@@ -238,10 +241,20 @@ function ClubDetail() {
               ) : (
                 ""
               )}
-              {!isSignIn ? (
+              {!club.state && !isSignIn ? (
                 <Style.MyButton1
                   color='inherit'
                   onClick={() => alert("로그인이 필요한 서비스입니다.")}
+                >
+                  신청하기
+                </Style.MyButton1>
+              ) : (
+                ""
+              )}
+              {club.state ? (
+                <Style.MyButton1
+                  color='inherit'
+                  onClick={() => alert("이미 모집 마감된 클럽입니다.")}
                 >
                   신청하기
                 </Style.MyButton1>
