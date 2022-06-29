@@ -2,18 +2,29 @@ import * as React from "react";
 import { Rating } from "@mui/material";
 import * as Style from "./ClubReviewStyle";
 
-function ClubReview() {
+interface Review {
+  id: number;
+  club_id: number;
+  contents: string;
+  nickname: string;
+  star_rating: number;
+  created_at: Date;
+}
+
+function ClubReview({ review }: { review: Review }) {
   return (
     <Style.ReviewDiv>
-      <Rating value={3} readOnly />
-      <div>
+      <Rating value={review.star_rating} readOnly />
+      <Style.ReviewContentDiv>
         <Style.ReviewInfoDiv>
-          2022-06-10
-          <br />
-          신**
+          <div>
+            {review.created_at.toString().slice(0, 10)}
+            <br />
+            {review.nickname}
+          </div>
         </Style.ReviewInfoDiv>
-        <div>참여후기를 적는 공간입니다.</div>
-      </div>
+        <div>{review.contents}</div>
+      </Style.ReviewContentDiv>
     </Style.ReviewDiv>
   );
 }
