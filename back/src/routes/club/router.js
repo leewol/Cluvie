@@ -270,15 +270,13 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
 // 없는 모임을 삭제할 경우, 에러 처리
 clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   try {
-    const club = await Clubs.findOne({ where: { id: req.params.id } });
-    if (!club) {
-      return res
-        .status(404)
-        .json({ success: false, message: "존재하지 않는 모임입니다." });
+    const user_id = req.user;
+    const club_id = req.params.id;
+    const deletedClub = await clubService.deleteClub({ club_id, user_id });
+
+    if (deletedClub.errorMessage) {
+      res.status(403).json({ success: false, err: deletedClub.errorMessage });
     }
-    Clubs.destroy({
-      where: { id: req.params.id },
-    });
     res.status(200).json({ success: true });
   } catch (err) {
     next(err);
