@@ -4,7 +4,7 @@ import numpy as np
 from konlpy.tag import Okt
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from transformers import ElectraForSequenceClassification, ElectraTokenizer, TextClassificationPipeline, TFElectraForTokenClassification, pipeline
+from transformers import ElectraForSequenceClassification, ElectraTokenizer, TextClassificationPipeline, ElectraForTokenClassification, pipeline
 from sentence_transformers import SentenceTransformer
 
 from transformers.models.bart import BartForConditionalGeneration
@@ -33,7 +33,7 @@ hate_speech_pipe = TextClassificationPipeline(
 summary_model = BartForConditionalGeneration.from_pretrained('./finetune/model/summary_dacon')
 summary_tokenizer = get_kobart_tokenizer()
 
-ner_model = TFElectraForTokenClassification.from_pretrained("./finetune/model/ner_naver")
+ner_model = ElectraForTokenClassification.from_pretrained("./finetune/model/ner_naver")
 ner_tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-base-v3-discriminator")
 labels_ner = ["O", "PER-B", "PER-I", "FLD-B", "FLD-I", "AFW-B", "AFW-I", "ORG-B", "ORG-I",
                 "LOC-B", "LOC-I", "CVL-B", "CVL-I", "DAT-B", "DAT-I", "TIM-B", "TIM-I",
