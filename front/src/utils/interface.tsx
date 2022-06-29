@@ -1,5 +1,6 @@
 export interface Club {
   [key: string]: number | string | undefined;
+  user_id?: number;
   id?: number;
   club_id?: number;
   name?: string;

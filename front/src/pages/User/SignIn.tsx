@@ -7,7 +7,7 @@ import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
 import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
-import { isSignInState } from "@/utils/recoil";
+import { isSignInUser } from "@/utils/recoil";
 
 import {
   isEmailValid,
@@ -28,7 +28,7 @@ const SignInButtonBox = styled.div`
 function SignIn() {
   const navigate = useNavigate();
 
-  const setIsSignIn = useSetRecoilState(isSignInState);
+  const setIsSignIn = useSetRecoilState(isSignInUser);
   const [form, setForm] = useState({
     email: "",
     password: "",

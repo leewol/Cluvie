@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 import { Club } from "@/utils/interface";
-import { useAllClubList, useScrollClubList, useCreateClub, useTestClubList } from "@/hooks/queries/useClubList";
+import { useAllClubList, useScrollClubList, useCreateClub } from "@/hooks/queries/useClubList";
 
 import { ColumnContainerBox } from "@/styles/containers";
 
@@ -37,10 +37,10 @@ function ReactQueryTest() {
 
   // console.log(res.data);
 
-  const resLike = useTestClubList();
-  console.log("signed", resLike);
+  // const resLike = useTestClubList();
+  // console.log("signed", resLike);
 
-  const scrollList = useScrollClubList();
+  const scrollList = useScrollClubList("scrollClublist");
   console.log("not signed", scrollList);
 
   return <ColumnContainerBox>
