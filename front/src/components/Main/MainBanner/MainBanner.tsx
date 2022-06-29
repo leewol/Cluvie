@@ -121,7 +121,7 @@ function MainBanner() {
         <StyledSpanBox>
           <MainStyledSpan>#지금뜨는</MainStyledSpan>
           <MainStyledSpan>#마감임박</MainStyledSpan>
-          <MainStyledSpan>#주말모임</MainStyledSpan>
+          <MainStyledSpan>#주말진행</MainStyledSpan>
         </StyledSpanBox>
       </MainTextBox>
       <MainBannerImageBox>

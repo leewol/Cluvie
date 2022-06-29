@@ -4,8 +4,9 @@ import { StyledSpan } from "@/styles/text";
 
 const MainBannerBox = styled.div`
   overflow: hidden;
-  background-color: #716847;
-  width: 100%;
+  background-color: #FFE047;
+  width: 80%;
+  border-radius: 15px;
   height: 350px;
   display: flex;
   justify-content: space-evenly;
@@ -16,12 +17,14 @@ const MainTextBox = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 2;
+  // color: white;
   h2 {
-    font-size: 42px;
+    font-size: 46px;
     font-weight: 300;
     line-height: 1.0;
     span {
       font-weight: 600;
+      // color: #ffc300;
     }
   }
 `;
@@ -50,13 +53,13 @@ const SlideImageHideBox = styled.div`
   position: absolute;
   width: 1000px;
   height: 300px;
-  background-color: #716847;
+  background-color: #FFE047;
   z-index: 1;
 `;
 
 const SlideImageBox = styled.div`
   display: flex;
-  width: 1200px;
+  width: 1500px;
   img {
     width: 400px;
     height: 300px;
@@ -65,9 +68,11 @@ const SlideImageBox = styled.div`
 `;
 
 const MainStyledSpan = styled(StyledSpan)`
-  font-size: 16px;
+  font-size: 18px;
   margin-right: 10px;
   cursor: pointer;
+  background-color: #ffc300;
+  border-color: #ffc300;
 `;
 
 const StyledSpanBox = styled.div`
