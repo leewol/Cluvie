@@ -155,6 +155,7 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
     });
     const star = review.star_rating;
     await clubService.setReviewRating({ club_id, star });
+    await clubService.calculateRating({ club_id });
 
     if (review.errorMessage) {
       res.status(403).json({ success: false, err: review.errorMessage });
@@ -191,7 +192,7 @@ clubRouter.get("/:club_id/review", async (req, res) => {
 clubRouter.get("/:club_id/rating", async (req, res) => {
   try {
     const club_id = req.params.club_id;
-    const rating = await clubService.calculateRating({ club_id });
+    const rating = await clubService.getRating({ club_id });
 
     res.status(200).json({ success: true, rating });
   } catch (err) {

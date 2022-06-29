@@ -5,6 +5,23 @@ import dotenv from "dotenv";
 dotenv.config();
 
 class userService {
+  static emailAuthentication = async ({email, key}) => {
+    
+    const user = await Authentications.findOne({email})
+    const number = user.number
+    if (number != key) {
+      const errorMessage = "인증번호가 일치하지 않습니다."
+      return { errorMessage}
+    } else {
+      return user
+    }
+  }
+  
+  static emailAuthenticationDelete = async (user) => {
+    await Users.destroy({user})
+    return
+  }
+
   static register = async ({ email, password, nickname, birthday, sex }) => {
     const hashedPassword = hashPassword(password);
     const duplicateEmmail = await Users.findOne({
