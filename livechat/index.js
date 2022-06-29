@@ -1,4 +1,5 @@
 import express from "express";
+import db from "./models/index";
 import { Server } from "socket.io";
 import { createServer } from "http";
 const fs = require("fs");
@@ -9,6 +10,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const PORT = 5001;
+
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("데이터 베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use("/css", express.static("./static/css"));
 app.use("/js", express.static("./static/js"));
