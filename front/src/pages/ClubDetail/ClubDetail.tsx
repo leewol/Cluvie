@@ -130,7 +130,6 @@ function ClubDetail() {
     if (isSignIn) {
       Api.get("/applications/acceptance/clubs")
         .then((res) => {
-          console.log("가입완료", res.data);
           setIsAccept(
             res.data.myClubList.filter(
               (curClub: Interface.Club) => curClub.id === club.id

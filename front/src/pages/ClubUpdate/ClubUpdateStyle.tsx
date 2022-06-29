@@ -41,6 +41,13 @@ export const ButtonBox = styled(Box)`
   margin: 30px 0 0 75%;
 `;
 
+export const BackLink = styled(Link)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  text-decoration: none;
+  color: black;
+`;
+
 export const MyButton1 = styled(Button)`
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -73,9 +80,7 @@ export const MyButton3 = styled(Button)`
   }
 `;
 
-export const BackLink = styled(Link)`
-  width: 33.33%;
-  margin: 0 2% 0 2%;
-  color: black;
-  text-decoration: none;
+export const DetailInfoDiv = styled.div`
+  font-weight: 600;
+  margin-bottom: 5px;
 `;
