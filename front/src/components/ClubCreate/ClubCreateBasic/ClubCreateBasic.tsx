@@ -209,14 +209,14 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
           </MeetingInputBox>
           <InputBox>
             <StyledLabel htmlFor='duration'>진행 기간</StyledLabel>
-            <StyledSelect name='duration' id='duration' onChange={handleSelect}>
-              <option value='0' selected={clubInfo.duration===0}>미정</option>
-              <option value='1' selected={clubInfo.duration===1}>단기</option>
-              <option value='2' selected={clubInfo.duration===2}>1~2개월</option>
-              <option value='3' selected={clubInfo.duration===3}>3~4개월</option>
-              <option value='4' selected={clubInfo.duration===4}>5~6개월</option>
-              <option value='5' selected={clubInfo.duration===5}>6개월 이상</option>
-              <option value='6' selected={clubInfo.duration===6}>장기</option>
+            <StyledSelect name='duration' id='duration' defaultValue={clubInfo.duration} onChange={handleSelect}>
+              <option value='0'>미정</option>
+              <option value='1'>단기</option>
+              <option value='2'>1~2개월</option>
+              <option value='3'>3~4개월</option>
+              <option value='4'>5~6개월</option>
+              <option value='5'>6개월 이상</option>
+              <option value='6'>장기</option>
             </StyledSelect>
           </InputBox>
           <InputBox>
