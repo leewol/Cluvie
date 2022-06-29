@@ -46,7 +46,8 @@
         "no-useless-return": 0,
         "no-restricted-syntax": "warn",
         "react/jsx-no-useless-fragment": "warn",
-        "consistent-return": "warn"
+        "consistent-return": "warn",
+        "react/no-array-index-key": "warn"
     },
     "settings": {
         "import/resolver":{

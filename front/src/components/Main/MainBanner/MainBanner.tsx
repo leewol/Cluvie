@@ -1,8 +1,61 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 
-import { MainBannerBox, MainTextBox, MainBannerImageBox } from "./MainBannerStyle";
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import { 
+  MainBannerBox, 
+  MainTextBox, 
+  MainBannerImageBox,
+  SlideImageBox,
+  StyledSpanBox,
+  MainStyledSpan,
+  ArrowBox } from "./MainBannerStyle";
+
+import img1 from "@/asset/images/abouttime.jpg";
+import img2 from "@/asset/images/interstellar.png";
+import img3 from "@/asset/images/time.jpg";
+
+const images = [img1, img2, img3];
 
 function MainBanner() {
+  const swiperRef = useRef<HTMLDivElement>(null);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [style, setStyle] = useState({});
+  const [imgs, setImgs] = useState(images);
+
+  useEffect(() => {
+    // if (currentImgIndex === 0) {
+    //   setImgs((prev) => {
+    //     prev.push(prev[prev.length - 1]);
+    //     prev.unshift(prev[0]);
+    //     return prev;
+    //   })
+    // }
+    // if (currentImgIndex === imgs.length - 1) {
+    //   setImgs((prev) => {
+    //     prev.push(prev[0]);
+    //     prev.unshift(prev[prev.length - 1]);
+    //     return prev;
+    //   })
+    // }
+
+    setTimeout(() => {
+      setCurrentImgIndex((prev) => {
+        if (prev < imgs.length - 1) {
+          return prev + 1;
+        }
+        return 0;
+      })
+    }, 3000);
+    
+    setStyle(() => ({
+      transform: `translateX(-${(currentImgIndex) * 4}00px)`
+    }));
+
+    console.log(currentImgIndex);
+    console.log(imgs);
+  }, [currentImgIndex])
+  
   return (
     <MainBannerBox>
       <MainTextBox>
@@ -10,15 +63,25 @@ function MainBanner() {
         <h2>
           <span>클러비</span>로 모여 보세요!
         </h2>
-        <div>
-          <span>#지금뜨는</span>
-          <span>#마감임박</span>
-          <span>#주말모임</span>
-        </div>
+        <StyledSpanBox>
+          <MainStyledSpan>#지금뜨는</MainStyledSpan>
+          <MainStyledSpan>#마감임박</MainStyledSpan>
+          <MainStyledSpan>#주말모임</MainStyledSpan>
+        </StyledSpanBox>
       </MainTextBox>
       <MainBannerImageBox>
-        이미지
-        화살표 아이콘
+          <SlideImageBox ref={swiperRef} style={style}>
+            {
+              imgs.map((img, idx) => 
+              <img key={idx} src={img} alt="banner-img" className={idx === currentImgIndex ? "show-banner" : ""} />)
+            }
+          </SlideImageBox>
+          <ArrowBox className="arrow-back">
+            <ArrowBackIosRoundedIcon className="arrow-icon" />
+          </ArrowBox>
+          <ArrowBox className="arrow-forward">
+            <ArrowForwardIosRoundedIcon className="arrow-icon" />
+          </ArrowBox>
       </MainBannerImageBox>
     </MainBannerBox>
   );
