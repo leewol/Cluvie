@@ -14,7 +14,7 @@ import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/C
 import testimage from "@/asset/images/testimage.PNG";
 import * as Api from "@/utils/api";
 import * as Interface from "@/utils/interface";
-import { isSignInState } from "@/utils/recoil";
+import { isSignInUser } from "@/utils/recoil";
 import * as Style from "./ClubDetailStyle";
 
 interface Applicants {
@@ -26,7 +26,7 @@ interface Applicants {
 function ClubDetail() {
   const params = useParams();
   // prettier-ignore
-  const isSignIn =  useRecoilValue<boolean>(isSignInState);
+  const isSignIn =  useRecoilValue<boolean>(isSignInUser);
   const [openJoin, setOpenJoin] = useState(false);
   const [openDeleteJoin, setOpenDeleteJoin] = useState(false);
   const [likesButton, setLikesButton] = useState(false);
@@ -50,7 +50,7 @@ function ClubDetail() {
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
 
   const handleDeleteLikes = () => {
-    Api.delete(`/likes/${club.id}`)
+    Api.delete("/likes", club.id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
