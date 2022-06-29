@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
+import { isSignInState } from "@/utils/recoil";
 import {
   isEmailValid,
   isPasswordValid,
@@ -16,11 +18,10 @@ import { FormButton, UserInputDiv } from "@/styles/user";
 import { StyledLabel } from "@/styles/text";
 import * as Styled from "./SignUpFormStyle";
 
-// TODO : 회원가입 실패 시 alert
-
 function SignUpForm() {
   const navigate = useNavigate();
 
+  const setIsSignIn = useSetRecoilState(isSignInState);
   const [form, setForm] = useState({
     email: "",
     nickname: "",
@@ -56,18 +57,19 @@ function SignUpForm() {
         console.log("회원가입 성공!");
         console.log(res);
 
-        Api.post("/signIn", {
+        Api.post("/users/signIn", {
           email,
           password,
         })
           .then((resSignIn) => {
-            console.log("로그인 성공!");
-            console.log(resSignIn);
+            const { token } = resSignIn.data;
+            window.localStorage.setItem("token", token);
+            setIsSignIn(() => true);
 
             navigate("/");
+            console.log("로그인 성공!");
           })
           .catch((errSignIn) => {
-            console.log("로그인 실패!!");
             console.error(errSignIn);
           });
       })

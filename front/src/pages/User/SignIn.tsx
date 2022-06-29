@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 import { ContainerBox, InnerBox, StyledInput } from "@/styles/containers";
 import { InputBox, FormButton, UserInputDiv, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
+
+import { isSignInState } from "@/utils/recoil";
 
 import {
   isEmailValid,
@@ -14,7 +17,7 @@ import {
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
 
-// TODO : 소셜 로그인, 로그인 실패 시 alert
+// TODO : 소셜 로그인
 
 const SignInButtonBox = styled.div`
   width: 100%;
@@ -25,6 +28,7 @@ const SignInButtonBox = styled.div`
 function SignIn() {
   const navigate = useNavigate();
 
+  const setIsSignIn = useSetRecoilState(isSignInState);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -40,18 +44,19 @@ function SignIn() {
 
     // * 로그인 후 메인 페이지로 이동
     const { email, password } = form;
-    Api.post("/signIn", {
+    Api.post("/users/signIn", {
       email,
       password,
     })
       .then((res) => {
-        console.log("로그인 성공!");
-        console.log(res);
+        const { token } = res.data;
+        window.localStorage.setItem("token", token);
+        setIsSignIn(() => true);
 
         navigate("/");
+        console.log("로그인 성공!");
       })
       .catch((err) => {
-        console.log("로그인 실패!!");
         console.error(err);
       });
   };
@@ -62,7 +67,7 @@ function SignIn() {
         <h1>로그인</h1>
         <SignInButtonBox>
           <SocialButton social='google' action='로그인' />
-          <SocialButton social='kakao-talk' action='로그인' />
+          <SocialButton social='kakaotalk' action='로그인' />
         </SignInButtonBox>
         <form onSubmit={handleSumbit} autoComplete='off'>
           <InputBox>
