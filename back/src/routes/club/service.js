@@ -161,5 +161,26 @@ class clubService {
     const ratingData = await Ratings.findOne({ where: { club_id } });
     return ratingData.rating.toFixed(1); //소수점 한자리까지 표현
   };
+
+  static getRecruitingClub = async () => {
+    const clubs = await Clubs.findAll({ where: { state: 0 } });
+    return clubs;
+  };
+
+  static getTop10ViewsClub = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs ORDER BY views DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
+
+  static getTop10HeadCountClub = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs ORDER BY head_count DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
 }
 export { clubService };
