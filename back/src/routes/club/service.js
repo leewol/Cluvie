@@ -1,4 +1,5 @@
 import Reviews from "../../../models/review";
+import Likes from "../../../models/like";
 import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
@@ -85,6 +86,21 @@ class clubService {
     const closeApplication = await club.update({ state: 1 });
     await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
     return closeApplication;
+  };
+
+  static deleteClub = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
+    Clubs.destroy({ where: { id: club_id } });
+    Likes.destroy({ where: { club_id: club_id } });
+    Reviews.destroy({ where: { club_id: club_id } });
+    Ratings.destroy({ where: { club_id: club_id } });
+    Applicants.destroy({ where: { club_id: club_id } });
+    return;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
