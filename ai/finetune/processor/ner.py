@@ -34,7 +34,7 @@ class InputExample(object):
 
 
 class InputFeatures(object):
-    """A single set of features of summary."""
+    """A single set of features of summary_aihub."""
 
     def __init__(self, input_ids, attention_mask, token_type_ids, label_ids):
         self.input_ids = input_ids
@@ -131,7 +131,7 @@ def ner_convert_examples_to_features(
 
 
 class NaverNerProcessor(object):
-    """Processor for the Naver NER summary set """
+    """Processor for the Naver NER summary_aihub set """
 
     def __init__(self, args):
         self.args = args
@@ -190,17 +190,17 @@ class NaverNerProcessor(object):
 
 
 ner_processors = {
-    "naver-ner": NaverNerProcessor
+    "ner_naver": NaverNerProcessor
 }
 
 ner_tasks_num_labels = {
-    "naver-ner": 29
+    "ner_naver": 29
 }
 
 
 def ner_load_and_cache_examples(args, tokenizer, mode):
     processor = ner_processors[args.task](args)
-    # Load summary features from cache or dataset file
+    # Load summary_aihub features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,
         "cached_{}_{}_{}_{}".format(

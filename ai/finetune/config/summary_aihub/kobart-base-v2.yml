@@ -1,5 +1,5 @@
-train_file: data/summary/train.tsv
-test_file: data/summary/test.tsv
+train_file: data/summary_aihub/train.tsv
+test_file: data/summary_aihub/test.tsv
 gpus: 1
 batch_size: 4
 num_workers: 4

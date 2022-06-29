@@ -37,7 +37,7 @@ class KoBARTSummaryDataset(Dataset):
         input_ids = self.tokenizer.encode(instance['news'])
         input_ids = self.add_padding_data(input_ids)
 
-        label_ids = self.tokenizer.encode(instance['summary'])
+        label_ids = self.tokenizer.encode(instance['summary_aihub'])
         label_ids.append(self.tokenizer.eos_token_id)
         dec_input_ids = [self.tokenizer.eos_token_id]
         dec_input_ids += label_ids[:-1]

@@ -33,8 +33,8 @@ args = {
     'lr': 3e-5,  # Learning Rate
     'max_epochs': 20,  # Max Epochs
     'max_length': 128,  # Max Length input size
-    'train_data_path': "data/hate-speech/train.tsv",  # Train Dataset file
-    'val_data_path': "data/hate-speech/val.tsv",  # Validation Dataset file
+    'train_data_path': "data/hatespeech_beomi/train.tsv",  # Train Dataset file
+    'val_data_path': "data/hatespeech_beomi/val.tsv",  # Validation Dataset file
     'test_mode': False,  # Test Mode enables `fast_dev_run`
     'optimizer': 'AdamW',
     'lr_scheduler': 'exp',  # ExponentialLR(exp), CosineAnnealingWarmRestarts(cos), get_linear_schedule_with_warmup(warmup)

@@ -33,7 +33,7 @@ class InputExample(object):
 
 
 class InputFeatures(object):
-    """A single set of features of summary."""
+    """A single set of features of summary_aihub."""
 
     def __init__(self, input_ids, attention_mask, token_type_ids, label):
         self.input_ids = input_ids
@@ -100,7 +100,7 @@ def seq_cls_convert_examples_to_features(args, examples, tokenizer, max_length, 
     return features
 
 class HateSpeechProcessor(object):
-    """Processor for the Korean Hate Speech summary set """
+    """Processor for the Korean Hate Speech summary_aihub set """
 
     def __init__(self, args):
         self.args = args
@@ -150,20 +150,20 @@ class HateSpeechProcessor(object):
 
 
 seq_cls_processors = {
-    "hate-speech": HateSpeechProcessor,
+    "hatespeech_beomi": HateSpeechProcessor,
 }
 
-seq_cls_tasks_num_labels = { "hate-speech": 3 }
+seq_cls_tasks_num_labels = { "hatespeech_beomi": 3 }
 
 seq_cls_output_modes = {
-    "hate-speech": "classification",
+    "hatespeech_beomi": "classification",
 }
 
 
 def seq_cls_load_and_cache_examples(args, tokenizer, mode):
     processor = seq_cls_processors[args.task](args)
     output_mode = seq_cls_output_modes[args.task]
-    # Load summary features from cache or dataset file
+    # Load summary_aihub features from cache or dataset file
     cached_features_file = os.path.join(
         args.data_dir,
         "cached_{}_{}_{}_{}".format(

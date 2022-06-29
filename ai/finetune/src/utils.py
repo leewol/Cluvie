@@ -94,9 +94,9 @@ def show_ner_report(labels, preds):
 
 def compute_metrics(task_name, labels, preds):
     assert len(preds) == len(labels)
-    if task_name == "hate-speech":
+    if task_name == "hatespeech_beomi":
         return f1_pre_rec(labels, preds, is_ner=False)
-    elif task_name == "naver-ner":
+    elif task_name == "ner_naver":
         return f1_pre_rec(labels, preds, is_ner=True)
     else:
         raise KeyError(task_name)

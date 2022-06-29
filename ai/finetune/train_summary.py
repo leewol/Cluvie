@@ -41,7 +41,7 @@ class Base(pl.LightningModule):
         num_workers = self.hparams.num_workers
 
         data_len = self.setup_steps(self)
-        logging.info(f'number of workers {num_workers}, summary length {data_len}')
+        logging.info(f'number of workers {num_workers}, summary_aihub length {data_len}')
         num_train_steps = int(data_len / (self.hparams.batch_size * num_workers) * self.hparams.max_epochs)
         logging.info(f'num_train_steps : {num_train_steps}')
         num_warmup_steps = int(num_train_steps * self.hparams.warmup_ratio)
@@ -113,7 +113,7 @@ if __name__ == '__main__':
     seed_everything(42)
     cli_parser = argparse.ArgumentParser()
 
-    cli_parser.add_argument("--task", type=str, default="summary", required=True)
+    cli_parser.add_argument("--task", type=str, default="summary_aihub", required=True)
     cli_parser.add_argument("--config_dir", type=str, default="config")
     cli_parser.add_argument("--config_file", type=str, default="kobart-base-v2.yml", required=True)
     cli_args = cli_parser.parse_args()
