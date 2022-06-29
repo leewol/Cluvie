@@ -1,60 +1,115 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import { 
-  MainBannerBox, 
-  MainTextBox, 
-  MainBannerImageBox,
-  SlideImageBox,
-  StyledSpanBox,
-  MainStyledSpan,
-  ArrowBox } from "./MainBannerStyle";
 
 import img1 from "@/asset/images/abouttime.jpg";
 import img2 from "@/asset/images/interstellar.png";
 import img3 from "@/asset/images/time.jpg";
 
+import { 
+  MainBannerBox, 
+  MainTextBox, 
+  MainBannerImageBox,
+  SlideImageHideBox,
+  SlideImageBox,
+  StyledSpanBox,
+  MainStyledSpan,
+  ArrowBox } from "./MainBannerStyle";
+
 const images = [img1, img2, img3];
+const DIRECTION = {
+  next: "NEXT",
+  prev: "PREV"
+};
 
 function MainBanner() {
-  const swiperRef = useRef<HTMLDivElement>(null);
-  const [currentImgIndex, setCurrentImgIndex] = useState(0);
-  const [style, setStyle] = useState({});
-  const [imgs, setImgs] = useState(images);
+  const [bannerSlide, setBannerSlide] = useState({
+    imgs: images,
+    current: 1,
+    needTransition: true,
+    direction: ""
+  });
 
-  useEffect(() => {
-    // if (currentImgIndex === 0) {
-    //   setImgs((prev) => {
-    //     prev.push(prev[prev.length - 1]);
-    //     prev.unshift(prev[0]);
-    //     return prev;
-    //   })
-    // }
-    // if (currentImgIndex === imgs.length - 1) {
-    //   setImgs((prev) => {
-    //     prev.push(prev[0]);
-    //     prev.unshift(prev[prev.length - 1]);
-    //     return prev;
-    //   })
-    // }
-
-    setTimeout(() => {
-      setCurrentImgIndex((prev) => {
-        if (prev < imgs.length - 1) {
-          return prev + 1;
-        }
-        return 0;
-      })
-    }, 3000);
-    
-    setStyle(() => ({
-      transform: `translateX(-${(currentImgIndex) * 4}00px)`
+  const makeSlideNext = () => {
+    const { current, imgs } = bannerSlide;
+    const newImgs = [...imgs, ...imgs.slice(0, 1)].slice(-3);
+    setBannerSlide((prev) => ({
+      ...prev,
+      imgs: newImgs,
+      needTransition: false,
+      current: current - 1
     }));
+  }
 
-    console.log(currentImgIndex);
-    console.log(imgs);
-  }, [currentImgIndex])
+  const makeSlidePrev = () => {
+    const { current, imgs } = bannerSlide;
+    const newImgs = [...imgs.slice(-1), ...imgs].slice(0, 3);
+    setBannerSlide((prev) => ({
+      ...prev,
+      imgs: newImgs,
+      needTransition: false,
+      current: current + 1
+    }));
+  }
+
+  const handleNext = () => {
+    const { current, imgs } = bannerSlide;
+    const newCurrent = current + 1;
+    if (newCurrent > imgs.length - 1) return;
+    setBannerSlide((prev) => ({
+      ...prev,
+      needTransition: true,
+      current: newCurrent,
+      direction: DIRECTION.next
+    }));
+    console.log(bannerSlide);
+  }
+
+  const handlePrev = () => {
+    const { current } = bannerSlide;
+    const newCurrent = current - 1;
+    if (newCurrent < 0) return;
+    setBannerSlide((prev) => ({
+      ...prev,
+      needTransition: true,
+      current: newCurrent,
+      direction: DIRECTION.prev
+    }));
+  }
+
+  const handleSliderEnd = () => {
+    const { direction } = bannerSlide;
+    switch (direction) {
+      case DIRECTION.next:
+        makeSlideNext();
+        break;
+      case DIRECTION.prev:
+        makeSlidePrev();
+        break;
+      default:
+        break;
+    }
+  }
+
+  const slideStyle = () => {
+    const { needTransition, current } = bannerSlide;
+    if (needTransition) {
+      return {
+        transform: `translateX(-${(current) * 4}00px)`,
+        transition: "all 0.5s ease-in-out"
+      };
+    }
+    return {
+      transform: `translateX(-${(current) * 4}00px)`,
+    }
+  }
+  
+  useEffect(() => {
+    const slideTimer = setTimeout(() => {
+      handleNext();
+    }, 3000);
+  }, [bannerSlide]);
   
   return (
     <MainBannerBox>
@@ -70,16 +125,19 @@ function MainBanner() {
         </StyledSpanBox>
       </MainTextBox>
       <MainBannerImageBox>
-          <SlideImageBox ref={swiperRef} style={style}>
-            {
-              imgs.map((img, idx) => 
-              <img key={idx} src={img} alt="banner-img" className={idx === currentImgIndex ? "show-banner" : ""} />)
-            }
+          <SlideImageHideBox className="hide-prev"/>
+          <SlideImageHideBox className="hide-back" />
+            <SlideImageBox style={slideStyle()} onTransitionEnd={handleSliderEnd}>
+              {
+                bannerSlide.imgs.map((img, idx) => 
+                <img key={idx} src={img} alt="banner-img" 
+                />)
+              }
           </SlideImageBox>
-          <ArrowBox className="arrow-back">
+          <ArrowBox className="arrow-back" onClick={handlePrev}>
             <ArrowBackIosRoundedIcon className="arrow-icon" />
           </ArrowBox>
-          <ArrowBox className="arrow-forward">
+          <ArrowBox className="arrow-forward" onClick={handleNext}>
             <ArrowForwardIosRoundedIcon className="arrow-icon" />
           </ArrowBox>
       </MainBannerImageBox>
