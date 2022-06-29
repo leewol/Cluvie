@@ -88,10 +88,14 @@ class clubService {
     return closeApplication;
   };
 
-  static deleteClub = async ({ club_id }) => {
+  static deleteClub = async ({ club_id, user_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
       const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    if (club.manager != user_id) {
+      const errorMessage = "삭제 권한이 없습니다.";
       return { errorMessage };
     }
     // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
