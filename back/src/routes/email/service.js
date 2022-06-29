@@ -4,11 +4,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 class authService {
-  static generateRandom = async ({ min, max }) => {
-    const ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    return ranNum;
-  };
-
   static sendEmail = async ({ email }) => {
     const authenticationNum = Math.floor(Math.random() * 1000000) + 100000;
     if (authenticationNum > 1000000) {
@@ -59,7 +54,7 @@ class authService {
       html: HTMLcontent,
     };
     const info = await transport.sendMail(mailOptions);
-    return;
+    return authenticationNum;
   };
 }
 
