@@ -14,7 +14,10 @@ function ClubReviewButton({ clubId }: { clubId: number }) {
       star_rating: rating,
       contents: review,
     })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
       .catch((err) => {
         console.log(err);
         alert("참여 후기는 한 번만 작성할 수 있습니다.");
