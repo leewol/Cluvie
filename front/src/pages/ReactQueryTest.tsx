@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 import { Club } from "@/utils/interface";
 import { useAllClubList, useScrollClubList, useCreateClub } from "@/hooks/queries/useClubList";
@@ -35,6 +36,12 @@ function ReactQueryTest() {
   }
 
   // console.log(res.data);
+
+  // const resLike = useTestClubList();
+  // console.log("signed", resLike);
+
+  const scrollList = useScrollClubList("scrollClublist");
+  console.log("not signed", scrollList);
 
   return <ColumnContainerBox>
     <button type="button" onClick={handleSubmit}>add</button>

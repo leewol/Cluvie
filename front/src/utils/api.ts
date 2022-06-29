@@ -15,7 +15,14 @@ axiosApiInstance.interceptors.request.use(
     // 요청 성공 직전 호출, axios 설정값 넣기
     const token = localStorage.getItem("token");
 
+    // 사진 업로드 시 headers
+    if (config.url === "/clubs/picture") {
+      config.headers["Content-Type"] = "multipart/form-data";
+      return config;
+    }
+
     config.headers["Content-Type"] = "application/json";
+    
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -66,15 +73,18 @@ const axiosInstanceToNavigate = (navigate: NavigateFunction) => {
 };
 
 // * POST
-async function post(endpoint: string, data: object) {
-  const bodyData = JSON.stringify(data);
+async function post(endpoint: string, data: any) {
+  // 사진 업로드 시 JSON으로 변경 X
+  const bodyData = (endpoint === "/clubs/picture") ? data : JSON.stringify(data);
+
   console.log(`%cPOST 요청: ${SERVER_URL + endpoint}`, "color: #296aba;");
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
   return axiosApiInstance.post(endpoint, bodyData);
 }
 
-// GET
+
+// * GET
 async function get(endpoint: string, params = "") {
   console.log(
     `%cGET 요청 ${SERVER_URL + endpoint}/${params}`,
@@ -84,7 +94,7 @@ async function get(endpoint: string, params = "") {
   return axiosApiInstance.get(`${endpoint}/${params}`);
 }
 
-// PUT
+// * PUT
 async function put(endpoint: string, data: object) {
   const bodyData = JSON.stringify(data);
   console.log(`%cPUT 요청: ${SERVER_URL + endpoint}`, "color: #059c4b;");
@@ -93,7 +103,7 @@ async function put(endpoint: string, data: object) {
   return axiosApiInstance.put(endpoint, bodyData);
 }
 
-// PATCH
+// * PATCH
 async function patch(endpoint: string, data: object) {
   const bodyData = JSON.stringify(data);
   console.log(`%cPATCH 요청: ${SERVER_URL + endpoint}`, "color: #059c4b;");
@@ -102,8 +112,8 @@ async function patch(endpoint: string, data: object) {
   return axiosApiInstance.patch(endpoint, bodyData);
 }
 
-// DELETE
-async function del(endpoint: string, params = "") {
+// * DELETE
+async function del(endpoint: string, params?: any) {
   console.log(`DELETE 요청 ${SERVER_URL + endpoint}/${params}`);
 
   return axiosApiInstance.delete(`${endpoint}/${params}`);

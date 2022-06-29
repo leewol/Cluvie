@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 
-import { isSignInState } from "@/utils/recoil";
+import { isSignInUser } from "@/utils/recoil";
 import {
   isEmailValid,
   isPasswordValid,
@@ -21,7 +21,7 @@ import * as Styled from "./SignUpFormStyle";
 function SignUpForm() {
   const navigate = useNavigate();
 
-  const setIsSignIn = useSetRecoilState(isSignInState);
+  const setIsSignIn = useSetRecoilState(isSignInUser);
   const [form, setForm] = useState({
     email: "",
     nickname: "",

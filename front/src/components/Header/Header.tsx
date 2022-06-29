@@ -4,12 +4,12 @@ import { useRecoilValue } from "recoil";
 import { Box, Button, Toolbar, IconButton, Menu } from "@mui/material";
 import * as Style from "./HeaderStyle";
 
-import { isSignInState } from "@/utils/recoil";
+import { isSignInUser } from "@/utils/recoil";
 
 function Header() {
   // prettier-ignore
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const isSignIn =  useRecoilValue<boolean>(isSignInState);
+  const isSignIn =  useRecoilValue<boolean>(isSignInUser);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

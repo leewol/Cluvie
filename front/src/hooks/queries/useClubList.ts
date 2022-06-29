@@ -23,13 +23,13 @@ export function useAllClubList(options?: object) {
 }
 
 // 무한 스크롤 위해서 6개씩 클럽 리스트 불러오기
-export function useScrollClubList() {
+export function useScrollClubList(path: string) {
   return useInfiniteQuery(
     // QueryKey
-    ["scrollClubList"], 
+    [path], 
     // QueryFn
-    async ({ pageParam = 0 }) => {
-      const res = await Api.get("/clubs/scrollClublist", pageParam);
+    async ({ pageParam = 999999 }) => {
+      const res = await Api.get(`/clubs/${path}`, pageParam);
       return res.data;
     }, {
       // QueryOptions

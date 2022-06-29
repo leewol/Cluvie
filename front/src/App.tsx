@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
-import { isSignInState } from "@/utils/recoil";
+import { isSignInUser } from "@/utils/recoil";
 import { axiosInstanceToNavigate } from "@/utils/api";
 
 import Main from "@/pages/Main/Main";
@@ -31,7 +31,7 @@ function InterceptorToNavigate() {
 }
 
 function App() {
-  const isSignIn = useRecoilValue(isSignInState);
+  const isSignIn = useRecoilValue(isSignInUser);
 
   return (
     <div className='App'>

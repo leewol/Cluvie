@@ -26,3 +26,15 @@ export const ClubCreateButtonBox = styled.div`
     cursor: pointer;
   }
 `;
+
+// 나중에 메시지 대신 애니메이션으로
+export const LoadingMsg = styled.span`
+  position: fixed;
+  bottom: 5%;
+  right: 48%;
+  color: white;
+  background-color: #ffc300;
+  border: 10px solid #ffc300;
+  border-radius: 30px;
+  opacity: 0.7;
+`;

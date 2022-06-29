@@ -6,10 +6,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { StyledSpan } from "@/styles/text";
 
-const WholeCard = styled(Card)`
+const WholeCard = styled(Card)<{ clubstate: number | undefined }>`
   width: 350px;
   height: 500px;
   cursor: pointer;
+  opacity: ${(props) => (props.clubstate === 1 ? "0.5" : "1")};
 `;
 
 const ClubCardContent = styled(CardContent)`
@@ -41,4 +42,8 @@ const ClubCardFavoriteIcon = styled(FavoriteIcon)`
   font-size: 28px;
 `;
 
-export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon };
+const ClubCardFavoriteBorderIcon = styled(FavoriteBorderIcon)`
+  font-size: 28px;
+`;
+
+export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon, ClubCardFavoriteBorderIcon };

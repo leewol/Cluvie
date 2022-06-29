@@ -1,6 +1,13 @@
 import { atom } from "recoil";
 
-export const isSignInState = atom<boolean>({
-  key: "isSignInState",
+export const isSignInUser = atom<boolean>({
+  key: "isSignInUser",
   default: !!window.localStorage["token"],
+});
+
+export const filters = atom<{[key: string]: string}>({
+  key: "filters",
+  default: {
+    // filterValue: filterKey (ex)온라인: online1
+  },
 });
