@@ -1,4 +1,5 @@
 import Reviews from "../../../models/review";
+import Likes from "../../../models/like";
 import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
@@ -56,7 +57,7 @@ class clubService {
   // 로그인 후 -> 메인페이지(전체 클럽 목록 GET)
   // 로그인된 유저의 모임 찜 여부 확인
   static getClubListTest = async ({ user_id, club_id }) => {
-    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE ${user_id}) AS l ON c.id = l.club_id WHERE c.id <= ${club_id} ORDER BY id DESC LIMIT 6`;
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE user_id=${user_id}) AS l ON c.id = l.club_id WHERE c.id < ${club_id} ORDER BY id DESC LIMIT 6`;
     const clubs = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
@@ -85,6 +86,21 @@ class clubService {
     const closeApplication = await club.update({ state: 1 });
     await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
     return closeApplication;
+  };
+
+  static deleteClub = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
+    Clubs.destroy({ where: { id: club_id } });
+    Likes.destroy({ where: { club_id: club_id } });
+    Reviews.destroy({ where: { club_id: club_id } });
+    Ratings.destroy({ where: { club_id: club_id } });
+    Applicants.destroy({ where: { club_id: club_id } });
+    return;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
@@ -122,10 +138,10 @@ class clubService {
   };
 
   static setReviewRating = async ({ club_id, star }) => {
-    await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
-    await Ratings.increment("star_sum", {
+    const rating = await Ratings.findOne({ where: { club_id: club_id } });
+    await rating.increment({ count: 1 });
+    await rating.increment("star_sum", {
       by: star,
-      where: { club_id: club_id },
     });
   };
 
@@ -133,11 +149,13 @@ class clubService {
     const ratingData = await Ratings.findOne({ where: { club_id: club_id } });
     const rating = ratingData.star_sum / ratingData.count;
 
-    const result = await ratingData.update(
-      { rating: rating },
-      { where: { club_id: club_id } }
-    );
-    return result.rating.toFixed(1); //소수점 한자리까지 표현
+    const result = await ratingData.update({ rating: rating });
+    return result;
+  };
+
+  static getRating = async ({ club_id }) => {
+    const ratingData = await Ratings.findOne({ where: { club_id } });
+    return ratingData.rating.toFixed(1); //소수점 한자리까지 표현
   };
 }
 export { clubService };
