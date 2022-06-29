@@ -8,6 +8,7 @@ import {
   Accordion,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import GradeIcon from "@mui/icons-material/Grade";
 import testimage from "@/asset/images/testimage.PNG";
 import { StyledSpan } from "@/styles/text";
 import * as Interface from "@/utils/interface";
@@ -30,6 +31,8 @@ function MyClubListCard({
   const [accordionClick, setAccordionClick] = useState(false);
   const [applicantsList, setApplicantsList] = useState([]);
   const [acceptanceButtonLoading, setAcceptanceButtonLoading] = useState([]);
+  const [clubManager, setClubManager] = useState("");
+
   const handleToggleCloseApplicants = () =>
     setOpenCloseApplicants((prev) => !prev);
 
@@ -71,6 +74,14 @@ function MyClubListCard({
       setAcceptanceButtonLoading([]);
     }
   }, [accordionClick, closeApplicantsButton]);
+
+  useEffect(() => {
+    if (club.manager) {
+      Api.get(`/users/${club.manager}/nickname`)
+        .then((res) => setClubManager(res.data.userNickname))
+        .catch((err) => console.log(err));
+    }
+  }, [club]);
 
   return (
     <Style.WholeCardDiv>
@@ -239,7 +250,14 @@ function MyClubListCard({
             </AccordionSummary>
             <AccordionDetails>
               {applicantsList.filter((applicants) => applicants["status"] === 1)
-                .length === 0 && <div>클럽원이 없습니다.</div>}
+                .length === 0 &&
+                make === "true" && <div>클럽원이 없습니다.</div>}
+              {make !== "true" && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {clubManager}
+                  <GradeIcon style={{ fontSize: "16px", color: "#ffc300" }} />
+                </div>
+              )}
               {!(
                 applicantsList.filter(
                   (applicants) => applicants["status"] === 1
