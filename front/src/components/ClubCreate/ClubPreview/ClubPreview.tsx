@@ -3,7 +3,6 @@
 import React from "react";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import * as Interface from "@/utils/interface";
 import testimage from "@/asset/images/testimage.PNG";
@@ -25,10 +24,7 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
           />
           <Style.ContentBox>
             <CardContent>
-              <Style.Title>
-                {newClub.name}
-                <SettingsIcon />
-              </Style.Title>
+              <Style.Title>{newClub.name}</Style.Title>
               <Style.Text1>{newClub.intro}</Style.Text1>
               <Style.Text2>
                 본 클럽은 {newClub.online ? "온라인" : ""}
@@ -40,8 +36,8 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
                   : ""}
               </Style.Text2>
               <Style.Text2>
-                모집 마감까지 6자리 남았어요! (현재 14명 / 최대{" "}
-                {newClub.head_count}명)
+                모집 마감까지 {newClub.head_count}자리 남았어요! (현재 0명 /
+                최대 {newClub.head_count}명)
               </Style.Text2>
               <Style.Text3>
                 *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.

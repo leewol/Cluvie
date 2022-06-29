@@ -145,12 +145,13 @@ function ClubDetail() {
     if (isSignIn) {
       Api.get(`/applications/${club.id}/users`)
         .then((res) => {
-          if (res.data.applicants.length !== 0)
+          if (Array.isArray(res.data.applicants)) {
             setApplicantsNum(
               res.data.applicants.filter(
                 (applicants: Applicants) => applicants["status"] === 1
               ).length
             );
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -331,7 +332,7 @@ function ClubDetail() {
             </Style.ButtonBox>
           </Style.ContentBox>
         </Style.WholeCard>
-        <ClubDetailTab club={club} />
+        <ClubDetailTab club={club} isSignIn={isSignIn} />
         <ClubChatButton />
       </Style.WholeBox>
     </div>

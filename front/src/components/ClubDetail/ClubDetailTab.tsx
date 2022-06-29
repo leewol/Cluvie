@@ -48,9 +48,11 @@ function a11yProps(index: number) {
 export default function BasicTabs({
   club,
   preview,
+  isSignIn = false,
 }: {
   club: Interface.Club,
   preview?: boolean,
+  isSignIn?: boolean,
 }) {
   const [value, setValue] = useState(0);
   const [reviewList, setReviewList] = useState([]);
@@ -74,15 +76,17 @@ export default function BasicTabs({
   }, []);
 
   useEffect(() => {
-    Api.get("/applications/acceptance/clubs")
-      .then((res) => {
-        setIsAcceptClub(
-          res.data.myClubList.filter(
-            (curClub: Interface.Club) => curClub.id === club.id
-          ).length
-        );
-      })
-      .catch((err) => console.log(err));
+    if (isSignIn && !preview) {
+      Api.get("/applications/acceptance/clubs")
+        .then((res) => {
+          setIsAcceptClub(
+            res.data.myClubList.filter(
+              (curClub: Interface.Club) => curClub.id === club.id
+            ).length
+          );
+        })
+        .catch((err) => console.log(err));
+    }
   }, [club]);
 
   return (
