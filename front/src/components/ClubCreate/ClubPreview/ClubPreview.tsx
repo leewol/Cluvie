@@ -3,9 +3,9 @@
 import React from "react";
 import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import * as Interface from "@/utils/interface";
+import testimage from "@/asset/images/testimage.PNG";
 import * as Style from "./ClubPreviewStyle";
 
 function ClubPreview({ newClub }: { newClub: Interface.Club }) {
@@ -15,24 +15,29 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
         <Style.WholeCard>
           <img
             // eslint-disable-next-line global-require
-            src={require("@/asset/images/testimage.PNG")}
+            src={
+              newClub.picture
+                ? `http://${window.location.hostname}:3000/uploads/${newClub.picture}`
+                : testimage
+            }
             alt='클럽썸네일이미지'
           />
           <Style.ContentBox>
             <CardContent>
-              <Style.Title>
-                {newClub.name}
-                <SettingsIcon />
-              </Style.Title>
+              <Style.Title>{newClub.name}</Style.Title>
               <Style.Text1>{newClub.intro}</Style.Text1>
               <Style.Text2>
                 본 클럽은 {newClub.online ? "온라인" : ""}
                 {newClub.online && newClub.offline ? "/" : ""}
-                {newClub.offline ? "오프라인" : ""}으로 진행됩니다.
+                {newClub.offline ? "오프라인" : ""}
+                {newClub.online || newClub.offline ? "으로 진행됩니다." : ""}
+                {!(newClub.online || newClub.offline)
+                  ? "진행 방식이 아직 정해지지 않았습니다."
+                  : ""}
               </Style.Text2>
               <Style.Text2>
-                모집 마감까지 6자리 남았어요! (현재 14명 / 최대{" "}
-                {newClub.head_count}명)
+                모집 마감까지 {newClub.head_count}자리 남았어요! (현재 0명 /
+                최대 {newClub.head_count}명)
               </Style.Text2>
               <Style.Text3>
                 *클럽 사정에 따라 모집이 조기 마감될 수 있습니다.

@@ -78,12 +78,16 @@ function MyClubListCard({
 
   return (
     <Style.WholeCardDiv>
-      <Style.WholeCard make={make} closedclub={closedClub.toString()}>
+      <Style.WholeCard>
         <Link to={`/clubDetail/${club.id}`}>
           <CardMedia
             component='img'
             height='200'
-            src={testimage}
+            src={
+              club.picture
+                ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
+                : testimage
+            }
             alt='Club Image'
           />
         </Link>

@@ -36,6 +36,7 @@ function ClubBasicInfo({ club }: { club: Interface.Club }) {
             {club.weekday ? "평일" : ""}
             {club.weekday && club.weekend ? "/" : ""}
             {club.weekend ? "주말" : ""}
+            {!(club.weekday || club.weekend) ? "미정" : ""}
           </Style.InfoContentDiv>
         </Style.BasicInfoEachDiv>
         <Style.BasicInfoEachDiv>
@@ -44,6 +45,7 @@ function ClubBasicInfo({ club }: { club: Interface.Club }) {
             {club.online ? "온라인" : ""}
             {club.online && club.offline ? "/" : ""}
             {club.offline ? "오프라인" : ""}
+            {!(club.online || club.offline) ? "미정" : ""}
           </Style.InfoContentDiv>
         </Style.BasicInfoEachDiv>
         <Style.BasicInfoEachDiv>

@@ -8,14 +8,8 @@ export const WholeCardDiv = styled.div`
   width: 33.33%;
 `;
 
-export const WholeCard =
-  styled(Card) <
-  { make: string, closedclub: string } >
-  `
-  margin: ${(props) =>
-    props.make === "true" || props.closedclub === "1"
-      ? "25px 25px 0 25px"
-      : "25px"};
+export const WholeCard = styled(Card)`
+  margin: 25px 25px 0 25px;
   height: 400px;
   border-radius: 4px 4px 0px 0px;
 `;
