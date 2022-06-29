@@ -17,7 +17,6 @@ const MainTextBox = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 2;
-  // color: white;
   h2 {
     font-size: 46px;
     font-weight: 300;

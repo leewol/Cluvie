@@ -63,7 +63,7 @@ function MainBanner() {
       current: newCurrent,
       direction: DIRECTION.next
     }));
-    console.log(bannerSlide);
+    // console.log(bannerSlide);
   }
 
   const handlePrev = () => {
