@@ -88,19 +88,23 @@ class clubService {
     return closeApplication;
   };
 
-  static deleteClub = async ({ club_id }) => {
+  static deleteClub = async ({ club_id, user_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
       const errorMessage = "존재하지 않는 모임입니다.";
       return { errorMessage };
     }
+    if (club.manager != user_id) {
+      const errorMessage = "삭제 권한이 없습니다.";
+      return { errorMessage };
+    }
     // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
-    Clubs.destroy({ where: { id: club_id } });
-    Likes.destroy({ where: { club_id: club_id } });
-    Reviews.destroy({ where: { club_id: club_id } });
-    Ratings.destroy({ where: { club_id: club_id } });
-    Applicants.destroy({ where: { club_id: club_id } });
-    return;
+    const deleted = await Clubs.destroy({ where: { id: club_id } });
+    await Likes.destroy({ where: { club_id: club_id } });
+    await Reviews.destroy({ where: { club_id: club_id } });
+    await Ratings.destroy({ where: { club_id: club_id } });
+    await Applicants.destroy({ where: { club_id: club_id } });
+    return deleted;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
@@ -156,6 +160,32 @@ class clubService {
   static getRating = async ({ club_id }) => {
     const ratingData = await Ratings.findOne({ where: { club_id } });
     return ratingData.rating.toFixed(1); //소수점 한자리까지 표현
+  };
+
+  static getTop10ViewsRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs WHERE state = 0 ORDER BY views DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
+
+  static getTop10PopularClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM (SELECT c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at IFNULL((c.head_count - a.member_count), 0) AS capacity
+      FROM clubs AS c LEFT JOIN (SELECT club_id, COUNT(user_id) AS member_count FROM applicants WHERE STATUS = 1 AND is_deleted <> 1 GROUP BY club_id) AS a ON c.id = a.club_id
+      WHERE c.is_deleted <> 1) AS b WHERE b.capacity > 0 ORDER BY b.capacity LIMIT 10;`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
+
+  static getWeekendRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs WHERE state=0 AND weekend=1 ORDER BY RAND() LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
   };
 }
 export { clubService };
