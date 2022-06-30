@@ -22,7 +22,9 @@ import {
   StyledSelect,
   HashtagsBox,
   HashtagNotice,
-  HashtagSpan
+  HashtagNotice2,
+  HashtagSpan,
+  AIButton
 } from "./ClubCreateBasicStyle";
 
 // * Props type은 해당 파일 내에서 정의
@@ -157,7 +159,8 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
             />
           </InputBox>
           <InputBox>
-            <StyledLabel htmlFor='intro'>한줄 소개</StyledLabel>
+            <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button'>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다!</HashtagNotice2></StyledLabel>
+            
             <StyledInput
               type='text'
               name='intro'
@@ -220,8 +223,8 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
             </StyledSelect>
           </InputBox>
           <InputBox>
-            <StyledLabel htmlFor='hashtags'>해시태그
-              <HashtagNotice>최대 3개를 입력해 주세요</HashtagNotice>
+            <StyledLabel htmlFor='hashtags'>해시태그<AIButton type='button'>키워드 추출</AIButton><br/>
+              <HashtagNotice>클럽의 상세 정보를 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 최대 3개의 해시태그를 등록할 수 있어요!</HashtagNotice>
             </StyledLabel>
             <StyledInput
               type='text'
