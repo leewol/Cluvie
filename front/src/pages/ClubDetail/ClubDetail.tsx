@@ -173,9 +173,10 @@ function ClubDetail() {
     window.Kakao.Link.sendDefault({
       objectType: "feed",
       content: {
-        title: "마블 톺아보기",
-        description: "마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!",
-        imageUrl: "https://cdn.imweb.me/thumbnail/20220501/559d862b36b34.jpg",
+        title: club.name,
+        description: club.intro,
+        imageUrl:
+          "http://localhost:3000/uploads/1656502239819_1656348082353_kuromi.jpg",
         link: {
           webUrl: window.location.href,
           mobileWebUrl: window.location.href,
