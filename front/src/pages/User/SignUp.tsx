@@ -6,8 +6,6 @@ import { ContainerBox, InnerBox } from "@/styles/containers";
 import { FormButton, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
-// TODO : 소셜 회원가입
-
 const StyledSpan = styled.span`
   margin-top: 15px;
 `;
