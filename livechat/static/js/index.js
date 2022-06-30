@@ -1,14 +1,14 @@
 var socket = io();
 
 /* 접속 되었을 때 실행 */
-socket.on("connect", function (req, res) {
+socket.on("connection", function (req, res) {
   var name = prompt("이름을 입력해주세요");
 
-  socket.emit("newUser", name);
+  socket.emit("addUser", name);
   console.log(name);
 });
 
-socket.on("update", (data) => {
+socket.on("newMessage", (data) => {
   console.log(`${data.name}: ${data.message}`);
 });
 /* 전송 함수 */
