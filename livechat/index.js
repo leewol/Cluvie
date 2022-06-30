@@ -63,6 +63,18 @@ io.sockets.on("connection", (socket) => {
   });
 });
 
+// io.sockets.on("connection", (socket) => {
+//   var roomName;
+//   socket.on("join", (data) => {
+//     roomName = data;
+//     socket.join(data);
+//   });
+
+//   socket.on("message", (data) => {
+//     io.sockets.in(roomName).emit("message", data);
+//   });
+// });
+
 server.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
 });
