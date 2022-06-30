@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 
-import { isSignInUser } from "@/utils/recoil";
+import { isSignInUser, authCode, isEmailAuthorized } from "@/utils/recoil";
 import {
   isEmailValid,
   isPasswordValid,
   isPasswordConfirmed,
   isNicknameValid,
-  showValidIcon,
+  showValidIcon
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
@@ -25,12 +25,16 @@ import {
   StyledRadioLabel,
   StyledRadioInput, 
   StyledDateInput,
-  AuthEmailButton } from "./SignUpFormStyle";
+  AuthEmailButton,
+  AuthEmailCompletedButton } from "./SignUpFormStyle";
 
 function SignUpForm() {
   const navigate = useNavigate();
 
   const setIsSignIn = useSetRecoilState(isSignInUser);
+  const setEmailAuthCode = useSetRecoilState(authCode);
+  const isThisEmailAuthorized= useRecoilValue(isEmailAuthorized);
+
   const [form, setForm] = useState({
     email: "",
     nickname: "",
@@ -42,6 +46,7 @@ function SignUpForm() {
 
   const isFormValid =
     isEmailValid(form.email) &&
+    isThisEmailAuthorized &&
     isPasswordValid(form.password) &&
     isPasswordConfirmed(form.password, form.confirmPassword) &&
     isNicknameValid(form.nickname) &&
@@ -88,6 +93,16 @@ function SignUpForm() {
       });
   };
 
+  const handleAuthEmailClick = async () => {
+    try {
+      const res = await Api.post("/mail", { email: form.email });
+      console.log(res.data.SendEmail);
+      setEmailAuthCode(res.data.SendEmail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <ContainerBox>
       <SignUpFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
@@ -103,12 +118,22 @@ function SignUpForm() {
             />
             {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
           </UserInputDiv>
-          
-          <AuthEmailButton type="button" disabled={!isEmailValid(form.email)}>
-            이메일 인증하기
-          </AuthEmailButton>
-          <AuthEmail />
-
+          {
+            isThisEmailAuthorized ?
+            <AuthEmailCompletedButton type="button">
+              이메일 인증 완료
+            </AuthEmailCompletedButton> :
+            <div>
+              <AuthEmailButton 
+                type="button" 
+                disabled={!isEmailValid(form.email)}
+                onClick={handleAuthEmailClick}  
+              >
+                이메일 인증하기
+              </AuthEmailButton>
+              <AuthEmail />
+            </div> 
+          }
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>
           <UserInputDiv>
             <StyledInput

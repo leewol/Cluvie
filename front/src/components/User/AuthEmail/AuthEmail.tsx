@@ -1,18 +1,27 @@
 import React, { useState } from "react";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 
-import { isAuthEmailCodeValid } from "@/utils/validation";
+import { isAuthEmailCodeCheckValid } from "@/utils/validation";
+import { isEmailAuthorized, authCode } from "@/utils/recoil";
 
 import { AuthEmailBox, AuthEmailLabel, AuthEmailInput, AuthEmailCheckButton } from "./AuthEmailStyle";
 
 function AuthEmail() {
-  const [authCode, setAuthCode] = useState<string>("");
+  const emailAuthCode = useRecoilValue(authCode);
+  const setIsThisEmailAuthorized = useSetRecoilState(isEmailAuthorized);
 
+  const [inputCode, setInputCode] = useState<string>("");
+  
   const handleChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuthCode(() => event.target.value);
+    setInputCode(() => event.target.value);
   }
 
   const handleCodeSubmit = () => {
-
+    if (inputCode !== "" && Number(inputCode) === Number(emailAuthCode)) {
+      setIsThisEmailAuthorized(() => true);
+      return;
+    }
+    alert("인증 번호를 다시 확인해 주세요!");
   }
 
   return (<AuthEmailBox>
@@ -20,12 +29,12 @@ function AuthEmail() {
       <AuthEmailInput
         type='text'
         name='auth-email'
-        value={authCode}
+        value={inputCode}
         onChange={handleChangeCode}
       />
       <AuthEmailCheckButton 
-        type="submit" 
-        disabled={!isAuthEmailCodeValid(authCode)}
+        type="button" 
+        disabled={!isAuthEmailCodeCheckValid(inputCode)}
         onClick={handleCodeSubmit}>
         인증
       </AuthEmailCheckButton>

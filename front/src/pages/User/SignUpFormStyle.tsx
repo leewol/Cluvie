@@ -107,6 +107,16 @@ const AuthEmailButton = styled(UserButton)<{ disabled: boolean }>`
   }
 `;
 
+const AuthEmailCompletedButton = styled(UserButton)`
+  box-shadow: none;
+  font-weight: 600;
+  background-color: white;  
+  color: #d3d3d3; 
+  border: 1px solid #d3d3d3;
+  opacity: 0.6;
+  cursor: auto;
+`;
+
 export { 
   SignUpFormInnerBox, 
   SignUpInputBox, 
@@ -114,4 +124,5 @@ export {
   StyledRadioLabel, 
   StyledRadioInput, 
   StyledDateInput, 
-  AuthEmailButton };
+  AuthEmailButton,
+  AuthEmailCompletedButton };

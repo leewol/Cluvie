@@ -22,7 +22,7 @@ const showValidIcon = (validation: boolean) => {
   );
 };
 
-const isAuthEmailCodeValid = (code: string) => code.length === 6;
+const isAuthEmailCodeCheckValid = (code: string) => code.length === 6;
 
 export {
   isEmailValid,
@@ -30,5 +30,5 @@ export {
   isPasswordConfirmed,
   isNicknameValid,
   showValidIcon,
-  isAuthEmailCodeValid,
+  isAuthEmailCodeCheckValid,
 };

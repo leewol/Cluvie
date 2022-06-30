@@ -11,3 +11,13 @@ export const filters = atom<{[key: string]: string}>({
     // filterValue: filterKey (ex)온라인: online1
   },
 });
+
+export const authCode = atom<string>({
+  key: "authCode",
+  default: "",
+});
+
+export const isEmailAuthorized = atom<boolean>({
+  key: "isEmailAuthorized",
+  default: false,
+});
