@@ -5,7 +5,7 @@ import { StyledSpan } from "@/styles/text";
 const MainBannerBox = styled.div`
   overflow: hidden;
   background-color: #FFE047;
-  width: 80%;
+  width: 1500px;
   border-radius: 15px;
   height: 350px;
   display: flex;
