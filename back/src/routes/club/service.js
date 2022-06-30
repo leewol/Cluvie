@@ -99,12 +99,12 @@ class clubService {
       return { errorMessage };
     }
     // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
-    Clubs.destroy({ where: { id: club_id } });
-    Likes.destroy({ where: { club_id: club_id } });
-    Reviews.destroy({ where: { club_id: club_id } });
-    Ratings.destroy({ where: { club_id: club_id } });
-    Applicants.destroy({ where: { club_id: club_id } });
-    return;
+    const deleted = await Clubs.destroy({ where: { id: club_id } });
+    await Likes.destroy({ where: { club_id: club_id } });
+    await Reviews.destroy({ where: { club_id: club_id } });
+    await Ratings.destroy({ where: { club_id: club_id } });
+    await Applicants.destroy({ where: { club_id: club_id } });
+    return deleted;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
