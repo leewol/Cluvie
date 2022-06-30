@@ -50,19 +50,25 @@ function ClubDetail() {
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
 
   const handleDeleteLikes = () => {
+    setLikesButton((prev) => !prev);
+
     Api.delete("/likes", club.id)
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    setLikesButton((prev) => !prev);
+      .catch((err) => {
+        console.log(err);
+        setLikesButton((prev) => !prev);
+      });
   };
 
   const handlePostLikes = () => {
+    setLikesButton((prev) => !prev);
+
     Api.post("/likes", { club_id: club.id })
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    setLikesButton((prev) => !prev);
+      .catch((err) => {
+        console.log(err);
+        setLikesButton((prev) => !prev);
+      });
   };
 
   useEffect(() => {

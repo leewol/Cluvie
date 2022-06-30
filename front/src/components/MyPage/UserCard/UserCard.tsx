@@ -30,6 +30,8 @@ function UserCard() {
   };
 
   const handleEdit = () => {
+    setEditToggle(false);
+
     Api.patch("/users", {
       nickname: patchNickname,
       description: patchDescription,
@@ -42,7 +44,6 @@ function UserCard() {
       nickname: patchNickname,
       description: patchDescription,
     });
-    setEditToggle(false);
   };
 
   const handleDescription = (
