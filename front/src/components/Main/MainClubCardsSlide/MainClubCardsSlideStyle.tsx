@@ -13,7 +13,7 @@ const ClubCardsSlideBox = styled(MainBannerImageBox)`
     right: -60px;
   }
   .hide-back {
-    right: -29%;
+    right: -27%;
     width: 400px;
   }
   .hide-prev {
