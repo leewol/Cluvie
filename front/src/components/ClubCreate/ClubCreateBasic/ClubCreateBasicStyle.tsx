@@ -96,6 +96,14 @@ const HashtagSpan = styled(StyledSpan)`
   cursor: pointer;
 `;
 
+const HashtagSpan2 = styled(StyledSpan)`
+  background-color: #ffc300;
+  border: 5px solid #ffc300;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
 const AIButton = styled(Button)`
   margin-left: 5px;
   padding: 2px 4px;
@@ -123,5 +131,6 @@ export {
   HashtagNotice,
   HashtagNotice2,
   HashtagSpan,
+  HashtagSpan2,
   AIButton
 };
