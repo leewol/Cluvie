@@ -2,12 +2,12 @@ import express from "express";
 import db from "./models/index";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import livechatRouter from "./src/routes/livechat/router";
 const fs = require("fs");
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 import dotenv from "dotenv";
-import { DataPipeline } from "aws-sdk";
 dotenv.config();
 
 const PORT = 5001;
@@ -23,6 +23,7 @@ db.sequelize
 
 app.use("/css", express.static("./static/css"));
 app.use("/js", express.static("./static/js"));
+app.use(livechatRouter);
 
 app.get("/", (req, res) => {
   fs.readFile("./static/js/index.html", (err, data) => {
@@ -70,11 +71,16 @@ io.sockets.on("connection", (socket) => {
   socket.on("join", (data) => {
     roomName = data;
     socket.join(data);
+    console.log("data");
   });
 
   socket.on("message", (data) => {
     io.sockets.in(roomName).emit("message", data);
     console.log(data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("disconnected");
   });
 });
 

@@ -1,18 +1,15 @@
 var socket = io();
 
 /* 접속 되었을 때 실행 */
-socket.on("connect", function () {
-  var name = prompt("반갑습니다!", "");
+socket.on("connect", function (req, res) {
+  var roomName = req.params.roomName;
 
-  if (!name) {
-    name = "익명";
-  }
-
-  socket.emit("newUser", name);
+  socket.emit("join", roomName);
+  console.log(roomName);
 });
 
 socket.on("update", (data) => {
-  console.log(`${data.name}: ${data.message}`);
+  console.log(`${data.roomName}: ${data.message}`);
 });
 /* 전송 함수 */
 function send() {
