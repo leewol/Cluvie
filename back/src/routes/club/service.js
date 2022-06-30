@@ -1,4 +1,5 @@
 import Reviews from "../../../models/review";
+import Likes from "../../../models/like";
 import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
@@ -6,18 +7,6 @@ import Ratings from "../../../models/rating";
 import db from "../../../models/index";
 
 class clubService {
-  //   static getClublist = async (page) => {
-  //     const clubList = await Clubs.findAll({});
-  //     let startFrom = page * (page - 1);
-  //     console.log("확인:", startFrom);
-  //     let sql = `SELECT * FROM clubs WHERE id >= ${startFrom} ORDER BY id DESC LIMIT ${startFrom}, 4`;
-  //     const scrollClubList = await db.sequelize.query(sql, {
-  //       type: db.sequelize.QueryTypes.SELECT,
-  //     });
-  //     console.log(scrollClubList);
-  //     return scrollClubList;
-  //   };
-
   static createClub = async ({
     name,
     intro,
@@ -52,11 +41,11 @@ class clubService {
     return reviewRating;
   };
 
+  // 비로그인 -> 메인페이지(로그인 안해도 전체 클럽목록 볼 수 있어서)
   static getClublist = async (club_id) => {
     const clubList = await Clubs.findAll({});
     console.log("확인:", club_id);
-    // 임시 변경
-    let sql = `SELECT * FROM clubs WHERE id > ${club_id} ORDER BY id LIMIT 6`;
+    let sql = `SELECT * FROM clubs WHERE id < ${club_id} ORDER BY id DESC LIMIT 6`;
     const scrollClubList = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
@@ -64,15 +53,22 @@ class clubService {
     return scrollClubList;
   };
 
-  // 로그인된 유저의 좋아요 여부 확인 - 작업중
-  // 유저가 좋아요 누른 모임이 없을 경우 -> 에러 ...
-  static getClubListTest = async ({ user_id }) => {
-    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend FROM clubs AS c LEFT JOIN likes ON c.id = l.club_id WHERE l.user_id=:id`;
-    const clubList = await db.sequelize.query(sql, {
-      replacements: { id: user_id },
+  // 로그인 후 -> 메인페이지(전체 클럽 목록 GET)
+  // 로그인된 유저의 모임 찜 여부 확인
+  static getClubListTest = async ({ user_id, club_id }) => {
+    let sql = `SELECT l.user_id, c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at FROM clubs AS c LEFT JOIN (SELECT * FROM likes WHERE user_id=${user_id}) AS l ON c.id = l.club_id WHERE c.id < ${club_id} ORDER BY id DESC LIMIT 6`;
+    const clubs = await db.sequelize.query(sql, {
       type: db.sequelize.QueryTypes.SELECT,
     });
-    return clubList;
+    // 클럽목록 배열로 보낼 때, 로그인한 유저의 모임 찜 여부를 user_id: 0 or 1 로 표현
+    const clubListView = clubs.map((club) => {
+      if (club.user_id != null) {
+        return { ...club, user_id: 1 };
+      } else {
+        return { ...club, user_id: 0 };
+      }
+    });
+    return clubListView;
   };
 
   static getClubListMadeByMe = async ({ user_id }) => {
@@ -89,6 +85,25 @@ class clubService {
     const closeApplication = await club.update({ state: 1 });
     await Applicants.update({ status: 2 }, { where: { club_id, status: 0 } });
     return closeApplication;
+  };
+
+  static deleteClub = async ({ club_id, user_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    if (club.manager != user_id) {
+      const errorMessage = "삭제 권한이 없습니다.";
+      return { errorMessage };
+    }
+    // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
+    Clubs.destroy({ where: { id: club_id } });
+    Likes.destroy({ where: { club_id: club_id } });
+    Reviews.destroy({ where: { club_id: club_id } });
+    Ratings.destroy({ where: { club_id: club_id } });
+    Applicants.destroy({ where: { club_id: club_id } });
+    return;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
@@ -119,17 +134,17 @@ class clubService {
       return { errorMessage };
     }
     const reviews = await db.sequelize.query(
-      "SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=:id ORDER BY r.created_at DESC",
-      { replacements: { id: club_id }, type: db.sequelize.QueryTypes.SELECT }
+      `SELECT u.id, u.nickname, r.club_id, r.star_rating, r.contents, r.created_at FROM reviews AS r LEFT JOIN users AS u ON r.user_id = u.id WHERE r.club_id=${club_id} ORDER BY r.created_at DESC`,
+      { type: db.sequelize.QueryTypes.SELECT }
     );
     return reviews;
   };
 
   static setReviewRating = async ({ club_id, star }) => {
-    await Ratings.increment({ count: 1 }, { where: { club_id: club_id } });
-    await Ratings.increment("star_sum", {
+    const rating = await Ratings.findOne({ where: { club_id: club_id } });
+    await rating.increment({ count: 1 });
+    await rating.increment("star_sum", {
       by: star,
-      where: { club_id: club_id },
     });
   };
 
@@ -137,11 +152,37 @@ class clubService {
     const ratingData = await Ratings.findOne({ where: { club_id: club_id } });
     const rating = ratingData.star_sum / ratingData.count;
 
-    const result = await ratingData.update(
-      { rating: rating },
-      { where: { club_id: club_id } }
+    const result = await ratingData.update({ rating: rating });
+    return result;
+  };
+
+  static getRating = async ({ club_id }) => {
+    const ratingData = await Ratings.findOne({ where: { club_id } });
+    return ratingData.rating.toFixed(1); //소수점 한자리까지 표현
+  };
+
+  static getTop10ViewsRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs WHERE state = 0 ORDER BY views DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
     );
-    return result.rating.toFixed(1); //소수점 한자리까지 표현
+    return clubs;
+  };
+
+  static getTop10HeadCountRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs  WHERE state = 0 ORDER BY head_count DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
+
+  static getWeekendRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs WHERE state=0 AND weekend=1 ORDER BY RAND() LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
   };
 }
 export { clubService };

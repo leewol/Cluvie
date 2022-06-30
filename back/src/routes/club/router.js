@@ -6,8 +6,23 @@ import { verifyToken } from "../../middlewares/verifyToken";
 import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
+const upload = require("../../middlewares/fileUpload");
 
 // 공통 url: "/clubs"
+
+// 클럽 사진 서버에 업로드
+clubRouter.post("/picture", async (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(404).json({ success: false, message: err.message });
+    }
+    return res.status(200).json({
+      success: true,
+      filePath: res.req.file.path,
+      fileName: res.req.file.filename,
+    });
+  });
+});
 
 /** 클럽 생성 */
 clubRouter.post("/", verifyToken, async (req, res) => {
@@ -61,16 +76,24 @@ clubRouter.get("/", async (req, res) => {
 });
 
 // 메인페이지는 로그인 안하고 볼 수 있음 -> 로그인하고나서의 메인페이지 라우터
-// 클럽 목록 불러오기(로그인한 유저의 좋아요 여부 포함)
-clubRouter.get("/test", verifyToken, async (req, res) => {
-  try {
-    const user_id = req.user;
-    const clubList = await clubService.getClubListTest({ user_id });
-    res.status(200).json({ success: true, clubList });
-  } catch (err) {
-    res.status(404).send({ success: false, message: err.message });
+// 클럽 목록 불러오기 6개씩(로그인한 유저의 좋아요 여부 포함)
+clubRouter.get(
+  "/isLogined/scrollClublist/:club_id",
+  verifyToken,
+  async (req, res) => {
+    try {
+      const user_id = req.user;
+      const club_id = req.params.club_id;
+      const scrollClublist = await clubService.getClubListTest({
+        user_id,
+        club_id,
+      });
+      res.status(200).json({ success: true, scrollClublist });
+    } catch (err) {
+      res.status(404).send({ success: false, message: err.message });
+    }
   }
-});
+);
 
 /** 클럽 4개씩 불러오기
  * @param club_id 가장 최근 클럽ID
@@ -82,6 +105,37 @@ clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
     res.json({ success: true, scrollClublist });
   } catch (err) {
     next(err);
+  }
+});
+
+// 모집중인 모임 중 조회수 상위 10개 모임 불러오기
+clubRouter.get("/top10Views", async (req, res) => {
+  try {
+    const top10ViewsClub = await clubService.getTop10ViewsRecruitingClubs();
+    res.status(200).json({ success: true, top10ViewsClub });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
+// 모집중인 모임 중 모집인원수 상위 10개 모임 불러오기
+clubRouter.get("/top10HeadCount", async (req, res) => {
+  try {
+    const top10HeadCountClubs =
+      await clubService.getTop10HeadCountRecruitingClubs();
+    res.status(200).json({ success: true, top10HeadCountClubs });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
+// 모집중인 모임 중 주말에 모이는 모임 10개 랜덤으로 불러오기
+clubRouter.get("/weekendClubs", async (req, res) => {
+  try {
+    const weekendClubs = await clubService.getWeekendRecruitingClubs();
+    res.status(200).json({ success: true, weekendClubs });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
   }
 });
 
@@ -132,6 +186,7 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
     });
     const star = review.star_rating;
     await clubService.setReviewRating({ club_id, star });
+    await clubService.calculateRating({ club_id });
 
     if (review.errorMessage) {
       res.status(403).json({ success: false, err: review.errorMessage });
@@ -149,8 +204,8 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   }
 });
 
-// 모임 참여 후기 목록 불러오기
-clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
+// 모임 참여 후기 목록 불러오기(비로그인으로 가능)
+clubRouter.get("/:club_id/review", async (req, res) => {
   try {
     const club_id = req.params.club_id;
     const reviews = await clubService.getAllReviews({ club_id });
@@ -165,10 +220,10 @@ clubRouter.get("/:club_id/review", verifyToken, async (req, res) => {
 });
 
 //모임 후기 평점 불러오기
-clubRouter.get("/:club_id/rating", verifyToken, async (req, res) => {
+clubRouter.get("/:club_id/rating", async (req, res) => {
   try {
     const club_id = req.params.club_id;
-    const rating = await clubService.calculateRating({ club_id });
+    const rating = await clubService.getRating({ club_id });
 
     res.status(200).json({ success: true, rating });
   } catch (err) {
@@ -246,15 +301,13 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
 // 없는 모임을 삭제할 경우, 에러 처리
 clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   try {
-    const club = await Clubs.findOne({ where: { id: req.params.id } });
-    if (!club) {
-      return res
-        .status(404)
-        .json({ success: false, message: "존재하지 않는 모임입니다." });
+    const user_id = req.user;
+    const club_id = req.params.id;
+    const deletedClub = await clubService.deleteClub({ club_id, user_id });
+
+    if (deletedClub.errorMessage) {
+      res.status(403).json({ success: false, err: deletedClub.errorMessage });
     }
-    Clubs.destroy({
-      where: { id: req.params.id },
-    });
     res.status(200).json({ success: true });
   } catch (err) {
     next(err);
