@@ -5,7 +5,7 @@ import { MainBannerImageBox, ArrowBox, SlideImageHideBox } from "@/components/Ma
 const ClubCardsSlideBox = styled(MainBannerImageBox)`
   width: 1500px;
   height: 500px;
-  margin-bottom: 50px;
+  margin-bottom: 150px;
   .arrow-back {
     left: -60px;
   }
