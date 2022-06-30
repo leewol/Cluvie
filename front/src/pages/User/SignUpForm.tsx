@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { isSignInUser, authCode, isEmailAuthorized } from "@/utils/recoil";
+import { isSignInUser, authCode } from "@/utils/recoil";
 import {
   isEmailValid,
   isPasswordValid,
@@ -33,8 +33,8 @@ function SignUpForm() {
 
   const setIsSignIn = useSetRecoilState(isSignInUser);
   const setEmailAuthCode = useSetRecoilState(authCode);
-  const isThisEmailAuthorized= useRecoilValue(isEmailAuthorized);
 
+  const [isThisEmailAuthorized, setIsThisEmailAuthorized] = useState<boolean>(false);
   const [form, setForm] = useState({
     email: "",
     nickname: "",
@@ -131,7 +131,7 @@ function SignUpForm() {
               >
                 이메일 인증하기
               </AuthEmailButton>
-              <AuthEmail />
+              <AuthEmail setIsThisEmailAuthorized={setIsThisEmailAuthorized} />
             </div> 
           }
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>

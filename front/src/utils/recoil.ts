@@ -16,8 +16,3 @@ export const authCode = atom<string>({
   key: "authCode",
   default: "",
 });
-
-export const isEmailAuthorized = atom<boolean>({
-  key: "isEmailAuthorized",
-  default: false,
-});

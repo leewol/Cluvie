@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { isAuthEmailCodeCheckValid } from "@/utils/validation";
-import { isEmailAuthorized, authCode } from "@/utils/recoil";
+import { authCode } from "@/utils/recoil";
 
 import { AuthEmailBox, AuthEmailLabel, AuthEmailInput, AuthEmailCheckButton } from "./AuthEmailStyle";
 
-function AuthEmail() {
-  const emailAuthCode = useRecoilValue(authCode);
-  const setIsThisEmailAuthorized = useSetRecoilState(isEmailAuthorized);
+interface Props {
+  setIsThisEmailAuthorized: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
+function AuthEmail({ setIsThisEmailAuthorized }: Props) {
+  const emailAuthCode = useRecoilValue(authCode);
   const [inputCode, setInputCode] = useState<string>("");
   
   const handleChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
