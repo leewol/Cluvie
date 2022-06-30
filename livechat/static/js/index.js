@@ -2,14 +2,14 @@ var socket = io();
 
 /* 접속 되었을 때 실행 */
 socket.on("connect", function (req, res) {
-  var roomName = req.params.roomName;
+  var name = prompt("이름을 입력해주세요");
 
-  socket.emit("join", roomName);
-  console.log(roomName);
+  socket.emit("newUser", name);
+  console.log(name);
 });
 
 socket.on("update", (data) => {
-  console.log(`${data.roomName}: ${data.message}`);
+  console.log(`${data.name}: ${data.message}`);
 });
 /* 전송 함수 */
 function send() {

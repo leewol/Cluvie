@@ -38,51 +38,51 @@ app.get("/", (req, res) => {
   });
 });
 
-// io.sockets.on("connection", (socket) => {
-//   socket.on("newUser", (name) => {
-//     console.log(name + "님이 접속하였습니다.");
-//     socket.name = name;
-//     io.sockets.emit("update", {
-//       type: "connect",
-//       name: "SERVER",
-//       message: name + "님이 접속하였습니다.",
-//     });
-//   });
-
-//   socket.on("message", (data) => {
-//     data.name = socket.name;
-//     console.log(data);
-//     socket.broadcast.emit("update", data);
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log(socket.name + "님이 나가셨습니다.");
-//     socket.broadcast.emit("update", {
-//       type: "disconnect",
-//       name: "SERVER",
-//       message: socket.name + "님이 나가셨습니다.",
-//     });
-//   });
-// });
-
 io.sockets.on("connection", (socket) => {
-  var roomName = null;
-
-  socket.on("join", (data) => {
-    roomName = data;
-    socket.join(data);
-    console.log("data");
+  socket.on("newUser", (name) => {
+    console.log(name + "님이 접속하였습니다.");
+    socket.name = name;
+    io.sockets.emit("update", {
+      type: "connect",
+      name: "SERVER",
+      message: name + "님이 접속하였습니다.",
+    });
   });
 
   socket.on("message", (data) => {
-    io.sockets.in(roomName).emit("message", data);
+    data.name = socket.name;
     console.log(data);
+    socket.broadcast.emit("update", data);
   });
 
   socket.on("disconnect", () => {
-    console.log("disconnected");
+    console.log(socket.name + "님이 나가셨습니다.");
+    socket.broadcast.emit("update", {
+      type: "disconnect",
+      name: "SERVER",
+      message: socket.name + "님이 나가셨습니다.",
+    });
   });
 });
+
+// io.sockets.on("connection", (socket) => {
+//   var roomName = null;
+
+//   socket.on("join", (data) => {
+//     roomName = data;
+//     socket.join(data);
+//     console.log("data");
+//   });
+
+//   socket.on("message", (data) => {
+//     io.sockets.in(roomName).emit("message", data);
+//     console.log(data);
+//   });
+
+//   socket.on("disconnect", () => {
+//     console.log("disconnected");
+//   });
+// });
 
 server.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
