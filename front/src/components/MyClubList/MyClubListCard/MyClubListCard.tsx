@@ -8,6 +8,7 @@ import {
   Accordion,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import GradeIcon from "@mui/icons-material/Grade";
 import testimage from "@/asset/images/testimage.PNG";
 import { StyledSpan } from "@/styles/text";
 import * as Interface from "@/utils/interface";
@@ -30,6 +31,8 @@ function MyClubListCard({
   const [accordionClick, setAccordionClick] = useState(false);
   const [applicantsList, setApplicantsList] = useState([]);
   const [acceptanceButtonLoading, setAcceptanceButtonLoading] = useState([]);
+  const [clubManager, setClubManager] = useState("");
+
   const handleToggleCloseApplicants = () =>
     setOpenCloseApplicants((prev) => !prev);
 
@@ -60,11 +63,7 @@ function MyClubListCard({
   };
 
   useEffect(() => {
-    console.log(acceptanceButtonLoading);
-  }, [acceptanceButtonLoading]);
-
-  useEffect(() => {
-    if (accordionClick) {
+    if (accordionClick || closeApplicantsButton) {
       Api.get(`/applications/${club.id}/users`)
         .then((res) => {
           console.log("모임에 신청한 사람", res.data.applicants);
@@ -74,7 +73,15 @@ function MyClubListCard({
 
       setAcceptanceButtonLoading([]);
     }
-  }, [accordionClick]);
+  }, [accordionClick, closeApplicantsButton]);
+
+  useEffect(() => {
+    if (club.manager) {
+      Api.get(`/users/${club.manager}/nickname`)
+        .then((res) => setClubManager(res.data.userNickname))
+        .catch((err) => console.log(err));
+    }
+  }, [club]);
 
   return (
     <Style.WholeCardDiv>
@@ -117,8 +124,8 @@ function MyClubListCard({
             </Style.MyIconButton>
           )}
           {!closedClub && make === "true" && closeApplicantsButton && (
-            <Style.MyIconButton aria-label='favorite'>
-              <Style.StyledSpan3>모집마감중</Style.StyledSpan3>
+            <Style.MyIconButton aria-label='favorite' disabled>
+              <Style.StyledSpan4>모집완료</Style.StyledSpan4>
             </Style.MyIconButton>
           )}
 
@@ -137,7 +144,7 @@ function MyClubListCard({
           />
         </Style.ClubCardInfos>
       </Style.WholeCard>
-      {!closedClub && make === "true" && (
+      {!closedClub && make === "true" && !closeApplicantsButton && (
         <Style.AccordionDiv>
           <Accordion style={{ borderRadius: "0px 0px 4px 4px" }}>
             <AccordionSummary
@@ -199,17 +206,28 @@ function MyClubListCard({
                     )}
                     {acceptanceButtonLoading.includes(applicants["id"]) &&
                     !applicants["status"] ? (
-                      <Style.ApplicantsButton3 disabled>
-                        수락중
-                      </Style.ApplicantsButton3>
+                      <Style.ApplicantsButton2
+                        onClick={() => {
+                          handleClickRefuse(applicants["id"]);
+                          setAcceptanceButtonLoading([]);
+                        }}
+                      >
+                        수락취소
+                      </Style.ApplicantsButton2>
                     ) : (
                       ""
                     )}
                     {acceptanceButtonLoading.includes(applicants["id"]) &&
                     applicants["status"] ? (
-                      <Style.ApplicantsButton3 disabled>
-                        수락취소중
-                      </Style.ApplicantsButton3>
+                      <Style.ApplicantsButton1
+                        onClick={() => {
+                          console.log('applicants["id"]', applicants["id"]);
+                          handleClickAcceptance(applicants["id"]);
+                          setAcceptanceButtonLoading([]);
+                        }}
+                      >
+                        수락하기
+                      </Style.ApplicantsButton1>
                     ) : (
                       ""
                     )}
@@ -219,7 +237,7 @@ function MyClubListCard({
           </Accordion>
         </Style.AccordionDiv>
       )}
-      {closedClub ? (
+      {closedClub || closeApplicantsButton ? (
         <Style.AccordionDiv>
           <Accordion style={{ borderRadius: "0px 0px 4px 4px" }}>
             <AccordionSummary
@@ -231,8 +249,20 @@ function MyClubListCard({
               <div style={{ fontWeight: "bold" }}>클럽원 목록</div>
             </AccordionSummary>
             <AccordionDetails>
-              {applicantsList.length === 0 && <div>클럽원이 없습니다.</div>}
-              {!(applicantsList.length === 0) &&
+              {applicantsList.filter((applicants) => applicants["status"] === 1)
+                .length === 0 &&
+                make === "true" && <div>클럽원이 없습니다.</div>}
+              {make !== "true" && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {clubManager}
+                  <GradeIcon style={{ fontSize: "16px", color: "#ffc300" }} />
+                </div>
+              )}
+              {!(
+                applicantsList.filter(
+                  (applicants) => applicants["status"] === 1
+                ).length === 0
+              ) &&
                 applicantsList
                   .filter((applicants) => applicants["status"] === 1)
                   .map((applicants) => (

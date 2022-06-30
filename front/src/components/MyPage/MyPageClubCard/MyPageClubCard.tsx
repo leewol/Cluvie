@@ -23,14 +23,15 @@ function MyPageClubCard({
   const [likesButton, setLikesButton] = useState(false);
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
   const handleDeleteLikes = () => {
-    Api.delete(`/likes/${club.club_id}`)
+    console.log("클럽", club);
+    Api.delete("/likes", club.club_id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
     setLikesButton((prev) => !prev);
   };
   const handlePostLikes = () => {
-    Api.post("/likes", { club_id: club.id })
+    Api.post("/likes", { club_id: club.club_id })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 

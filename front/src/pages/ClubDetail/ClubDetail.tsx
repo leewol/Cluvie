@@ -50,7 +50,7 @@ function ClubDetail() {
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
 
   const handleDeleteLikes = () => {
-    Api.delete(`/likes/${club.id}`)
+    Api.delete("/likes", club.id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
@@ -130,7 +130,6 @@ function ClubDetail() {
     if (isSignIn) {
       Api.get("/applications/acceptance/clubs")
         .then((res) => {
-          console.log("가입완료", res.data);
           setIsAccept(
             res.data.myClubList.filter(
               (curClub: Interface.Club) => curClub.id === club.id

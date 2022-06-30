@@ -17,8 +17,6 @@ import {
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
 
-// TODO : 소셜 로그인
-
 const SignInButtonBox = styled.div`
   width: 100%;
   margin-bottom: 30px;
@@ -65,10 +63,10 @@ function SignIn() {
     <ContainerBox>
       <InnerBox>
         <h1>로그인</h1>
-        <SignInButtonBox>
+        {/* <SignInButtonBox>
           <SocialButton social='google' action='로그인' />
           <SocialButton social='kakaotalk' action='로그인' />
-        </SignInButtonBox>
+        </SignInButtonBox> */}
         <form onSubmit={handleSumbit} autoComplete='off'>
           <InputBox>
             <UserInputDiv>
@@ -104,7 +102,7 @@ function SignIn() {
           </InputBox>
         </form>
         <SignInButtonBox>
-          <StyledLink to='/signUp'>가입하기</StyledLink>
+          <StyledLink to='/signUpByEmail'>가입하기</StyledLink>
         </SignInButtonBox>
       </InnerBox>
     </ContainerBox>

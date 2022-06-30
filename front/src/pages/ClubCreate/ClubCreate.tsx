@@ -23,7 +23,6 @@ function EditorComponent() {
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState<Club>({
     name: "",
-    manager: 4,
     picture: "",
     intro: "",
     duration: 0,
