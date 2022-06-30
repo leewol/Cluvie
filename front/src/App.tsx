@@ -44,10 +44,10 @@ function App() {
             path='signIn'
             element={isSignIn ? <Navigate to='/' replace /> : <SignIn />}
           />
-          <Route
+          {/* <Route
             path='signUp'
             element={isSignIn ? <Navigate to='/' replace /> : <SignUp />}
-          />
+          /> */}
           <Route
             path='signUpByEmail'
             element={isSignIn ? <Navigate to='/' replace /> : <SignUpForm />}

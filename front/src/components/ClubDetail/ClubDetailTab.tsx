@@ -66,11 +66,17 @@ export default function BasicTabs({
   useEffect(() => {
     if (!preview) {
       Api.get(`/clubs/${club.id}/review`)
-        .then((res) => setReviewList(res.data.reviews))
+        .then((res) => {
+          console.log(res.data)
+          setReviewList(res.data.reviews)
+        })
         .catch((err) => console.log(err));
 
       Api.get(`/clubs/${club.id}/rating`)
-        .then((res) => setRating(res.data.rating))
+        .then((res) => {
+          console.log("rating", res.data)
+          setRating(res.data.rating)
+        })
         .catch((err) => console.log(err));
     }
   }, []);
