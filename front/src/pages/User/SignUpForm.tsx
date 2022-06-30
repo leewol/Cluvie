@@ -13,10 +13,19 @@ import {
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
 
+import AuthEmail from "@/components/User/AuthEmail/AuthEmail";
+
 import { ContainerBox, StyledInput } from "@/styles/containers";
 import { FormButton, UserInputDiv } from "@/styles/user";
 import { StyledLabel } from "@/styles/text";
-import * as Styled from "./SignUpFormStyle";
+import { 
+  SignUpFormInnerBox, 
+  SignUpInputBox, 
+  RadioInputDiv, 
+  StyledRadioLabel,
+  StyledRadioInput, 
+  StyledDateInput,
+  AuthEmailButton } from "./SignUpFormStyle";
 
 function SignUpForm() {
   const navigate = useNavigate();
@@ -81,9 +90,9 @@ function SignUpForm() {
 
   return (
     <ContainerBox>
-      <Styled.SignUpFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
+      <SignUpFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
         <h1>회원가입</h1>
-        <Styled.SignUpInputBox>
+        <SignUpInputBox>
           <StyledLabel htmlFor='email'>이메일</StyledLabel>
           <UserInputDiv>
             <StyledInput
@@ -94,6 +103,11 @@ function SignUpForm() {
             />
             {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
           </UserInputDiv>
+          
+          <AuthEmailButton type="button" disabled={!isEmailValid(form.email)}>
+            이메일 인증하기
+          </AuthEmailButton>
+          <AuthEmail />
 
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>
           <UserInputDiv>
@@ -133,8 +147,8 @@ function SignUpForm() {
           </UserInputDiv>
 
           <StyledLabel>성별</StyledLabel>
-          <Styled.RadioInputDiv id='sex'>
-            <Styled.StyledRadioInput
+          <RadioInputDiv id='sex'>
+            <StyledRadioInput
               id='women'
               type='radio'
               name='sex'
@@ -142,10 +156,10 @@ function SignUpForm() {
               checked={form.sex === "여성"}
               onChange={onChange}
             />
-            <Styled.StyledRadioLabel htmlFor='women'>
+            <StyledRadioLabel htmlFor='women'>
               여성
-            </Styled.StyledRadioLabel>
-            <Styled.StyledRadioInput
+            </StyledRadioLabel>
+            <StyledRadioInput
               id='men'
               type='radio'
               name='sex'
@@ -153,10 +167,10 @@ function SignUpForm() {
               checked={form.sex === "남성"}
               onChange={onChange}
             />
-            <Styled.StyledRadioLabel htmlFor='men'>
+            <StyledRadioLabel htmlFor='men'>
               남성
-            </Styled.StyledRadioLabel>
-            <Styled.StyledRadioInput
+            </StyledRadioLabel>
+            <StyledRadioInput
               id='none'
               type='radio'
               name='sex'
@@ -164,14 +178,14 @@ function SignUpForm() {
               checked={form.sex === "여성도 남성도 아니에요"}
               onChange={onChange}
             />
-            <Styled.StyledRadioLabel htmlFor='none'>
+            <StyledRadioLabel htmlFor='none'>
               여성도 남성도 아니에요
-            </Styled.StyledRadioLabel>
-          </Styled.RadioInputDiv>
+            </StyledRadioLabel>
+          </RadioInputDiv>
           <StyledLabel>생년월일</StyledLabel>
 
           <UserInputDiv>
-            <Styled.StyledDateInput
+            <StyledDateInput
               type='date'
               name='birthday'
               value={form.birthday}
@@ -185,8 +199,8 @@ function SignUpForm() {
           >
             회원가입
           </FormButton>
-        </Styled.SignUpInputBox>
-      </Styled.SignUpFormInnerBox>
+        </SignUpInputBox>
+      </SignUpFormInnerBox>
     </ContainerBox>
   );
 }

@@ -1,13 +1,12 @@
 import styled from "@emotion/styled/macro";
+import { InputBox, UserInputDiv, UserButton } from "@/styles/user";
 
-import { InputBox, UserInputDiv } from "@/styles/user";
-
-export const SignUpFormInnerBox = styled.form`
+const SignUpFormInnerBox = styled.form`
   display: flex;
   flex-direction: column;
 `;
 
-export const SignUpInputBox = styled(InputBox)`
+const SignUpInputBox = styled(InputBox)`
   input {
     margin-bottom: 20px;
   }
@@ -16,13 +15,13 @@ export const SignUpInputBox = styled(InputBox)`
   }
 `;
 
-export const RadioInputDiv = styled(UserInputDiv)`
+const RadioInputDiv = styled(UserInputDiv)`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 `;
 
-export const StyledRadioLabel = styled.label`
+const StyledRadioLabel = styled.label`
   border: 1px solid #d3d3d3;
   border-radius: 7px;
   width: 100%;
@@ -45,7 +44,7 @@ export const StyledRadioLabel = styled.label`
     }
 `;
 
-export const StyledRadioInput = styled.input`
+const StyledRadioInput = styled.input`
   display: none;
   &:checked + ${StyledRadioLabel} {
     background-color: #ffc300;
@@ -53,7 +52,7 @@ export const StyledRadioInput = styled.input`
   }
 `;
 
-export const StyledDateInput = styled.input`
+const StyledDateInput = styled.input`
   appearance: none;
   outline: none;
   width: 100%;
@@ -87,3 +86,32 @@ export const StyledDateInput = styled.input`
       border: 1px solid #ffc300;
     }
 `;
+
+const AuthEmailButton = styled(UserButton)<{ disabled: boolean }>`
+  box-shadow: none;
+  font-weight: 600;
+  background-color: white;
+  ${(props) => (props.disabled) ? 
+    `color: #d3d3d3; 
+    border: 1px solid #d3d3d3;
+    opacity: 0.6;
+    cursor: auto;` 
+    : 
+    `color: #ffc300; 
+    border: 1px solid #ffc300; 
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(255, 195, 0, 0.1);
+      opacity: 1;
+    }`
+  }
+`;
+
+export { 
+  SignUpFormInnerBox, 
+  SignUpInputBox, 
+  RadioInputDiv, 
+  StyledRadioLabel, 
+  StyledRadioInput, 
+  StyledDateInput, 
+  AuthEmailButton };
