@@ -44,6 +44,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   const [ aihashtagArr, setAiHashtagArr ] = useState<string[]>([]);
   const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
   const [ hashtagLoading, setHashtagLoading] = useState(false);
+  const [ inputHashtag, setInputHashtag ] = useState("");
 
   const onChange = onChangeFunction(setClubInfo);
 
@@ -80,6 +81,33 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
       return;
     }
     setHashtagArr((prev) => [...prev, clickedHashtag]);
+  }
+
+  const handleInputHashtagChange = (event: React.ChangeEvent <HTMLInputElement>) => {
+    setInputHashtag(event.target.value);
+  }
+
+
+  const handleInputHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const { name, value } = target;
+    
+    if (event.key === "Enter") {
+      // 중복 처리
+      if (hashtagArr.includes(value)) {
+        alert("이미 등록된 해시태그입니다!");
+        return;
+      }
+
+      // 2개까지만 입력 가능
+      if (hashtagArr.length === 2) {
+        alert("해시태그를 2개 모두 입력하셨습니다!");
+        return;
+      }
+
+      setHashtagArr((prev) => [...prev, value]);
+      setInputHashtag(""); 
+    }
   }
 
   const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -204,7 +232,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
             />
           </InputBox>
           <InputBox>
-          <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다!<br/>*글의 길이에 따라 더 많은 시간이 소요될 수도 있어요!</HashtagNotice2></StyledLabel>
+          <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다.<br/>*글의 길이에 따라 더 많은 시간이 소요될 수도 있어요.</HashtagNotice2></StyledLabel>
             <StyledInput
               type='text'
               name='intro'
@@ -268,8 +296,15 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
           </InputBox>
           <InputBox>
             <StyledLabel htmlFor='hashtags'>해시태그<AIButton type='button' onClick={handleAIKeyword}>키워드 추출</AIButton><br/>
-            <HashtagNotice>클럽의 상세 정보를 30자 이상 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 최대 2개의 해시태그를 등록할 수 있어요!</HashtagNotice>
+            <HashtagNotice>클럽의 상세 정보를 30자 이상 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 해시태그를 선택하거나 직접 작성할 수도 있어요!</HashtagNotice><HashtagNotice2><br/>*최대 2개의 해시태그를 등록할 수 있습니다.</HashtagNotice2>
             </StyledLabel>
+            <StyledInput
+              type='text'
+              name='hashtags'
+              value={inputHashtag}
+              onChange={handleInputHashtagChange}
+              onKeyPress={handleInputHashtagEnter}
+            />
             <HashtagsBox>
               {aihashtagArr.map((el: string) => <HashtagSpan id={el} key={el} onClick={handleHashtagEnter}>#{el}</HashtagSpan>)}
             </HashtagsBox>
