@@ -176,7 +176,7 @@ def ner():
     for example in examples:
         ner_results = ner_nlp(example)
         for i in ner_results:
-            if not m[i['word']]:
+            if i['word'] not in m:
                 m[i['word']] = []
             m[i['word']].append(id) # 데이터 저장소로 변경하면 됨
 
@@ -185,12 +185,12 @@ def ner():
 def search():
     sentences = clean_text(request.get_json()['sentences'])
     sentences = sentences.split()
-    s = set()
+    result = []
 
     for i in sentences:
-        s.update(m[i])
+        result += i
 
-    return jsonify(s)
+    return jsonify(set(result))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
