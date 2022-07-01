@@ -179,6 +179,7 @@ def ner():
             if i['word'] not in m:
                 m[i['word']] = []
             m[i['word']].append(id) # 데이터 저장소로 변경하면 됨
+    return jsonify("success")
 
 # 데이터 저장소로 변경하면 됨 지금은 귀찮으니깐 그냥 로컬
 @app.route('/search', methods=['POST'])
@@ -188,9 +189,9 @@ def search():
     result = []
 
     for i in sentences:
-        result += i
+        result += m[i]
 
-    return jsonify(set(result))
+    return jsonify(list(set(result)))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
