@@ -63,8 +63,8 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     const club_description = club.description;
     await clubService.createClubReviewRating(club_id);
     const response = await axios.post(
-      "http://kdt-ai4-team18.elicecoding.com:5002/summary",
-      { sentences: club_description },
+      "http://kdt-ai4-team18.elicecoding.com:5002/ner",
+      { sentences: club_description, id: club_id },
       {
         headers: {
           "Content-Type": "application/json",
