@@ -1,4 +1,5 @@
 from flask import jsonify, Flask, request
+from flask_cors import CORS
 import numpy as np
 
 from konlpy.tag import Okt
@@ -17,6 +18,8 @@ import kss
 from soynlp.normalizer import repeat_normalize
 
 app = Flask(__name__)
+CORS(app)
+
 sroberta_model = SentenceTransformer('jhgan/ko-sroberta-multitask')
 okt = Okt()
 hate_speech_model = ElectraForSequenceClassification.from_pretrained("./finetune/model/hatespeech_smilegate")
