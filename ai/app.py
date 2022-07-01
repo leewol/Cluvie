@@ -176,7 +176,7 @@ def ner():
     for example in examples:
         ner_results = ner_nlp(example)
         for i in ner_results:
-            if not m[i['word']]:
+            if i['word'] not in m:
                 m[i['word']] = []
             m[i['word']].append(id) # 데이터 저장소로 변경하면 됨
 
