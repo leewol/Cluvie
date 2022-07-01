@@ -13,7 +13,6 @@ module.exports = class Hashtags extends Sequelize.Model {
         club_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          primaryKey: true,
         },
         hashtag: {
           type: Sequelize.STRING(100),

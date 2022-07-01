@@ -37,13 +37,18 @@ class clubService {
     return club;
   };
 
-  static createHash = async ({ club_id, hashtag }) => {
-    const hashtag = await Hashtags.create({ club_id, hashtag });
-    return hashtag;
+  static createHashtag = async ({ club_id, hashtag }) => {
+    const hashtags = await Hashtags.create({ club_id, hashtag });
+    return hashtags;
   };
 
   static deleteHashtag = async ({ club_id, hashtagId }) => {
-    const deleted = await Hashtags.destroy({ club_id, hashtagId });
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    const deleted = await Hashtags.destroy({ where: { id: hashtagId } });
     return deleted;
   };
 
