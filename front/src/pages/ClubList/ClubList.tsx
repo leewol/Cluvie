@@ -63,14 +63,6 @@ function ClubList() {
           (!isSearched) ?
           clubsPerScroll.map((scroll, scrollIndex) => {
             const { scrollClublist } = scroll;
-            // 필터링
-            // filteringClubList(scrollClublist)
-            // Object.values(checkedItems).forEach((filterKey) => {
-            //   const attribute = filterKey?.slice(0, filterKey.length - 1);
-            //   const attValue = filterKey?.slice(-1);
-            //   // console.log(attribute, attValue);
-            //   scrollClublist = scrollClublist.filter((club: Club) => club[attribute] === Number(attValue));
-            // });
             return filteringClubList(scrollClublist).map((club: Club, clubIndex: number) =>
               <ClubCard 
                 key={`${club.manager}+${club.id}`}
