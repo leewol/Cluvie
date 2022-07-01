@@ -15,6 +15,7 @@ export const ClubListBox = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 4%;
   row-gap: 50px;
+  margin-bottom: 50px;
 `;
 
 export const ClubCreateButtonBox = styled.div`
