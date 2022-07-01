@@ -9,6 +9,7 @@ import * as Interface from "@/utils/interface";
 import * as Api from "@/utils/api";
 import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/ClubDeleteJoinDialog";
 import * as Style from "./MyPageClubCardStyle";
+import { StyledSpan2 } from "@/components/ClubCard/ClubCardStyle";
 
 function MyPageClubCard({
   club,
@@ -60,9 +61,12 @@ function MyPageClubCard({
         </Style.ClubCardContent1>
         <Style.ClubCardContent2>
           {/* 해시태그 받아서 표시 */}
-          <StyledSpan>#지금뜨는</StyledSpan>
-          <StyledSpan>#마감임박</StyledSpan>
-          <StyledSpan>#주말</StyledSpan>
+          {club.hashtag1 ? (
+            <StyledSpan>#{club.hashtag1}</StyledSpan>
+          ) : (
+            <StyledSpan2>#해시태그없음</StyledSpan2>
+          )}
+          {club.hashtag2 && <StyledSpan>#{club.hashtag2}</StyledSpan>}
         </Style.ClubCardContent2>
         <Style.ClubCardInfos>
           {/* 온오프라인 받아서 표시 / 좋아요 적용 */}

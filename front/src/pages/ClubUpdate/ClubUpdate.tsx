@@ -29,7 +29,6 @@ function EditorComponent() {
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState(club);
-  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -132,13 +131,9 @@ const modules = useMemo(
       .catch((err) => console.log(err));
   }
 
-  useEffect(()=>{
-    console.log('hashtagArr',hashtagArr)
-  },[hashtagArr])
-
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents} hashtagArr={hashtagArr} setHashtagArr={setHashtagArr} />
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents}/>
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}

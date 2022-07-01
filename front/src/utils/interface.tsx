@@ -16,5 +16,6 @@ export interface Club {
   head_count?: number;
   weekday?: number;
   weekend?: number;
-  hashtags?: string;
+  hashtag1?: string;
+  hashtag2?: string;
 }

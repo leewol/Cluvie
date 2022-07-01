@@ -38,6 +38,8 @@ clubRouter.post("/", verifyToken, async (req, res) => {
       weekday,
       weekend,
       duration,
+      hashtag1,
+      hashtag2,
     } = req.body;
     const manager = req.user;
 
@@ -53,6 +55,8 @@ clubRouter.post("/", verifyToken, async (req, res) => {
       weekend,
       duration,
       manager,
+      hashtag1,
+      hashtag2,
     });
 
     const club_id = club.id;
@@ -170,31 +174,6 @@ clubRouter.get("/user", verifyToken, async (req, res) => {
   }
 });
 
-// 해쉬태그 등록 (1개씩)
-clubRouter.post("/:club_id/hashtags", verifyToken, async (req, res) => {
-  try {
-    const club_id = req.params.club_id;
-    const hashtag = req.body.hashtag;
-    const hashtags = await clubService.createHashtag({ club_id, hashtag });
-
-    res.status(200).json({ success: true, hashtags });
-  } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
-  }
-});
-
-clubRouter.delete("/:club_id/hashtags", verifyToken, async (req, res) => {
-  try {
-    const club_id = req.params.club_id;
-    const hashtagId = req.body.hashtagId;
-    const deleted = await clubService.deleteHashtag({ club_id, hashtagId });
-
-    res.status(200).json({ success: true });
-  } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
-  }
-});
-
 // 모임 참여 후기 작성
 clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   try {
@@ -294,6 +273,8 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
+    hashtag1,
+    hashtag2,
   } = req.body;
   await Clubs.update(
     {
@@ -308,6 +289,8 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       weekend,
       duration,
       state,
+      hashtag1,
+      hashtag2,
     },
     { where: { id: req.params.id } }
   )
@@ -323,7 +306,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
  * @param id 클럽ID
  */
 // 없는 모임을 삭제할 경우, 에러 처리
-clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
+clubRouter.delete("/:id", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.id;
@@ -334,7 +317,7 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    next(err);
+    res.status(404).json({ success: false, message: err.message });
   }
 });
 
