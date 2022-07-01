@@ -81,7 +81,6 @@ const HashtagsBox = styled.div`
 const HashtagNotice = styled.span`
   color: #716847;
   font-size: 12px;
-  margin-left: 10px;
 `;
 
 const HashtagSpan = styled(StyledSpan)`

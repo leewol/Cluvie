@@ -173,9 +173,11 @@ function ClubDetail() {
     window.Kakao.Link.sendDefault({
       objectType: "feed",
       content: {
-        title: "마블 톺아보기",
-        description: "마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!",
-        imageUrl: "https://cdn.imweb.me/thumbnail/20220501/559d862b36b34.jpg",
+        title: club.name,
+        description: club.intro,
+        imageUrl: club.picture
+          ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
+          : "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
         link: {
           webUrl: window.location.href,
           mobileWebUrl: window.location.href,
