@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 
@@ -115,9 +114,9 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   const handleAISummary = () => {
-    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
-    if(contentsWithoutTags.length >= 30){
+    if(contents.replace(/(<([^>]+)>)/ig,"").length >= 30){
       console.log('한줄요약 상세정보',contents)
+      const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"");
       console.log('한줄요약 상세정보 태그제거??',contentsWithoutTags)
       console.log('상세정보 길이',contentsWithoutTags.length)
 
@@ -132,17 +131,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   const handleAIKeyword = () => {
-    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
-    if(contentsWithoutTags.length >= 30){
-      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/keyword-diversity',{sentences:contentsWithoutTags},{
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-        .then((res)=>console.log(res))
-        .catch((err)=>console.log(err))
-
+    if(contents.replace(/(<([^>]+)>)/ig,"").length >= 30){
       setAiHashtagArr(['영화','모임','안녕','주말','친구']);
     }
     else {
