@@ -38,6 +38,8 @@ clubRouter.post("/", verifyToken, async (req, res) => {
       weekday,
       weekend,
       duration,
+      hashtag1,
+      hashtag2,
     } = req.body;
     const manager = req.user;
 
@@ -53,6 +55,8 @@ clubRouter.post("/", verifyToken, async (req, res) => {
       weekend,
       duration,
       manager,
+      hashtag1,
+      hashtag2,
     });
 
     const club_id = club.id;
@@ -118,22 +122,21 @@ clubRouter.get("/top10ViewsClubs", async (req, res) => {
   }
 });
 
-// 모집중인 모임 중 모집인원수 상위 10개 모임 불러오기
-clubRouter.get("/top10HeadCountClubs", async (req, res) => {
+// 모집중인 모임 중 마감임박 10개 모임 불러오기
+clubRouter.get("/popularTop10", async (req, res) => {
   try {
-    const top10HeadCountClubs =
-      await clubService.getTop10HeadCountRecruitingClubs();
-    res.status(200).json({ success: true, top10HeadCountClubs });
+    const popularTop10 = await clubService.getTop10PopularClubs();
+    res.status(200).json({ success: true, popularTop10 });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
   }
 });
 
 // 모집중인 모임 중 주말에 모이는 모임 10개 랜덤으로 불러오기
-clubRouter.get("/weekendClubs", async (req, res) => {
+clubRouter.get("/weekend", async (req, res) => {
   try {
-    const weekendClubs = await clubService.getWeekendRecruitingClubs();
-    res.status(200).json({ success: true, weekendClubs });
+    const weekend = await clubService.getWeekendRecruitingClubs();
+    res.status(200).json({ success: true, weekend });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
   }
@@ -270,6 +273,8 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
     weekend,
     duration,
     state,
+    hashtag1,
+    hashtag2,
   } = req.body;
   await Clubs.update(
     {
@@ -284,6 +289,8 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       weekend,
       duration,
       state,
+      hashtag1,
+      hashtag2,
     },
     { where: { id: req.params.id } }
   )
@@ -299,7 +306,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
  * @param id 클럽ID
  */
 // 없는 모임을 삭제할 경우, 에러 처리
-clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
+clubRouter.delete("/:id", verifyToken, async (req, res) => {
   try {
     const user_id = req.user;
     const club_id = req.params.id;
@@ -310,7 +317,7 @@ clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    next(err);
+    res.status(404).json({ success: false, message: err.message });
   }
 });
 

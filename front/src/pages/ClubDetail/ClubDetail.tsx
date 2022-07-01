@@ -11,7 +11,7 @@ import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSet
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
 import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/ClubDeleteJoinDialog";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import * as Api from "@/utils/api";
 import * as Interface from "@/utils/interface";
 import { isSignInUser } from "@/utils/recoil";
@@ -50,19 +50,25 @@ function ClubDetail() {
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
 
   const handleDeleteLikes = () => {
+    setLikesButton((prev) => !prev);
+
     Api.delete("/likes", club.id)
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    setLikesButton((prev) => !prev);
+      .catch((err) => {
+        console.log(err);
+        setLikesButton((prev) => !prev);
+      });
   };
 
   const handlePostLikes = () => {
+    setLikesButton((prev) => !prev);
+
     Api.post("/likes", { club_id: club.id })
       .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    setLikesButton((prev) => !prev);
+      .catch((err) => {
+        console.log(err);
+        setLikesButton((prev) => !prev);
+      });
   };
 
   useEffect(() => {
@@ -167,9 +173,11 @@ function ClubDetail() {
     window.Kakao.Link.sendDefault({
       objectType: "feed",
       content: {
-        title: "마블 톺아보기",
-        description: "마블 시네마틱 유니버스의 영화를 함께 샅샅이 분석해봐요!",
-        imageUrl: "https://cdn.imweb.me/thumbnail/20220501/559d862b36b34.jpg",
+        title: club.name,
+        description: club.intro,
+        imageUrl: club.picture
+          ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
+          : "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
         link: {
           webUrl: window.location.href,
           mobileWebUrl: window.location.href,
@@ -200,8 +208,8 @@ function ClubDetail() {
             // eslint-disable-next-line global-require
             src={
               club.picture
-                ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
-                : testimage
+                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
+                : defaultImage
             }
             alt='클럽썸네일이미지'
           />

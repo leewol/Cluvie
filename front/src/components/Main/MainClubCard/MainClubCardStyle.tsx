@@ -2,7 +2,9 @@ import styled from "@emotion/styled/macro";
 import { WholeCard } from "@/components/ClubCard/ClubCardStyle";
 
 const MainWholeCard = styled(WholeCard)`
-  margin-right: 35px;
+  width: 380px;
+  height: 530px;
+  margin-right: 55px;
 `;
 
 export { MainWholeCard }; 

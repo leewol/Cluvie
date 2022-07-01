@@ -1,12 +1,12 @@
 import React, { forwardRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CardMedia, CardContent, IconButton } from "@mui/material";
+import { CardMedia, IconButton } from "@mui/material";
 
 import { Club } from "@/utils/interface";
 import * as Api from "@/utils/api";
 
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import { StyledSpan } from "@/styles/text";
 
 import {
@@ -14,7 +14,9 @@ import {
   ClubCardContent,
   ClubCardInfos,
   ClubCardFavoriteIcon,
-  ClubCardFavoriteBorderIcon
+  ClubCardFavoriteBorderIcon,
+  HashCardContent,
+  StyledSpan2
 } from "./ClubCardStyle";
 
 interface Props {
@@ -51,7 +53,7 @@ const ClubCard = forwardRef<HTMLDivElement, Props>(
       <CardMedia
         component='img'
         height='250'
-        src={club.picture ? `http://${window.location.hostname}:3000/uploads/${club.picture}` : testimage}
+        src={club.picture ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}` : defaultImage}
         alt='Club Image'
         onClick={() => handleClickCard(club.id)}
       />
@@ -59,11 +61,11 @@ const ClubCard = forwardRef<HTMLDivElement, Props>(
         <h3>{club.name}</h3>
         <span>{club.intro}</span>
       </ClubCardContent>
-      <CardContent>
+      <HashCardContent>
         {/* 해시태그 받아서 표시 */}
-        <StyledSpan>#지금뜨는</StyledSpan>
-        <StyledSpan>#마감임박</StyledSpan>
-      </CardContent>
+        {club.hashtag1 ? <StyledSpan>#{club.hashtag1}</StyledSpan>:<StyledSpan2>#해시태그없음</StyledSpan2>}
+        {club.hashtag2 && <StyledSpan>#{club.hashtag2}</StyledSpan>}
+      </HashCardContent>
       <ClubCardInfos>
         <div>
           {!!club.online && <StyledSpan>온라인</StyledSpan>}

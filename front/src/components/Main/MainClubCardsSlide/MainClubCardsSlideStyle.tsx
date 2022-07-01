@@ -3,7 +3,7 @@ import styled from "@emotion/styled/macro";
 import { MainBannerImageBox, ArrowBox, SlideImageHideBox } from "@/components/Main/MainBanner/MainBannerStyle";
 
 const ClubCardsSlideBox = styled(MainBannerImageBox)`
-  width: 1500px;
+  width: 1250px;
   height: 500px;
   margin-bottom: 150px;
   .arrow-back {
@@ -13,17 +13,19 @@ const ClubCardsSlideBox = styled(MainBannerImageBox)`
     right: -60px;
   }
   .hide-back {
-    right: -29%;
+    right: -33%;
     width: 400px;
+    height: 550px;
   }
   .hide-prev {
     right: 101%;
     width: 400px;
+    height: 550px;
   }
 `;
 
 const ClubCardBox = styled.div`
-  width: 100%px;
+  width: 100%;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: repeat(10, 1fr);

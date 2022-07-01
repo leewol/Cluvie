@@ -13,8 +13,6 @@ import {
   CardArrowBox,
   CardSlideImageHideBox } from "./MainClubCardsSlideStyle";
 
-const cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 interface Props {
   resClubList: Club[];
 }
@@ -24,31 +22,26 @@ function MainClubCardsSlide({ resClubList }: Props) {
 
   const handleNext = () => {
     const newCurrentIndex = currentIndex + 1;
-    console.log("idx",currentIndex);
-    console.log("len", cards.length);
-    if (newCurrentIndex > cards.length - 4) return;
+    if (newCurrentIndex > resClubList.length - 3) return;
     setCurrentIndex(newCurrentIndex);
-    // console.log(cardSlide);
   }
 
   const handlePrev = () => {
     const newCurrentIndex = currentIndex - 1;
-    console.log("idx", currentIndex);
-    console.log(cards.length);
     if (newCurrentIndex < 0) return;
     setCurrentIndex(newCurrentIndex);
   }
 
   const slideStyle = () => {
     return {
-      transform: `translateX(-${(currentIndex) * 385}px)`,
+      transform: `translateX(-${(currentIndex) * 435}px)`,
     };
   }
 
-  useEffect(() => {
-    // console.log(currentIndex);
-    // console.log(cards.length);
-  }, [currentIndex])
+  // console.log(resClubList);
+  // useEffect(() => {
+  //   console.log(currentIndex);
+  // }, [currentIndex])
 
   return (
     <ClubCardsSlideBox>

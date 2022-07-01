@@ -6,10 +6,10 @@ import { Club } from "@/utils/interface";
 import { CardMedia } from "@mui/material";
 import { StyledSpan } from "@/styles/text";
 
-import { ClubCardContent, ClubCardInfos } from "@/components/ClubCard/ClubCardStyle";
-import testimage from "@/asset/images/testimage.PNG";
+import { ClubCardContent, ClubCardInfos, HashCardContent, StyledSpan2 } from "@/components/ClubCard/ClubCardStyle";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 
-import { MainWholeCard } from './MainClubCardStyle';
+import { MainWholeCard } from "./MainClubCardStyle";
 
 interface Props {
   club: Club;
@@ -20,14 +20,14 @@ function MainClubCard({ club }: Props) {
 
   const handleClickCard = (clubId: number | undefined) => {
     navigate(`/clubDetail/${clubId}`);
-  }
+  };
 
   return (
     <MainWholeCard>
       <CardMedia
         component='img'
         height='250'
-        src={testimage}
+        src={club.picture ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}` : defaultImage}
         alt='Club Image'
         onClick={() => handleClickCard(club.id)}
       />
@@ -35,6 +35,15 @@ function MainClubCard({ club }: Props) {
         <h3>{club.name}</h3>
         <span>{club.intro}</span>
       </ClubCardContent>
+      <HashCardContent>
+        {/* 해시태그 받아서 표시 */}
+        {club.hashtag1 ? (
+          <StyledSpan>#{club.hashtag1}</StyledSpan>
+        ) : (
+          <StyledSpan2>#해시태그없음</StyledSpan2>
+        )}
+        {club.hashtag2 && <StyledSpan>#{club.hashtag2}</StyledSpan>}
+      </HashCardContent>
       <ClubCardInfos>
         <div>
           {!!club.online && <StyledSpan>온라인</StyledSpan>}

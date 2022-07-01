@@ -1,11 +1,11 @@
 import cors from "cors";
 import express, { application } from "express";
-import db from "./models/index";
-import clubRouter from "./src/routes/club/router";
-import userRouter from "./src/routes/user/router";
-import likeRouter from "./src/routes/like/router";
-import applicantRouter from "./src/routes/applicant/router";
-import authRouter from "./src/routes/email/router";
+import db from "./models/index.js";
+import clubRouter from "./src/routes/club/router.js";
+import userRouter from "./src/routes/user/router.js";
+import likeRouter from "./src/routes/like/router.js";
+import applicantRouter from "./src/routes/applicant/router.js";
+import authRouter from "./src/routes/email/router.js";
 import dotenv from "dotenv";
 dotenv.config();
 

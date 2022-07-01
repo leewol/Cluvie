@@ -9,12 +9,13 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GradeIcon from "@mui/icons-material/Grade";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import { StyledSpan } from "@/styles/text";
 import * as Interface from "@/utils/interface";
 import * as Api from "@/utils/api";
 import CloseApplicantsDialog from "@/components/MyClubList/CloseApplicantsDialog/CloseApplicantsDialog";
 import * as Style from "./MyClubListCardStyle";
+import { StyledSpan2 } from "@/components/ClubCard/ClubCardStyle";
 
 function MyClubListCard({
   club,
@@ -92,8 +93,8 @@ function MyClubListCard({
             height='200'
             src={
               club.picture
-                ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
-                : testimage
+                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
+                : defaultImage
             }
             alt='Club Image'
           />
@@ -105,9 +106,12 @@ function MyClubListCard({
         </Style.ClubCardContent1>
         <Style.ClubCardContent2>
           {/* 해시태그 받아서 표시 */}
-          <StyledSpan>#지금뜨는</StyledSpan>
-          <StyledSpan>#마감임박</StyledSpan>
-          <StyledSpan>#주말</StyledSpan>
+          {club.hashtag1 ? (
+            <StyledSpan>#{club.hashtag1}</StyledSpan>
+          ) : (
+            <StyledSpan2>#해시태그없음</StyledSpan2>
+          )}
+          {club.hashtag2 && <StyledSpan>#{club.hashtag2}</StyledSpan>}
         </Style.ClubCardContent2>
         <Style.ClubCardInfos>
           {/* 온오프라인 받아서 표시 / 좋아요 적용 */}
