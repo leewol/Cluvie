@@ -108,6 +108,14 @@ const AIButton = styled(Button)`
   }
 `;
 
+const HashtagSpan2 = styled(StyledSpan)`
+  background-color: #ffc300;
+  border: 5px solid #ffc300;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
 export {
   ClubCreateFormBox,
   ThumnailBox,
@@ -123,5 +131,6 @@ export {
   HashtagNotice,
   HashtagSpan,
   HashtagNotice2,
-  AIButton
+  AIButton,
+  HashtagSpan2
 };

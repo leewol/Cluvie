@@ -133,7 +133,7 @@ const modules = useMemo(
 
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} />
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents} />
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
