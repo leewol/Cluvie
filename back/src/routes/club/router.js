@@ -2,11 +2,11 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
-
 import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
 const upload = require("../../middlewares/fileUpload");
+var request = require("request");
 
 // 공통 url: "/clubs"
 
@@ -60,7 +60,35 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     });
 
     const club_id = club.id;
+    const club_description = club.description;
     await clubService.createClubReviewRating(club_id);
+
+    const nerPost = (callback) => {
+      const options = {
+        method: "POST",
+        uri: "http://kdt-ai4-team18.elicecoding.com:5002/summary",
+      };
+      request(options, (Err, res, body) => {
+        callback(undefined, {
+          result: body,
+        });
+      });
+    };
+    nerPost((err, { result } = {}) => {
+      if (err) {
+        console.log("error");
+        res.send({
+          message: "fail",
+        });
+      }
+      let json = JSON.parse(result);
+      res.send({
+        message: "from flask",
+        data: {
+          json,
+        },
+      });
+    });
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
@@ -207,13 +235,10 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   }
 });
 
-// NER로 club_id, 클럽 상세내용 보내주기
-clubRouter.post("/ner/:club_id", async (req, res) => {
+clubRouter.get("/search", async (req, res) => {
   try {
-    const club_id = req.params.club_id;
-    const clubDetail = await clubService.getClubDetail({ club_id });
-
-    res.json({ club_id, clubDetail });
+    const searchWord = req.body.searchWord;
+    res.json({ searchWord });
   } catch (err) {
     res.json({ message: err.message });
   }
