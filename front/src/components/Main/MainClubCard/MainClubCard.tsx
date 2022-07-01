@@ -10,6 +10,7 @@ import {
   ClubCardContent,
   ClubCardInfos,
   HashCardContent,
+  StyledSpan2,
 } from "@/components/ClubCard/ClubCardStyle";
 import testimage from "@/asset/images/testimage.PNG";
 
@@ -45,8 +46,12 @@ function MainClubCard({ club }: Props) {
       </ClubCardContent>
       <HashCardContent>
         {/* 해시태그 받아서 표시 */}
-        <StyledSpan>#지금뜨는</StyledSpan>
-        <StyledSpan>#마감임박</StyledSpan>
+        {club.hashtag1 ? (
+          <StyledSpan>#{club.hashtag1}</StyledSpan>
+        ) : (
+          <StyledSpan2>#해시태그없음</StyledSpan2>
+        )}
+        {club.hashtag2 && <StyledSpan>#{club.hashtag2}</StyledSpan>}
       </HashCardContent>
       <ClubCardInfos>
         <div>

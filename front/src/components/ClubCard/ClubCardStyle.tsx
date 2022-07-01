@@ -53,4 +53,14 @@ const HashCardContent = styled(CardContent)`
   overflow: hidden;
 `
 
-export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon, ClubCardFavoriteBorderIcon,HashCardContent };
+const StyledSpan2 = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  border: 3px solid #ffe047;
+  border-radius: 10px;
+  margin-right: 5px;
+  padding: 0 5px;
+  visibility:hidden;
+`;
+
+export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon, ClubCardFavoriteBorderIcon,HashCardContent, StyledSpan2 };
