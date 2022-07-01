@@ -28,7 +28,7 @@ function Header() {
           </Style.LogoIconButton>
           <Style.ClubListDiv>
             <Button color='inherit'>
-              <Style.TextLink to='/clublist'>모든 클럽 보기</Style.TextLink>
+              <Style.TextLink to='/clublist' style={{fontSize: 18}}>모든 클럽 보기</Style.TextLink>
             </Button>
           </Style.ClubListDiv>
           {isSignIn ? (
@@ -84,7 +84,7 @@ function Header() {
           ) : (
             <div>
               <Button color='inherit'>
-                <Style.TextLink to='/signIn'>로그인</Style.TextLink>
+                <Style.TextLink to='/signIn' style={{fontSize: 18}}>로그인</Style.TextLink>
               </Button>
             </div>
           )}
