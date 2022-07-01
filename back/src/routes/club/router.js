@@ -111,8 +111,8 @@ clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
 // 모집중인 모임 중 조회수 상위 10개 모임 불러오기
 clubRouter.get("/top10ViewsClubs", async (req, res) => {
   try {
-    const top10Views = await clubService.getTop10ViewsRecruitingClubs();
-    res.status(200).json({ success: true, top10Views });
+    const top10ViewsClubs = await clubService.getTop10ViewsRecruitingClubs();
+    res.status(200).json({ success: true, top10ViewsClubs });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
   }
