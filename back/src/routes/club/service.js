@@ -93,6 +93,11 @@ class clubService {
     return { clubList };
   };
 
+  static getClubDetail = async ({ club_id }) => {
+    const clubDetail = await Clubs.findOne({ where: { id: club_id } });
+    return { clubDetail };
+  };
+
   static closeApplication = async ({ club_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {

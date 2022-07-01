@@ -228,6 +228,18 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
   }
 });
 
+// NER로 club_id, 클럽 상세내용 보내주기
+clubRouter.post("kdt-ai4-team18.elicecoding.com:5002/ner", async (req, res) => {
+  try {
+    const club_id = req.params.club_id;
+    const clubDetail = await clubService.getClubDetail({ club_id });
+
+    res.json({ success: true, clubDetail, club_id });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+});
+
 // 모임 참여 후기 목록 불러오기(비로그인으로 가능)
 clubRouter.get("/:club_id/review", async (req, res) => {
   try {
