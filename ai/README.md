@@ -9,20 +9,21 @@
 pip install -r requirements.txt
 cd finetune
 
-# summary 데이터 크기문제로 압축을 풀고 진행
+# summary_aihub 데이터 크기문제로 압축을 풀고 진행
+# summary_aihub 데이터 크기 문제로 gitlab에 파일을 올리지 못함
 sudo apt-get install zip unzip
-cd data/summary 
+cd data/summary_aihub 
 unzip test.zip
 unzip train.zip
 
 # 요약문 생성 
-python3 run_summary_train.py --task summary --config_file kobart-base-v2.yml
+python3 train_summary.py --task summary_aihub --config_file kobart-base-v2.yml
 
 # 혐오글 탐지
-python3 run_seq_cls.py --task hate-speech --config_file koelectra-base-v3.json
+python3 run_seq_cls.py --task hatespeech_beomi --config_file koelectra-base-v3.json
 
 # 개체명 인식
-python3 run_ner.py --task naver-ner --config_file koelectra-base-v3.json
+python3 run_ner.py --task ner_naver --config_file koelectra-base-v3.json
 ```
 
 ## How to Make bin

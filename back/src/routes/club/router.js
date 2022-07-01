@@ -2,7 +2,7 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
-
+import axios from "axios";
 import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
@@ -60,8 +60,21 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     });
 
     const club_id = club.id;
+    const club_description = club.description;
     await clubService.createClubReviewRating(club_id);
-    res.status(200).json({ success: true });
+    // NER API로 보내주기
+    const response = await axios.post(
+      "http://kdt-ai4-team18.elicecoding.com:5002/ner",
+      { sentences: club_description, id: club_id },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data);
+    const nerResult = response.data;
+    res.status(200).json({ success: true, nerResult });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
   }
@@ -98,6 +111,27 @@ clubRouter.get(
     }
   }
 );
+
+// NER -> SEARCH 검색결과 가져오기
+clubRouter.get("/searchResults", async (req, res) => {
+  try {
+    const searchWord = req.body;
+    const response = await axios.post(
+      "http://kdt-ai4-team18.elicecoding.com:5002/search",
+      { sentences: searchWord },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data);
+    const searchResults = response.data;
+    res.json({ searchResults });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+});
 
 /** 클럽 4개씩 불러오기
  * @param club_id 가장 최근 클럽ID
@@ -204,6 +238,15 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
     } else {
       res.status(404).json({ success: false, message: err.message });
     }
+  }
+});
+
+clubRouter.get("/search", async (req, res) => {
+  try {
+    const searchWord = req.body.searchWord;
+    res.json({ searchWord });
+  } catch (err) {
+    res.json({ message: err.message });
   }
 });
 
