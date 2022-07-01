@@ -185,12 +185,12 @@ def ner():
 def search():
     sentences = clean_text(request.get_json()['sentences'])
     sentences = sentences.split()
-    s = set()
+    result = []
 
     for i in sentences:
-        s.update(m[i])
+        result += i
 
-    return jsonify(s)
+    return jsonify(set(result))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
