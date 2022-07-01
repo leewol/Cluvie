@@ -171,26 +171,28 @@ def summary():
 @app.route('/ner', methods=['POST'])
 def ner():
     sentences = clean_text(request.get_json()['sentences'])
-    id = request.get_json()['sentences']
+    id = request.get_json()['id']
     examples = kss.split_sentences(sentences)  # 문장단위로 끊기
     for example in examples:
         ner_results = ner_nlp(example)
         for i in ner_results:
-            if not m[i['word']]:
+            if i['word'] not in m:
                 m[i['word']] = []
             m[i['word']].append(id) # 데이터 저장소로 변경하면 됨
+    return jsonify("success")
 
 # 데이터 저장소로 변경하면 됨 지금은 귀찮으니깐 그냥 로컬
 @app.route('/search', methods=['POST'])
 def search():
     sentences = clean_text(request.get_json()['sentences'])
     sentences = sentences.split()
-    s = set()
+    result = []
 
     for i in sentences:
-        s.update(m[i])
+        if i in m:
+            result += m[i]
 
-    return jsonify(s)
+    return jsonify(list(set(result)))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
