@@ -115,7 +115,7 @@ clubRouter.get(
 // NER -> SEARCH 검색어 입력
 clubRouter.post("/searchResults", async (req, res) => {
   try {
-    const searchWord = req.body;
+    const { searchWord } = req.body;
     const response = await axios.post(
       "http://kdt-ai4-team18.elicecoding.com:5002/search",
       { sentences: searchWord },
@@ -129,6 +129,7 @@ clubRouter.post("/searchResults", async (req, res) => {
     const searchResults = response.data;
     res.json({ searchResults });
   } catch (err) {
+    console.log(err);
     res.json({ message: err.message });
   }
 });
