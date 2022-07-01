@@ -72,7 +72,8 @@ clubRouter.post("/", verifyToken, async (req, res) => {
       }
     );
     console.log(response.data);
-    res.status(200).json({ success: true });
+    const nerResult = response.data;
+    res.status(200).json({ success: true, nerResult });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
   }
@@ -109,6 +110,20 @@ clubRouter.get(
     }
   }
 );
+
+clubRouter.get("/searchResults", async (req, res) => {
+  const searchWord = req.body;
+  const response = await axios.post(
+    "http://kdt-ai4-team18.elicecoding.com:5002/search",
+    { sentences: searchWord },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  console.log(response.data);
+});
 
 /** 클럽 4개씩 불러오기
  * @param club_id 가장 최근 클럽ID
