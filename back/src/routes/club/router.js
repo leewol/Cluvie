@@ -208,7 +208,7 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
 });
 
 // NER로 club_id, 클럽 상세내용 보내주기
-clubRouter.post("kdt-ai4-team18.elicecoding.com:5002/ner", async (req, res) => {
+clubRouter.post("/ner/:club_id", async (req, res) => {
   try {
     const club_id = req.params.club_id;
     const clubDetail = await clubService.getClubDetail({ club_id });
