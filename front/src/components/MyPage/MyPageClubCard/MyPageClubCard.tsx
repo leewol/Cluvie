@@ -48,7 +48,7 @@ function MyPageClubCard({
             height='200'
             src={
               club.picture
-                ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
+                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
                 : defaultImage
             }
             alt='Club Image'

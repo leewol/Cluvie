@@ -188,7 +188,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
             {
               clubInfo.picture &&
               <ThumnailImage
-                src={`http://${window.location.hostname}:3000/uploads/${clubInfo.picture}`}
+                src={`http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${clubInfo.picture}`}
                 alt='Club Thumnail'
               />
             }

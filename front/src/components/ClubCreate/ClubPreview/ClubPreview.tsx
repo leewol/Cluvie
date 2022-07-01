@@ -17,7 +17,7 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
             // eslint-disable-next-line global-require
             src={
               newClub.picture
-                ? `http://${window.location.hostname}:3000/uploads/${newClub.picture}`
+                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${newClub.picture}`
                 : defaultImage
             }
             alt='클럽썸네일이미지'

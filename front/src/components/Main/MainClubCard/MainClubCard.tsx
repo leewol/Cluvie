@@ -27,7 +27,7 @@ function MainClubCard({ club }: Props) {
       <CardMedia
         component='img'
         height='250'
-        src={club.picture ? `http://${window.location.hostname}:3000/uploads/${club.picture}` : defaultImage}
+        src={club.picture ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}` : defaultImage}
         alt='Club Image'
         onClick={() => handleClickCard(club.id)}
       />
