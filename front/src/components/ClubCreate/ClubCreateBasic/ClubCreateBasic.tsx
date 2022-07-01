@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 
@@ -35,13 +36,15 @@ interface Props {
   setClubInfo: React.Dispatch<
   React.SetStateAction<Club>>;
   contents: string;
+  hashtagArr:string[];
+  setHashtagArr:React.Dispatch<
+  React.SetStateAction<string[]>>;
 }
 
 // ! state setter는 prop으로 가지 않는 게 좋다
-function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
+function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtagArr }: Props) {
   const [ thumnail, setThumnail ] = useState<any>();
   const [ aihashtagArr, setAiHashtagArr ] = useState<string[]>([]);
-  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
 
   const onChange = onChangeFunction(setClubInfo);
 
@@ -114,16 +117,24 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   const handleAISummary = () => {
-    if(contents.replace(/(<([^>]+)>)/ig,"").length >= 30){  
+    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
+    if(contentsWithoutTags.length >= 30){
       console.log('한줄요약 상세정보',contents)
-      const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"");
       console.log('한줄요약 상세정보 태그제거??',contentsWithoutTags)
       console.log('상세정보 길이',contentsWithoutTags.length)
 
-      setClubInfo((prev: any) => ({
-        ...prev,
-        'intro': contentsWithoutTags,
-      }));
+      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/summary',{sentences:contentsWithoutTags},{
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+        .then((res)=>{setClubInfo((prev: any) => ({
+          ...prev,
+          'intro': res.data,
+        }))
+        })
+        .catch((err)=>console.log(err))
     }
     else {
       alert('상세 정보를 30자 이상 입력하세요!');
@@ -131,8 +142,17 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   const handleAIKeyword = () => {
-    if(contents.replace(/(<([^>]+)>)/ig,"").length >= 30){
-      setAiHashtagArr(['영화','모임','안녕','주말','친구']);
+    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
+    if(contentsWithoutTags.length >= 30){
+      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/keyword-diversity',{sentences:contentsWithoutTags},{
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+        .then((res)=>{setAiHashtagArr(res.data)
+        })
+        .catch((err)=>console.log(err))
     }
     else {
       alert('상세 정보를 30자 이상 입력하세요!');
@@ -143,13 +163,12 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   useEffect(() => {
     setClubInfo((prev: Club) => ({
       ...prev,
-      hashtags: hashtagArr.join(","),
     }));
   }, [hashtagArr]);
 
   useEffect(() => {
     console.log(clubInfo);
-  }, [clubInfo.picture]);
+  }, [clubInfo.picture,hashtagArr]);
 
   useEffect(()=>{
     console.log('해시태그!!',hashtagArr)
