@@ -16,13 +16,15 @@ const WholeCard = styled(Card)<{ clubstate?: number | undefined }>`
 const ClubCardContent = styled(CardContent)`
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
   h3 {
     font-size: 22px;
     margin-bottom: 10px;
   }
   span {
     color: #5b5b5b;
+    height: 65px;
+    overflow: hidden;
   }
 `;
 
@@ -46,4 +48,9 @@ const ClubCardFavoriteBorderIcon = styled(FavoriteBorderIcon)`
   font-size: 28px;
 `;
 
-export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon, ClubCardFavoriteBorderIcon };
+const HashCardContent = styled(CardContent)`
+  max-height: 20px;
+  overflow: hidden;
+`
+
+export { WholeCard, ClubCardContent, ClubCardInfos, ClubCardFavoriteIcon, ClubCardFavoriteBorderIcon,HashCardContent };

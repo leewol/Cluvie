@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CardMedia, CardContent, IconButton } from "@mui/material";
+import { CardMedia, IconButton } from "@mui/material";
 
 import { Club } from "@/utils/interface";
 import * as Api from "@/utils/api";
@@ -14,7 +14,8 @@ import {
   ClubCardContent,
   ClubCardInfos,
   ClubCardFavoriteIcon,
-  ClubCardFavoriteBorderIcon
+  ClubCardFavoriteBorderIcon,
+  HashCardContent
 } from "./ClubCardStyle";
 
 interface Props {
@@ -59,11 +60,11 @@ const ClubCard = forwardRef<HTMLDivElement, Props>(
         <h3>{club.name}</h3>
         <span>{club.intro}</span>
       </ClubCardContent>
-      <CardContent>
+      <HashCardContent>
         {/* 해시태그 받아서 표시 */}
         <StyledSpan>#지금뜨는</StyledSpan>
         <StyledSpan>#마감임박</StyledSpan>
-      </CardContent>
+      </HashCardContent>
       <ClubCardInfos>
         <div>
           {!!club.online && <StyledSpan>온라인</StyledSpan>}
