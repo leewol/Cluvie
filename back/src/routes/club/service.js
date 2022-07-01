@@ -4,6 +4,7 @@ import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
 import Ratings from "../../../models/rating";
+import Hashtags from "../../../models/hashtag";
 import db from "../../../models/index";
 
 class clubService {
@@ -34,6 +35,16 @@ class clubService {
       manager,
     });
     return club;
+  };
+
+  static createHash = async ({ club_id, hashtag }) => {
+    const hashtag = await Hashtags.create({ club_id, hashtag });
+    return hashtag;
+  };
+
+  static deleteHashtag = async ({ club_id, hashtagId }) => {
+    const deleted = await Hashtags.destroy({ club_id, hashtagId });
+    return deleted;
   };
 
   static createClubReviewRating = async (club_id) => {
