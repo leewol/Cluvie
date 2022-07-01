@@ -81,6 +81,14 @@ module.exports = class Club extends Sequelize.Model {
           allowNull: true,
           defaultValue: 0,
         },
+        hashtag1: {
+          type: Sequelize.STRING(100),
+          allowNull: true,
+        },
+        hashtag2: {
+          type: Sequelize.STRING(100),
+          allowNull: true,
+        },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,
