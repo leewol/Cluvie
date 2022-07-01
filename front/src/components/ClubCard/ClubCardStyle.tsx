@@ -20,6 +20,8 @@ const ClubCardContent = styled(CardContent)`
   h3 {
     font-size: 22px;
     margin-bottom: 10px;
+    height: 30px;
+    overflow: hidden;
   }
   span {
     color: #5b5b5b;

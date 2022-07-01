@@ -27,11 +27,12 @@ export const ContentBox = styled(Box)`
 export const Title = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   margin: 30px 0 30px;
-  padding-bottom: 20px;
   font-size: 30px;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+  height: 50px;
+  overflow: hidden;
 `;
 
 export const Text1 = styled.div`
