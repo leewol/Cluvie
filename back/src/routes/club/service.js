@@ -172,9 +172,7 @@ class clubService {
 
   static getTop10PopularClubs = async () => {
     const clubs = await db.sequelize.query(
-      `SELECT * FROM (SELECT c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at IFNULL((c.head_count - a.member_count), 0) AS capacity
-      FROM clubs AS c LEFT JOIN (SELECT club_id, COUNT(user_id) AS member_count FROM applicants WHERE STATUS = 1 AND is_deleted <> 1 GROUP BY club_id) AS a ON c.id = a.club_id
-      WHERE c.is_deleted <> 1) AS b WHERE b.capacity > 0 ORDER BY b.capacity LIMIT 10;`,
+      `SELECT * FROM (SELECT c.id, c.name, c.manager, c.picture, c.intro, c.duration, c.state, c.online, c.offline, c.description, c.views, c.head_count, c.weekday, c.weekend, c.created_at, c.updated_at, IFNULL((c.head_count - a.member_count), 0) AS capacity FROM clubs AS c LEFT JOIN (SELECT club_id, COUNT(user_id) AS member_count FROM applicants WHERE STATUS = 1 AND is_deleted <> 1 GROUP BY club_id) AS a ON c.id = a.club_id WHERE c.is_deleted <> 1) AS b WHERE b.capacity > 0 ORDER BY b.capacity LIMIT 10`,
       { type: db.sequelize.QueryTypes.SELECT }
     );
     return clubs;
