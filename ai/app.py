@@ -189,7 +189,8 @@ def search():
     result = []
 
     for i in sentences:
-        result += m[i]
+        if i in m:
+            result += m[i]
 
     return jsonify(list(set(result)))
 
