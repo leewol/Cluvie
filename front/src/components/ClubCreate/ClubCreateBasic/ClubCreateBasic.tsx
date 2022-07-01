@@ -36,15 +36,13 @@ interface Props {
   setClubInfo: React.Dispatch<
   React.SetStateAction<Club>>;
   contents: string;
-  hashtagArr:string[];
-  setHashtagArr:React.Dispatch<
-  React.SetStateAction<string[]>>;
 }
 
 // ! state setter는 prop으로 가지 않는 게 좋다
-function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtagArr }: Props) {
+function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   const [ thumnail, setThumnail ] = useState<any>();
   const [ aihashtagArr, setAiHashtagArr ] = useState<string[]>([]);
+  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
 
   const onChange = onChangeFunction(setClubInfo);
 
@@ -81,6 +79,23 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtag
       return;
     }
     setHashtagArr((prev) => [...prev, clickedHashtag]);
+
+    if(hashtagArr.length>0){
+      console.log('두번쨰 해시태그')
+      console.log('hashtagArr',hashtagArr);
+      setClubInfo((prev: Club) => ({
+        ...prev,
+        hashtag2: clickedHashtag,
+      }));
+    }
+    else {
+      console.log('첫번째 해시태그')
+      console.log('hashtagArr',hashtagArr);
+      setClubInfo((prev: Club) => ({
+        ...prev,
+        hashtag1: clickedHashtag,
+      }));
+    }
   }
 
   const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -119,10 +134,6 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtag
   const handleAISummary = () => {
     const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
     if(contentsWithoutTags.length >= 30){
-      console.log('한줄요약 상세정보',contents)
-      console.log('한줄요약 상세정보 태그제거??',contentsWithoutTags)
-      console.log('상세정보 길이',contentsWithoutTags.length)
-
       axios.post('http://kdt-ai4-team18.elicecoding.com:5002/summary',{sentences:contentsWithoutTags},{
         headers: {
           "Content-Type": "application/json",
@@ -159,21 +170,9 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtag
     }
   }
 
-  // hashtagArr 변경될 때 clubInfo를 업데이트
-  useEffect(() => {
-    setClubInfo((prev: Club) => ({
-      ...prev,
-    }));
-  }, [hashtagArr]);
-
-  useEffect(() => {
-    console.log(clubInfo);
-  }, [clubInfo.picture,hashtagArr]);
-
   useEffect(()=>{
-    console.log('해시태그!!',hashtagArr)
-  },[hashtagArr])
-
+    console.log('클럽정보',clubInfo)
+  },[clubInfo])
 
   return (
     <ColumnContainerBox>
@@ -203,7 +202,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtag
             />
           </InputBox>
           <InputBox>
-          <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다!</HashtagNotice2></StyledLabel>
+          <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다!<br/>*글의 길이에 따라 더 많은 시간이 소요될 수도 있어요!</HashtagNotice2></StyledLabel>
             <StyledInput
               type='text'
               name='intro'
