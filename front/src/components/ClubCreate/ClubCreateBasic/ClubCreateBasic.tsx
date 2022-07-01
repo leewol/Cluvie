@@ -200,8 +200,8 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   useEffect(()=>{
     setClubInfo((prev: Club) => ({
       ...prev,
-      hashtag1: hashtagArr[0],
-      hashtag2: hashtagArr[1],
+      hashtag1: hashtagArr[0] ? hashtagArr[0] : "",
+      hashtag2: hashtagArr[1] ? hashtagArr[1] : "",
     }));
   },[hashtagArr])
 
