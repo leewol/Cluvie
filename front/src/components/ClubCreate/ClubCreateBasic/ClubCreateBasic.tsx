@@ -24,6 +24,7 @@ import {
   HashtagInnerBox,
   HashtagNotice,
   HashtagNotice2,
+  HashtagNotice3,
   HashtagSpan,
   HashtagSpan2,
   AIButton
@@ -223,22 +224,24 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
             }
           </ThumnailBox>
           <InputBox>
-            <StyledLabel htmlFor='name'>클럽명</StyledLabel>
+            <StyledLabel htmlFor='name'>클럽명<HashtagNotice2>({clubInfo.name?.length}/45자)</HashtagNotice2></StyledLabel>
             <StyledInput
               type='text'
               name='name'
               value={clubInfo.name}
               onChange={onChange}
             />
+            {clubInfo.name!==undefined && clubInfo.name?.length > 45 && <HashtagNotice3>클럽명은 45자 이내로 작성하셔야 합니다!</HashtagNotice3>}
           </InputBox>
           <InputBox>
-          <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다.<br/>*글의 길이에 따라 더 많은 시간이 소요될 수도 있어요.</HashtagNotice2></StyledLabel>
+          <StyledLabel htmlFor='intro'>한줄 소개<HashtagNotice2>({clubInfo.intro?.length}/300자)</HashtagNotice2><AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다.<br/>*글의 길이에 따라 더 많은 시간이 소요될 수도 있어요.</HashtagNotice2></StyledLabel>
             <StyledInput
               type='text'
               name='intro'
               value={clubInfo.intro}
               onChange={onChange}
             />
+            {clubInfo.intro!==undefined && clubInfo.intro?.length > 300 && <HashtagNotice3>한줄 소개는 300자 이내로 작성하셔야 합니다!</HashtagNotice3>}
           </InputBox>
         </FormBox>
         <Line />
@@ -296,7 +299,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
           </InputBox>
           <InputBox>
             <StyledLabel htmlFor='hashtags'>해시태그<AIButton type='button' onClick={handleAIKeyword}>키워드 추출</AIButton><br/>
-            <HashtagNotice>클럽의 상세 정보를 30자 이상 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 해시태그를 선택하거나 직접 작성할 수도 있어요!</HashtagNotice><HashtagNotice2><br/>*최대 2개의 해시태그를 등록할 수 있습니다.</HashtagNotice2>
+            <HashtagNotice>클럽의 상세 정보를 30자 이상 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 해시태그를 선택하거나 직접 작성할 수도 있어요!</HashtagNotice><HashtagNotice2><br/>*최대 2개의 해시태그를 등록할 수 있습니다.<br/>*글의 길이에 따라 더 많은 시간이 소요될 수도 있어요.</HashtagNotice2>
             </StyledLabel>
             <StyledInput
               type='text'

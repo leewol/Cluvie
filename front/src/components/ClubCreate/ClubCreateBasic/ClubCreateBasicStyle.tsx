@@ -109,6 +109,11 @@ const HashtagNotice2 = styled.span`
   font-size: 12px;
 `;
 
+const HashtagNotice3 = styled.span`
+  color: #ff0000;
+  font-size: 12px;
+`;
+
 const AIButton = styled(Button)`
   margin-left: 5px;
   padding: 2px 4px;
@@ -145,6 +150,7 @@ export {
   HashtagNotice,
   HashtagSpan,
   HashtagNotice2,
+  HashtagNotice3,
   AIButton,
   HashtagSpan2
 };
