@@ -213,9 +213,9 @@ clubRouter.post("/ner/:club_id", async (req, res) => {
     const club_id = req.params.club_id;
     const clubDetail = await clubService.getClubDetail({ club_id });
 
-    res.json({ success: true, clubDetail, club_id });
+    res.json({ club_id, clubDetail });
   } catch (err) {
-    res.json({ success: false, message: err.message });
+    res.json({ message: err.message });
   }
 });
 
