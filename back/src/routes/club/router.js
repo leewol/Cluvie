@@ -112,17 +112,23 @@ clubRouter.get(
 );
 
 clubRouter.get("/searchResults", async (req, res) => {
-  const searchWord = req.body;
-  const response = await axios.post(
-    "http://kdt-ai4-team18.elicecoding.com:5002/search",
-    { sentences: searchWord },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  console.log(response.data);
+  try {
+    const searchWord = req.body;
+    const response = await axios.post(
+      "http://kdt-ai4-team18.elicecoding.com:5002/search",
+      { sentences: searchWord },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.data);
+    const searchResults = response.data;
+    res.json({ searchResults });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
 });
 
 /** 클럽 4개씩 불러오기
