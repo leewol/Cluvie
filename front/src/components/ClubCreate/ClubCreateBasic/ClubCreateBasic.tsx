@@ -21,6 +21,7 @@ import {
   Line,
   StyledSelect,
   HashtagsBox,
+  HashtagInnerBox,
   HashtagNotice,
   HashtagNotice2,
   HashtagSpan,
@@ -270,11 +271,21 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
             <HashtagNotice>클럽의 상세 정보를 30자 이상 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 최대 2개의 해시태그를 등록할 수 있어요!</HashtagNotice>
             </StyledLabel>
             <HashtagsBox>
-              {aihashtagArr.map((el: string) => <HashtagSpan id={el} key={el} onClick={handleHashtagEnter}>#{el}</HashtagSpan>)}
+              {aihashtagArr.map((el: string) => 
+                <HashtagInnerBox key={el}>
+                  <HashtagSpan id={el} key={el} onClick={handleHashtagEnter}>
+                    #{el}
+                  </HashtagSpan>
+                </HashtagInnerBox>)}
             </HashtagsBox>
-            {Boolean(aihashtagArr.length) && <HashtagNotice>마음에 드는 해시테그를 클릭하세요!</HashtagNotice>}
+            {Boolean(aihashtagArr.length) && <HashtagNotice>마음에 드는 해시태그를 클릭하세요!</HashtagNotice>}
             <HashtagsBox>
-              {hashtagArr.map((el: string) => <HashtagSpan2 id={el} key={el} onClick={handleSpanClickDelete}>#{el}</HashtagSpan2>)}
+                {hashtagArr.map((el: string) => 
+                <HashtagInnerBox key={el}>
+                  <HashtagSpan2 id={el} key={el} onClick={handleSpanClickDelete}>
+                    #{el}
+                  </HashtagSpan2>
+                </HashtagInnerBox>)}
             </HashtagsBox>
             {Boolean(hashtagArr.length) && <HashtagNotice>한 번 더 클릭하면 취소할 수 있어요!</HashtagNotice>}
           </InputBox>
