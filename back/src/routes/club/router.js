@@ -2,11 +2,11 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
+import axios from "axios";
 import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
 const upload = require("../../middlewares/fileUpload");
-var request = require("request");
 
 // 공통 url: "/clubs"
 
@@ -62,33 +62,16 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     const club_id = club.id;
     const club_description = club.description;
     await clubService.createClubReviewRating(club_id);
-
-    const nerPost = (callback) => {
-      const options = {
-        method: "POST",
-        uri: "http://kdt-ai4-team18.elicecoding.com:5002/summary",
-      };
-      request(options, (Err, res, body) => {
-        callback(undefined, {
-          result: body,
-        });
-      });
-    };
-    nerPost((err, { result } = {}) => {
-      if (err) {
-        console.log("error");
-        res.send({
-          message: "fail",
-        });
-      }
-      let json = JSON.parse(result);
-      res.send({
-        message: "from flask",
-        data: {
-          json,
+    const response = await axios.post(
+      "http://kdt-ai4-team18.elicecoding.com:5002/summary",
+      { sentences: club_description },
+      {
+        headers: {
+          "Content-Type": "application/json",
         },
-      });
-    });
+      }
+    );
+    console.log(response.data);
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
