@@ -5,7 +5,6 @@ import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 import * as Api from "@/utils/api";
 import { Club } from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
-import testimage from "@/asset/images/testimage.PNG";
 
 import { ColumnContainerBox, StyledInput } from "@/styles/containers";
 import { StyledLabel } from "@/styles/text";
@@ -64,7 +63,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
 
   const handleHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    const { name, value } = target;
+    const { value } = target;
     
     if (event.key === "Enter") {
       // 중복 처리

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GradeIcon from "@mui/icons-material/Grade";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import { StyledSpan } from "@/styles/text";
 import * as Interface from "@/utils/interface";
 import * as Api from "@/utils/api";
@@ -93,7 +93,7 @@ function MyClubListCard({
             src={
               club.picture
                 ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
-                : testimage
+                : defaultImage
             }
             alt='Club Image'
           />

@@ -7,7 +7,7 @@ import { CardMedia } from "@mui/material";
 import { StyledSpan } from "@/styles/text";
 
 import { ClubCardContent, ClubCardInfos } from "@/components/ClubCard/ClubCardStyle";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 
 import { MainWholeCard } from './MainClubCardStyle';
 
@@ -27,7 +27,7 @@ function MainClubCard({ club }: Props) {
       <CardMedia
         component='img'
         height='250'
-        src={club.picture ? `http://${window.location.hostname}:3000/uploads/${club.picture}` : testimage}
+        src={club.picture ? `http://${window.location.hostname}:3000/uploads/${club.picture}` : defaultImage}
         alt='Club Image'
         onClick={() => handleClickCard(club.id)}
       />
