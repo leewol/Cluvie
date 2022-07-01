@@ -121,8 +121,7 @@ clubRouter.get("/top10ViewsClubs", async (req, res) => {
 // 모집중인 모임 중 모집인원수 상위 10개 모임 불러오기
 clubRouter.get("/top10HeadCountClubs", async (req, res) => {
   try {
-    const top10HeadCountClubs =
-      await clubService.getTop10HeadCountRecruitingClubs();
+    const top10HeadCountClubs = await clubService.getTop10HeadCountRecruitingClubs();
     res.status(200).json({ success: true, top10HeadCountClubs });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
@@ -130,10 +129,10 @@ clubRouter.get("/top10HeadCountClubs", async (req, res) => {
 });
 
 // 모집중인 모임 중 주말에 모이는 모임 10개 랜덤으로 불러오기
-clubRouter.get("/weekendClubs", async (req, res) => {
+clubRouter.get("/weekend", async (req, res) => {
   try {
-    const weekendClubs = await clubService.getWeekendRecruitingClubs();
-    res.status(200).json({ success: true, weekendClubs });
+    const weekend = await clubService.getWeekendRecruitingClubs();
+    res.status(200).json({ success: true, weekend });
   } catch (err) {
     res.status(404).json({ success: false, message: err.message });
   }
