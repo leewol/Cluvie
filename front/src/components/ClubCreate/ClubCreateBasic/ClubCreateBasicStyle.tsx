@@ -1,5 +1,5 @@
 import styled from "@emotion/styled/macro";
-
+import { Button } from "@mui/material";
 import { StyledInput, inputBase } from "@/styles/containers";
 import { StyledSpan } from "@/styles/text";
 
@@ -81,12 +81,36 @@ const HashtagsBox = styled.div`
 const HashtagNotice = styled.span`
   color: #716847;
   font-size: 12px;
-  margin-left: 10px;
 `;
 
 const HashtagSpan = styled(StyledSpan)`
   background-color: #716847;
   border: 5px solid #716847;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
+const HashtagNotice2 = styled.span`
+  color: rgba(113, 104, 71, 0.6);
+  font-size: 12px;
+`;
+
+const AIButton = styled(Button)`
+  margin-left: 5px;
+  padding: 2px 4px;
+  font-size: 11px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: black;
+  background-color: #ffc300;
+  &:hover {
+    background-color: rgba(255, 195, 0, 0.6);
+  }
+`;
+
+const HashtagSpan2 = styled(StyledSpan)`
+  background-color: #ffc300;
+  border: 5px solid #ffc300;
   color: white;
   font-weight: 500;
   cursor: pointer;
@@ -106,4 +130,7 @@ export {
   HashtagsBox,
   HashtagNotice,
   HashtagSpan,
+  HashtagNotice2,
+  AIButton,
+  HashtagSpan2
 };

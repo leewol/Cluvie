@@ -21,6 +21,7 @@ function EditorComponent() {
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
+  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
   const [clubInfo, setClubInfo] = useState<Club>({
     name: "",
     picture: "",
@@ -34,7 +35,6 @@ function EditorComponent() {
     head_count: 1,
     weekday: 0,
     weekend: 0,
-    hashtags: ""
   });
   const { mutate } = useCreateClub("scrollClubList");
 
@@ -133,9 +133,13 @@ const modules = useMemo(
     });
   }
 
+  useEffect(()=>{
+    console.log('hashtagArr',hashtagArr)
+  },[hashtagArr])
+
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} />
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents} hashtagArr={hashtagArr} setHashtagArr={setHashtagArr} />
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}

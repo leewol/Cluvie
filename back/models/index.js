@@ -8,6 +8,7 @@ import Likes from "./like";
 import Applicants from "./applicant";
 import Reviews from "./review";
 import Ratings from "./rating";
+import Hashtags from "./hashtag";
 
 const db = {};
 const sequelize = new Sequelize(
@@ -27,6 +28,7 @@ db.Likes = Likes;
 db.Applicants = Applicants;
 db.Reviews = Reviews;
 db.Ratings = Ratings;
+db.Hashtags = Hashtags;
 
 //모델 - 테이블 연결
 Users.init(sequelize);
@@ -35,5 +37,6 @@ Likes.init(sequelize);
 Applicants.init(sequelize);
 Reviews.init(sequelize);
 Ratings.init(sequelize);
+Hashtags.init(sequelize);
 
 module.exports = db;

@@ -38,6 +38,8 @@ export const Text1 = styled.div`
   color: rgba(0, 0, 0, 0.6);
   font-size: 24px;
   font-weight: 550;
+  max-height: 170px;
+  overflow: hidden;
 `;
 
 export const Text2 = styled.div`

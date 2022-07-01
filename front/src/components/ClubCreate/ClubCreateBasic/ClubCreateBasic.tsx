@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 
@@ -21,7 +22,11 @@ import {
   StyledSelect,
   HashtagsBox,
   HashtagNotice,
-  HashtagSpan
+  HashtagNotice2,
+  HashtagSpan,
+  HashtagSpan2,
+  AIButton
+
 } from "./ClubCreateBasicStyle";
 
 // * Props type은 해당 파일 내에서 정의
@@ -29,13 +34,16 @@ interface Props {
   clubInfo: Club;
   setClubInfo: React.Dispatch<
   React.SetStateAction<Club>>;
+  contents: string;
+  hashtagArr:string[];
+  setHashtagArr:React.Dispatch<
+  React.SetStateAction<string[]>>;
 }
 
 // ! state setter는 prop으로 가지 않는 게 좋다
-function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
+function ClubCreateBasic({ clubInfo, setClubInfo, contents,hashtagArr,setHashtagArr }: Props) {
   const [ thumnail, setThumnail ] = useState<any>();
-  const [ hashtag, setHashtag ] = useState("");
-  const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
+  const [ aihashtagArr, setAiHashtagArr ] = useState<string[]>([]);
 
   const onChange = onChangeFunction(setClubInfo);
 
@@ -57,30 +65,21 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
     }));
   }
 
-  const handleHashtagChange = (event: React.ChangeEvent <HTMLInputElement>) => {
-    setHashtag(event.target.value);
-  }
+  const handleHashtagEnter = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const clickedHashtag = event.currentTarget.id;
 
-  const handleHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const target = event.target as HTMLInputElement;
-    const { value } = target;
-    
-    if (event.key === "Enter") {
-      // 중복 처리
-      if (hashtagArr.includes(value)) {
-        alert("이미 등록된 해시태그입니다!");
-        return;
-      }
-
-      // 3개까지만 입력 가능
-      if (hashtagArr.length === 3) {
-        alert("해시태그를 3개 모두 입력하셨습니다!");
-        return;
-      }
-
-      setHashtagArr((prev) => [...prev, value]);
-      setHashtag(""); 
+    // 중복 처리
+    if (hashtagArr.includes(clickedHashtag)) {
+      alert("이미 등록된 해시태그입니다!");
+      return;
     }
+
+      // 2개까지만 입력 가능
+    if (hashtagArr.length === 2) {
+      alert("해시태그를 2개 모두 입력하셨습니다!");
+      return;
+    }
+    setHashtagArr((prev) => [...prev, clickedHashtag]);
   }
 
   const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -88,7 +87,6 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
     const newHashtagArr = hashtagArr.filter((el: string) => el !== clickedHashtag);
 
     setHashtagArr(() => newHashtagArr);
-    setHashtag("");
   }
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,17 +114,65 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
       }
     }
   }
+
+  const handleAISummary = () => {
+    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
+    if(contentsWithoutTags.length >= 30){
+      console.log('한줄요약 상세정보',contents)
+      console.log('한줄요약 상세정보 태그제거??',contentsWithoutTags)
+      console.log('상세정보 길이',contentsWithoutTags.length)
+
+      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/summary',{sentences:contentsWithoutTags},{
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+        .then((res)=>{setClubInfo((prev: any) => ({
+          ...prev,
+          'intro': res.data,
+        }))
+        })
+        .catch((err)=>console.log(err))
+    }
+    else {
+      alert('상세 정보를 30자 이상 입력하세요!');
+    }
+  }
+
+  const handleAIKeyword = () => {
+    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
+    if(contentsWithoutTags.length >= 30){
+      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/keyword-diversity',{sentences:contentsWithoutTags},{
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+        .then((res)=>{setAiHashtagArr(res.data)
+        })
+        .catch((err)=>console.log(err))
+    }
+    else {
+      alert('상세 정보를 30자 이상 입력하세요!');
+    }
+  }
+
   // hashtagArr 변경될 때 clubInfo를 업데이트
   useEffect(() => {
     setClubInfo((prev: Club) => ({
       ...prev,
-      hashtags: hashtagArr.join(","),
     }));
   }, [hashtagArr]);
 
   useEffect(() => {
     console.log(clubInfo);
-  }, [clubInfo.picture]);
+  }, [clubInfo.picture,hashtagArr]);
+
+  useEffect(()=>{
+    console.log('해시태그!!',hashtagArr)
+  },[hashtagArr])
+
 
   return (
     <ColumnContainerBox>
@@ -156,7 +202,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
             />
           </InputBox>
           <InputBox>
-            <StyledLabel htmlFor='intro'>한줄 소개</StyledLabel>
+          <StyledLabel htmlFor='intro'>한줄 소개<AIButton type='button' onClick={handleAISummary}>한줄 요약</AIButton><br/><HashtagNotice>한줄 소개는 직접 작성하거나, AI가 제공하는 한줄 요약을 등록할 수도 있습니다!<br/>클럽의 상세 정보를 30자 이상 작성하고 한줄 요약 버튼을 클릭하면 AI가 작성한 한줄 요약이 입력돼요!</HashtagNotice><HashtagNotice2><br/>*한줄 요약 버튼을 클릭하면 작성 중인 한줄 소개가 지워집니다!</HashtagNotice2></StyledLabel>
             <StyledInput
               type='text'
               name='intro'
@@ -219,19 +265,17 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
             </StyledSelect>
           </InputBox>
           <InputBox>
-            <StyledLabel htmlFor='hashtags'>해시태그
-              <HashtagNotice>최대 3개를 입력해 주세요</HashtagNotice>
+            <StyledLabel htmlFor='hashtags'>해시태그<AIButton type='button' onClick={handleAIKeyword}>키워드 추출</AIButton><br/>
+            <HashtagNotice>클럽의 상세 정보를 30자 이상 작성하고 키워드 추출 버튼을 클릭하면 AI가 클럽에 적합한 해시태그를 보여줍니다!<br/>그중에서 최대 2개의 해시태그를 등록할 수 있어요!</HashtagNotice>
             </StyledLabel>
-            <StyledInput
-              type='text'
-              name='hashtags'
-              value={hashtag}
-              onChange={handleHashtagChange}
-              onKeyPress={handleHashtagEnter}
-            />
             <HashtagsBox>
-              {hashtagArr.map((el: string) => <HashtagSpan id={el} key={el} onClick={handleSpanClickDelete}>#{el}</HashtagSpan>)}
+              {aihashtagArr.map((el: string) => <HashtagSpan id={el} key={el} onClick={handleHashtagEnter}>#{el}</HashtagSpan>)}
             </HashtagsBox>
+            {Boolean(aihashtagArr.length) && <HashtagNotice>마음에 드는 해시테그를 클릭하세요!</HashtagNotice>}
+            <HashtagsBox>
+              {hashtagArr.map((el: string) => <HashtagSpan2 id={el} key={el} onClick={handleSpanClickDelete}>#{el}</HashtagSpan2>)}
+            </HashtagsBox>
+            {Boolean(hashtagArr.length) && <HashtagNotice>한 번 더 클릭하면 취소할 수 있어요!</HashtagNotice>}
           </InputBox>
         </FormBox>
       </ClubCreateFormBox>

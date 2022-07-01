@@ -4,6 +4,7 @@ import Users from "../../../models/user";
 import Clubs from "../../../models/club";
 import Applicants from "../../../models/applicant";
 import Ratings from "../../../models/rating";
+import Hashtags from "../../../models/hashtag";
 import db from "../../../models/index";
 
 class clubService {
@@ -34,6 +35,21 @@ class clubService {
       manager,
     });
     return club;
+  };
+
+  static createHashtag = async ({ club_id, hashtag }) => {
+    const hashtags = await Hashtags.create({ club_id, hashtag });
+    return hashtags;
+  };
+
+  static deleteHashtag = async ({ club_id, hashtagId }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    if (!club) {
+      const errorMessage = "존재하지 않는 모임입니다.";
+      return { errorMessage };
+    }
+    const deleted = await Hashtags.destroy({ where: { id: hashtagId } });
+    return deleted;
   };
 
   static createClubReviewRating = async (club_id) => {
