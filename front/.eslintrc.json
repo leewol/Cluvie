@@ -47,7 +47,8 @@
         "no-restricted-syntax": "warn",
         "react/jsx-no-useless-fragment": "warn",
         "consistent-return": "warn",
-        "react/no-array-index-key": "warn"
+        "react/no-array-index-key": "warn",
+        "no-nested-ternary": "warn"
     },
     "settings": {
         "import/resolver":{
