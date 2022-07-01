@@ -43,6 +43,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   const [ thumnail, setThumnail ] = useState<any>();
   const [ aihashtagArr, setAiHashtagArr ] = useState<string[]>([]);
   const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
+  const [ hashtagLoading, setHashtagLoading] = useState(false);
 
   const onChange = onChangeFunction(setClubInfo);
 
@@ -79,23 +80,6 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
       return;
     }
     setHashtagArr((prev) => [...prev, clickedHashtag]);
-
-    if(hashtagArr.length>0){
-      console.log('두번쨰 해시태그')
-      console.log('hashtagArr',hashtagArr);
-      setClubInfo((prev: Club) => ({
-        ...prev,
-        hashtag2: clickedHashtag,
-      }));
-    }
-    else {
-      console.log('첫번째 해시태그')
-      console.log('hashtagArr',hashtagArr);
-      setClubInfo((prev: Club) => ({
-        ...prev,
-        hashtag1: clickedHashtag,
-      }));
-    }
   }
 
   const handleSpanClickDelete = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -171,8 +155,26 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   useEffect(()=>{
-    console.log('클럽정보',clubInfo)
+    if(!hashtagLoading){
+      const newHashtagArr: string[] = []
+      if(clubInfo.hashtag1)
+        newHashtagArr.push(clubInfo.hashtag1)
+
+      if(clubInfo.hashtag2)
+        newHashtagArr.push(clubInfo.hashtag2)
+        
+      setHashtagArr(newHashtagArr);
+      setHashtagLoading(true);
+    }
   },[clubInfo])
+
+  useEffect(()=>{
+    setClubInfo((prev: Club) => ({
+      ...prev,
+      hashtag1: hashtagArr[0],
+      hashtag2: hashtagArr[1],
+    }));
+  },[hashtagArr])
 
   return (
     <ColumnContainerBox>
