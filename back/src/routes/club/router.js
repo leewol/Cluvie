@@ -62,6 +62,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     const club_id = club.id;
     const club_description = club.description;
     await clubService.createClubReviewRating(club_id);
+    // NER API로 보내주기
     const response = await axios.post(
       "http://kdt-ai4-team18.elicecoding.com:5002/ner",
       { sentences: club_description, id: club_id },
@@ -111,6 +112,7 @@ clubRouter.get(
   }
 );
 
+// NER -> SEARCH 검색결과 가져오기
 clubRouter.get("/searchResults", async (req, res) => {
   try {
     const searchWord = req.body;
