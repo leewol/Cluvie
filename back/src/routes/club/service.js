@@ -81,6 +81,16 @@ class clubService {
     return { clubList };
   };
 
+  static getClubDetail = async ({ club_id }) => {
+    const club = await Clubs.findOne({ where: { id: club_id } });
+    let sql = `SELECT description FROM clubs WHERE id = ${club_id};`;
+    const clubDetail = await db.sequelize.query(sql, {
+      type: db.sequelize.QueryTypes.SELECT,
+    });
+    console.log(clubDetail);
+    return clubDetail;
+  };
+
   static closeApplication = async ({ club_id }) => {
     const club = await Clubs.findOne({ where: { id: club_id } });
     if (!club) {
