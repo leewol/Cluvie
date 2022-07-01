@@ -6,6 +6,7 @@ const style = css`
 
   .ql-editor {
     overflow-y: hidden;
+    padding: 0;
   }
 
   html {
@@ -13,6 +14,9 @@ const style = css`
   }
 
   body {
+    margin: 0;
+    margin-top: 20px;
+   
     font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
       Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
       "Noto Sans KR", "Malgun Gothic", sans-serif;

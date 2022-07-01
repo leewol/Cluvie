@@ -1,20 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-import { ContainerBox } from "@/styles/containers";
+import MainBanner from "@/components/Main/MainBanner/MainBanner";
+import MainClubList from "@/components/Main/MainClubList/MainClubList";
+
+import { MainContainerBox } from "./MainStyle";
+
 
 function Main() {
   return (
-    <ContainerBox>
-      <ul>
-        <li>
-          <Link to='/myClublist'>내 클럽 리스트</Link>
-        </li>
-        <li>
-          <Link to='/myPage'>마이페이지</Link>
-        </li>
-      </ul>
-    </ContainerBox>
+    <MainContainerBox>
+      <MainBanner />
+      <MainClubList />
+    </MainContainerBox>
   );
 }
 

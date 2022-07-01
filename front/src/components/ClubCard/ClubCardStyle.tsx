@@ -6,7 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { StyledSpan } from "@/styles/text";
 
-const WholeCard = styled(Card)<{ clubstate: number | undefined }>`
+const WholeCard = styled(Card)<{ clubstate?: number | undefined }>`
   width: 350px;
   height: 500px;
   cursor: pointer;

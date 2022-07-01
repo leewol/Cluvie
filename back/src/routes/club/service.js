@@ -99,12 +99,12 @@ class clubService {
       return { errorMessage };
     }
     // 클럽에 관련된 찜하기, 후기, 신청자 모두 삭제
-    Clubs.destroy({ where: { id: club_id } });
-    Likes.destroy({ where: { club_id: club_id } });
-    Reviews.destroy({ where: { club_id: club_id } });
-    Ratings.destroy({ where: { club_id: club_id } });
-    Applicants.destroy({ where: { club_id: club_id } });
-    return;
+    const deleted = await Clubs.destroy({ where: { id: club_id } });
+    await Likes.destroy({ where: { club_id: club_id } });
+    await Reviews.destroy({ where: { club_id: club_id } });
+    await Ratings.destroy({ where: { club_id: club_id } });
+    await Applicants.destroy({ where: { club_id: club_id } });
+    return deleted;
   };
 
   static writeReview = async ({ user_id, club_id, star_rating, contents }) => {
@@ -160,6 +160,30 @@ class clubService {
   static getRating = async ({ club_id }) => {
     const ratingData = await Ratings.findOne({ where: { club_id } });
     return ratingData.rating.toFixed(1); //소수점 한자리까지 표현
+  };
+
+  static getTop10ViewsRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs WHERE state = 0 ORDER BY views DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
+
+  static getTop10HeadCountRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs  WHERE state = 0 ORDER BY head_count DESC LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
+  };
+
+  static getWeekendRecruitingClubs = async () => {
+    const clubs = await db.sequelize.query(
+      `SELECT * FROM clubs WHERE state=0 AND weekend=1 ORDER BY RAND() LIMIT 10`,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    return clubs;
   };
 }
 export { clubService };
