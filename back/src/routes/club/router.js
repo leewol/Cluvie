@@ -135,10 +135,10 @@ clubRouter.post("/searchResults", async (req, res) => {
 });
 
 // NER -> SEARCH 검색결과 가져오기
-clubRouter.get("/searchResults", async (req, res) => {
+clubRouter.get("/searchResults/:searchWord", async (req, res) => {
   try {
-    const searchWord = req.body;
-    const response = await axios.get(
+    const searchWord = req.params.searchWord;
+    const response = await axios.post(
       "http://kdt-ai4-team18.elicecoding.com:5002/search",
       { sentences: searchWord },
       {
@@ -151,6 +151,7 @@ clubRouter.get("/searchResults", async (req, res) => {
     const searchResults = response.data;
     res.json({ searchResults });
   } catch (err) {
+    console.log(err);
     res.json({ message: err.message });
   }
 });
