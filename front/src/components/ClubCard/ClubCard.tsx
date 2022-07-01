@@ -6,7 +6,7 @@ import { CardMedia, IconButton } from "@mui/material";
 import { Club } from "@/utils/interface";
 import * as Api from "@/utils/api";
 
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import { StyledSpan } from "@/styles/text";
 
 import {
@@ -53,7 +53,7 @@ const ClubCard = forwardRef<HTMLDivElement, Props>(
       <CardMedia
         component='img'
         height='250'
-        src={club.picture ? `http://${window.location.hostname}:3000/uploads/${club.picture}` : testimage}
+        src={club.picture ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}` : defaultImage}
         alt='Club Image'
         onClick={() => handleClickCard(club.id)}
       />

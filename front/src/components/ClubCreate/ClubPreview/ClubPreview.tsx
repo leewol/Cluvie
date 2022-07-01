@@ -5,7 +5,7 @@ import { CardContent } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ClubDetailTab from "@/components/ClubDetail/ClubDetailTab";
 import * as Interface from "@/utils/interface";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import * as Style from "./ClubPreviewStyle";
 
 function ClubPreview({ newClub }: { newClub: Interface.Club }) {
@@ -17,8 +17,8 @@ function ClubPreview({ newClub }: { newClub: Interface.Club }) {
             // eslint-disable-next-line global-require
             src={
               newClub.picture
-                ? `http://${window.location.hostname}:3000/uploads/${newClub.picture}`
-                : testimage
+                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${newClub.picture}`
+                : defaultImage
             }
             alt='클럽썸네일이미지'
           />

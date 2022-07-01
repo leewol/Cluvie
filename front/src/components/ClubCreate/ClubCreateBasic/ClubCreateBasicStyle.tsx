@@ -75,7 +75,20 @@ const StyledSelect = styled.select`
 `;
 
 const HashtagsBox = styled.div`
-  margin-top: 10px;
+  margin: 10px 0;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1%;
+  row-gap: 10px;
+`;
+
+const HashtagInnerBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const HashtagNotice = styled.span`
@@ -128,6 +141,7 @@ export {
   Line,
   StyledSelect,
   HashtagsBox,
+  HashtagInnerBox,
   HashtagNotice,
   HashtagSpan,
   HashtagNotice2,

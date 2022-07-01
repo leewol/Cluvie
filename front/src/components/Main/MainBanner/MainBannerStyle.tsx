@@ -5,7 +5,7 @@ import { StyledSpan } from "@/styles/text";
 const MainBannerBox = styled.div`
   overflow: hidden;
   background-color: #FFE047;
-  width: 1500px;
+  width: 1250px;
   border-radius: 15px;
   height: 350px;
   display: flex;
@@ -58,7 +58,7 @@ const SlideImageHideBox = styled.div`
 
 const SlideImageBox = styled.div`
   display: flex;
-  width: 1500px;
+  width: 1250px;
   img {
     width: 400px;
     height: 300px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef } from "react";
 
 import { useMainClubList } from "@/hooks/queries/useClubList";
 import MainClubCardsSlide from "@/components/Main/MainClubCardsSlide/MainClubCardsSlide";

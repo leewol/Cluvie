@@ -72,7 +72,7 @@ function EditorComponent() {
           const res = await Api.post("/clubs/picture", formData);
           const { fileName } = res.data;
 	// 백엔드 개발자 분이 통신 성공시에 보내주는 이미지 url을 변수에 담는다.
-          url = `http://${window.location.hostname}:3000/uploads/${fileName}`;
+          url = `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${fileName}`;
 
 	// 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드 
     	// 해당 DOM의 데이터가 필요하기에 useRef를 사용한다.

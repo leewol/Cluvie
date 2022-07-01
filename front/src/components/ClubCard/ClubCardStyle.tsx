@@ -8,7 +8,7 @@ import { StyledSpan } from "@/styles/text";
 
 const WholeCard = styled(Card)<{ clubstate?: number | undefined }>`
   width: 350px;
-  height: 500px;
+  height: 520px;
   cursor: pointer;
   opacity: ${(props) => (props.clubstate === 1 ? "0.5" : "1")};
 `;

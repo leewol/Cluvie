@@ -1,8 +1,10 @@
 import axios from "axios";
 import { NavigateFunction } from "react-router-dom";
 
+// kdt-ai4-team18.elicecoding.com
 const BACKEND_PORT = "5001";
-const SERVER_URL = `http://${window.location.hostname}:${BACKEND_PORT}`;
+const AI_PORT = "5002";
+const SERVER_URL = `http://${process.env.REACT_APP_DOMAIN}:${BACKEND_PORT}`;
 
 // * axios 인스턴스 생성
 const axiosApiInstance = axios.create({
