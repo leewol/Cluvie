@@ -28,6 +28,7 @@ export const ClubReactQuill =
   `
   .ql-editor {
     min-height: 500px;
+    padding: 15px;
   }
   .ql-toolbar:first-of-type {
     display: ${(props) => (props.duplicated ? "none" : "block")};
