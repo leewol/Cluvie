@@ -119,7 +119,7 @@ def keyword_diversity():
 
     n_gram_range = (2, 3)
 
-    count = CountVectorizer(ngram_range=n_gram_range).fit_transform([tokenized_nouns])
+    count = CountVectorizer(ngram_range=n_gram_range).fit([tokenized_nouns])
     candidates = count.get_feature_names_out()
 
     embeddings = sroberta_model.encode([sentences])
