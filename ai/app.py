@@ -171,7 +171,7 @@ def summary():
 @app.route('/ner', methods=['POST'])
 def ner():
     sentences = clean_text(request.get_json()['sentences'])
-    id = request.get_json()['sentences']
+    id = request.get_json()['id']
     examples = kss.split_sentences(sentences)  # 문장단위로 끊기
     for example in examples:
         ner_results = ner_nlp(example)
