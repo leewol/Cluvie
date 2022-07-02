@@ -8,7 +8,7 @@ import {
   isPasswordValid,
   isPasswordConfirmed,
   isNicknameValid,
-  showValidIcon
+  showValidIcon,
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
@@ -18,22 +18,23 @@ import AuthEmail from "@/components/User/AuthEmail/AuthEmail";
 import { ContainerBox, StyledInput } from "@/styles/containers";
 import { FormButton, UserInputDiv } from "@/styles/user";
 import { StyledLabel } from "@/styles/text";
-import { 
-  SignUpFormInnerBox, 
-  SignUpInputBox, 
-  RadioInputDiv, 
+import {
+  SignUpFormInnerBox,
+  SignUpInputBox,
+  RadioInputDiv,
   StyledRadioLabel,
-  StyledRadioInput, 
+  StyledRadioInput,
   StyledDateInput,
   AuthEmailButton,
-  AuthEmailCompletedButton } from "./SignUpFormStyle";
+  AuthEmailCompletedButton,
+} from "./SignUpFormStyle";
 
 function SignUpForm() {
   const navigate = useNavigate();
 
   const setIsSignIn = useSetRecoilState(isSignInUser);
   const setEmailAuthCode = useSetRecoilState(authCode);
-
+  // prettier-ignore
   const [isThisEmailAuthorized, setIsThisEmailAuthorized] = useState<boolean>(false);
   const [form, setForm] = useState({
     email: "",
@@ -98,10 +99,12 @@ function SignUpForm() {
       const res = await Api.post("/mail", { email: form.email });
       console.log(res.data.SendEmail);
       setEmailAuthCode(res.data.SendEmail);
+      alert("인증번호가 발송되었습니다!");
     } catch (err) {
       console.log(err);
+      alert("인증번호 발송 실패했습니다!");
     }
-  }
+  };
 
   return (
     <ContainerBox>
@@ -118,22 +121,22 @@ function SignUpForm() {
             />
             {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
           </UserInputDiv>
-          {
-            isThisEmailAuthorized ?
-            <AuthEmailCompletedButton type="button">
+          {isThisEmailAuthorized ? (
+            <AuthEmailCompletedButton type='button'>
               이메일 인증 완료
-            </AuthEmailCompletedButton> :
+            </AuthEmailCompletedButton>
+          ) : (
             <div>
-              <AuthEmailButton 
-                type="button" 
+              <AuthEmailButton
+                type='button'
                 disabled={!isEmailValid(form.email)}
-                onClick={handleAuthEmailClick}  
+                onClick={handleAuthEmailClick}
               >
                 이메일 인증하기
               </AuthEmailButton>
               <AuthEmail setIsThisEmailAuthorized={setIsThisEmailAuthorized} />
-            </div> 
-          }
+            </div>
+          )}
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>
           <UserInputDiv>
             <StyledInput
@@ -181,9 +184,7 @@ function SignUpForm() {
               checked={form.sex === "여성"}
               onChange={onChange}
             />
-            <StyledRadioLabel htmlFor='women'>
-              여성
-            </StyledRadioLabel>
+            <StyledRadioLabel htmlFor='women'>여성</StyledRadioLabel>
             <StyledRadioInput
               id='men'
               type='radio'
@@ -192,9 +193,7 @@ function SignUpForm() {
               checked={form.sex === "남성"}
               onChange={onChange}
             />
-            <StyledRadioLabel htmlFor='men'>
-              남성
-            </StyledRadioLabel>
+            <StyledRadioLabel htmlFor='men'>남성</StyledRadioLabel>
             <StyledRadioInput
               id='none'
               type='radio'

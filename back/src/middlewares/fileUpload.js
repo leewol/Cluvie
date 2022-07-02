@@ -3,7 +3,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./../front/public/uploads"); //업로드 된 파일을 어디다 저장하는지 ( 현재 파일의 경로 기준 )
+    cb(null, "uploads"); //업로드 된 파일을 어디다 저장하는지 ( 현재 파일의 경로 기준 )
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`); //파일 이름을 어떻게 저장할지 정하는 것

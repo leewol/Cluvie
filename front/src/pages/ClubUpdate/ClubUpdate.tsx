@@ -25,7 +25,9 @@ function EditorComponent() {
 
   const navigate = useNavigate();
   const QuillRef = useRef<ReactQuill>();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [contents, setContents] = useState("");
+  const [aiContents, setAIContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState(club);
@@ -69,9 +71,9 @@ function EditorComponent() {
         // axios를 통해 백엔드 개발자분과 통신했고, 데이터는 폼데이터로 주고받았습니다.
         // const res = await axios.post("/api/upload", formData);
           const res = await Api.post("/clubs/picture", formData);
-          const { fileName } = res.data;
+          const { filePath } = res.data;
 	// 백엔드 개발자 분이 통신 성공시에 보내주는 이미지 url을 변수에 담는다.
-          url = `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${fileName}`;
+          url = filePath;
 
 	// 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드 
     	// 해당 DOM의 데이터가 필요하기에 useRef를 사용한다.
@@ -123,17 +125,20 @@ const modules = useMemo(
   );
 
   const handleSubmit = () => {
-    console.log('clubInfo',clubInfo)
-
     Api.put(`/clubs/${club.id}`, clubInfo)
       .then((res)=> {console.log(res)
         navigate(`/clubDetail/${clubInfo.id}`);})
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err)
+        setButtonDisabled(false);
+        alert('등록에 실패했습니다!')
+      });
+
+    setButtonDisabled(true);
   }
 
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents}/>
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} aiContents={aiContents}/>
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
@@ -142,10 +147,14 @@ return (
         ref={(element) => {
           if (element !== null) {
             QuillRef.current = element;
+            QuillRef.current.getEditor().getText()
           }
         }}
         // eslint-disable-next-line react/no-this-in-sfc
-        onChange={setContents}
+        onChange={(event) => {
+          setAIContents(QuillRef.current?.getEditor().getText() ? QuillRef.current?.getEditor().getText() : "")
+          setContents(event)
+        }}
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
@@ -162,7 +171,7 @@ return (
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>
-        <Style.MyButton3 onClick={handleSubmit}>
+        <Style.MyButton3 onClick={handleSubmit} disabled={buttonDisabled}>
           등록
         </Style.MyButton3>
       </Style.ButtonBox>

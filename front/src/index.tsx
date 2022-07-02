@@ -14,10 +14,10 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 1000 * 60 * 60 * 24,
-      staleTime: 1000 * 60,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
+      cacheTime: 1000 * 60,
+      staleTime: 1000 * 30,
+      refetchOnMount: "always",
+      refetchOnReconnect: "always",
       refetchOnWindowFocus: false,
     },
   },

@@ -18,7 +18,8 @@ clubRouter.post("/picture", async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      filePath: res.req.file.path,
+      filePath:
+        "https://kdt-ai4-team18.elicecoding.com/media/" + res.req.file.path,
       fileName: res.req.file.filename,
     });
   });
@@ -63,7 +64,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     const club_description = club.description;
     await clubService.createClubReviewRating(club_id);
     // NER API로 보내주기
-    axios.post(
+    const response = await axios.post(
       "http://kdt-ai4-team18.elicecoding.com:5002/ner",
       { sentences: club_description, id: club_id },
       {
@@ -170,10 +171,10 @@ clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
 });
 
 // 모집중인 모임 중 조회수 상위 10개 모임 불러오기
-clubRouter.get("/top10ViewsClubs", async (req, res) => {
+clubRouter.get("/top10Views", async (req, res) => {
   try {
-    const top10ViewsClubs = await clubService.getTop10ViewsRecruitingClubs();
-    res.status(200).json({ success: true, top10ViewsClubs });
+    const top10Views = await clubService.getTop10ViewsRecruitingClubs();
+    res.status(200).json({ success: true, top10Views });
   } catch (err) {
     res.json({ success: false, message: err.message });
   }
