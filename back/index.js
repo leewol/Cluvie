@@ -7,6 +7,7 @@ import likeRouter from "./src/routes/like/router.js";
 import applicantRouter from "./src/routes/applicant/router.js";
 import authRouter from "./src/routes/email/router.js";
 import dotenv from "dotenv";
+import errorMiddleware from "./src/middlewares/errorMiddleware";
 dotenv.config();
 
 const app = express();
@@ -35,6 +36,7 @@ app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
 app.use(authRouter);
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);
