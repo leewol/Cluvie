@@ -12,3 +12,7 @@ export const ReviewInfoDiv = styled.div`
   font-size: 13px;
   margin: 10px 0;
 `;
+
+export const ReviewContentDiv = styled.div`
+  margin-left: 5px;
+`;

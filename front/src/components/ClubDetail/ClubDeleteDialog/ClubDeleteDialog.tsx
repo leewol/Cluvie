@@ -20,7 +20,7 @@ function ClubDeleteDialog({
   const navigate = useNavigate();
   const handleDelete = () => {
     console.log(clubId);
-    Api.delete(`/clubs/${clubId}`)
+    Api.delete("/clubs", clubId)
       .then((res) => {
         console.log(res);
       })

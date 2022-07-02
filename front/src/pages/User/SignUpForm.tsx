@@ -1,26 +1,40 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
+import { isSignInUser, authCode } from "@/utils/recoil";
 import {
   isEmailValid,
   isPasswordValid,
   isPasswordConfirmed,
   isNicknameValid,
-  showValidIcon,
+  showValidIcon
 } from "@/utils/validation";
 import * as Api from "@/utils/api";
 import { onChangeFunction } from "@/utils/eventHandler";
 
+import AuthEmail from "@/components/User/AuthEmail/AuthEmail";
+
 import { ContainerBox, StyledInput } from "@/styles/containers";
 import { FormButton, UserInputDiv } from "@/styles/user";
 import { StyledLabel } from "@/styles/text";
-import * as Styled from "./SignUpFormStyle";
-
-// TODO : 회원가입 실패 시 alert
+import { 
+  SignUpFormInnerBox, 
+  SignUpInputBox, 
+  RadioInputDiv, 
+  StyledRadioLabel,
+  StyledRadioInput, 
+  StyledDateInput,
+  AuthEmailButton,
+  AuthEmailCompletedButton } from "./SignUpFormStyle";
 
 function SignUpForm() {
   const navigate = useNavigate();
 
+  const setIsSignIn = useSetRecoilState(isSignInUser);
+  const setEmailAuthCode = useSetRecoilState(authCode);
+
+  const [isThisEmailAuthorized, setIsThisEmailAuthorized] = useState<boolean>(false);
   const [form, setForm] = useState({
     email: "",
     nickname: "",
@@ -32,6 +46,7 @@ function SignUpForm() {
 
   const isFormValid =
     isEmailValid(form.email) &&
+    isThisEmailAuthorized &&
     isPasswordValid(form.password) &&
     isPasswordConfirmed(form.password, form.confirmPassword) &&
     isNicknameValid(form.nickname) &&
@@ -56,18 +71,19 @@ function SignUpForm() {
         console.log("회원가입 성공!");
         console.log(res);
 
-        Api.post("/signIn", {
+        Api.post("/users/signIn", {
           email,
           password,
         })
           .then((resSignIn) => {
-            console.log("로그인 성공!");
-            console.log(resSignIn);
+            const { token } = resSignIn.data;
+            window.localStorage.setItem("token", token);
+            setIsSignIn(() => true);
 
             navigate("/");
+            console.log("로그인 성공!");
           })
           .catch((errSignIn) => {
-            console.log("로그인 실패!!");
             console.error(errSignIn);
           });
       })
@@ -77,11 +93,21 @@ function SignUpForm() {
       });
   };
 
+  const handleAuthEmailClick = async () => {
+    try {
+      const res = await Api.post("/mail", { email: form.email });
+      console.log(res.data.SendEmail);
+      setEmailAuthCode(res.data.SendEmail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <ContainerBox>
-      <Styled.SignUpFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
+      <SignUpFormInnerBox onSubmit={handleSumbit} autoComplete='off'>
         <h1>회원가입</h1>
-        <Styled.SignUpInputBox>
+        <SignUpInputBox>
           <StyledLabel htmlFor='email'>이메일</StyledLabel>
           <UserInputDiv>
             <StyledInput
@@ -92,7 +118,22 @@ function SignUpForm() {
             />
             {form.email ? showValidIcon(isEmailValid(form.email)) : ""}
           </UserInputDiv>
-
+          {
+            isThisEmailAuthorized ?
+            <AuthEmailCompletedButton type="button">
+              이메일 인증 완료
+            </AuthEmailCompletedButton> :
+            <div>
+              <AuthEmailButton 
+                type="button" 
+                disabled={!isEmailValid(form.email)}
+                onClick={handleAuthEmailClick}  
+              >
+                이메일 인증하기
+              </AuthEmailButton>
+              <AuthEmail setIsThisEmailAuthorized={setIsThisEmailAuthorized} />
+            </div> 
+          }
           <StyledLabel htmlFor='password'>비밀번호</StyledLabel>
           <UserInputDiv>
             <StyledInput
@@ -131,8 +172,8 @@ function SignUpForm() {
           </UserInputDiv>
 
           <StyledLabel>성별</StyledLabel>
-          <Styled.RadioInputDiv id='sex'>
-            <Styled.StyledRadioInput
+          <RadioInputDiv id='sex'>
+            <StyledRadioInput
               id='women'
               type='radio'
               name='sex'
@@ -140,10 +181,10 @@ function SignUpForm() {
               checked={form.sex === "여성"}
               onChange={onChange}
             />
-            <Styled.StyledRadioLabel htmlFor='women'>
+            <StyledRadioLabel htmlFor='women'>
               여성
-            </Styled.StyledRadioLabel>
-            <Styled.StyledRadioInput
+            </StyledRadioLabel>
+            <StyledRadioInput
               id='men'
               type='radio'
               name='sex'
@@ -151,10 +192,10 @@ function SignUpForm() {
               checked={form.sex === "남성"}
               onChange={onChange}
             />
-            <Styled.StyledRadioLabel htmlFor='men'>
+            <StyledRadioLabel htmlFor='men'>
               남성
-            </Styled.StyledRadioLabel>
-            <Styled.StyledRadioInput
+            </StyledRadioLabel>
+            <StyledRadioInput
               id='none'
               type='radio'
               name='sex'
@@ -162,14 +203,14 @@ function SignUpForm() {
               checked={form.sex === "여성도 남성도 아니에요"}
               onChange={onChange}
             />
-            <Styled.StyledRadioLabel htmlFor='none'>
+            <StyledRadioLabel htmlFor='none'>
               여성도 남성도 아니에요
-            </Styled.StyledRadioLabel>
-          </Styled.RadioInputDiv>
+            </StyledRadioLabel>
+          </RadioInputDiv>
           <StyledLabel>생년월일</StyledLabel>
 
           <UserInputDiv>
-            <Styled.StyledDateInput
+            <StyledDateInput
               type='date'
               name='birthday'
               value={form.birthday}
@@ -183,8 +224,8 @@ function SignUpForm() {
           >
             회원가입
           </FormButton>
-        </Styled.SignUpInputBox>
-      </Styled.SignUpFormInnerBox>
+        </SignUpInputBox>
+      </SignUpFormInnerBox>
     </ContainerBox>
   );
 }

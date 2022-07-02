@@ -6,8 +6,6 @@ import { ContainerBox, InnerBox } from "@/styles/containers";
 import { FormButton, StyledLink } from "@/styles/user";
 import SocialButton from "@/components/User/SocialButton";
 
-// TODO : 소셜 회원가입
-
 const StyledSpan = styled.span`
   margin-top: 15px;
 `;
@@ -24,7 +22,7 @@ function SignUp() {
       <InnerBox>
         <h1>회원가입</h1>
         <SocialButton social='google' action='회원가입' />
-        <SocialButton social='kakao-talk' action='회원가입' />
+        <SocialButton social='kakaotalk' action='회원가입' />
         <FormButton
           type='button'
           onClick={handleSignUpClick}

@@ -4,28 +4,20 @@ module.exports = class Applicants extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true,
-        },
         user_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
         club_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
+          primaryKey: true,
         },
-        accept: {
+        status: {
           type: Sequelize.TINYINT,
           allowNull: false,
-          defaultValue: 0,
-        },
-        entry_date: {
-          type: Sequelize.DATE,
-          allowNull: false,
+          defaultValue: "0",
         },
         created_at: {
           type: Sequelize.DATE,
@@ -37,21 +29,15 @@ module.exports = class Applicants extends Sequelize.Model {
           allowNull: false,
           defaultValue: "0",
         },
-        updated_at: {
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.fn("Now"),
-          allowNull: false,
-        },
       },
       {
         sequelize,
         timestamps: false,
-        modelName: "applicants",
+        modelName: "Applicants",
         tableName: "applicants",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
-        // freezeTableName: true,
       }
     );
   }

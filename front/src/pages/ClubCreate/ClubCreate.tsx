@@ -1,29 +1,32 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import React,{ useRef, useState, useMemo, useEffect } from 'react';
-import axios, { AxiosError } from "axios";
+import React, { useRef, useState, useMemo, useEffect } from 'react';
+import { AxiosError } from "axios";
+import { useNavigate } from 'react-router-dom';
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
-import Header from "@/components/Header/Header";
+import { Club } from "@/utils/interface";
+import * as Api from "@/utils/api";
+import { useCreateClub } from "@/hooks/queries/useClubList";
+
 import ClubCreateBasic from "@/components/ClubCreate/ClubCreateBasic/ClubCreateBasic";
 import ClubPreview from "@/components/ClubCreate/ClubPreview/ClubPreview";
 
-import * as Api from "@/utils/api";
-import * as Style from './ClubCreateStyle'
+import "react-quill/dist/quill.snow.css";
+import * as Style from "./ClubCreateStyle";
 
 function EditorComponent() {
+  const navigate = useNavigate();
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
-  const [clubInfo, setClubInfo] = useState({
+  const [clubInfo, setClubInfo] = useState<Club>({
     name: "",
-    manager: 4,
-    picture: "1",
+    picture: "",
     intro: "",
     duration: 0,
-    state: "모집중",
+    state: 0,
     online: 0,
     offline: 0,
     description: '상세보기를 작성해주세요',
@@ -31,8 +34,8 @@ function EditorComponent() {
     head_count: 1,
     weekday: 0,
     weekend: 0,
-    hashtags: ""
   });
+  const { mutate } = useCreateClub("scrollClubList");
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -59,17 +62,17 @@ function EditorComponent() {
     input.onchange = async () => {
       const file = input.files;
       if (file !== null) {
-        formData.append("image", file[0]);
+        formData.append("file", file[0]);
 
 	// 저의 경우 파일 이미지를 서버에 저장했기 때문에
     	// 백엔드 개발자분과 통신을 통해 이미지를 저장하고 불러왔습니다.
         try {
         // axios를 통해 백엔드 개발자분과 통신했고, 데이터는 폼데이터로 주고받았습니다.
         // const res = await axios.post("/api/upload", formData);
-        const res = {data:{url:'image'}}
-
+          const res = await Api.post("/clubs/picture", formData);
+          const { fileName } = res.data;
 	// 백엔드 개발자 분이 통신 성공시에 보내주는 이미지 url을 변수에 담는다.
-          url = res.data.url;
+          url = `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${fileName}`;
 
 	// 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드 
     	// 해당 DOM의 데이터가 필요하기에 useRef를 사용한다.
@@ -121,23 +124,26 @@ const modules = useMemo(
   );
   
   const handleSubmit = () => {
-    Api.post("/clubs", clubInfo)
-      .then((res)=> console.log(res))
-      .catch((err) => console.log(err));
+    mutate(clubInfo, {
+      onSuccess: () => {
+        console.log("클럽 생성 성공");
+        navigate("/clublist");
+      }
+    });
   }
 
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} />
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents}/>
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
-
+      <Style.DetailInfoDiv>상세 정보</Style.DetailInfoDiv>
       <Style.ClubReactQuill
         ref={(element) => {
-            if (element !== null) {
+          if (element !== null) {
             QuillRef.current = element;
-            }
+          }
         }}
         // eslint-disable-next-line react/no-this-in-sfc
         onChange={setContents}
@@ -148,9 +154,11 @@ return (
       />
       {preview && <ClubPreview newClub={clubInfo}/>}
       <Style.ButtonBox>
-        <Style.MyButton1>
-          취소
-        </Style.MyButton1>
+        <Style.BackLink to="/clubList">
+          <Style.MyButton1>
+            취소
+          </Style.MyButton1>
+        </Style.BackLink>
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>

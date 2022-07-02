@@ -18,7 +18,7 @@ export const BasicInfoEachDiv = styled.div`
 
 export const InfoTitleDiv = styled.div`
   font-weight: bold;
-  width: 200px;
+  min-width: 200px;
   font-size: 24px;
 `;
 

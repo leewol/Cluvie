@@ -1,84 +1,99 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useRecoilState } from "recoil";
 
-import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { useScrollClubList } from "@/hooks/queries/useClubList";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+
+import { isSignInUser, filters } from "@/utils/recoil";
+import { Club } from "@/utils/interface";
+
+import ClubCard from "@/components/ClubCard/ClubCard";
+import ClubFilter from "@/components/ClubList/ClubFilter/ClubFilter";
+import ClubSearch from "@/components/ClubList/ClubSearch/ClubSearch";
+import ClubFilterSpanList from "@/components/ClubList/ClubFilterSpanList/ClubFilterSpanList";
+
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
+import { ContainerBox, ColumnContainerBox } from "@/styles/containers";
+import { FilterBox, ClubListBox, ClubCreateButtonBox, LoadingMsg } from "./ClubListStyle";
 
-import ClubCard from "@/components/ClubCard";
-
-import { ColumnContainerBox } from "@/styles/containers";
-import { SelectedSpan } from "@/styles/text";
-import * as Styled from "./ClubListStyle";
-
-// TODO : 필터링, 추가된 라벨 클릭 시 삭제, 필터 초기화, 검색, 클럽 카드 불러오기 (Api), 무한 스크롤
-// TODO : 스타일 - 필터링 버튼 클릭 시 변경 색상 유지, 모든 dropdown 메뉴 완성
-
+// TODO : 검색 
 function ClubList() {
-  const navigate = useNavigate();
+  const isSignIn = useRecoilValue<boolean>(isSignInUser);
+  const checkedItems = useRecoilValue(filters);
 
-  const HandleCreateButtonClick = () => {
+  const navigate = useNavigate();
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const clubListRes = useScrollClubList(isSignIn ? "isLogined/scrollClublist" : "scrollClublist");
+  const clubsPerScroll = clubListRes?.data?.pages ?? [];
+
+  const [isSearched, setIsSearched] = useState<boolean>(false);
+  const [searchedClubList, setSearchedClubList] = useState<Club[]>([]);
+
+  const handleCreateButtonClick = () => {
     navigate("/clubCreate");
   };
 
+  const filteringClubList = (getClubList: Club[]) => {
+    Object.values(checkedItems).forEach((filterKey) => {
+      const attribute = filterKey?.slice(0, filterKey.length - 1);
+      const attValue = filterKey?.slice(-1);
+      // console.log(attribute, attValue);
+      getClubList = getClubList.filter((club: Club) => club[attribute] === Number(attValue));
+    });
+    return getClubList;
+  }
+  // console.log(clubsPerScroll);
+  useInfiniteScroll(clubListRes, cardRef);
+
+  if (clubListRes.isLoading) {
+    return <ContainerBox>Loading...</ContainerBox>;
+  }
+
   return (
     <ColumnContainerBox>
-      <Styled.FilterBox>
-        <Styled.SelectBox>
-          <Styled.DropDownBox>
-            <Styled.SelectButton type='button'>
-              모집상태
-              <ArrowDropDownRoundedIcon />
-            </Styled.SelectButton>
-            <Styled.DropDownMenu className='dropdown-menu'>
-              <label htmlFor='clubstate_online'>
-                <input id='clubstate_online' type='checkbox' />
-                <span>온라인</span>
-              </label>
-              <label htmlFor='clubstate_offline'>
-                <input id='clubstate_offline' type='checkbox' />
-                <span>오프라인</span>
-              </label>
-            </Styled.DropDownMenu>
-          </Styled.DropDownBox>
-          <Styled.DropDownBox>
-            <Styled.SelectButton type='button'>
-              진행방식
-              <ArrowDropDownRoundedIcon />
-            </Styled.SelectButton>
-          </Styled.DropDownBox>
-          <Styled.DropDownBox>
-            <Styled.SelectButton type='button'>
-              진행기간
-              <ArrowDropDownRoundedIcon />
-            </Styled.SelectButton>
-          </Styled.DropDownBox>
-          <Styled.DropDownBox>
-            <Styled.SelectButton type='button'>
-              요일
-              <ArrowDropDownRoundedIcon />
-            </Styled.SelectButton>
-          </Styled.DropDownBox>
-        </Styled.SelectBox>
-        <Styled.SearchBox>
-          <Styled.SearchInput type='text' placeholder='검색어를 입력하세요' />
-          <SearchRoundedIcon className='icon' />
-        </Styled.SearchBox>
-      </Styled.FilterBox>
-      <Styled.SelectedSpanBox>
-        <SelectedSpan>온라인</SelectedSpan>
-        <SelectedSpan>1~2개월</SelectedSpan>
-        <Styled.ResetSpan>필터 초기화</Styled.ResetSpan>
-      </Styled.SelectedSpanBox>
-      <Styled.ClubListBox>
-        <ClubCard />
-      </Styled.ClubListBox>
-      <Styled.ClubCreateButtonBox>
-        <AddCircleOutlinedIcon
-          className='create-icon'
-          onClick={HandleCreateButtonClick}
-        />
-      </Styled.ClubCreateButtonBox>
+      <FilterBox>
+       <ClubFilter />
+       <ClubSearch setIsSearched={setIsSearched} setSearchedClubList={setSearchedClubList} />
+      </FilterBox>
+      <ClubFilterSpanList />
+      <ClubListBox>
+        {
+          (!isSearched) ?
+          clubsPerScroll.map((scroll, scrollIndex) => {
+            const { scrollClublist } = scroll;
+            return filteringClubList(scrollClublist).map((club: Club, clubIndex: number) =>
+              <ClubCard 
+                key={`${club.manager}+${club.id}`}
+                club={club}
+                ref={(scrollClublist.length * scrollIndex + clubIndex === clubsPerScroll.length * scrollClublist.length - 1) ? cardRef : null}
+              />)
+            }) :
+          ((searchedClubList.length === 0) ? 
+          <span>검색 결과가 없습니다.</span> :
+          filteringClubList(searchedClubList).map((club) => 
+            (<ClubCard 
+              key={`${club.manager}+${club.id}`}
+              club={club}
+            />)))
+        }
+      </ClubListBox>
+      {
+        isSignIn && (
+        <ClubCreateButtonBox>
+          <AddCircleOutlinedIcon
+            className='create-icon'
+            onClick={handleCreateButtonClick}
+          />
+        </ClubCreateButtonBox>
+      )}
+      {
+        clubListRes.isFetchingNextPage &&
+        <LoadingMsg className={`${!clubListRes.hasNextPage ? "hidden" : ""}`}>
+          Loading more...
+        </LoadingMsg>
+      }
     </ColumnContainerBox>
   );
 }

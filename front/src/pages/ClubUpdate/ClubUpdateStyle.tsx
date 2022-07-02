@@ -28,6 +28,7 @@ export const ClubReactQuill =
   `
   .ql-editor {
     min-height: 500px;
+    padding: 15px;
   }
   .ql-toolbar:first-of-type {
     display: ${(props) => (props.duplicated ? "none" : "block")};
@@ -39,6 +40,13 @@ export const ButtonBox = styled(Box)`
   align-items: center;
   justify-content: center;
   margin: 30px 0 0 75%;
+`;
+
+export const BackLink = styled(Link)`
+  width: 33.33%;
+  margin: 0 2% 0 2%;
+  text-decoration: none;
+  color: black;
 `;
 
 export const MyButton1 = styled(Button)`
@@ -73,9 +81,7 @@ export const MyButton3 = styled(Button)`
   }
 `;
 
-export const BackLink = styled(Link)`
-  width: 33.33%;
-  margin: 0 2% 0 2%;
-  color: black;
-  text-decoration: none;
+export const DetailInfoDiv = styled.div`
+  font-weight: 600;
+  margin-bottom: 5px;
 `;
