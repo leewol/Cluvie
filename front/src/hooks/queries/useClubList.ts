@@ -12,7 +12,7 @@ import { Club } from "@/utils/interface";
 // 전체 클럽 리스트 불러오기
 export function useAllClubList(options?: object) {
   return useQuery<AxiosResponse, AxiosError, Club[], string[]>(
-    ["allClubList"], 
+    ["clublist"], 
     async () => { 
       const res = await Api.get("/clubs");
       return res.data.result;
@@ -26,7 +26,7 @@ export function useAllClubList(options?: object) {
 export function useScrollClubList(path: string) {
   return useInfiniteQuery(
     // QueryKey
-    [path], 
+    ["clublist", path], 
     // QueryFn
     async ({ pageParam = 999999 }) => {
       const res = await Api.get(`/clubs/${path}`, pageParam);
@@ -44,13 +44,13 @@ export function useScrollClubList(path: string) {
 }
 
 // 클럽 생성하기
-export function useCreateClub(queryKey: string) {
+export function useCreateClub() {
   const queryClient = useQueryClient();
   return useMutation(
     (clubInfo: Club) => Api.post("/clubs", clubInfo), {
       // QueryOptions   
       // 요청이 성공한 경우 queryKey 유효성 제거
-      onSuccess: () => queryClient.invalidateQueries(`${queryKey}`)
+      onSuccess: () => queryClient.invalidateQueries("clublist")
     }
   );
 }
