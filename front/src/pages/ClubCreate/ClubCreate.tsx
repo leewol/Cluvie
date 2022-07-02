@@ -37,7 +37,7 @@ function EditorComponent() {
     weekday: 0,
     weekend: 0,
   });
-  const { mutate } = useCreateClub("scrollClubList");
+  const { mutate } = useCreateClub();
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
