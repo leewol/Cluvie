@@ -18,7 +18,9 @@ import * as Style from "./ClubCreateStyle";
 function EditorComponent() {
   const navigate = useNavigate();
   const QuillRef = useRef<ReactQuill>();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [contents, setContents] = useState("");
+  const [aiContents, setAIContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState<Club>({
@@ -35,7 +37,7 @@ function EditorComponent() {
     weekday: 0,
     weekend: 0,
   });
-  const { mutate } = useCreateClub("scrollClubList");
+  const { mutate } = useCreateClub();
 
   useEffect(() => {
     if (document.querySelector(".ql-toolbar:nth-child(2)")) setDuplication(1);
@@ -128,13 +130,18 @@ const modules = useMemo(
       onSuccess: () => {
         console.log("클럽 생성 성공");
         navigate("/clublist");
+      },
+      onError: () => {
+        setButtonDisabled(false);
+        alert('등록에 실패했습니다!')
       }
     });
+    setButtonDisabled(true);
   }
 
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents}/>
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} aiContents={aiContents}/>
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
@@ -143,14 +150,19 @@ return (
         ref={(element) => {
           if (element !== null) {
             QuillRef.current = element;
+            QuillRef.current.getEditor().getText()
           }
         }}
         // eslint-disable-next-line react/no-this-in-sfc
-        onChange={setContents}
+        onChange={(event) => {
+          setAIContents(QuillRef.current?.getEditor().getText() ? QuillRef.current?.getEditor().getText() : "")
+          setContents(event)
+        }}
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
         duplicated={duplication}
+  
       />
       {preview && <ClubPreview newClub={clubInfo}/>}
       <Style.ButtonBox>
@@ -162,7 +174,7 @@ return (
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>
-        <Style.MyButton3 onClick={handleSubmit}>
+        <Style.MyButton3 onClick={handleSubmit} disabled={buttonDisabled}>
           등록
         </Style.MyButton3>
       </Style.ButtonBox>

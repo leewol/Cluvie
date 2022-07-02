@@ -36,11 +36,11 @@ interface Props {
   clubInfo: Club;
   setClubInfo: React.Dispatch<
   React.SetStateAction<Club>>;
-  contents: string;
+  aiContents: string;
 }
 
 // ! state setter는 prop으로 가지 않는 게 좋다
-function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
+function ClubCreateBasic({ clubInfo, setClubInfo,aiContents }: Props) {
   const [ thumnail, setThumnail ] = useState<any>();
   const [ aihashtagArr, setAiHashtagArr ] = useState<string[]>([]);
   const [ hashtagArr, setHashtagArr ] = useState<string[]>([]);
@@ -145,9 +145,8 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   const handleAISummary = () => {
-    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
-    if(contentsWithoutTags.length >= 30){
-      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/summary',{sentences:contentsWithoutTags},{
+    if(aiContents.length > 30){
+      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/summary',{sentences:aiContents},{
         headers: {
           "Content-Type": "application/json",
         },
@@ -166,9 +165,8 @@ function ClubCreateBasic({ clubInfo, setClubInfo, contents }: Props) {
   }
 
   const handleAIKeyword = () => {
-    const contentsWithoutTags = contents.replace(/(<([^>]+)>)/ig,"")
-    if(contentsWithoutTags.length >= 30){
-      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/keyword-diversity',{sentences:contentsWithoutTags},{
+    if(aiContents.length > 30){
+      axios.post('http://kdt-ai4-team18.elicecoding.com:5002/keyword-diversity',{sentences:aiContents},{
         headers: {
           "Content-Type": "application/json",
         },
