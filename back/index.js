@@ -7,7 +7,7 @@ import likeRouter from "./src/routes/like/router.js";
 import applicantRouter from "./src/routes/applicant/router.js";
 import authRouter from "./src/routes/email/router.js";
 import dotenv from "dotenv";
-import errorMiddleware from "./src/middlewares/errorMiddleware";
+import { errorMiddleware } from "./src/middlewares/errorMiddleware";
 dotenv.config();
 
 const app = express();
