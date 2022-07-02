@@ -20,7 +20,7 @@ likeRouter.post("/", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -38,7 +38,7 @@ likeRouter.delete("/:club_id", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -54,7 +54,7 @@ likeRouter.get("/clubs", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true, likeClubList });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });

@@ -25,7 +25,7 @@ applicantRouter.post("/", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -46,7 +46,7 @@ applicantRouter.delete("/:club_id", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -66,7 +66,7 @@ applicantRouter.get("/clubs", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true, applyingClubList });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -86,7 +86,7 @@ applicantRouter.get("/:club_id/users", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true, applicants });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -106,7 +106,7 @@ applicantRouter.patch("/acceptance", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -128,7 +128,7 @@ applicantRouter.patch("/refuse", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -142,7 +142,7 @@ applicantRouter.get("/acceptance/clubs", verifyToken, async (req, res) => {
 
     res.status(200).json({ success: true, myClubList });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });

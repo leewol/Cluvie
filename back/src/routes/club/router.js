@@ -14,7 +14,7 @@ const upload = require("../../middlewares/fileUpload");
 clubRouter.post("/picture", async (req, res) => {
   upload(req, res, (err) => {
     if (err) {
-      return res.status(404).json({ success: false, message: err.message });
+      return res.json({ success: false, message: err.message });
     }
     return res.status(200).json({
       success: true,
@@ -76,7 +76,7 @@ clubRouter.post("/", verifyToken, async (req, res) => {
     const nerResult = response.data;
     res.status(200).json({ success: true, nerResult });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -87,7 +87,7 @@ clubRouter.get("/", async (req, res) => {
       res.status(200).json({ success: true, result });
     })
     .catch((err) => {
-      res.status(404).json({ success: false, message: err.message });
+      res.json({ success: false, message: err.message });
       console.log(err);
     });
 });
@@ -107,7 +107,7 @@ clubRouter.get(
       });
       res.status(200).json({ success: true, scrollClublist });
     } catch (err) {
-      res.status(404).send({ success: false, message: err.message });
+      res.send({ success: false, message: err.message });
     }
   }
 );
@@ -175,7 +175,7 @@ clubRouter.get("/top10ViewsClubs", async (req, res) => {
     const top10ViewsClubs = await clubService.getTop10ViewsRecruitingClubs();
     res.status(200).json({ success: true, top10ViewsClubs });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -185,7 +185,7 @@ clubRouter.get("/popularTop10", async (req, res) => {
     const popularTop10 = await clubService.getTop10PopularClubs();
     res.status(200).json({ success: true, popularTop10 });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -195,7 +195,7 @@ clubRouter.get("/weekend", async (req, res) => {
     const weekend = await clubService.getWeekendRecruitingClubs();
     res.status(200).json({ success: true, weekend });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -213,7 +213,7 @@ clubRouter.patch("/close", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
     console.log(err);
   }
 });
@@ -227,7 +227,7 @@ clubRouter.get("/user", verifyToken, async (req, res) => {
 
     res.status(200).json({ success: true, clubList });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -259,7 +259,7 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
         message: "모임 후기는 한 번만 작성할 수 있습니다",
       });
     } else {
-      res.status(404).json({ success: false, message: err.message });
+      res.json({ success: false, message: err.message });
     }
   }
 });
@@ -284,7 +284,7 @@ clubRouter.get("/:club_id/review", async (req, res) => {
     }
     res.status(200).json({ success: true, reviews });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -296,7 +296,7 @@ clubRouter.get("/:club_id/rating", async (req, res) => {
 
     res.status(200).json({ success: true, rating });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
@@ -307,9 +307,7 @@ clubRouter.get("/:id", async (req, res, next) => {
   try {
     const club = await Clubs.findOne({ where: { id: req.params.id } });
     if (!club) {
-      return res
-        .status(404)
-        .json({ success: false, message: "존재하지 않는 모임입니다." });
+      return res.json({ success: false, message: "존재하지 않는 모임입니다." });
     }
     await club.increment({ views: 1 }, { where: { id: req.params.id } });
 
@@ -325,7 +323,7 @@ clubRouter.get("/:id", async (req, res, next) => {
 clubRouter.put("/:id", verifyToken, async (req, res) => {
   const club = await Clubs.findOne({ where: { id: req.params.id } });
   if (!club) {
-    return res.status(404).json("존재하지 않는 모임입니다.");
+    return res.json("존재하지 않는 모임입니다.");
   }
   let {
     name,
@@ -364,7 +362,7 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
       res.status(200).json({ success: true });
     })
     .catch((err) => {
-      res.status(404).json({ success: false, message: err.message });
+      res.json({ success: false, message: err.message });
     });
 });
 
@@ -383,7 +381,7 @@ clubRouter.delete("/:id", verifyToken, async (req, res) => {
     }
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 

@@ -9,7 +9,7 @@ authRouter.post("/mail", async (req, res) => {
     const SendEmail = await authService.sendEmail({ email });
     res.status(200).json({ success: true, SendEmail });
   } catch (err) {
-    res.status(404).json({ success: false, message: err.message });
+    res.json({ success: false, message: err.message });
   }
 });
 
