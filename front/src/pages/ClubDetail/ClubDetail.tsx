@@ -175,9 +175,7 @@ function ClubDetail() {
       content: {
         title: club.name,
         description: club.intro,
-        imageUrl: club.picture
-          ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
-          : "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+        imageUrl: club.picture || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
         link: {
           webUrl: window.location.href,
           mobileWebUrl: window.location.href,
@@ -206,11 +204,7 @@ function ClubDetail() {
         <Style.WholeCard>
           <img
             // eslint-disable-next-line global-require
-            src={
-              club.picture
-                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
-                : defaultImage
-            }
+            src={club.picture || defaultImage}
             alt='클럽썸네일이미지'
           />
           <Style.ContentBox>

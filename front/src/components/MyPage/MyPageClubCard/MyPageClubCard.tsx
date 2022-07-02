@@ -46,11 +46,7 @@ function MyPageClubCard({
           <CardMedia
             component='img'
             height='200'
-            src={
-              club.picture
-                ? `http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${club.picture}`
-                : defaultImage
-            }
+            src={club.picture || defaultImage}
             alt='Club Image'
           />
         </Link>

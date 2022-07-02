@@ -6,14 +6,14 @@ import MainClubCardsSlide from "@/components/Main/MainClubCardsSlide/MainClubCar
 import { CardListBox } from "./MainClubListStyle";
 
 function MainClubList() {
-  const top10ViewsClubs = useMainClubList("top10ViewsClubs").data ?? [];
+  const top10Views = useMainClubList("top10Views").data ?? [];
   const popularTop10 = useMainClubList("popularTop10").data ?? [];
   const weekend = useMainClubList("weekend").data?? [];
 
   return (
     <CardListBox>
       <h2 id="view-club">클러비 주목! 지금 뜨는 클럽</h2>
-      <MainClubCardsSlide resClubList={top10ViewsClubs} />
+      <MainClubCardsSlide resClubList={top10Views} />
 
       <h2 id="head_count-club">곧 모집 인원 도달! 마감 임박 클럽</h2>
       <MainClubCardsSlide resClubList={popularTop10} />

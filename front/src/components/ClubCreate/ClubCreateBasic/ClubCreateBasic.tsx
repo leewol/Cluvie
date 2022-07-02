@@ -91,7 +91,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo,aiContents }: Props) {
 
   const handleInputHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    const { name, value } = target;
+    const { value } = target;
     
     if (event.key === "Enter") {
       // 중복 처리
@@ -120,9 +120,9 @@ function ClubCreateBasic({ clubInfo, setClubInfo,aiContents }: Props) {
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
-
+    
     // files[0]은 File || null
-    if (files !== null) {
+    if (files !== null && files?.length !== 0) {
       const formData = new FormData();
       
       setThumnail(() => files[0]);
@@ -130,13 +130,13 @@ function ClubCreateBasic({ clubInfo, setClubInfo,aiContents }: Props) {
       formData.append("file", files[0]);
 
       try {
-        // TODO : 이미지 올렸을 때 미리보기로 나오지 않을 때가 있다?
         const pictureRes = await Api.post("/clubs/picture", formData);
-        const { fileName } = pictureRes.data;
+        const { filePath }  = pictureRes.data;
+        console.log(filePath);
 
         setClubInfo((prev: Club) => ({
           ...prev,
-          picture: fileName,
+          picture: filePath,
         }));
       } catch (error) {
         console.error(error);
@@ -216,7 +216,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo,aiContents }: Props) {
             {
               clubInfo.picture &&
               <ThumnailImage
-                src={`http://${process.env.REACT_APP_DOMAIN}:3000/uploads/${clubInfo.picture}`}
+                src={clubInfo.picture}
                 alt='Club Thumnail'
               />
             }
