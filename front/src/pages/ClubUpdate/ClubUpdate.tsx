@@ -25,7 +25,9 @@ function EditorComponent() {
 
   const navigate = useNavigate();
   const QuillRef = useRef<ReactQuill>();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [contents, setContents] = useState("");
+  const [aiContents, setAIContents] = useState("");
   const [duplication, setDuplication] = useState(-1);
   const [preview, setPreview] = useState(false);
   const [clubInfo, setClubInfo] = useState(club);
@@ -123,17 +125,20 @@ const modules = useMemo(
   );
 
   const handleSubmit = () => {
-    console.log('clubInfo',clubInfo)
-
     Api.put(`/clubs/${club.id}`, clubInfo)
       .then((res)=> {console.log(res)
         navigate(`/clubDetail/${clubInfo.id}`);})
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err)
+        setButtonDisabled(false);
+        alert('등록에 실패했습니다!')
+      });
+
+    setButtonDisabled(true);
   }
 
 return (
 	<div>
-    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} contents={contents}/>
+    <ClubCreateBasic clubInfo={clubInfo} setClubInfo={setClubInfo} aiContents={aiContents}/>
     {duplication === -1 && <Style.CoverDiv />}
     <Style.WholeBox>
       {/* <Header /> */}
@@ -142,10 +147,14 @@ return (
         ref={(element) => {
           if (element !== null) {
             QuillRef.current = element;
+            QuillRef.current.getEditor().getText()
           }
         }}
         // eslint-disable-next-line react/no-this-in-sfc
-        onChange={setContents}
+        onChange={(event) => {
+          setAIContents(QuillRef.current?.getEditor().getText() ? QuillRef.current?.getEditor().getText() : "")
+          setContents(event)
+        }}
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
@@ -162,7 +171,7 @@ return (
         <Style.MyButton2 onClick={() => {setPreview(!preview)}}>
           미리보기
         </Style.MyButton2>
-        <Style.MyButton3 onClick={handleSubmit}>
+        <Style.MyButton3 onClick={handleSubmit} disabled={buttonDisabled}>
           등록
         </Style.MyButton3>
       </Style.ButtonBox>
