@@ -18,7 +18,8 @@ clubRouter.post("/picture", async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      filePath: res.req.file.path,
+      filePath:
+        "https://kdt-ai4-team18.elicecoding.com/media/" + res.req.file.path,
       fileName: res.req.file.filename,
     });
   });
