@@ -1,10 +1,47 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function MainClubCard() {
+import { Club } from "@/utils/interface";
+
+import { CardMedia } from "@mui/material";
+import { StyledSpan } from "@/styles/text";
+
+import { ClubCardContent, ClubCardInfos } from "@/components/ClubCard/ClubCardStyle";
+import defaultImage from "@/asset/images/defaultImage.jpg";
+
+import { MainWholeCard } from './MainClubCardStyle';
+
+interface Props {
+  club: Club;
+}
+
+function MainClubCard({ club }: Props) {
+  const navigate = useNavigate();
+
+  const handleClickCard = (clubId: number | undefined) => {
+    navigate(`/clubDetail/${clubId}`);
+  }
+
   return (
-    <div>
-      a
-    </div>
+    <MainWholeCard>
+      <CardMedia
+        component='img'
+        height='250'
+        src={club.picture ? `http://${window.location.hostname}:3000/uploads/${club.picture}` : defaultImage}
+        alt='Club Image'
+        onClick={() => handleClickCard(club.id)}
+      />
+      <ClubCardContent onClick={() => handleClickCard(club.id)}>
+        <h3>{club.name}</h3>
+        <span>{club.intro}</span>
+      </ClubCardContent>
+      <ClubCardInfos>
+        <div>
+          {!!club.online && <StyledSpan>온라인</StyledSpan>}
+          {!!club.offline && <StyledSpan>오프라인</StyledSpan>}
+        </div>
+      </ClubCardInfos>
+    </MainWholeCard>
   );
 }
 

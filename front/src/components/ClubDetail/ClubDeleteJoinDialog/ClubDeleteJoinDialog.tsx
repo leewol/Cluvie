@@ -20,7 +20,7 @@ function ClubDeleteJoinDialog({
   const handleDeleteJoin = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    Api.delete(`/applications/${clubId}`)
+    Api.delete("/applications", clubId)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 

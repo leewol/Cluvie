@@ -108,6 +108,36 @@ clubRouter.get("/scrollClublist/:club_id", async (req, res, next) => {
   }
 });
 
+// 모집중인 모임 중 조회수 상위 10개 모임 불러오기
+clubRouter.get("/top10ViewsClubs", async (req, res) => {
+  try {
+    const top10ViewsClubs = await clubService.getTop10ViewsRecruitingClubs();
+    res.status(200).json({ success: true, top10ViewsClubs });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
+// 모집중인 모임 중 마감임박 10개 모임 불러오기
+clubRouter.get("/popularTop10", async (req, res) => {
+  try {
+    const popularTop10 = await clubService.getTop10PopularClubs();
+    res.status(200).json({ success: true, popularTop10 });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
+// 모집중인 모임 중 주말에 모이는 모임 10개 랜덤으로 불러오기
+clubRouter.get("/weekend", async (req, res) => {
+  try {
+    const weekend = await clubService.getWeekendRecruitingClubs();
+    res.status(200).json({ success: true, weekend });
+  } catch (err) {
+    res.status(404).json({ success: false, message: err.message });
+  }
+});
+
 // 모임 모집 마감하기
 clubRouter.patch("/close", verifyToken, async (req, res) => {
   try {
@@ -155,6 +185,7 @@ clubRouter.post("/:club_id/review", verifyToken, async (req, res) => {
     });
     const star = review.star_rating;
     await clubService.setReviewRating({ club_id, star });
+    await clubService.calculateRating({ club_id });
 
     if (review.errorMessage) {
       res.status(403).json({ success: false, err: review.errorMessage });
@@ -191,7 +222,7 @@ clubRouter.get("/:club_id/review", async (req, res) => {
 clubRouter.get("/:club_id/rating", async (req, res) => {
   try {
     const club_id = req.params.club_id;
-    const rating = await clubService.calculateRating({ club_id });
+    const rating = await clubService.getRating({ club_id });
 
     res.status(200).json({ success: true, rating });
   } catch (err) {
@@ -269,15 +300,13 @@ clubRouter.put("/:id", verifyToken, async (req, res) => {
 // 없는 모임을 삭제할 경우, 에러 처리
 clubRouter.delete("/:id", verifyToken, async (req, res, next) => {
   try {
-    const club = await Clubs.findOne({ where: { id: req.params.id } });
-    if (!club) {
-      return res
-        .status(404)
-        .json({ success: false, message: "존재하지 않는 모임입니다." });
+    const user_id = req.user;
+    const club_id = req.params.id;
+    const deletedClub = await clubService.deleteClub({ club_id, user_id });
+
+    if (deletedClub.errorMessage) {
+      res.status(403).json({ success: false, err: deletedClub.errorMessage });
     }
-    Clubs.destroy({
-      where: { id: req.params.id },
-    });
     res.status(200).json({ success: true });
   } catch (err) {
     next(err);

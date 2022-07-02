@@ -14,7 +14,7 @@ import { isSignInUser } from "@/utils/recoil";
 import { axiosInstanceToNavigate } from "@/utils/api";
 
 import Main from "@/pages/Main/Main";
-import { SignIn, SignUp, SignUpForm } from "@/pages/User";
+import { SignIn, SignUpForm } from "@/pages/User";
 import ClubDetail from "@/pages/ClubDetail/ClubDetail";
 import ClubList from "@/pages/ClubList/ClubList";
 import ClubCreate from "@/pages/ClubCreate/ClubCreate";
@@ -22,7 +22,6 @@ import ClubUpdate from "@/pages/ClubUpdate/ClubUpdate";
 import Header from "@/components/Header/Header";
 import MyPage from "@/pages/MyPage/MyPage";
 import MyClubList from "@/pages/MyClubList/MyClubList";
-import ReactQueryTest from "@/pages/ReactQueryTest";
 
 function InterceptorToNavigate() {
   const navigate = useNavigate();
@@ -43,10 +42,6 @@ function App() {
           <Route
             path='signIn'
             element={isSignIn ? <Navigate to='/' replace /> : <SignIn />}
-          />
-          <Route
-            path='signUp'
-            element={isSignIn ? <Navigate to='/' replace /> : <SignUp />}
           />
           <Route
             path='signUpByEmail'
@@ -72,7 +67,6 @@ function App() {
               !isSignIn ? <Navigate to='/signIn' replace /> : <MyClubList />
             }
           />
-          <Route path="test" element={<ReactQueryTest />} />
         </Routes>
       </BrowserRouter>
     </div>

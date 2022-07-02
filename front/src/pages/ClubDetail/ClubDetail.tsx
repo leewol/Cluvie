@@ -11,7 +11,7 @@ import ClubSettingPopper from "@/components/ClubDetail/ClubSettingPopper/ClubSet
 import ClubChatButton from "@/components/ClubDetail/ClubChatButton/ClubChatButton";
 import ClubJoinDialog from "@/components/ClubDetail/ClubJoinDialog/ClubJoinDialog";
 import ClubDeleteJoinDialog from "@/components/ClubDetail/ClubDeleteJoinDialog/ClubDeleteJoinDialog";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import * as Api from "@/utils/api";
 import * as Interface from "@/utils/interface";
 import { isSignInUser } from "@/utils/recoil";
@@ -50,7 +50,7 @@ function ClubDetail() {
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
 
   const handleDeleteLikes = () => {
-    Api.delete(`/likes/${club.id}`)
+    Api.delete("/likes", club.id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
@@ -130,7 +130,6 @@ function ClubDetail() {
     if (isSignIn) {
       Api.get("/applications/acceptance/clubs")
         .then((res) => {
-          console.log("가입완료", res.data);
           setIsAccept(
             res.data.myClubList.filter(
               (curClub: Interface.Club) => curClub.id === club.id
@@ -202,7 +201,7 @@ function ClubDetail() {
             src={
               club.picture
                 ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
-                : testimage
+                : defaultImage
             }
             alt='클럽썸네일이미지'
           />

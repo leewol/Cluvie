@@ -1,10 +1,10 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 
+import { filters } from "@/utils/recoil";
+
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import { SelectBox, SelectButton, DropDownBox, DropDownMenu} from "./ClubFilterStyle";
-
-import { filters } from "@/utils/recoil";
 
 const clubState = new Map([
   ["모집중", "state0"],

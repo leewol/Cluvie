@@ -84,4 +84,15 @@ userRouter.patch("/", verifyToken, async (req, res) => {
   }
 });
 
+// 비로그인 상태에서 클럽 매니저의 닉네임을 보여주기 위한 라우터(프론트 요청)
+userRouter.get("/:user_id/nickname", async (req, res) => {
+  try {
+    const user_id = req.params.user_id;
+    const userNickname = await userService.getUserNickname({ user_id });
+    res.status(200).json({ success: true, userNickname });
+  } catch (err) {
+    res.status(404).json({ success: false, err: err.message });
+  }
+});
+
 export default userRouter;

@@ -43,6 +43,19 @@ export function useScrollClubList(path: string) {
   );
 }
 
+// 메인에 보일 클럽 리스트 불러오기
+export function useMainClubList(path: string, options?: object) {
+  return useQuery<AxiosResponse, AxiosError, Club[], string[]>(
+    [path], 
+    async () => { 
+      const res = await Api.get(`/clubs/${path}`);
+      return res.data[path];
+    }, {
+      ...options,
+    }
+  );
+}
+
 // 클럽 생성하기
 export function useCreateClub() {
   const queryClient = useQueryClient();

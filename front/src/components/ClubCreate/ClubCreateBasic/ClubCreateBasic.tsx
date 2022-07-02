@@ -5,7 +5,6 @@ import PhotoCameraBackIcon from '@mui/icons-material/PhotoCameraBack';
 import * as Api from "@/utils/api";
 import { Club } from "@/utils/interface";
 import { onChangeFunction } from "@/utils/eventHandler";
-import testimage from "@/asset/images/testimage.PNG";
 
 import { ColumnContainerBox, StyledInput } from "@/styles/containers";
 import { StyledLabel } from "@/styles/text";
@@ -64,7 +63,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
 
   const handleHashtagEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
-    const { name, value } = target;
+    const { value } = target;
     
     if (event.key === "Enter") {
       // 중복 처리
@@ -186,6 +185,7 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
                 type='checkbox'
                 name='online'
                 value={clubInfo.online}
+                defaultChecked={Boolean(clubInfo.online)}
                 onClick={handleCheckBox}
               />
               <span>온라인</span>
@@ -193,21 +193,22 @@ function ClubCreateBasic({ clubInfo, setClubInfo }: Props) {
                 type='checkbox'
                 name='offline'
                 value={clubInfo.offline}
+                defaultChecked={Boolean(clubInfo.offline)}
                 onClick={handleCheckBox}
               />
               <span>오프라인</span>
             </InputBox>
             <InputBox>
               <StyledLabel htmlFor='meetingDay'>진행 요일</StyledLabel>
-              <input type='checkbox' name='weekday' value={clubInfo.weekday} onClick={handleCheckBox} />
+              <input type='checkbox' name='weekday' value={clubInfo.weekday} defaultChecked={Boolean(clubInfo.weekday)} onClick={handleCheckBox} />
               <span>평일</span>
-              <input type='checkbox' name='weekend' value={clubInfo.weekend} onClick={handleCheckBox} />
+              <input type='checkbox' name='weekend' value={clubInfo.weekend} defaultChecked={Boolean(clubInfo.weekend)} onClick={handleCheckBox} />
               <span>주말</span>
             </InputBox>
           </MeetingInputBox>
           <InputBox>
             <StyledLabel htmlFor='duration'>진행 기간</StyledLabel>
-            <StyledSelect name='duration' id='duration' onChange={handleSelect}>
+            <StyledSelect name='duration' id='duration' defaultValue={clubInfo.duration} onChange={handleSelect}>
               <option value='0'>미정</option>
               <option value='1'>단기</option>
               <option value='2'>1~2개월</option>

@@ -4,8 +4,9 @@ import { StyledSpan } from "@/styles/text";
 
 const MainBannerBox = styled.div`
   overflow: hidden;
-  background-color: #716847;
-  width: 100%;
+  background-color: #FFE047;
+  width: 1250px;
+  border-radius: 15px;
   height: 350px;
   display: flex;
   justify-content: space-evenly;
@@ -15,12 +16,14 @@ const MainBannerBox = styled.div`
 const MainTextBox = styled.div`
   display: flex;
   flex-direction: column;
+  z-index: 2;
   h2 {
-    font-size: 42px;
+    font-size: 46px;
     font-weight: 300;
     line-height: 1.0;
     span {
       font-weight: 600;
+      // color: #ffc300;
     }
   }
 `;
@@ -36,28 +39,39 @@ const MainBannerImageBox = styled.div`
   .arrow-forward {
     right: -20px;
   }
+  .hide-back {
+    right: -100%;
+    width: 400px;
+  }
+  .hide-prev {
+    right: 100%;
+  }
+`;
+
+const SlideImageHideBox = styled.div`
+  position: absolute;
+  width: 1000px;
+  height: 300px;
+  background-color: #FFE047;
+  z-index: 1;
 `;
 
 const SlideImageBox = styled.div`
   display: flex;
-  width: 1200px;
-  transition: all 0.4s ease-in-out;
+  width: 1250px;
   img {
     width: 400px;
     height: 300px;
     border-radius: 30px;
-    opacity: 0;
-    transition: all 0s linear;
-  }
-  .show-banner {
-    opacity: 1;
   }
 `;
 
 const MainStyledSpan = styled(StyledSpan)`
-  font-size: 16px;
+  font-size: 18px;
   margin-right: 10px;
   cursor: pointer;
+  background-color: #ffc300;
+  border-color: #ffc300;
 `;
 
 const StyledSpanBox = styled.div`
@@ -75,10 +89,19 @@ const ArrowBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
   .arrow-icon {
     cursor: pointer;
     font-size: 24px;
   }
 `;
 
-export { MainBannerBox, MainTextBox, MainBannerImageBox, SlideImageBox,  MainStyledSpan, StyledSpanBox, ArrowBox };
+export { 
+  MainBannerBox, 
+  MainTextBox, 
+  MainBannerImageBox, 
+  SlideImageHideBox,
+  SlideImageBox, 
+  MainStyledSpan, 
+  StyledSpanBox, 
+  ArrowBox };

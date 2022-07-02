@@ -5,6 +5,22 @@ import dotenv from "dotenv";
 dotenv.config();
 
 class userService {
+  static emailAuthentication = async ({ email, key }) => {
+    const user = await Authentications.findOne({ email });
+    const number = user.number;
+    if (number != key) {
+      const errorMessage = "인증번호가 일치하지 않습니다.";
+      return { errorMessage };
+    } else {
+      return user;
+    }
+  };
+
+  static emailAuthenticationDelete = async (user) => {
+    await Users.destroy({ user });
+    return;
+  };
+
   static register = async ({ email, password, nickname, birthday, sex }) => {
     const hashedPassword = hashPassword(password);
     const duplicateEmmail = await Users.findOne({
@@ -80,21 +96,10 @@ class userService {
     }
   };
 
-  // static getUserData = async ({ id }) => {
-  //   const user = await Users.findOne({
-  //     where: { id },
-  //   });
-  //   if (!user) {
-  //     const errorMessage = "해당 사용자가 없습니다.";
-  //     return { errorMessage };
-  //   } else {
-  //     const userData = await db.sequelize.query(
-  //       "SELECT id, email, nickname, birthday, sex, description FROM users WHERE id",
-  //       { type: db.sequelize.QueryTypes.SELECT }
-  //     );
-  //     return userData;
-  //   }
-  // };
+  static getUserNickname = async ({ user_id }) => {
+    const user = await Users.findOne({ where: { id: user_id } });
+    return user.nickname;
+  };
 }
 
 export { userService };

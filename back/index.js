@@ -1,10 +1,11 @@
 import cors from "cors";
 import express, { application } from "express";
-import db from "./models/index";
-import clubRouter from "./src/routes/club/router";
-import userRouter from "./src/routes/user/router";
-import likeRouter from "./src/routes/like/router";
-import applicantRouter from "./src/routes/applicant/router";
+import db from "./models/index.js";
+import clubRouter from "./src/routes/club/router.js";
+import userRouter from "./src/routes/user/router.js";
+import likeRouter from "./src/routes/like/router.js";
+import applicantRouter from "./src/routes/applicant/router.js";
+import authRouter from "./src/routes/email/router.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use("/users", userRouter);
 app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
+app.use(authRouter);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { CardMedia } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import testimage from "@/asset/images/testimage.PNG";
+import defaultImage from "@/asset/images/defaultImage.jpg";
 import { StyledSpan } from "@/styles/text";
 import * as Interface from "@/utils/interface";
 import * as Api from "@/utils/api";
@@ -23,14 +23,15 @@ function MyPageClubCard({
   const [likesButton, setLikesButton] = useState(false);
   const handleToggleDeleteJoin = () => setOpenDeleteJoin((prev) => !prev);
   const handleDeleteLikes = () => {
-    Api.delete(`/likes/${club.club_id}`)
+    console.log("클럽", club);
+    Api.delete("/likes", club.club_id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
     setLikesButton((prev) => !prev);
   };
   const handlePostLikes = () => {
-    Api.post("/likes", { club_id: club.id })
+    Api.post("/likes", { club_id: club.club_id })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
@@ -47,7 +48,7 @@ function MyPageClubCard({
             src={
               club.picture
                 ? `http://${window.location.hostname}:3000/uploads/${club.picture}`
-                : testimage
+                : defaultImage
             }
             alt='Club Image'
           />
