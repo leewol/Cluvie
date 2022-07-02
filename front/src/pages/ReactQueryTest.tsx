@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 import { Club } from "@/utils/interface";
-import { useAllClubList, useScrollClubList, useCreateClub } from "@/hooks/queries/useClubList";
+import {
+  useAllClubList,
+  useScrollClubList,
+  useCreateClub,
+} from "@/hooks/queries/useClubList";
 
 import { ColumnContainerBox } from "@/styles/containers";
 
 function ReactQueryTest() {
+  // prettier-ignore
   const [clubInfo, setClubInfo] = useState<Club>({
     name: "테스트입니다4",
     manager: 4,
@@ -25,15 +30,15 @@ function ReactQueryTest() {
   });
   const res = useAllClubList();
   const resClubList = res.data ?? [];
-  const { mutate } = useCreateClub("allClubList");
+  const { mutate } = useCreateClub();
 
   const handleSubmit = () => {
     mutate(clubInfo, {
       onSuccess: () => {
         console.log("클럽 생성 성공");
-      }
+      },
     });
-  }
+  };
 
   // console.log(res.data);
 
@@ -43,11 +48,17 @@ function ReactQueryTest() {
   const scrollList = useScrollClubList("scrollClublist");
   console.log("not signed", scrollList);
 
-  return <ColumnContainerBox>
-    <button type="button" onClick={handleSubmit}>add</button>
-    {resClubList.map((el: any) => <p key={el.id}>{el.intro}</p>)}
-    {/* <button type="button" onClick={() => get.hasNextPage && get.fetchNextPage()}>Next</button> */}
-  </ColumnContainerBox>;
+  return (
+    <ColumnContainerBox>
+      <button type='button' onClick={handleSubmit}>
+        add
+      </button>
+      {resClubList.map((el: any) => (
+        <p key={el.id}>{el.intro}</p>
+      ))}
+      {/* <button type="button" onClick={() => get.hasNextPage && get.fetchNextPage()}>Next</button> */}
+    </ColumnContainerBox>
+  );
 }
 
 export default ReactQueryTest;
