@@ -16,11 +16,12 @@ clubRouter.post("/picture", async (req, res) => {
     if (err) {
       return res.json({ success: false, message: err.message });
     }
+    img.imageURL = req.file.location
+    await img.save()
     return res.status(200).json({
       success: true,
       filePath:
-        "https://kdt-ai4-team18.elicecoding.com/media/" + res.req.file.path,
-      fileName: res.req.file.filename,
+        req.file.location
     });
   });
 });
