@@ -23,7 +23,12 @@ db.sequelize
     console.log(err);
   });
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    "Access-Control-Allow-Origin": "http://kdt-ai4-team18.elicecoding.com",
+    credentials: true,
+  })
+);
 // app.use(express.urlencoded({ extended: false })); // ? 알아내자
 app.use(express.json()); //->req.body 가 잘 보내짐
 
@@ -31,12 +36,12 @@ app.get("/", (req, res) => {
   res.send("Hello Express");
 });
 
+app.use(errorMiddleware);
 app.use("/users", userRouter);
 app.use("/likes", likeRouter);
 app.use("/clubs", clubRouter);
 app.use("/applications", applicantRouter);
 app.use(authRouter);
-app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`정상적으로 서버를 시작하였습니다. http://localhost:${PORT}`);

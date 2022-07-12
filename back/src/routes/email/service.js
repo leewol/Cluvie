@@ -48,7 +48,7 @@ class authService {
     });
 
     const mailOptions = {
-      from: "cluvie@cluvie.com",
+      from: "Cluvie <cluvie@cluvie.com>",
       to: email,
       subject: "[cluvie] 회원가입 인증메일 입니다.",
       html: HTMLcontent,
