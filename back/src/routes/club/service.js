@@ -7,6 +7,10 @@ import Ratings from "../../../models/rating";
 import db from "../../../models/index";
 
 class clubService {
+  static uploadPictures = async (req, res) => {
+    const picture = req.file;
+    return picture.location;
+  };
   static createClub = async ({
     name,
     intro,

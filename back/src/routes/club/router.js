@@ -2,27 +2,22 @@ import express from "express";
 import Clubs from "../../../models/club";
 import { clubService } from "./service";
 import { verifyToken } from "../../middlewares/verifyToken";
+import { upload } from "../../middlewares/fileUpload";
 import axios from "axios";
-import { test } from "../../../config/config";
 
 const clubRouter = express.Router();
-const upload = require("../../middlewares/fileUpload");
 
 // 공통 url: "/clubs"
 
 // 클럽 사진 서버에 업로드
-clubRouter.post("/picture", async (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      return res.json({ success: false, message: err.message });
-    }
-    return res.status(200).json({
-      success: true,
-      filePath:
-        "https://kdt-ai4-team18.elicecoding.com/media/" + res.req.file.path,
-      fileName: res.req.file.filename,
-    });
-  });
+clubRouter.post("/picture", upload.single("file"), async (req, res) => {
+  try {
+    const file = req.file;
+    const filePath = file.location;
+    return res.json({ success: true, filePath });
+  } catch (err) {
+    res.json({ success: false, err: err.message });
+  }
 });
 
 /** 클럽 생성 */
