@@ -1,14 +1,36 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import App from "@/App";
+import reportWebVitals from "@/reportWebVitals";
+import GlobalStyle from "@/styles/globalStyle";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60,
+      staleTime: 1000 * 30,
+      refetchOnMount: "always",
+      refetchOnReconnect: "always",
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 root.render(
   <React.StrictMode>
-    <App />
+    <GlobalStyle />
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
