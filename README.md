@@ -1,4 +1,3 @@
-
 ![image](/uploads/41dc520241f9829e9844864e8de0c19f/image.png)
 
 
@@ -58,8 +57,7 @@
 | --- | --- |
 | Typescript | 타입을 명시해주어 코드의 의도를 명확히 할 수 있으므로, 잠재적인 오류를 방지할 수 있고 협업에 용이함 |
 | React Query | 서버 데이터와 클라이언트 데이터를 구분하기 좋고, 캐싱 및 로딩 처리에 편리함 |
-| Recoil | React Hook과 유사한 사용 방식으로 복잡하지 않고, 코드를 깔끔하게 쓸 수 있음
-Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되지 않음 |
+| Recoil | React Hook과 유사한 사용 방식으로 복잡하지 않고, 코드를 깔끔하게 쓸 수 있음 <br> Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되지 않음 |
 | Emotion | CSS in JS로, 컴포넌트 형식으로 스타일을 작성할 수 있어 코드 통일성과 재사용성이 좋음 |
 | MUI | 다양한 컴포넌트를 제공받아 빠르게 UI를 제작할 수 있음 |
 | React Quill | 쉽게 텍스트 에디터를 처리할 수 있음 |
@@ -92,8 +90,7 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
     - 배너에 영화 이미지 infinite carousel
     - 기준에 따라 일부 클럽 모집글 최대 10개씩 표시
         
-        
-        메인페이지
+    ![클러비_-_메인페이지](/uploads/c385e7f9ba6813d28392be904a731f1a/클러비_-_메인페이지.gif)
         
 2. **로그인 페이지**
     - 이메일 아이디 및 비밀번호 유효성 검사
@@ -102,9 +99,9 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
     - 각 input의 유효성 검사
     - 인증 메일 발송 및 확인
         
-        [회원가입](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8028a77a-0025-43b7-b64e-db52ca26b64e/클러비_-_회원가입.mp4)
-        
-        회원가입
+        ![클러비_-회원가입1](/uploads/a42c50e66ffe7f9a559416de5aae069f/클러비_-회원가입1.gif)
+        ![클러비_-회원가입2](/uploads/c7521f3089e2c5c43be16ddc1240868f/클러비_-회원가입2.gif)
+        ![클러비_-회원가입3](/uploads/6e830dec5cf343a46ddb091433714fb0/클러비_-회원가입3.gif)
         
 4. **클럽 생성 페이지**
     - 인공지능을 활용한 키워드 및 요약문 추출(해시태그와 한줄소개에 적용 가능)
@@ -112,10 +109,10 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
     - React Quill 텍스트 에디터를 이용한 상세 모집글 작성
     - 작성 시 보여질 상세 페이지 미리보기 가능
     
-    [클럽 생성](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f491e934-0a94-44b4-a7ab-cb21eadc2c5e/cluvie-클럽생성페이지.mp4)
-    
-    클럽 생성
-    
+    ![클러비-클럽생성1](/uploads/cbdb395a695ff1f6fbf517e9fcdfbb92/클러비-클럽생성1.gif)
+    ![클러비-클럽생성2](/uploads/2aa8b4f9504f54f427c29030c38bd41a/클러비-클럽생성2.gif)
+    ![클러비-클럽생성3](/uploads/8c77e70f687d2ba7cfc1fab0b849d533/클러비-클럽생성3.gif)
+
 5. **전체 클럽 목록 페이지**
     - 무한 스크롤로 모든 클럽 모집글 카드 확인
     - 클럽 필터링
@@ -124,9 +121,7 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
     - 하나의 카드 클릭 시 해당 클럽 모집글 상세 페이지로 이동
     - (+) 버튼 클릭 시 클럽 생성 페이지로 이동
     
-    [전체 클럽 목록](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dcac9be2-b373-4c8c-82d8-50aeb2d4e0e5/클러비_-_클럽목록.mp4)
-    
-    전체 클럽 목록
+    ![클러비-전체_클럽_목록](/uploads/675c3ccf8518bf92d904f8fbfc157c77/클러비-전체_클럽_목록.gif)
     
 6. **클럽 상세 페이지**
     1. 클럽 기본 카드
@@ -135,9 +130,7 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
         - 클럽 신청하기/찜하기/공유하기
         - 클럽 수정/삭제(클럽장만 가능)
         
-        [클럽 카드(신청하기/찜하기)](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a2f877fd-a1ad-48cc-8a38-47f42cacef92/클러비_-_신청.mp4)
-        
-        클럽 카드(신청하기/찜하기)
+       ![클러비_-_신청](/uploads/8e4e0d9c3b0b4cd0d18e0398f716bb78/클러비_-_신청.gif)
         
     2. 클럽 정보 탭
         - 클럽 생성 시 작성한 기본 정보 및 상세 정보 표시
@@ -146,9 +139,10 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
         - 참여 후기 확인
         - 평균 별점 확인
     
-    [클럽 리뷰 작성 및 확인](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f161bbc9-2865-484d-9a89-1da473421721/클러비_-클럽상세페이지.mp4)
+    ![클러비-상세페이지1](/uploads/dcd6dad64582ee8ca6ea2d765dcd558d/클러비-상세페이지1.gif)
+
+    ![클러비-상세페이지2](/uploads/1534e9b68bd536139806c950e175d907/클러비-상세페이지2.gif)
     
-    클럽 리뷰 작성 및 확인
     
 7. **클럽 수정 페이지**
     - 기존에 작성한 클럽 정보 확인 가능
@@ -165,9 +159,7 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
     2. 내가 클럽원인 클럽 탭
         - 가입된 클럽 중 모집마감된 클럽의 클럽장 및 클럽원 목록 확인 가능
     
-    [내 클럽 리스트](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52b01d2b-5669-43fe-a1eb-7ae613cd324d/클러비_-_내클럽리스트.mp4)
-    
-    내 클럽 리스트
+    ![클러비-내클럽리스트](/uploads/ec0bea49e248480af1d7e40e9bb6134c/클러비-내클럽리스트.gif)
     
 9. **마이페이지**
     1. 프로필 카드
@@ -181,16 +173,15 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
         - 찜한 클럽 목록 확인
         - 클럽 찜하기/찜해제
     
-    [마이페이지](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/77017bc3-67d3-455a-a2dd-6baeb17cb877/클러비_-_마이페이지.mp4)
-    
-    마이페이지
+    ![클러비-마이페이지](/uploads/b320428df1a04464180f8284f570c668/클러비-마이페이지.gif)
     
 
 ## 5. 프로젝트 구성도
-
+- 와이어프레임: [Figma](https://www.figma.com/file/lBGeWRcJnkiAPIFfQIxaWM/3%EC%B0%A8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0%3A1)
+- API 명세서: [API](https://www.notion.so/3acbc365292748fdafd8978f945cbf1b?v=ff0ae52f70e54e4c80397cab0118f604)
+- Table 구상도: [ER Diagram](https://www.notion.so/table-7431f13d13604dcab21f66242ab97b60)
 ---
 
-[프로젝트 구성도](https://www.notion.so/590583500f654321ba8e52429e6468d8)
 
 ## 6. 팀원 소개 및 역할
 
@@ -200,8 +191,8 @@ Context API와 다르게 전역 상태를 쓰지 않는 곳은 리렌더링 되�
 
 | 이름 | 역할 | 담당 부분 | GitHub |
 | --- | --- | --- | --- |
-| 장소영 | 팀장, 백엔드  |  클럽 스키마 설계 <br> 클럽 관련 API 작성 <br> 무한 스크롤 API 작성 <br> Flask API 연결 | 링크 |
-| 유수지 | 백엔드 |  데이터 테이블 구상 <br> 회원가입 및 로그인 API 작성 <br> 메인페이지 API 작성 <br> 필터링에 맞는 sql문 작성하여 데이터 select <br> 찜하기 및 신청하기 기능 API 작성 | 링크 |
-| 이시은 | 프론트엔드 | 와이어프레임 제작 <br> 메인 <br> 로그인 및 회원가입 <br> 전체 클럽 목록 <br> 클럽 생성 (기본 정보 작성) | 링크 |
-| 신가현 | 프론트엔드 | 와이어프레임 제작 <br> 헤더 <br> 내 클럽 목록 <br> 마이페이지 <br> 클럽 상세 <br> 클럽 생성 (상세 정보 작성, 인공지능 API 연동, 미리보기) 및 수정 | 링크 |
-| 성기환 | 인공지능 | Flask API 작성 <br> 요약문 생성, 혐오 표현 탐지, 키워드 추출, 개체명인식 AI 모델 전이학습 | 링크 |
+| 장소영 | 팀장, 백엔드  |  클럽 스키마 설계 <br> 클럽 관련 API 작성 <br> 무한 스크롤 API 작성 <br> Flask API 연결 | [링크](https://github.com/Ssoyoung-J) |
+| 유수지 | 백엔드 |  데이터 테이블 구상 <br> 회원가입 및 로그인 API 작성 <br> 메인페이지 API 작성 <br> 필터링에 맞는 sql문 작성하여 데이터 select <br> 찜하기 및 신청하기 기능 API 작성 | [링크](https://github.com/Suzzzzzy) |
+| 이시은 | 프론트엔드 | 와이어프레임 제작 <br> 메인 <br> 로그인 및 회원가입 <br> 전체 클럽 목록 <br> 클럽 생성 (기본 정보 작성) | [링크](https://github.com/leewol) |
+| 신가현 | 프론트엔드 | 와이어프레임 제작 <br> 헤더 <br> 내 클럽 목록 <br> 마이페이지 <br> 클럽 상세 <br> 클럽 생성 (상세 정보 작성, 인공지능 API 연동, 미리보기) 및 수정 | [링크](https://github.com/gshin-a) |
+| 성기환 | 인공지능 | Flask API 작성 <br> 요약문 생성, 혐오 표현 탐지, 키워드 추출, 개체명인식 AI 모델 전이학습 | [링크](https://github.com/sungkihwan) |
