@@ -170,7 +170,7 @@ i. **마이페이지**
 
 #### **4. 프로젝트 구성**
 
-- 와이어프레임 (whimsical, figma 등 링크 삽입): [Figma](https://www.figma.com/file/lBGeWRcJnkiAPIFfQIxaWM/3%EC%B0%A8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0%3A1)
+- 와이어프레임: [Figma](https://www.figma.com/file/lBGeWRcJnkiAPIFfQIxaWM/3%EC%B0%A8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0%3A1)
 - API 명세서: [API](https://www.notion.so/3acbc365292748fdafd8978f945cbf1b?v=ff0ae52f70e54e4c80397cab0118f604)
 - Table 구상도: [ER Diagram](https://www.notion.so/table-7431f13d13604dcab21f66242ab97b60)
 - 스토리보드 및 유저 시나리오
